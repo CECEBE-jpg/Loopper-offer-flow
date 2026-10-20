@@ -1,0 +1,1536 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Loopper – Your offer (v3)</title>
+    <!-- Figma: Offer flow (XyZQyQ6E5DiUk8aVkLlV0c), node 5:1396. Static desktop build, 1200px content width. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --ink: #1c2530;
+        --text: #4a5866;
+        --muted: #7b8794;
+        --line: #e1e7ed;
+        --blue: #00799a;
+        --blue-50: #e6f7fc;
+        --green: #5db12a;
+        --green-text: #4a9620;
+        --green-50: #eef7e6;
+        --amber: #d29a00;
+        --amber-text: #b45f00;
+        --amber-50: #fffee3;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: #fff;
+        font-family: "Nunito", sans-serif;
+        color: var(--ink);
+      }
+      p,
+      h1,
+      h2,
+      h3 {
+        margin: 0;
+      }
+      img {
+        display: block;
+      }
+      button,
+      input {
+        font: inherit;
+        color: inherit;
+      }
+
+      /* Top: USP bar (5:1331), header (5:1340), stepper (10:3941) */
+      .usp-bar {
+        display: flex;
+        align-items: center;
+        gap: 50px;
+        padding: 8px 48px;
+        background: #eff7ff;
+      }
+      .usp-list {
+        display: flex;
+        flex: 1;
+        align-items: center;
+        gap: 36px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+      .usp-list li {
+        display: flex;
+        align-items: center;
+        gap: 10.976px;
+        width: 192.863px;
+        font-size: 12.29px;
+        font-weight: 600;
+        color: #003e4d;
+      }
+      .usp-check {
+        position: relative;
+        flex-shrink: 0;
+        width: 14.896px;
+        height: 10.192px;
+      }
+      .usp-check img {
+        position: absolute;
+        top: -1.582px;
+        left: -1.582px;
+      }
+      .usp-bar > img {
+        width: 315px;
+        height: 18px;
+        object-fit: cover;
+      }
+      .site-header {
+        border-bottom: 0.8px solid var(--line);
+        background: #f9f9f9;
+      }
+      .site-header-inner {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+        width: 1200px;
+        height: 87px;
+        margin: 0 auto;
+        box-sizing: content-box;
+        padding: 17px 0;
+      }
+      .header-meta {
+        display: flex;
+        flex-direction: column;
+        padding-left: 28px;
+        border-left: 0.8px solid var(--line);
+        font-size: 14px;
+      }
+      .header-meta .eyebrow {
+        font-size: 14px;
+        line-height: 17.4px;
+      }
+      .stepper {
+        display: flex;
+        gap: 8px;
+        width: 1212px;
+        height: 53px;
+        margin: 20px auto;
+        padding: 0;
+        list-style: none;
+      }
+      .step {
+        display: flex;
+        flex: 1;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 14px;
+        border: 0.8px solid #909499;
+        border-radius: 10px;
+        background: #fff;
+        font-size: 14px;
+        line-height: 20.3px;
+        font-weight: 700;
+        color: #6c7783;
+      }
+      .step-num {
+        display: grid;
+        place-items: center;
+        flex-shrink: 0;
+        width: 26px;
+        height: 26px;
+        border: 1.6px solid #c7d0d9;
+        border-radius: 13px;
+        font-size: 13px;
+        line-height: 18.85px;
+        font-weight: 800;
+        color: var(--muted);
+      }
+      .step-done {
+        border-color: var(--line);
+        background: #f0ffe6;
+        color: var(--text);
+      }
+      .step-current {
+        border: 1.6px solid #00aed8;
+        background: var(--blue-50);
+        color: var(--ink);
+      }
+      .step-current .step-num {
+        border-color: #00aed8;
+        background: #00aed8;
+        color: #fff;
+      }
+
+      /* Page: 772px main column + 400px sidebar */
+      .page {
+        display: flex;
+        gap: 28px;
+        align-items: flex-start;
+        width: 1200px;
+        margin: 0 auto;
+        padding: 24px 0 48px;
+      }
+      .main {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        width: 772px;
+      }
+      .side {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        width: 400px;
+      }
+
+      h1 {
+        font-size: 30px;
+        line-height: 34.5px;
+        font-weight: 800;
+      }
+      .meta {
+        display: flex;
+        flex-direction: column;
+        font-size: 14px;
+      }
+      .meta div {
+        display: flex;
+        gap: 15px;
+        align-items: flex-end;
+        height: 21px;
+      }
+      .meta dt {
+        width: 120px;
+        font-weight: 700;
+        line-height: 17.4px;
+      }
+      .meta dd {
+        margin: 0;
+        font-weight: 800;
+        line-height: 23.2px;
+      }
+
+      .card {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        padding: 22px 24px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: #fff;
+        filter: drop-shadow(1px 6px 9.5px rgba(0, 0, 0, 0.1));
+      }
+      .card-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .card h2 {
+        font-size: 20px;
+        line-height: 29px;
+        font-weight: 800;
+      }
+
+      /* Chips */
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        line-height: 17.4px;
+        font-weight: 800;
+        white-space: nowrap;
+      }
+      .chip-grey {
+        background: #f4f6f9;
+        color: var(--text);
+      }
+      .chip-blue {
+        background: var(--blue-50);
+        color: var(--blue);
+      }
+      .chip-green {
+        background: var(--green-50);
+        color: var(--green-text);
+      }
+      .chip-amber {
+        background: var(--amber-50);
+        color: var(--amber-text);
+      }
+      .chip-amber::before {
+        content: "";
+        flex-shrink: 0;
+        width: 8px;
+        height: 8px;
+        border-radius: 4px;
+        background: var(--amber);
+      }
+
+      /* Your logo & design */
+      .logos-card {
+        gap: 17px;
+      }
+      .logos-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-top: 16px;
+      }
+      .logos {
+        display: flex;
+        gap: 20px;
+      }
+      .logo {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 132px;
+        height: 188px;
+      }
+      .logo-top {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .logo-thumb {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 132px;
+        height: 88px;
+        overflow: hidden;
+        border: 0.8px solid var(--line);
+        border-radius: 10px;
+        background: #fff;
+      }
+      .logo-thumb-file {
+        background: #898989;
+      }
+      .logo-thumb-file img {
+        position: absolute;
+        top: -7.2px;
+        left: calc(50% + 0.7px);
+        width: 151px;
+        height: 101px;
+        object-fit: cover;
+        opacity: 0.31;
+        transform: translateX(-50%);
+      }
+      .logo-thumb-file span {
+        position: relative;
+        font-family: Arial, sans-serif;
+        font-weight: 700;
+        font-size: 14.818px;
+        line-height: 17px;
+        text-align: center;
+        color: #fff;
+      }
+      .logo-thumb-text {
+        padding: 8px;
+        font-family: "Times New Roman", serif;
+        font-size: 14px;
+        line-height: 16.8px;
+        text-align: center;
+        color: #7a3fa0;
+      }
+      .logo-name {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 13px;
+        line-height: 18.85px;
+        font-weight: 700;
+      }
+      .logo-sub {
+        font-size: 12px;
+        line-height: 17.4px;
+        color: var(--muted);
+      }
+      .logo-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        height: 22px;
+        padding: 0 9px;
+        border: 0;
+        border-radius: 11px;
+        background: #f1f1f1;
+        font-size: 11px;
+        font-weight: 700;
+        color: #525252;
+        cursor: pointer;
+      }
+      .design-note {
+        display: flex;
+        align-items: center;
+        width: 279px;
+        height: 120px;
+        padding: 0 11px 0 23px;
+        border-left: 0.8px solid var(--line);
+        border-radius: 14px;
+        background: var(--blue-50);
+        font-size: 13px;
+        line-height: 18.85px;
+        color: #000;
+      }
+      /* Logo & design as dropdown */
+      .logos-dd {
+        display: block;
+      }
+      .logos-dd > summary {
+        list-style: none;
+        cursor: pointer;
+        gap: 16px;
+      }
+      .logos-dd > summary::-webkit-details-marker {
+        display: none;
+      }
+      .logos-dd-title {
+        display: flex;
+        flex-direction: column;
+      }
+      .logos-dd-hint {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 6px;
+        font-size: 13px;
+        color: var(--muted);
+      }
+      .logo-mini {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: none;
+        width: 54px;
+        height: 36px;
+        overflow: hidden;
+        border: 0.8px solid var(--line);
+        border-radius: 6px;
+        background: #fff;
+      }
+      .logo-mini-file {
+        background: #898989;
+      }
+      .logo-mini-file img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.31;
+      }
+      .logo-mini-file span {
+        position: relative;
+        font-family: Arial, sans-serif;
+        font-weight: 700;
+        font-size: 6.5px;
+        line-height: 7.5px;
+        text-align: center;
+        color: #fff;
+      }
+      .logo-mini-text {
+        padding: 3px;
+        font-family: "Times New Roman", serif;
+        font-size: 6.5px;
+        line-height: 7.5px;
+        text-align: center;
+        color: #7a3fa0;
+      }
+      .logos-dd[open] .logos-dd-hint {
+        display: none;
+      }
+      .logos-dd-right {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .logos-dd-chev {
+        flex: none;
+        color: var(--text);
+        transition: transform 0.2s;
+      }
+      .logos-dd[open] .logos-dd-chev {
+        transform: rotate(180deg);
+      }
+      .logos-dd-body {
+        display: flex;
+        flex-direction: column;
+        gap: 17px;
+        padding-top: 1px;
+      }
+      .upload-link {
+        align-self: flex-end;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 0;
+        border: 0;
+        background: none;
+        font-size: 14px;
+        line-height: 20.3px;
+        font-weight: 800;
+        color: var(--blue);
+        cursor: pointer;
+      }
+      .upload-link b {
+        font-size: 22px;
+        font-weight: 500;
+      }
+
+      /* Your products */
+      .products-card {
+        gap: 22px;
+      }
+      .product {
+        display: flex;
+        gap: 24px;
+        align-items: flex-start;
+        padding: 28px 0;
+      }
+      .product + .product {
+        padding: 16px 0 0;
+      }
+      .product-divider {
+        border-bottom: 1px solid #888;
+      }
+      .product-aside {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        width: 172px;
+      }
+      .product-photo {
+        width: 168px;
+        height: 168px;
+        overflow: hidden;
+        border: 0.8px solid var(--line);
+        border-radius: 12px;
+        background: #f7f8fa;
+      }
+      .product-photo img {
+        width: 100%;
+        height: 166.4px;
+        object-fit: contain;
+      }
+      .product-aside .chip-amber {
+        width: 100%;
+        padding: 8px 10px;
+        line-height: 12px;
+        white-space: normal;
+      }
+      .product-body {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        gap: 10px;
+        min-width: 0;
+      }
+      .product-title {
+        font-size: 18px;
+        line-height: 26.1px;
+        font-weight: 800;
+      }
+      .product-sku {
+        margin-top: 2px;
+        font-size: 13px;
+        line-height: 18.85px;
+        color: var(--muted);
+      }
+      .chips {
+        display: flex;
+        gap: 6px;
+      }
+      .qty-title {
+        padding-top: 6px;
+        font-size: 15px;
+        line-height: 21.75px;
+        font-weight: 800;
+      }
+
+      /* Quantity tiles: native radios */
+      .qty-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin: 0;
+        padding: 0;
+        border: 0;
+      }
+      .qty {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        width: 530.4px;
+        padding: 12px 14px;
+        border: 0.8px solid var(--line);
+        border-radius: 10px;
+        background: #fff;
+        cursor: pointer;
+      }
+      .qty:has(input:checked) {
+        border: 1.6px solid var(--green);
+        background: var(--green-50);
+      }
+      .qty input {
+        appearance: none;
+        display: grid;
+        place-items: center;
+        flex-shrink: 0;
+        width: 20px;
+        height: 20px;
+        margin: 0;
+        border: 1.6px solid #b7c2cd;
+        border-radius: 10px;
+        cursor: pointer;
+      }
+      .qty input:checked {
+        border-color: var(--green);
+      }
+      .qty input:checked::after {
+        content: "";
+        width: 10px;
+        height: 10px;
+        border-radius: 5px;
+        background: var(--green);
+      }
+      .qty input:focus-visible {
+        outline: 2px solid var(--blue);
+        outline-offset: 2px;
+      }
+      .qty-n {
+        width: 64px;
+        font-size: 15px;
+        line-height: 21.75px;
+        font-weight: 800;
+      }
+      .qty-price {
+        font-size: 15px;
+        line-height: 21.75px;
+        font-weight: 800;
+        white-space: nowrap;
+      }
+      .qty-price small {
+        font-size: 12px;
+        line-height: 17.4px;
+        color: var(--muted);
+      }
+      .qty-save {
+        font-size: 12px;
+        line-height: 17.4px;
+        font-weight: 700;
+        color: var(--green-text);
+        white-space: nowrap;
+      }
+      .qty-total {
+        margin-left: auto;
+        font-size: 15px;
+        line-height: 21.75px;
+        font-weight: 700;
+        color: var(--text);
+      }
+      .qty-other {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .qty-other input {
+        width: 200px;
+        height: 44px;
+        padding: 0 12px;
+        border: 0.8px solid var(--line);
+        border-radius: 10px;
+        font-size: 14px;
+      }
+      .qty-other input::placeholder {
+        color: var(--muted);
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        height: 44px;
+        padding: 0 18px;
+        border: 0.8px solid var(--line);
+        border-radius: 10px;
+        background: #fff;
+        font-size: 15px;
+        line-height: 21.75px;
+        font-weight: 800;
+        white-space: nowrap;
+        cursor: pointer;
+      }
+
+      /* Switch: native checkbox */
+      .switch {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        line-height: 18.85px;
+        font-weight: 700;
+        color: var(--muted);
+        cursor: pointer;
+      }
+      .switch input {
+        appearance: none;
+        position: relative;
+        width: 44px;
+        height: 26px;
+        margin: 0;
+        border-radius: 13px;
+        background: #c7d0d9;
+        cursor: pointer;
+        transition: background 0.15s;
+      }
+      .switch input::after {
+        content: "";
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        width: 20px;
+        height: 20px;
+        border-radius: 10px;
+        background: #fff;
+        transition: transform 0.15s;
+      }
+      .switch input:checked {
+        background: var(--green);
+      }
+      .switch input:checked::after {
+        transform: translateX(18px);
+      }
+      .switch input:focus-visible {
+        outline: 2px solid var(--blue);
+        outline-offset: 2px;
+      }
+
+      /* Account manager note */
+      .am-note {
+        display: flex;
+        gap: 75px;
+        padding: 10px;
+      }
+      .am-id {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 20px;
+        line-height: 20.3px;
+        font-weight: 800;
+      }
+      .avatar {
+        flex-shrink: 0;
+        border-radius: 50%;
+        background: var(--blue-50);
+      }
+      .am-bubble {
+        display: flex;
+        flex: 1;
+        align-items: center;
+        padding: 9px 15px;
+        border-radius: 7px;
+        background: #dedede;
+        font-size: 13px;
+        line-height: 23.2px;
+        color: #000;
+      }
+      .rule {
+        height: 1px;
+        margin-top: 22px;
+        background: var(--line);
+      }
+
+      /* Sustainable alternative */
+      .alt {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        padding-top: 22px;
+      }
+      .alt-photo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        width: 96px;
+        height: 96px;
+        border: 0.8px solid var(--line);
+        border-radius: 12px;
+      }
+      .alt-photo img {
+        width: 26px;
+        height: 79px;
+        object-fit: cover;
+      }
+      .alt-body {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        gap: 4px;
+        min-width: 0;
+      }
+      .alt-tags {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        line-height: 17.4px;
+        color: var(--muted);
+      }
+      .alt-title {
+        font-size: 16px;
+        line-height: 23.2px;
+        font-weight: 800;
+      }
+      .alt-sub {
+        font-size: 13px;
+        line-height: 18.85px;
+        color: var(--muted);
+      }
+
+      /* Sidebar */
+      .side-card {
+        width: 100%;
+        border: 0.8px solid var(--line);
+        border-radius: 14px;
+        background: #fff;
+      }
+      .am-card {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 20px;
+      }
+      .am-card-body {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        width: 225px;
+      }
+      .eyebrow {
+        font-size: 12px;
+        line-height: 20.3px;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #6c7783;
+      }
+      .am-name {
+        font-size: 20px;
+        line-height: 20.3px;
+        font-weight: 800;
+      }
+      .am-contact {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        font-size: 13px;
+        line-height: 18.85px;
+        font-weight: 700;
+      }
+      .am-contact a {
+        color: #000;
+        text-decoration: none;
+      }
+      .am-contact a + a {
+        color: #004591;
+      }
+
+      .summary {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 567px;
+        padding: 24px;
+      }
+      .summary h2 {
+        font-size: 20px;
+        line-height: 29px;
+        font-weight: 800;
+        text-align: center;
+      }
+      .sum-rows {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin: 20px 0 0;
+      }
+      .sum-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+        line-height: 20.3px;
+      }
+      .sum-row dt {
+        color: var(--text);
+      }
+      .sum-row dd {
+        margin: 0;
+        font-weight: 700;
+      }
+      .sum-row .free {
+        color: #2e7913;
+      }
+      .sum-rule {
+        height: 1px;
+        background: var(--line);
+      }
+      .sum-total {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 14px;
+        font-weight: 800;
+      }
+      .sum-total span {
+        font-size: 15px;
+        line-height: 21.75px;
+      }
+      .sum-total strong {
+        font-size: 28px;
+        line-height: 40.6px;
+      }
+      .sum-actions {
+        display: flex;
+        gap: 8px;
+        margin-top: 16px;
+      }
+      .sum-actions .btn {
+        flex: 1;
+        height: 48px;
+      }
+      .sum-hint {
+        padding: 8px 0;
+        font-size: 12px;
+        line-height: 17.4px;
+        text-align: center;
+        color: var(--muted);
+      }
+      .deadline {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 13px 16px;
+        border: 0.8px solid #ffd9a8;
+        border-radius: 12px;
+        background: #fff3e3;
+        font-size: 13px;
+        line-height: 20.3px;
+        color: #7a4300;
+      }
+      .deadline img {
+        flex-shrink: 0;
+      }
+      .deadline b {
+        color: #5c3200;
+      }
+      .cta {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+        height: 53px;
+        margin-top: 18px;
+        padding: 0 18px;
+        border: 0;
+        border-radius: 14px;
+        background: #c9c9c9;
+        font-size: 18px;
+        line-height: 15px;
+        font-weight: 800;
+        text-align: left;
+        color: #fff;
+      }
+      .cta span {
+        flex: 1;
+      }
+      .cta:disabled {
+        cursor: not-allowed;
+      }
+      .trust {
+        display: flex;
+        justify-content: center;
+        padding: 16px 20px;
+      }
+      .trust img {
+        width: 315px;
+        height: 18px;
+        object-fit: cover;
+      }
+
+      /* ---------- Above the fold + sticky (2026-10-20) ----------
+         Goal: on a ~760px high laptop screen the Continue button, total and
+         first product are visible without scrolling. Progress bar and the
+         right column (account manager + summary) stay in view while scrolling. */
+      .site-header-inner {
+        height: 56px;
+        padding: 8px 0;
+      }
+      .site-header-inner > img {
+        width: 132px;
+        height: auto;
+      }
+      .stepper-bar {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        background: rgba(255, 255, 255, 0.96);
+        backdrop-filter: blur(6px);
+        border-bottom: 0.8px solid var(--line);
+      }
+      .stepper {
+        height: 44px;
+        margin: 0 auto;
+        padding: 10px 0;
+        box-sizing: content-box;
+      }
+      .page {
+        padding-top: 20px;
+      }
+      .main {
+        gap: 16px;
+      }
+      .main > .meta {
+        flex-direction: row;
+        gap: 24px;
+      }
+      .side {
+        position: sticky;
+        top: 80px; /* sticky progress bar (64px) + 16px */
+        gap: 12px;
+        max-height: calc(100vh - 96px);
+        overflow-y: auto;
+        scrollbar-width: thin;
+      }
+      .am-card {
+        padding: 12px 16px;
+        gap: 12px;
+      }
+      .am-card .avatar {
+        width: 56px !important;
+        height: 56px !important;
+      }
+      .am-card-body {
+        gap: 2px;
+      }
+      .summary {
+        height: auto;
+        padding: 18px 20px;
+      }
+      .summary h2 {
+        text-align: left;
+      }
+      .sum-rows {
+        gap: 7px;
+        margin-top: 12px;
+      }
+      .sum-total {
+        margin-top: 10px;
+      }
+      .sum-total strong {
+        font-size: 26px;
+        line-height: 34px;
+      }
+      .cta {
+        margin-top: 12px;
+      }
+      .sum-actions {
+        margin-top: 14px;
+      }
+      .sum-actions .btn {
+        height: 42px;
+      }
+      .deadline {
+        padding: 10px 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="usp-bar">
+      <ul class="usp-list">
+        <li>
+          <span class="usp-check"
+            ><img
+              src="assets/offer-v3/icon-usp-check.svg"
+              width="18.0604"
+              height="14.0691"
+              alt="" /></span
+          >23 years of experience
+        </li>
+        <li>
+          <span class="usp-check"
+            ><img
+              src="assets/offer-v3/icon-usp-check.svg"
+              width="18.0604"
+              height="14.0691"
+              alt="" /></span
+          >Free digital design
+        </li>
+        <li>
+          <span class="usp-check"
+            ><img
+              src="assets/offer-v3/icon-usp-check.svg"
+              width="18.0604"
+              height="14.0691"
+              alt="" /></span
+          >Personal service
+        </li>
+      </ul>
+      <img
+        src="assets/offer-v3/trustpilot-rating.png"
+        alt="Trustpilot 4.7/5 (1,282 reviews)"
+      />
+    </div>
+
+    <header class="site-header">
+      <div class="site-header-inner">
+        <img
+          src="assets/offer-v3/loopper-logo.svg"
+          width="165"
+          height="35.8333"
+          alt="Loopper"
+        />
+        <dl class="header-meta meta" style="margin: 0">
+          <div class="eyebrow" style="height: auto">Your offer</div>
+          <div>
+            <dt>Project number</dt>
+            <dd>5436794</dd>
+          </div>
+          <div>
+            <dt>Company name</dt>
+            <dd>Company A</dd>
+          </div>
+          <div>
+            <dt>Project date</dt>
+            <dd>13/10/26</dd>
+          </div>
+        </dl>
+      </div>
+    </header>
+
+    <div class="stepper-bar">
+      <ol class="stepper" aria-label="Offer steps">
+        <li class="step step-done">
+          <img
+            src="assets/offer-v3/icon-step-done.svg"
+            width="26"
+            height="26"
+            alt="Done:"
+          />Logo uploaded
+        </li>
+        <li class="step step-current" aria-current="step">
+          <span class="step-num">2</span>Your offer
+        </li>
+        <li class="step"><span class="step-num">3</span>Approve design</li>
+        <li class="step"><span class="step-num">4</span>Your details</li>
+        <li class="step"><span class="step-num">5</span>Payment</li>
+      </ol>
+    </div>
+
+    <div class="page">
+      <main class="main">
+        <h1>Hi Cayna, here's your offer</h1>
+        <dl class="meta" style="margin: 0">
+          <div>
+            <dt>Project number</dt>
+            <dd>#5436794</dd>
+          </div>
+          <div>
+            <dt>Company name</dt>
+            <dd>Company A</dd>
+          </div>
+          <div>
+            <dt>Project date</dt>
+            <dd>13/10/26</dd>
+          </div>
+        </dl>
+
+        <!-- Your logo & design -->
+        <!-- Dropdown: native <details>, closed by default (add the "open" attribute to start open) -->
+        <details class="card logos-card logos-dd">
+          <summary class="card-head">
+            <span class="logos-dd-title">
+              <h2 id="logosTitle">Your logo &amp; design</h2>
+              <span class="logos-dd-hint">
+                <span class="logo-mini logo-mini-file">
+                  <img src="assets/offer-v3/logo-placeholder-bg.png" alt="" />
+                  <span>YOUR DESIGN<br />HERE</span>
+                </span>
+                <span class="logo-mini logo-mini-text"
+                  >FAKE OFFER BY MARKETING</span
+                >
+                2 logos · view or change
+              </span>
+            </span>
+            <span class="logos-dd-right">
+              <span class="chip chip-amber"
+                >Design requested · ready within 30 min</span
+              >
+              <svg
+                class="logos-dd-chev"
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                aria-hidden="true"
+              >
+                <path
+                  d="M5 8l5 5 5-5"
+                  stroke="currentColor"
+                  stroke-width="2.4"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+          </summary>
+          <div class="logos-dd-body">
+            <div class="logos-row">
+              <div class="logos">
+                <div class="logo">
+                  <div class="logo-top">
+                    <div class="logo-thumb logo-thumb-file">
+                      <img
+                        src="assets/offer-v3/logo-placeholder-bg.png"
+                        alt=""
+                      />
+                      <span>YOUR DESIGN<br />HERE</span>
+                    </div>
+                    <p class="logo-name">
+                      <img
+                        src="assets/offer-v3/icon-check.svg"
+                        width="14"
+                        height="14"
+                        alt=""
+                      />ydh_white.png
+                    </p>
+                    <p class="logo-sub">Received 13 Oct, 18:00</p>
+                  </div>
+                  <button type="button" class="logo-btn">
+                    <img
+                      src="assets/offer-v3/icon-remove.svg"
+                      width="12.2142"
+                      height="12.6353"
+                      alt=""
+                    />Remove
+                  </button>
+                </div>
+                <div class="logo">
+                  <div class="logo-top">
+                    <div class="logo-thumb logo-thumb-text">
+                      FAKE OFFER BY MARKETING
+                    </div>
+                    <p class="logo-name">Text logo</p>
+                    <p class="logo-sub">Times New Roman · purple</p>
+                  </div>
+                  <button type="button" class="logo-btn">
+                    <img
+                      src="assets/offer-v3/icon-edit.svg"
+                      width="14.9621"
+                      height="14.3636"
+                      alt=""
+                    />Edit text logo
+                  </button>
+                </div>
+              </div>
+              <p class="design-note">
+                <span
+                  >We'll
+                  <b>email you as soon as your free digital design is ready</b
+                  >.<br />You can approve it or ask for changes before you
+                  order.</span
+                >
+              </p>
+            </div>
+            <button type="button" class="upload-link">
+              <b aria-hidden="true">+</b>Upload another logo
+            </button>
+          </div>
+        </details>
+
+        <!-- Your products -->
+        <section class="card products-card" aria-labelledby="productsTitle">
+          <div class="card-head">
+            <h2 id="productsTitle">Your products</h2>
+          </div>
+
+          <article class="product product-divider">
+            <div class="product-aside">
+              <div class="product-photo">
+                <img
+                  src="assets/offer-v3/thermos-silver.jpg"
+                  alt="Thermos bottle, silver"
+                />
+              </div>
+              <span class="chip chip-amber"
+                >Design request send within 30 min</span
+              >
+              <label class="switch"
+                >In offer <input type="checkbox" checked
+              /></label>
+            </div>
+            <div class="product-body">
+              <div>
+                <h3 class="product-title">
+                  Thermos bottle · Stainless steel · 500 ml
+                </h3>
+                <p class="product-sku">Article 6383162</p>
+              </div>
+              <div class="chips">
+                <span class="chip chip-grey">Colour: Silver</span>
+                <span class="chip chip-grey">Engraving · front · 50×90 mm</span>
+                <span class="chip chip-blue">Fast delivery · 28 Oct</span>
+              </div>
+              <fieldset class="qty-list">
+                <legend class="qty-title">Choose your quantity</legend>
+                <label class="qty" style="margin-top: 10px">
+                  <input type="radio" name="qty1" checked />
+                  <span class="qty-n">25 pcs</span>
+                  <span class="qty-price">€ 9,86 <small>per piece</small></span>
+                  <span class="qty-total">€ 246,50</span>
+                </label>
+                <label class="qty">
+                  <input type="radio" name="qty1" />
+                  <span class="qty-n">50 pcs</span>
+                  <span class="qty-price">€ 7,72 <small>per piece</small></span>
+                  <span class="qty-save">€ 2,14 less per piece</span>
+                  <span class="qty-total">€ 386,00</span>
+                </label>
+                <label class="qty">
+                  <input type="radio" name="qty1" />
+                  <span class="qty-n">100 pcs</span>
+                  <span class="qty-price">€ 6,39 <small>per piece</small></span>
+                  <span class="qty-save">€ 3,47 less per piece</span>
+                  <span class="qty-total">€ 639,00</span>
+                </label>
+                <label class="qty">
+                  <input type="radio" name="qty1" />
+                  <span class="qty-n">250 pcs</span>
+                  <span class="qty-price">€ 5,77 <small>per piece</small></span>
+                  <span class="chip chip-green">Lowest price per piece</span>
+                  <span class="qty-total">€ 1.442,50</span>
+                </label>
+              </fieldset>
+              <div class="qty-other">
+                <input
+                  type="number"
+                  min="1"
+                  placeholder="Other quantity…"
+                  aria-label="Other quantity"
+                />
+                <button type="button" class="btn">Update price</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product">
+            <div class="product-aside">
+              <div class="product-photo">
+                <img
+                  src="assets/offer-v3/thermos-silver.jpg"
+                  alt="Thermos bottle, silver"
+                />
+              </div>
+              <span class="chip chip-amber"
+                >Design request send within 30 min</span
+              >
+              <label class="switch"
+                >In offer <input type="checkbox" checked
+              /></label>
+            </div>
+            <div class="product-body">
+              <div>
+                <h3 class="product-title">
+                  Thermos bottle · Stainless steel · 500 ml
+                </h3>
+                <p class="product-sku">Article 6383162</p>
+              </div>
+              <div class="chips">
+                <span class="chip chip-grey">Colour: Silver</span>
+                <span class="chip chip-grey">Engraving · front · 50×90 mm</span>
+                <span class="chip chip-blue">Fast delivery · 28 Oct</span>
+              </div>
+              <fieldset class="qty-list">
+                <legend class="qty-title">Choose your quantity</legend>
+                <label class="qty" style="margin-top: 10px">
+                  <input type="radio" name="qty2" checked />
+                  <span class="qty-n">25 pcs</span>
+                  <span class="qty-price">€ 9,86 <small>per piece</small></span>
+                  <span class="qty-total">€ 246,50</span>
+                </label>
+                <label class="qty">
+                  <input type="radio" name="qty2" />
+                  <span class="qty-n">50 pcs</span>
+                  <span class="qty-price">€ 7,72 <small>per piece</small></span>
+                  <span class="qty-save">€ 2,14 less per piece</span>
+                  <span class="qty-total">€ 386,00</span>
+                </label>
+                <label class="qty">
+                  <input type="radio" name="qty2" />
+                  <span class="qty-n">100 pcs</span>
+                  <span class="qty-price">€ 6,39 <small>per piece</small></span>
+                  <span class="qty-save">€ 3,47 less per piece</span>
+                  <span class="qty-total">€ 639,00</span>
+                </label>
+                <label class="qty">
+                  <input type="radio" name="qty2" />
+                  <span class="qty-n">250 pcs</span>
+                  <span class="qty-price">€ 5,77 <small>per piece</small></span>
+                  <span class="chip chip-green">Lowest price per piece</span>
+                  <span class="qty-total">€ 1.442,50</span>
+                </label>
+              </fieldset>
+              <div class="qty-other">
+                <input
+                  type="number"
+                  min="1"
+                  placeholder="Other quantity…"
+                  aria-label="Other quantity"
+                />
+                <button type="button" class="btn">Update price</button>
+              </div>
+            </div>
+          </article>
+
+          <div class="am-note">
+            <div class="am-id">
+              <span class="avatar" style="width: 49px; height: 49px"></span
+              >Jildou
+            </div>
+            <p class="am-bubble">I think.. so and so and so</p>
+          </div>
+
+          <div class="rule"></div>
+
+          <div class="alt">
+            <div class="alt-photo">
+              <img
+                src="assets/offer-v3/water-bottle-black.png"
+                alt="Water bottle, black"
+              />
+            </div>
+            <div class="alt-body">
+              <div class="alt-tags">
+                <span class="chip chip-green">Sustainable alternative</span>You
+                asked for this
+              </div>
+              <h3 class="alt-title">
+                Water bottle · Recycled stainless steel · 750 ml
+              </h3>
+              <p class="alt-sub">
+                Full-colour print · from € 3,03 per piece at 250 pcs
+              </p>
+            </div>
+            <label class="switch">Add to offer <input type="checkbox" /></label>
+          </div>
+        </section>
+      </main>
+
+      <aside class="side">
+        <section class="side-card am-card" aria-label="Your account manager">
+          <span class="avatar" style="width: 120px; height: 120px"></span>
+          <div class="am-card-body">
+            <p class="eyebrow">Your account manager</p>
+            <p class="am-name">Jildou</p>
+            <p class="am-contact">
+              <a href="tel:+442045765960">+44 20 4576 5960</a>
+              <a href="mailto:Jildou@loopper.com">Jildou@loopper.com</a>
+            </p>
+          </div>
+        </section>
+
+        <section class="side-card summary" aria-labelledby="sumTitle">
+          <div>
+            <h2 id="sumTitle">Summary</h2>
+            <dl class="sum-rows">
+              <div class="sum-row">
+                <dt>Subtotal</dt>
+                <dd>€ 246,50</dd>
+              </div>
+              <div class="sum-row">
+                <dt>Shipping costs</dt>
+                <dd class="free">Free</dd>
+              </div>
+              <div class="sum-row">
+                <dt>VAT 21%</dt>
+                <dd>€ 49,30</dd>
+              </div>
+              <div class="sum-rule"></div>
+              <div class="sum-row">
+                <dt>Subtotal excl. VAT</dt>
+                <dd>€ 246,50</dd>
+              </div>
+            </dl>
+            <p class="sum-total">
+              <span>Total incl. VAT</span><strong>€ 295,80</strong>
+            </p>
+            <!-- Primary action directly under the total, so it sits above the fold -->
+            <button type="button" class="cta" disabled>
+              <span>Continue to design approval</span>
+              <img
+                src="assets/offer-v3/icon-chevron.svg"
+                width="18"
+                height="18"
+                alt=""
+              />
+            </button>
+            <div class="sum-actions">
+              <button type="button" class="btn">
+                <img
+                  src="assets/offer-v3/icon-download.svg"
+                  width="18"
+                  height="18"
+                  alt=""
+                />Download PDF
+              </button>
+              <button type="button" class="btn">
+                <img
+                  src="assets/offer-v3/icon-mail.svg"
+                  width="18"
+                  height="18"
+                  alt=""
+                />Share by email
+              </button>
+            </div>
+            <p class="sum-hint">
+              Need approval? Send the offer to your manager.
+            </p>
+            <p class="deadline">
+              <img
+                src="assets/offer-v3/icon-clock.svg"
+                width="18"
+                height="18"
+                alt=""
+              />
+              <span
+                >Order before <b>Fri 16 Oct, 12:00</b> to receive it on
+                <b>Wed 28 Oct</b>. This offer is valid until 27 Oct.</span
+              >
+            </p>
+          </div>
+        </section>
+
+        <div class="side-card trust">
+          <img
+            src="assets/offer-v3/trustpilot-rating.png"
+            alt="Trustpilot 4.7/5 (1,282 reviews)"
+          />
+        </div>
+      </aside>
+    </div>
+  </body>
+</html>

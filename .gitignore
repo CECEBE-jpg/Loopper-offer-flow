@@ -1,0 +1,9 @@
+# Kept out of the repo on purpose (may show real client data or real people)
+screenshots/
+meeting-notes/*.webp
+frontend/prototype/assets/offer-v3/account-manager.png
+
+# OS / editor clutter
+.DS_Store
+Thumbs.db
+desktop.ini

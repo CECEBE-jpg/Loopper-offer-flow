@@ -1,0 +1,1470 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Loopper Offer Journey</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --brand: #00aed8;
+        --brand-ink: #007a99;
+        --green: #5db92c;
+        --orange: #ff8200;
+        --bg: #f4f7f9;
+        --card: #ffffff;
+        --ink: #1b2430;
+        --muted: #5f6b78;
+        --line: #dde4ea;
+        --pain: #d9362b;
+        --pain-bg: #fdedec;
+        --opp: #1f8a4c;
+        --opp-bg: #e8f6ee;
+        --q: #8a5a00;
+        --q-bg: #fff4dc;
+        --col: 300px;
+        --label: 150px;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --bg: #10161c;
+          --card: #18212a;
+          --ink: #e7edf2;
+          --muted: #9aa7b3;
+          --line: #2a3641;
+          --pain-bg: #3a1a18;
+          --opp-bg: #15301f;
+          --q-bg: #33280f;
+          --pain: #ff7a6e;
+          --opp: #6bd394;
+          --q: #f2c266;
+        }
+      }
+      :root[data-theme="dark"] {
+        --bg: #10161c;
+        --card: #18212a;
+        --ink: #e7edf2;
+        --muted: #9aa7b3;
+        --line: #2a3641;
+        --pain-bg: #3a1a18;
+        --opp-bg: #15301f;
+        --q-bg: #33280f;
+        --pain: #ff7a6e;
+        --opp: #6bd394;
+        --q: #f2c266;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font:
+          14px/1.45 Nunito,
+          system-ui,
+          sans-serif;
+      }
+      header {
+        padding: 28px 24px 12px;
+        max-width: 1400px;
+      }
+      h1 {
+        margin: 0 0 4px;
+        font-size: 26px;
+        font-weight: 800;
+      }
+      h1 span {
+        color: var(--brand);
+      }
+      .sub {
+        color: var(--muted);
+        margin: 0;
+      }
+      .persona {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 20px;
+        margin-top: 14px;
+        font-size: 13px;
+      }
+      .persona b {
+        color: var(--muted);
+        font-weight: 700;
+        margin-right: 4px;
+      }
+
+      .wrap {
+        overflow-x: auto;
+        padding: 8px 24px 32px;
+      }
+      table {
+        border-collapse: separate;
+        border-spacing: 0;
+      }
+      th,
+      td {
+        vertical-align: top;
+      }
+      th.rowlabel {
+        position: sticky;
+        left: 0;
+        z-index: 2;
+        width: var(--label);
+        min-width: var(--label);
+        background: var(--bg);
+        /* Cover the scroll container's left padding so cells don't show through beside the sticky labels */
+        box-shadow: -24px 0 0 var(--bg);
+        text-align: left;
+        padding: 12px 12px 12px 0;
+        font-size: 11px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--muted);
+        font-weight: 800;
+      }
+      td {
+        width: var(--col);
+        min-width: var(--col);
+        max-width: var(--col);
+        padding: 6px;
+      }
+      .cell {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 10px 12px;
+        height: 100%;
+      }
+      .stage {
+        background: var(--brand);
+        color: #fff;
+        border-radius: 10px;
+        padding: 8px 12px;
+        font-weight: 800;
+      }
+      .stage.internal {
+        background: #34414e;
+      }
+      .stage.internal::before {
+        content: "BACKSTAGE · internal";
+        display: block;
+        font-size: 10px;
+        letter-spacing: 0.08em;
+        opacity: 0.75;
+      }
+      /* Steps before the offer flow: visible for context, visually pushed back */
+      td.out {
+        opacity: 0.4;
+        filter: grayscale(1);
+        transition: opacity 0.2s;
+      }
+      td.out:hover {
+        opacity: 0.85;
+      }
+      .stage.out {
+        background: #8c99a6;
+      }
+      .stage.out::before {
+        content: "CONTEXT · already redesigned";
+        display: block;
+        font-size: 10px;
+        letter-spacing: 0.08em;
+        opacity: 0.85;
+      }
+      /* First step of the offer flow */
+      td.start {
+        border-left: 3px dashed var(--brand);
+        padding-left: 12px;
+      }
+      .stage.start::before {
+        content: "▶ OFFER FLOW STARTS HERE";
+        display: block;
+        font-size: 10px;
+        letter-spacing: 0.08em;
+      }
+      .stage small {
+        display: block;
+        font-weight: 600;
+        opacity: 0.85;
+        font-size: 12px;
+      }
+      .shot {
+        display: block;
+        width: 100%;
+        border-radius: 8px;
+        border: 1px solid var(--line);
+        cursor: zoom-in;
+        background: var(--bg);
+      }
+      .missing {
+        border: 1px dashed var(--line);
+        border-radius: 8px;
+        padding: 24px 10px;
+        text-align: center;
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .tp {
+        font-weight: 700;
+      }
+      .tp a {
+        color: var(--brand-ink);
+        word-break: break-all;
+        font-weight: 600;
+        font-size: 12px;
+      }
+      ul {
+        margin: 0;
+        padding-left: 16px;
+      }
+      li + li {
+        margin-top: 4px;
+      }
+      .quote {
+        font-style: italic;
+      }
+      .quote p {
+        margin: 0;
+      }
+      .quote p + p {
+        margin-top: 6px;
+      }
+      .pain .cell {
+        background: var(--pain-bg);
+        border-color: transparent;
+      }
+      .pain li::marker {
+        color: var(--pain);
+      }
+      .opp .cell {
+        background: var(--opp-bg);
+        border-color: transparent;
+      }
+      .opp li::marker {
+        color: var(--opp);
+      }
+      .qs .cell {
+        background: var(--q-bg);
+        border-color: transparent;
+      }
+      .sev {
+        display: inline-block;
+        font-size: 10px;
+        font-weight: 800;
+        padding: 0 5px;
+        border-radius: 4px;
+        margin-right: 4px;
+        color: #fff;
+        vertical-align: 1px;
+      }
+      .sev.h {
+        background: var(--pain);
+      }
+      .sev.m {
+        background: var(--orange);
+      }
+      .sev.l {
+        background: #8c99a6;
+      }
+      .emo-cell {
+        padding: 0;
+      }
+      #emo {
+        display: block;
+      }
+      .legend {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+        font-size: 12px;
+        color: var(--muted);
+        padding: 0 24px;
+      }
+      .legend i {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 3px;
+        margin-right: 5px;
+        vertical-align: -1px;
+      }
+
+      dialog {
+        border: 0;
+        padding: 0;
+        background: transparent;
+        max-width: 95vw;
+        max-height: 95vh;
+      }
+      dialog::backdrop {
+        background: rgba(0, 0, 0, 0.75);
+      }
+      dialog img {
+        max-width: 95vw;
+        max-height: 95vh;
+        display: block;
+        border-radius: 8px;
+      }
+
+      @media (max-width: 640px) {
+        :root {
+          --col: 260px;
+          --label: 96px;
+        }
+        header,
+        .wrap,
+        .legend {
+          padding-left: 16px;
+          padding-right: 16px;
+        }
+        h1 {
+          font-size: 21px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1><span>Loopper</span> offer flow: customer journey</h1>
+      <p class="sub">
+        Walked as a client on loopper.com (EN, €), October 2026. Offer flow
+        starts at the confirmation / upload-your-logo email (step 6). Steps 1–5
+        are greyed out as context (already redesigned elsewhere); back-office
+        steps 9–12 are hidden. One column per step, based on screenshots.
+      </p>
+      <div class="persona">
+        <div><b>Persona</b>B2B buyer ordering branded merchandise</div>
+        <div><b>Entry</b>Google Ads</div>
+        <div>
+          <b>Goal</b>Get a price and a design for ~250 branded water bottles
+        </div>
+      </div>
+    </header>
+
+    <div class="legend">
+      <span
+        ><i style="background: var(--pain)"></i>Pain point (H/M/L
+        severity)</span
+      >
+      <span><i style="background: var(--opp)"></i>Opportunity</span>
+      <span><i style="background: var(--q)"></i>Open question to check</span>
+    </div>
+
+    <div class="wrap"><table id="map"></table></div>
+
+    <dialog id="zoom"><img alt="" /></dialog>
+
+    <script>
+      // One entry per step. Add new steps at the end; the table and emotion curve rebuild from this list.
+      // emotion: -2 (frustrated) .. +2 (delighted)
+      const allSteps = [
+        {
+          stage: "Discover",
+          title: "Category page",
+          shot: "../screenshots/01-category-page.png",
+          touchpoint: "Website: category page",
+          url: "https://www.loopper.com/personalized-water-bottles",
+          doing: [
+            "Clicks a Google ad and lands on 'Personalized water bottles'",
+            "Scans the trust bar: 24 years, free digital design, personal service, Trustpilot 4.7/5",
+            "Browses filters and product cards, then picks the Thermos bottle 500 ml",
+          ],
+          thinking: [
+            "Looks professional and trustworthy.",
+            "Lots of choice. Which one fits my budget and deadline?",
+          ],
+          emotion: 1,
+          pains: [
+            [
+              "m",
+              "Four filter systems at once: sidebar lists, type tiles, brand logos and quick chips (Fast delivery, Cheap…). This causes choice overload.",
+            ],
+            [
+              "m",
+              "Cards say 'from 25 pieces', but the price is 'All-in for 250 pieces'. The client can't see the price for their own quantity.",
+            ],
+            [
+              "m",
+              "The 'View' button is light grey and looks disabled. 'Free quote' is the only clear CTA, even before the client knows the product.",
+            ],
+            [
+              "l",
+              "There is a cart icon in the header, but the cards push quotes. It's unclear whether you can order directly or have to request a quote.",
+            ],
+            [
+              "l",
+              "'Personalized sports bottles (122)' appears twice in the sidebar.",
+            ],
+          ],
+          opps: [
+            "Let the client pick a quantity once and show prices for it on every card.",
+            "Collapse the filters to one main pattern (the type tiles) with 'more filters' behind it.",
+            "Give 'View' and 'Free quote' a clear hierarchy, and add a hint under the quote CTA ('Reply within X hours, no obligation').",
+          ],
+          questions: [
+            "Does the ad copy (price, delivery promise) match what the page shows?",
+            "€ prices with a UK +44 phone number: is this the intended market setup for EN?",
+          ],
+        },
+        {
+          stage: "Consider",
+          title: "Product page (PDP)",
+          shot: "../screenshots/02-pdp.png",
+          touchpoint: "Website: product page",
+          url: "https://www.loopper.com/personalized-water-bottles/personalized-thermos-bottles/cove-500-ml-vacuum-insulated-stainless-steel-bottle-6382809",
+          doing: [
+            "Opens the Thermos bottle. It loads in Gold, not the silver shown on the card",
+            "Sees three big blocks: Free digital design (green), Get a free quote (orange), Get your price (blue)",
+            "Checks the pre-filled configurator: Engraving, 1 print, 250 pieces, €5.77 p.p., total €1,442.50",
+          ],
+          thinking: [
+            "The price matches the category page, good.",
+            "Design, quote, price or add to cart: which one do I need?",
+          ],
+          emotion: 0,
+          pains: [
+            [
+              "h",
+              "Four competing paths: Free digital design, Get a free quote, Get your price and Add to cart. Two green buttons do different things. The page doesn't explain what each one gives you.",
+            ],
+            [
+              "m",
+              "The badge says '1 Workday production time', but the category card promised delivery in 10 workdays. The delivery promise looks inconsistent.",
+            ],
+            [
+              "m",
+              "The PDP opens in Gold while the card showed silver, which feels like a different product. The SKU in the title (6386857) also differs from the one in the URL (6382809).",
+            ],
+            [
+              "l",
+              "There are two colour pickers: dots next to the image and swatches in the configurator.",
+            ],
+            [
+              "l",
+              "'excl. 0% vat' reads oddly. The client may wonder whether VAT will be added later.",
+            ],
+          ],
+          opps: [
+            "Put one primary path first: configure → see price → 'Request offer with this setup'. Keep the design as an optional add-on, not a separate CTA.",
+            "Explain the difference in one line: Add to cart = order now, Quote = we check and send a formal offer.",
+            "Open the PDP in the colour that was clicked on the card, and show one delivery date that matches the card.",
+          ],
+          questions: [
+            "Do 'Free digital design' and 'Get a free quote' lead to the same form or different ones?",
+            "Answered (step 4): the quote form keeps the colour only. Print method, position and quantity are lost.",
+          ],
+        },
+        {
+          stage: "Request",
+          title: "Clicks 'Get a free quote'",
+          shot: "../screenshots/03-free-quote-cta.png",
+          touchpoint: "Website: PDP CTA (orange)",
+          doing: [
+            "Clicks the orange 'Get a free quote' button above the configurator, before scrolling to configure",
+          ],
+          thinking: [
+            "I'll let them work out the details. Hope I don't have to fill everything in again.",
+          ],
+          emotion: 0,
+          pains: [
+            [
+              "m",
+              "The quote CTA sits above the configurator, so clients can request a quote before choosing colour, print or quantity. The request may arrive incomplete.",
+            ],
+          ],
+          opps: [
+            "Move the quote CTA under the configured price, or carry the current configuration into the form automatically.",
+          ],
+          questions: [
+            "Answered: it opens a separate page (/of?pid=…) and does not carry over the configuration. See step 4.",
+          ],
+        },
+        {
+          stage: "Request",
+          title: "Quote request form",
+          shot: "../screenshots/04-request-form.png",
+          touchpoint: "Website: offer form page (/of)",
+          url: "https://www.loopper.com/of?pid=…",
+          doing: [
+            "Sees the product again with colour Gold pre-selected, but the quantity field is empty",
+            "Fills in quantity, deadline (ASAP or a date), logo upload or text, and the number of logo colours",
+            "Fills in contact details: email, business type, company, salutation, first name, surname, phone, comments",
+            "Clicks 'Get my free quote'",
+          ],
+          thinking: [
+            "Wait, I already chose 250 pieces and engraving. Where did my price go?",
+            "Nice to see real faces. But when will I hear back?",
+          ],
+          emotion: -1,
+          pains: [
+            [
+              "h",
+              "The configuration is lost: quantity is empty again (the PDP had 250), and print method (Engraving) and position are gone. The client re-enters data and may give different answers than on the PDP.",
+            ],
+            [
+              "h",
+              "The price disappears. On the PDP the client saw €5.77 p.p. / €1,442.50. Here there's no price or reference at all, and the price anchor that motivated them is gone.",
+            ],
+            [
+              "m",
+              "There's no expectation setting near the CTA: no response time, no 'no obligation', and nothing on what the offer will contain or how it arrives.",
+            ],
+            [
+              "m",
+              "'How many colours are in your logo?' is asked even though the PDP default was Engraving, where colour count doesn't apply. Clients may not know the answer either.",
+            ],
+            [
+              "m",
+              "The form is long: about 11 inputs across two columns, and 6 are required. Salutation (Mr./Mrs.) is required, defaults to 'Mr.' and has no neutral option.",
+            ],
+            [
+              "l",
+              "The colour picker is a small scroll box. The 9th colour (white) is cut off and the blue scrollbar is easy to miss.",
+            ],
+            [
+              "l",
+              "The 'Add text' button uses an upload icon. Company name has no asterisk even though 'Company' is pre-selected.",
+            ],
+            [
+              "l",
+              "The date field stays active while 'As soon as possible' is selected, and the DD-MM-YY format is ambiguous for international clients.",
+            ],
+          ],
+          opps: [
+            "Pass the full PDP configuration (colour, print method, position, quantity) to /of and show it as an editable summary with the indicative price.",
+            "Add a 'What happens next' block by the CTA: 'Offer + free digital proof within X hours, by email, no obligation.'",
+            "Shorten the form: drop salutation (or make it optional and neutral), merge first name and surname, and ask for logo colours only for print methods that need it.",
+            "Put the team faces next to a concrete promise: 'Zoe will send your offer today.'",
+          ],
+          questions: [
+            "What is the actual response time between submit and offer? Measure it in the next step.",
+            "Do clients who come from 'Free digital design' land on this same /of form?",
+            "Is the logo-colour answer used in pricing, or only by sales?",
+          ],
+        },
+        {
+          stage: "Wait",
+          title: "Thank-you page",
+          shot: "../screenshots/05-thank-you.png",
+          touchpoint: "Website: thank-you page (inside /shoppingcart)",
+          url: "https://www.loopper.com/shoppingcart/thank-you?p=…",
+          doing: [
+            "Submits on Tuesday at ~17:50, after office hours",
+            "Reads 'Thank you! We'll get started on your quote right away'",
+            "Sees 'We are closed' in the contact block next to it",
+            "Checks the request overview and sees the optional 'Product alternatives' checkboxes",
+          ],
+          thinking: [
+            "Done, good. But are they starting right away or are they closed?",
+            "When will I actually get my offer? Today, tomorrow?",
+          ],
+          emotion: 0,
+          pains: [
+            [
+              "h",
+              "There's no timeline for the offer itself. The page only promises a confirmation email ('No email within an hour? Check spam') and never says when the quote will arrive.",
+            ],
+            [
+              "m",
+              "Mixed messages: 'We'll get started on your quote right away' sits next to 'We are closed' and 'we reply within 1 hour (Mon–Fri 09:00–17:30)'. Evening and weekend leads get no adjusted promise.",
+            ],
+            [
+              "m",
+              "The request overview is incomplete. It shows only product, colour, SKU and quantity: no deadline, logo/file confirmation, print method or comments. The client can't verify that their logo arrived.",
+            ],
+            [
+              "m",
+              "The 'Product alternatives' checkboxes have no save button or feedback. It's unclear whether ticking one does anything or sends anything to sales.",
+            ],
+            [
+              "l",
+              "The page mentions 'your account manager' but never names one. The form showed Yoan, Zoe and Hannah, but no one is assigned here.",
+            ],
+            [
+              "l",
+              "The thank-you page lives under /shoppingcart. If quote requests reuse the cart/order pipeline, analytics may mix quotes and orders.",
+            ],
+          ],
+          opps: [
+            "Add a 3-step 'What happens next' timeline: ✓ request received → design proof + offer by [concrete day/time based on office hours] → approve online.",
+            "Make the promise time-aware: after hours, show 'Your offer arrives tomorrow before 12:00' instead of 'right away'.",
+            "Show the full request (deadline, print method, uploaded logo thumbnail, comments) with an 'edit / add logo later' link.",
+            "Turn the alternatives into a real action ('Also send me a cheaper option') with saved feedback, and route it into the offer.",
+            "Assign and show the account manager by name and photo, with a direct email or phone number.",
+          ],
+          questions: [
+            "Did the tester pick Silver and 25 pieces on the form, or did the form send something different from what was entered? The PDP had Gold, 250.",
+            "What's the real SLA for the offer (internal target), and how long does it take today? Note the time of the confirmation and offer emails.",
+            "Answered in step 12: the ticks DO arrive. The offer editor shows 'Alternatives requested: Sustainable, Bigger print'. The client just gets no feedback that they were saved.",
+          ],
+        },
+        {
+          stage: "Wait",
+          title: "Confirmation email",
+          shot: "../screenshots/06b-confirmation-email.png",
+          touchpoint:
+            "Email from noreply@loopper.com, received 17:54 (instant)",
+          doing: [
+            "Gets the email right after submitting. Subject: 'Your request succeeded - 5436794.01'",
+            "Reads 'We will make sure you receive an offer as soon as possible'",
+            "Sees an 'Upload logo' button and a one-line summary: 25x Thermos bottle … Silver",
+          ],
+          thinking: [
+            "OK, it arrived. But 'as soon as possible' still doesn't tell me when.",
+            "I already uploaded my logo, didn't I? Do I need to do it again?",
+          ],
+          emotion: 0,
+          pains: [
+            [
+              "m",
+              "Still no offer timeline. 'As soon as possible' repeats the vagueness of the thank-you page.",
+            ],
+            [
+              "m",
+              "Sent from noreply@ with no contact person, phone number or reply path. The 'Personal service' USP in the footer contradicts this, and a client who hits Reply may lose their message.",
+            ],
+            [
+              "m",
+              "'If we haven't received your logo yet, please upload it' is generic. The system knows whether a logo was uploaded but doesn't say so, which leaves doubt.",
+            ],
+            [
+              "m",
+              "The summary is minimal: quantity, product and colour only. There's no image, print method, deadline, indicative price or link to view the request.",
+            ],
+            [
+              "l",
+              "The subject 'Your request succeeded - 5436794.01' sounds like a system message. The '.01' reference means nothing to the client.",
+            ],
+            [
+              "l",
+              "Brand inconsistency with the site: '23 years of experience' (site says 24), Kiyoh 9.2 (site uses Trustpilot 4.7), an older logo with 'Promotional gifts', and 9 country flags.",
+            ],
+            [
+              "l",
+              "Payment logos (iDEAL, Belfius, Bancontact…) in a request confirmation are premature, and NL/BE-specific for an EN/€/+44 client.",
+            ],
+          ],
+          opps: [
+            "Send from a named account manager with a monitored reply-to, plus their photo, direct phone and office hours.",
+            "Add the same time-aware promise as the thank-you page: 'Your offer arrives by Wednesday 12:00'.",
+            "Personalise the logo state: 'We received logo.pdf ✓' or 'No logo yet: upload it here so we can include a proof'.",
+            "Include a full request card (image, configuration, indicative price) and a link to a 'My request' page that later holds the offer.",
+            "Rewrite the subject, e.g. 'We received your request for 25 Thermos bottles – offer by Wed 12:00', and align USPs, review platform and logo with the site.",
+          ],
+          questions: [
+            "Is the reply-to really noreply@? What happens to replies?",
+            "Is the email template shared across all locales (hence the flags and NL/BE payment logos)?",
+            "Is 5436794.01 the same ID that sales uses in the CRM? '.01' suggests a version, so does a revised offer become .02?",
+          ],
+        },
+        {
+          stage: "Wait",
+          title: "Upload logo page (client portal)",
+          shot: "../screenshots/07-upload-logo-portal.png",
+          touchpoint:
+            "Client portal: client.loopperprojects.com/customer/upload-logo/…",
+          url: "https://client.loopperprojects.com/customer/upload-logo/…",
+          doing: [
+            "Clicks 'Upload logo' in the confirmation email",
+            "Lands on a different domain: a nearly empty grey page with one 'Upload logo' button",
+          ],
+          thinking: [
+            "loopperprojects.com? Is this still Loopper? Is it safe?",
+            "Which request is this for? Did my earlier upload work? What file type do they want?",
+          ],
+          emotion: -1,
+          pains: [
+            [
+              "h",
+              "Domain switch: the email and site are loopper.com, but this page is client.loopperprojects.com. Clients trained to spot phishing may hesitate, and it breaks brand continuity.",
+            ],
+            [
+              "h",
+              "There's no context on the page: no greeting, request number, product, logo status or instructions (file types, vector preferred, max size). The client can't tell whether a logo is already there.",
+            ],
+            [
+              "m",
+              "There's a placeholder avatar top right where the account manager's photo should be. It looks broken and impersonal.",
+            ],
+            [
+              "m",
+              "Trust signals conflict across touchpoints: the site says Trustpilot 4.7 (1,282 reviews), the email says Kiyoh 9.2, and this page says Kiyoh 9.4 (1282 reviews). The same review count on different platforms and scores hurts credibility.",
+            ],
+            ["l", "A debug timer '00:00:00.00' is visible bottom left."],
+            [
+              "l",
+              "The footer shows about 17 payment logos and 9 country flags on a page whose only job is uploading a file. There's no navigation back to loopper.com or to the request.",
+            ],
+          ],
+          opps: [
+            "Serve the portal under the main brand domain (e.g. my.loopper.com) with the site header and styling.",
+            "Turn this into a 'My request' page: request summary, logo status (✓ received / missing), drag-and-drop upload with file guidance, account manager photo and contact, and a timeline that later shows the proof and offer.",
+            "Use one review platform and score everywhere, from a single source of truth.",
+            "Remove the debug timer and the payment logos from portal pages.",
+          ],
+          questions: [
+            "Is client.loopperprojects.com a separate application from the shop? Who owns it (in-house or third party)?",
+            "Does this same portal later host the offer, design proof and approval? If so, it's the main frontend surface to redesign.",
+            "Do the URL tokens expire, and do they authenticate the client without a login?",
+            "What is the widget on the right edge (yellow icon)?",
+          ],
+        },
+        {
+          stage: "Wait",
+          title: "Logo uploaded (portal feedback)",
+          shot: "../screenshots/08-logo-uploaded.png",
+          touchpoint: "Client portal: same upload page after upload",
+          doing: [
+            "Uploads a logo file (the test file reads 'YOUR DESIGN HERE')",
+            "Sees the logo preview under 'Your Uploaded logo:', but no file name, ✓ or status next to it",
+            "Finally spots a thin green bar at the very bottom: 'Thank you for uploading your logo! … You can continue to upload more logos or close this window.'",
+          ],
+          thinking: [
+            "There's my logo. Is it saved, or only previewed?",
+            "Oh, there's a message at the bottom. So now I just close this? What happens next?",
+          ],
+          emotion: 0,
+          pains: [
+            [
+              "m",
+              "The success message sits at the bottom of the page in a faint bar, far from the upload button and below the fold on laptops. Easy to miss, so the preview alone doesn't confirm the file was saved to the request.",
+            ],
+            [
+              "m",
+              "Dead end: 'close this window' is the only next step. There's no link back to the request, no timeline and no contact.",
+            ],
+            [
+              "l",
+              "The preview has no file name, size or ✓ 'Received' label, and there's no remove/replace. 'Upload more logos' only adds files, with no way to say which one to use or where it goes.",
+            ],
+            [
+              "l",
+              "'As soon as possible' again, the fourth vague timing promise in a row (thank-you page, email, portal).",
+            ],
+          ],
+          opps: [
+            "Move the success state next to the preview: ✓ 'Received', file name and size, plus remove/replace.",
+            "Replace 'close this window' with the next step: 'Your designer will send the proof and offer by Wed 12:00' and a link to the request page.",
+            "Let the client add a note per logo (e.g. 'use the white version on dark bottles').",
+          ],
+          questions: [
+            "Does the preview also work for vector files (AI/EPS/PDF), or only for images?",
+            "Answered in step 11: the file is linked to project 5436794 (ydh_white_1791907222.png, 18:00:23), but the thumbnail is hard to see and the side panel shows a red ✗.",
+          ],
+        },
+        {
+          stage: "Process",
+          internal: true,
+          title: "Request lands in Loopper backend",
+          shot: "../screenshots/09-backend-project-list.png",
+          touchpoint: "Loopper back office: Projects list (internal)",
+          doing: [
+            "Request appears as project 5436794 (UK flag), status NEW, client 'Loopper / TEST Cayna', rating Medium, €159 for 25 pieces",
+            "AM column is empty: the project waits for someone to assign an account manager",
+            "Days-open timer runs (0:18). Close date: None",
+            "It sits among 4 NEW, unassigned projects from the last 20 minutes, all after 17:30",
+          ],
+          thinking: [
+            "Client: (no news since the confirmation email)",
+            "Team: who picks this up, and when? It's after hours.",
+          ],
+          emotion: 0,
+          pains: [
+            [
+              "h",
+              "Manual assignment is the first bottleneck. Nothing happens for the client until someone assigns an AM, and after hours the request waits until the next morning while the client was told 'right away'.",
+            ],
+            [
+              "m",
+              "The system already calculates a value (€159 / 25 pcs = €6.36 p.p.), but the client never sees it. Front end and back end each hold half of the picture.",
+            ],
+            [
+              "m",
+              "Other rows show 'OFFER SENT BY SYSTEM' within 4–27 minutes, so automatic offers exist. It's unclear why this request needs manual handling and the client can't tell which route they're on.",
+            ],
+            [
+              "m",
+              "The NEW rows don't show a deadline or response-time target. 'Days open' counts up, but there's no SLA colour or breach warning to prioritise by.",
+            ],
+            [
+              "l",
+              "The list is dense: about 14 columns, many unlabeled icons, tiny text, and overlapping names in the Mockup column ('Monaem Hasan Hasan'). It's hard to scan which NEW projects need action first.",
+            ],
+            [
+              "l",
+              "Debug info is visible in production: timer '00:00:02.30', 'master branch', last deploy.",
+            ],
+          ],
+          opps: [
+            "Auto-assign NEW requests with rules: country/language → AM pool, then round robin or workload, with fallback to a duty AM. Push the AM's name into the client email and portal right away.",
+            "Expand automatic 'offer sent by system' to standard requests (stock product, known print method, logo present), with an AM review only for exceptions.",
+            "Add an SLA column: due time based on office hours (e.g. next business day 12:00), colour-coded, sorted by urgency.",
+            "Show the client's front-end state in the row: logo received ✓, deadline, PDP configuration, 'alternatives' ticks.",
+          ],
+          questions: [
+            "What decides between 'OFFER SENT BY SYSTEM' and manual handling? Product, value, rating, missing logo?",
+            "How is 'Rating' (Low/Medium/High) calculated, and does it affect priority or assignment?",
+            "Do the camera icons next to the client name mean logo received? Does this row show the logo uploaded in step 8?",
+            "Who assigns AMs today, and how long does assignment take on average (business hours vs after hours)?",
+            "Why does the PDP total (€1,442.50 for 250) differ from the system value? The client changed to 25 pcs, and €159 / 25 = €6.36 vs €5.77 p.p. at 250. Is that the staffel price?",
+          ],
+        },
+        {
+          stage: "Process",
+          internal: true,
+          title: "Project detail page",
+          shot: "../screenshots/10-backend-project-detail.png",
+          touchpoint: "Loopper back office: Project 5436794 (internal)",
+          doing: [
+            "Opens the project from the list",
+            "Sees 4 empty role slots (Product Specialist, Account Manager, Designer, Call Manager) and the note 'This project is not yet assigned to an Account manager. Don't wait too long!'",
+            "Sees statuses: NEW REQUEST, payment 'Waiting for payment', progress 56% complete, and a checklist (Offered ✓, Mockup ✗, Client confirmed ✗ …)",
+            "Sees 5 invoice addresses pulled from the 'Loopper' company, offer visit log 'Not visited yet', tasks, schedule and purchase notes. The right panel shows Requested 17:54, Estimated €159, Logos 2",
+          ],
+          thinking: [
+            "Client: (still waiting, no news)",
+            "AM: where do I assign this, and where is what the client actually asked for?",
+          ],
+          emotion: 0,
+          pains: [
+            [
+              "m",
+              "Logo status is unclear at a glance: the side panel shows 'Logos 2' with a red ✗, next to 'Mockup ✗' and a 'Request logo' toggle. The logo IS uploaded (see step 11), but nothing on this page shows it clearly, so an AM could still ask the client for it again.",
+            ],
+            [
+              "h",
+              "Assignment is nudged but not actionable. The banner says 'Don't wait too long!', but the control is a 'Select Accountmanager' dropdown buried in the Tasks box mid-page. The 4 role slots at the top aren't clickable.",
+            ],
+            [
+              "h",
+              "Misleading state on a fresh request: payment 'Waiting for payment' before any offer exists, 'Offered ✓' although nothing was sent, and the progress bar at 56% complete. Staff can't trust the status to judge what to do next.",
+            ],
+            [
+              "m",
+              "The client's request isn't summarised above the fold: no product, colour, quantity, print method, deadline or logo thumbnail. The AM has to scroll or open tabs to see what the client wants.",
+            ],
+            [
+              "m",
+              "Ad attribution is lost: Click id is present, but Source, Medium and Campaign are 'not found', although this client came from a Google ad. ROI per campaign can't be measured on offers.",
+            ],
+            [
+              "m",
+              "Address data pulled from the matched company shows 5 addresses, including near-duplicates of Pieter Braaijweg 101 Amsterdam, with none selected. That risks the wrong invoice or delivery address on the offer.",
+            ],
+            [
+              "l",
+              "Three separate status dropdowns, each with its own Save, plus 'Back to overview without saving', make it easy to lose changes.",
+            ],
+            [
+              "l",
+              "Gender is inferred from the required Mr./Mrs. salutation on the form. 'Disable auto emails' appears ticked, so are automatic follow-ups off for this project?",
+            ],
+          ],
+          opps: [
+            "Show the uploaded logo thumbnail (on a checkerboard background) with its source and time ('portal, 18:00') at the top of the project page. Block 'Request logo' and auto-emails when a logo exists.",
+            "Put a primary action bar at the top: 'Assign to me' / 'Auto-assign' / pick AM, and fill the role slots in place.",
+            "Add a request summary card at the top, mirroring what the client saw: product image, configuration, quantity, deadline, logo thumbnails, client comments, 'alternatives' ticks and the price the client saw on the PDP.",
+            "Clean up the status model: payment status only after the offer is accepted, a checklist that reflects real events (offer sent at hh:mm, viewed at hh:mm), progress based on stage, not field completeness.",
+            "Map the gclid/click id to Source/Medium/Campaign server-side (or store UTM parameters on the request) so offer conversion per ad is measurable.",
+            "Dedupe company addresses and pre-select the one used most recently. Use one Save for the whole page.",
+          ],
+          questions: [
+            "Likely answered in step 12: 'Offered ✓' means an offer record (5436794.01) was auto-created at 17:54, not that it was sent to the client.",
+            "What exactly does the red ✗ next to 'Logos 2' mean: 'no logo', 'not quality-checked', or 'not approved for offer'?",
+            "Does 'Online offer visit logs' mean there's an online offer page the client can open? Where does it live (loopper.com or loopperprojects.com)?",
+            "What does 'Disable auto emails' control, and why is it on by default?",
+            "Why do UTM/source fields fail when a click id exists? Is the gclid stored but never resolved?",
+          ],
+        },
+        {
+          stage: "Process",
+          internal: true,
+          title: "Project Logos tab",
+          shot: "../screenshots/11-backend-project-logos.png",
+          touchpoint: "Loopper back office: Project 5436794 → Logos (internal)",
+          doing: [
+            "Opens 'Logos 2' from the side panel",
+            "Row 1: file ydh_white_1791907222.png, uploaded 2026-10-13 18:00:23 via the portal. The Logo cell looks empty, with no visible thumbnail",
+            "Row 2: text logo from the request form ('FAKE OFFER BY MARKETING', Times New Roman, Purple, remark 'DO NOT MAKE - CAYNA'), 17:54:52",
+            "Sees a checklist per logo: Vector, Quality ok?, Requested for mockup, PMS/Color added, Client vector, Approve for Offer, White logo, Hide from Offer, Vectorize it for me, Use for production",
+          ],
+          thinking: [
+            "Client: (I uploaded my logo, it's in there)",
+            "AM: the logo is in there, but I have to look closely to see it.",
+          ],
+          emotion: 0,
+          pains: [
+            [
+              "m",
+              "The uploaded logo is hard to see: the thumbnail is faint, probably a white logo ('_white' in the name) on a white background, while the portal showed it on grey. Only the small grey file name and timestamp confirm the upload.",
+            ],
+            [
+              "m",
+              "The red ✗ on 'Logos 2' and the unchecked 'Quality ok? ?' make a received logo look like a problem. 'Not reviewed yet' and 'not received' look the same.",
+            ],
+            [
+              "m",
+              "Delete buttons are unclear and prominent: red squares with a white square inside, no recognisable trash icon or label, placed at the end of every row in the strongest colour on the page. Easy to click by mistake. Is there a confirmation step?",
+            ],
+            [
+              "m",
+              "Nine checkboxes per logo with no defaults or guidance ('White logo' isn't auto-detected, 'Vector' is empty for a PNG). That's a lot of manual triage before a mockup can start.",
+            ],
+            [
+              "l",
+              "Text-logo remarks ('DO NOT MAKE') are only visible in this tab, not on the main project page or list.",
+            ],
+          ],
+          opps: [
+            "Render logo thumbnails on a checkerboard or grey background, and auto-detect white/transparent logos (tick 'White logo' automatically).",
+            "Split the status into clear states: Received → Checked → Approved for offer, with the side-panel icon reflecting that (e.g. '2 received, 0 checked' instead of a red ✗).",
+            "Auto-fill file facts: vector or raster, resolution, colours detected. Flag only problems for the designer.",
+            "Show the logos and text remarks in the request summary card on the main project page.",
+            "Make delete a quiet icon button (grey trash icon with tooltip, red on hover) with a confirm or undo, so it doesn't dominate the row.",
+          ],
+          questions: [
+            "Do the delete buttons ask for confirmation, and can a deleted logo be restored?",
+            "Which of the 9 checkboxes are required before an offer or mockup can be sent?",
+          ],
+        },
+        {
+          stage: "Process",
+          internal: true,
+          title: "Offer editor (5436794.01)",
+          shot: "../screenshots/12b-backend-offer-editor.png",
+          touchpoint:
+            "Loopper back office: Project 5436794 → Offers → 5436794.01 (internal)",
+          doing: [
+            "Opens Offers (1) → 5436794.01 from the side panel (Logos ✗, Mockups ✗, Vectors greyed out)",
+            "Finds a draft offer auto-created at 17:54: Thermos bottle Silver, 25 pcs, DT 10 w.d., €5.15 p.p., shipping €30, all-in €6.35, subtotal €158.75, 27% margin",
+            "Sees customer comment 'TEST OFFER - IGNORE' and 'Alternatives requested: Sustainable, Bigger print'",
+            "Sees an empty logo box with 'I'll do this later', empty MOQ-1…8 fields with 'Generate MOQs', and 'Select a printoption' still empty",
+            "Sees VAT 0% with 'OVERRIDE VAT (FR38449955590) VAT number not confirmed!'",
+          ],
+          thinking: [
+            "Client: (still waiting, no offer received yet)",
+            "AM: good, a draft exists. But no print, no logo, no staffels: what do I still need to fill in before sending?",
+          ],
+          emotion: 0,
+          pains: [
+            [
+              "h",
+              "The draft price excludes printing: 'Select a printoption' is empty, so printing and setup are €0.00 and the €159 / €6.35 all-in is for blank bottles plus shipping. The client chose Engraving on the PDP, but that was lost on the form (step 4), so the AM has to redo it manually.",
+            ],
+            [
+              "h",
+              "The VAT setup is risky: VAT is 0% while the warning says 'VAT number not confirmed!'. The number is French (FR…) for a client on the EN/UK site, and the project checklist showed it as ✓. Sending as-is could mean wrong VAT on the offer.",
+            ],
+            [
+              "m",
+              "The logo isn't connected to the offer: the logo box is empty with 'I'll do this later', although 2 logos were uploaded. The client's offer and mockup may go out without their logo.",
+            ],
+            [
+              "m",
+              "There are no staffels: MOQ-1…8 are empty, so the client will only see 25 pcs. On the PDP they compared prices at 250 pcs (€5.77 p.p.), and 25 pcs is €6.35 without print. The jump isn't explained.",
+            ],
+            [
+              "m",
+              "Shipping is €30 on €128.75 of product (about 19%) for a small order. That's correct but a shock if the client expected the PDP all-in logic.",
+            ],
+            [
+              "l",
+              "The editor is dense: about 12 checkboxes per line (Hide MOQs in Online Offer, Block from ordering, UK Import, CH Import…), 3 label buttons and icon-only actions (download, PDF, tag, email). It's not clear which action sends the offer to the client.",
+            ],
+          ],
+          opps: [
+            "Carry the PDP configuration through to the offer line: print option, position and quantity pre-filled, so the auto-draft is send-ready for standard requests.",
+            "Add a pre-send checklist that blocks or warns: print option set, logo attached, VAT validated (VIES check), staffels generated.",
+            "Auto-generate MOQs around the requested quantity (e.g. 25 / 50 / 100 / 250) so the client sees the price drop and can upsell themselves.",
+            "Auto-attach the uploaded logo to the offer and mockup request, and show which logo is used.",
+            "One clear primary 'Send offer to client' button with a preview of what the client will see.",
+          ],
+          questions: [
+            "Why was the print option not filled from the request? Is the print method from the PDP/form stored anywhere?",
+            "Where does FR38449955590 come from: the matched 'Loopper' company record? Why is VAT 0% applied before validation?",
+            "Is this auto-draft what goes out as 'OFFER SENT BY SYSTEM' for other projects? What blocked it here (missing print option, logo, VAT)?",
+            "Answered in step 13: the client receives an email with a 'View offer' button to the online offer. No PDF or price in the email itself.",
+          ],
+        },
+        {
+          stage: "Receive offer",
+          title: "Offer email",
+          shot: "../screenshots/14-offer-email.png",
+          touchpoint:
+            "Email from the account manager, sent manually ~3 h after the request",
+          doing: [
+            "Opens the offer email: 'Hi TEST Cayna, … My name is Caynalin, and I am your personal merch expert'",
+            "Reads that designers are working on the digital design 'if you have uploaded your logo'",
+            "Sees one small green 'View offer' button in the middle of the text",
+            "Sees a signature with a photo, name and email of a different person: Jildou",
+          ],
+          thinking: [
+            "Nice, a real person. But is it Caynalin or Jildou?",
+            "How much is it? I have to click to find out anything.",
+          ],
+          emotion: 0,
+          pains: [
+            [
+              "h",
+              "Two identities in one email: the text says 'My name is Caynalin', but the header photo, signature photo, name and email (jildou@loopper.com) belong to Jildou. The client doesn't know who their contact is, which undermines the 'personal merch expert' promise.",
+            ],
+            [
+              "h",
+              "The email has no offer content: no product, quantity, price, delivery date or validity. Everything is behind one 'View offer' click. That likely contributes to the 1,769 'Offer not viewed' call tasks in the back office.",
+            ],
+            [
+              "m",
+              "The CTA is weak: a small 'View offer' button inline in a sentence, halfway down the email. On mobile it's easy to miss.",
+            ],
+            [
+              "m",
+              "'If you have uploaded your logo, our designers are already working on your digital design' is generic again. The logo was uploaded, and the offer flow is 'mockup NO', so no designer may be working on it. It's a promise the system can't confirm.",
+            ],
+            [
+              "l",
+              "Same template issues as the confirmation email: '23 years of experience' (site says 24), Kiyoh 9.2 (site uses Trustpilot), country flags, and NL/BE payment logos for a UK client.",
+            ],
+          ],
+          opps: [
+            "Use one sender identity everywhere: the assigned AM's name, photo, email and phone, filled from the project's AM field.",
+            "Put an offer summary in the email: product image, configuration, quantity, total and per-piece price, delivery date, validity. Add one large 'View & approve offer' button above the fold.",
+            "Make the design text state-aware: 'Your digital design is ready', 'Our designer is working on it, ready by …', or 'Upload your logo to get a free design'.",
+            "Make the subject specific, e.g. 'Your offer: 25 engraved Thermos bottles, €246.50'. Measure open and click rates.",
+          ],
+          questions: [
+            "Why does the signature show Jildou when Caynalin is the assigned AM? Is the signature tied to a template, the sender account, or the 'fake account manager' list in the back office?",
+            "What's the subject line and sender address of this email?",
+            "What is the open rate and 'View offer' click rate of offer emails today?",
+          ],
+        },
+        {
+          stage: "Receive offer",
+          title: "Online offer page",
+          shot: "../screenshots/15-online-offer.png",
+          touchpoint:
+            "Client portal: online offer, step 1 of 3 (Offer → My details → Checkout)",
+          doing: [
+            "Opens the offer from the email. Sees a 3-step bar: 1. Offer, 2. My details, 3. Checkout",
+            "Checks the logos: the text logo plus an empty-looking white box for the uploaded logo, with an 'Upload logo' button",
+            "Sees the product with 'Personalization: engraving: Front (50x90mm)' and expected delivery 28 Oct",
+            "Compares price tiers: 25 = €9.86, 50 = €7.72, 100 = €6.39, 250 = €5.77 p.p.",
+            "Sees the total jump from €246.50 to €295.80 with 20% VAT. Options: Proceed with ordering, Download PDF, Share, Request sample quote, Found a better price?",
+          ],
+          thinking: [
+            "Finally the price, and I can compare quantities. Useful.",
+            "Wait, +20% VAT? The website said 'excl. 0% vat'. And where is my logo?",
+          ],
+          emotion: 1,
+          pains: [
+            [
+              "h",
+              "VAT contradicts earlier screens: the back office offer showed 0% VAT (export, non-EU), the PDP said 'excl. 0% vat', but the online offer adds 20% VAT (€49.30). The client sees the total rise by 20% at the last step, and the team and client see different totals.",
+            ],
+            [
+              "m",
+              "The uploaded logo looks empty again: the white PNG sits on a white box. The client may think the upload failed, and the text logo is truncated ('FAKE OFFER BY MA…').",
+            ],
+            [
+              "m",
+              "'Shipping costs: free' while €30 shipping is built into the per-piece price in the editor. Correct as a total, but it reads as a free extra the client isn't actually getting.",
+            ],
+            [
+              "m",
+              "Tier discounts are shown as struck-through €9.86 with '22% / 35% / 41% Discount'. That's a volume price, not a discount on a real former price, and may feel like a sales trick.",
+            ],
+            [
+              "m",
+              "No word on the digital design: the email promised designers were working on it, but this page shows no design or status. The requested alternatives (Sustainable, Bigger print) aren't addressed either.",
+            ],
+            [
+              "l",
+              "Identity and polish issues: an empty avatar placeholder for 'Caynalin, your personal account manager' (the email showed Jildou's photo), '(0 days opecn)' typo, a stray 'Laser' line, Kiyoh 9.4 here vs 9.2 in the email, 17 payment logos.",
+            ],
+          ],
+          opps: [
+            "Use one VAT logic across PDP, back office and online offer. Show 'excl. VAT' prices with the VAT rule explained ('20% UK VAT applies' or '0% export') from the first price the client sees.",
+            "Show the logo on a checkerboard background with file name and ✓ received. Show the digital design status: 'Design in progress, ready by …' or the proof itself.",
+            "Present tiers as 'Price per piece drops with quantity' (save €X), not as discounts. Highlight the recommended tier.",
+            "Show the AM's real photo and direct contact next to the CTA. Use the same person as in the email.",
+            "Show the requested alternatives as extra offer lines, or explain why none are included.",
+          ],
+          questions: [
+            "Which VAT is correct for this client: 0% (export) or 20% (UK)? Where does the online offer get 20% from?",
+            "Were the price tiers generated automatically when the offer was sent? The editor's MOQ fields were empty before.",
+            "How many clients use 'Found a better price?' and 'Request sample quote'?",
+          ],
+        },
+        {
+          stage: "Order",
+          title: "Online offer step 2: My details",
+          shot: "../screenshots/16b-offer-my-details.png",
+          touchpoint: "Client portal: online offer, step 2 of 3 (My details)",
+          doing: [
+            "Clicks 'Proceed with ordering' and lands on 'Here is the overview of your order. Please check contact information before paying'",
+            "Sees the invoicing address form pre-filled with company, Mrs., name, email and VAT number FR38449955590",
+            "Sees red error borders on phone, street, house number, postal code, city and country before typing anything",
+            "Sees delivery 'We deliver to invoicing Address' with 'Add delivery address', plus Remarks with 'Save Comment'",
+            "Sees the same order summary (€295.80 incl. 20% VAT), a Terms and conditions checkbox and 'ORDER AND PAY'",
+          ],
+          thinking: [
+            "Why is everything already red? I haven't done anything wrong.",
+            "Do I click Save, Choose invoice address, Save Comment or Order and pay? And does 'Order and pay' charge me right away?",
+          ],
+          emotion: -1,
+          pains: [
+            [
+              "h",
+              "Errors show on page load: six fields are red and 'Min 10 characters allowed' appears under the phone field before the client types. It feels like a failed submit. The message is also wrong ('allowed' instead of 'required').",
+            ],
+            [
+              "h",
+              "Saved data isn't reused: the company already has addresses in the back office, but street, postal code, city and country are empty. Country is empty although the client used the English/UK site.",
+            ],
+            [
+              "m",
+              "Phone is required here (min 10 characters) but was optional on the quote form. The client meets a new requirement at the moment of paying.",
+            ],
+            [
+              "m",
+              "Four save actions on one page: 'Choose invoice address', 'Save', 'Save Comment' and 'ORDER AND PAY'. It's unclear whether the address is lost if the client goes straight to Order and pay.",
+            ],
+            [
+              "m",
+              "VAT 20% is calculated while country is still empty, and the French VAT number is pre-filled for a UK client. The VAT logic isn't visible or explained (same issue as step 14).",
+            ],
+            [
+              "m",
+              "'ORDER AND PAY' on step 2, while the progress bar says the next step is '3. Checkout'. The button sounds like an immediate, final payment.",
+            ],
+            [
+              "l",
+              "Copy and identity: 'INVOICING ADRESS' typo, required Mr./Mrs. again, empty avatar placeholder for the account manager, Terms link hidden in small text.",
+            ],
+          ],
+          opps: [
+            "Validate fields only after the client leaves them or presses continue, with clear messages ('Phone number: at least 10 digits').",
+            "Pre-fill from saved company addresses as a choice ('Use Pieter Braaijweg 101, Amsterdam' / 'New address'), and pre-select the country from the site language/region.",
+            "One form, one button: autosave the address and remarks, and rename the main action to 'Continue to payment' so it matches step 3.",
+            "Recalculate and explain VAT live when the country or VAT number changes ('UK business: 20% UK VAT' / 'EU business with valid VAT number: 0% reverse charge').",
+            "Keep the B2B extras that work: CC e-mail, separate invoice e-mail, internal reference number, separate delivery address.",
+          ],
+          questions: [
+            "Does 'ORDER AND PAY' go to a payment page (step 3) or charge immediately? Is the order binding at this point?",
+            "Why aren't the company's saved addresses pre-filled, and what does 'Choose invoice address' open?",
+            "Is the phone number really required for delivery, and why min 10 characters (UK numbers vary)?",
+          ],
+        },
+        {
+          stage: "Design approval",
+          title: "Design ready email",
+          shot: "../screenshots/17-design-ready-email.png",
+          touchpoint:
+            "Email 'Jouw digitaal voorbeeld - Loopper 5437003', 10–30 min after the offer (example: Dutch project)",
+          doing: [
+            "Receives 'Goed nieuws, jouw digitale drukvoorbeeld is af!' (good news, your digital proof is ready) 10–30 minutes after the offer",
+            "Reads that the proof is in the offer, where they can view and approve it straight away",
+            "Clicks the small green 'Bekijk digitaal ontwerp' (view digital design) button",
+          ],
+          thinking: [
+            "That was fast, nice!",
+            "What does it look like? I have to click to see my own logo on the product.",
+          ],
+          emotion: 1,
+          pains: [
+            [
+              "m",
+              "The email shows no image of the design. The most exciting moment of the flow (seeing your logo on the product) is hidden behind a click.",
+            ],
+            [
+              "m",
+              "Identity mismatch again: the email is signed by Jildou with her photo, while the project's account manager on the offer page is Patrick.",
+            ],
+            [
+              "l",
+              "The change-request instruction is text-only ('click on Ik wil een wijziging aanvragen next to your design'). The CTA is small and the template has the same footer issues (flags, Kiyoh 9.2, payment logos, .com/.nl logos mixed).",
+            ],
+          ],
+          opps: [
+            "Show the mockup image(s) in the email, with 'Approve design' and 'Request a change' buttons.",
+            "Send from the assigned account manager (same as the offer page).",
+            "Use the speed as a strength: 'Your design was made in 18 minutes by our design team'.",
+          ],
+          questions: [
+            "Is this email automatic when the designer uploads the mockup? Does it always arrive 10–30 min after the offer, also outside office hours?",
+          ],
+        },
+        {
+          stage: "Design approval",
+          title: "Online offer step 2: Check design",
+          shot: "../screenshots/18-offer-design-review.png",
+          touchpoint:
+            "Client portal: online offer '2. Ontwerp controleren' (check design). This step only appears when a mockup was requested and varies per client and case",
+          doing: [
+            "Sees a 4-step bar: 1. Offerte → 2. Ontwerp controleren → 3. Mijn gegevens → 4. Betaling",
+            "Reads a long green text block about the proof, the dotted print-area line and vector files",
+            "Switches between 4 products with tabs ('1. Ontwerp controleren' … '4.'), views the mockup with a rotate control and the max. print area",
+            "Checks the 3-point checklist (logo position, print, spelling), can request a change in a chat box, and ticks 'Ik ben akkoord met dit ontwerp'",
+            "Is asked about PMS colour and a vector logo ('Ik heb geen vectorlogo, vectoriseer het voor mij')",
+            "Clicks 'Accepteer het ontwerp, controleer het volgende product 1/4' or 'Ga naar mijn gegevens & bestelling afronden'",
+          ],
+          thinking: [
+            "There's my logo on the bottle, cool!",
+            "Do I need to approve all 4 before I can order? And what's a vector logo, do I need one?",
+          ],
+          emotion: 1,
+          pains: [
+            [
+              "m",
+              "A wall of text at the top: 6 sentences in one green block explaining proof, print area, vector files and support. Most clients won't read it, especially on mobile.",
+            ],
+            [
+              "m",
+              "Approving takes two actions: tick 'Ik ben akkoord' and then click 'Accepteer het ontwerp…'. It's easy to miss the checkbox.",
+            ],
+            [
+              "m",
+              "'Ga naar mijn gegevens & bestelling afronden' appears twice and lets the client skip the remaining designs (1/4 approved). It's unclear whether unapproved designs block production.",
+            ],
+            [
+              "m",
+              "New decisions at the approval moment: PMS colour and vector logo upload / vectorisation. These belong to production quality, not to 'do you like the design?'.",
+            ],
+            [
+              "l",
+              "The layout is long and desktop-oriented: mockup left, checklist and chat right, AM block and duplicate CTA at the bottom.",
+            ],
+          ],
+          opps: [
+            "One clear decision per product: big mockup, 'Looks good ✓' and 'Request a change' buttons, with the 3-point checklist as small helper text.",
+            "Show progress across products ('2 of 4 designs approved') and say plainly whether ordering is possible before all are approved.",
+            "Move PMS and vector questions to after approval, as optional 'improve print quality' steps, with the 1-day delay explained.",
+            "Mobile first: swipe between products, sticky approve bar at the bottom.",
+          ],
+          questions: [
+            "In which cases does this step appear, and how does it vary per client (e.g. skipped when no mockup is requested)?",
+            "Can a client order with unapproved designs? What happens then in production?",
+          ],
+        },
+        {
+          stage: "Pay",
+          title: "Online offer: Payment",
+          shot: "../screenshots/19-offer-payment.png",
+          touchpoint:
+            "Client portal: online offer '4. Betaling' (payment). Steps 1–3 are locked (🔒) and a 5th step 'Controlelijst' appears",
+          doing: [
+            "Reads 'Bedankt voor je bestelling! Voltooi de onderstaande betalingsstappen om jouw productie te starten'",
+            "Chooses from 11 payment methods. Bank transfer (SEPA) and iDEAL are free, cards add 1.5–3.4%",
+            "Can send the payment to a colleague (copy payment link) or download a proforma invoice with payment link",
+            "Sees the total (€4,567.14) and clicks 'Betaal'",
+          ],
+          thinking: [
+            "Good, I can send this to finance.",
+            "So I've already ordered? And which method is cheapest for me?",
+          ],
+          emotion: 0,
+          pains: [
+            [
+              "m",
+              "'Thank you for your order!' appears before payment, so the client may not realise the order is already binding at this point (also see 'ORDER AND PAY' in step 15).",
+            ],
+            [
+              "m",
+              "The progress bar changes length: it had 4 steps on the design page, now shows 5 (Controlelijst added), and the next page shows 4 again. The client can't trust 'how many steps are left'.",
+            ],
+            [
+              "l",
+              "11 payment methods with surcharges in small grey text. The surcharge only shows in the total after selection.",
+            ],
+            [
+              "l",
+              "Small details: 'Factuur wordt verzonden nadat de betaling is voltooid' in very light grey, and a stray 'UT' line under the invoice address.",
+            ],
+          ],
+          opps: [
+            "Keep the B2B features: payment link for a colleague and proforma invoice. They fit the 'share with my manager' need from the meeting.",
+            "Fix the number of steps per offer at the start and keep it stable. Show 'Order placed ✓' only when it really is.",
+            "Group payment methods (free: bank transfer, iDEAL / with fee: cards, PayPal…) and show the fee in euros next to each method.",
+          ],
+          questions: [
+            "Is the order binding at 'ORDER AND PAY' or at 'Betaal'?",
+            "Why does the step count change (4 → 5 → 4)?",
+          ],
+        },
+        {
+          stage: "After order",
+          title: "Online offer: Checklist",
+          shot: "../screenshots/20-offer-checklist.png",
+          touchpoint:
+            "Client portal: online offer 'Controlelijst' (checklist) after ordering with bank transfer",
+          doing: [
+            "Reads 'Bedankt voor je bestelling bij Loopper!' and 'Voer de volgende 2 stappen uit' (complete these 2 steps)",
+            "1. Payment: sees bank details, reference, status 'WACHT OP BETALING SEPA', can upload proof of payment or change the payment method",
+            "2. Vector / Logo: can upload a vector file per logo, or ask Loopper to vectorise it (+1 production day)",
+            "Can ask questions in a 'Berichten' (messages) chat, add a VAT number, or download the invoice",
+          ],
+          thinking: [
+            "Clear: two things left to do.",
+            "The vector logo question again? I already answered that on the design page.",
+          ],
+          emotion: 1,
+          pains: [
+            [
+              "m",
+              "The vector logo is asked for the third time (design page, now the checklist, and it delays production by 1 day). The client may not understand why it matters.",
+            ],
+            [
+              "l",
+              "System language shows through: 'WACHT OP BETALING SEPA' in capitals, and the progress bar now shows 4 steps with 'Controlelijst' as step 4 (it was step 5 on the payment page).",
+            ],
+            [
+              "l",
+              "'Download your invoice here' appears twice (top and bottom) as small text links.",
+            ],
+          ],
+          opps: [
+            "Keep this to-do pattern: a numbered list of what's left, with status per item. It works well and could be the model for the 'My request' page (R3.5).",
+            "Write statuses in human language ('We're waiting for your bank transfer, usually 1–2 days').",
+            "Ask the vector question once, at the right moment, and remember the answer.",
+            "Show a production timeline after payment: 'Payment received → In production → Shipped (expected 28 Oct)'.",
+          ],
+          questions: [
+            "What does the client see after payment arrives: does the checklist update, and do they get an email?",
+          ],
+        },
+      ];
+      // Back-office (internal) steps are hidden for now: this sprint focuses on the client-facing frontend.
+      // Set SHOW_BACKSTAGE to true to show them again. Step numbers keep their original value so references stay valid.
+      const SHOW_BACKSTAGE = false;
+      // Steps 1–5 (category page → thank-you page) already have redesigns in other projects (01–04).
+      // They stay visible as context but are greyed out; the offer flow starts at step 6, the confirmation / upload-your-logo email.
+      const FIRST_STEP = 6;
+      const steps = allSteps.filter((s) => SHOW_BACKSTAGE || !s.internal);
+      const num = (s) => allSteps.indexOf(s) + 1;
+      const isOut = (s) => num(s) < FIRST_STEP;
+      const isStart = (s) => num(s) === FIRST_STEP;
+      const cellClass = (s) => (isOut(s) ? "out" : isStart(s) ? "start" : "");
+
+      const rows = [
+        [
+          "",
+          (s) =>
+            `<div class="stage${s.internal ? " internal" : ""} ${cellClass(s)}">${s.stage}<small>${num(s)}. ${s.title}</small></div>`,
+          "raw",
+        ],
+        [
+          "Screenshot",
+          (s) =>
+            `<img class="shot" src="${s.shot}" alt="${s.title}" onerror="this.outerHTML='<div class=missing>Screenshot not saved yet<br>${s.shot.split("/").pop()}</div>'">`,
+        ],
+        [
+          "Touchpoint",
+          (s) =>
+            `<div class="tp">${s.touchpoint}</div>${s.url ? `<a href="${s.url}" target="_blank" rel="noopener">${s.url.replace("https://www.", "")}</a>` : ""}`,
+        ],
+        ["Doing", (s) => list(s.doing)],
+        [
+          "Thinking",
+          (s) =>
+            `<div class="quote">${s.thinking.map((t) => `<p>“${t}”</p>`).join("")}</div>`,
+        ],
+        ["Emotion", null, "emo"],
+        [
+          "Pain points",
+          (s) =>
+            `<ul>${s.pains.map(([v, t]) => `<li><span class="sev ${v}">${v.toUpperCase()}</span>${t}</li>`).join("")}</ul>`,
+          "pain",
+        ],
+        ["Opportunities", (s) => list(s.opps), "opp"],
+        ["Open questions", (s) => list(s.questions || []), "qs"],
+      ];
+
+      function list(a) {
+        return a.length
+          ? `<ul>${a.map((x) => `<li>${x}</li>`).join("")}</ul>`
+          : '<span style="color:var(--muted)">–</span>';
+      }
+
+      const table = document.getElementById("map");
+      table.innerHTML = rows
+        .map(([label, fn, kind]) => {
+          if (kind === "emo")
+            return `<tr><th class="rowlabel">${label}</th><td class="emo-cell" colspan="${steps.length}"><svg id="emo"></svg></td></tr>`;
+          return `<tr class="${kind || ""}"><th class="rowlabel">${label}</th>${steps
+            .map(
+              (s) =>
+                `<td class="${cellClass(s)}">${kind === "raw" ? fn(s) : `<div class="cell">${fn(s)}</div>`}</td>`,
+            )
+            .join("")}</tr>`;
+        })
+        .join("");
+
+      function drawEmotion() {
+        const svg = document.getElementById("emo");
+        const colW =
+          parseFloat(
+            getComputedStyle(document.documentElement).getPropertyValue(
+              "--col",
+            ),
+          ) + 12;
+        const w = colW * steps.length,
+          h = 120,
+          pad = 22;
+        const y = (v) => pad + ((2 - v) / 4) * (h - pad * 2);
+        const pts = steps.map((s, i) => [colW * i + colW / 2, y(s.emotion)]);
+        const face = (v) => (v >= 1 ? "🙂" : v <= -1 ? "😟" : "😐");
+        svg.setAttribute("width", w);
+        svg.setAttribute("height", h);
+        svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
+        // Context steps (before the offer flow) are drawn grey and dashed; the offer flow in brand colour
+        const firstIn = steps.findIndex((s) => !isOut(s));
+        const line = (from, to, attrs) =>
+          to > from
+            ? `<polyline fill="none" stroke-width="3" stroke-linejoin="round" ${attrs} points="${pts
+                .slice(from, to + 1)
+                .map((p) => p.join(","))
+                .join(" ")}"/>`
+            : "";
+        const startX = firstIn > 0 ? colW * firstIn : null;
+        svg.innerHTML =
+          `<line x1="0" x2="${w}" y1="${y(0)}" y2="${y(0)}" stroke="var(--line)" stroke-dasharray="4 4"/>` +
+          (startX !== null
+            ? `<line x1="${startX}" x2="${startX}" y1="0" y2="${h}" stroke="var(--brand)" stroke-width="2" stroke-dasharray="5 4"/>`
+            : "") +
+          line(0, firstIn, 'stroke="#B7C2CD" stroke-dasharray="6 5"') +
+          line(Math.max(firstIn, 0), pts.length - 1, 'stroke="var(--brand)"') +
+          pts
+            .map((p, i) => {
+              const out = isOut(steps[i]);
+              return (
+                `<circle cx="${p[0]}" cy="${p[1]}" r="7" fill="var(--card)" stroke="${out ? "#B7C2CD" : "var(--brand)"}" stroke-width="3"/>` +
+                `<text x="${p[0] + 12}" y="${p[1] + 5}" font-size="16" opacity="${out ? 0.4 : 1}">${face(steps[i].emotion)}</text>`
+              );
+            })
+            .join("");
+      }
+      drawEmotion();
+      addEventListener("resize", drawEmotion);
+
+      // Open the map at the start of the offer flow; the context steps stay reachable by scrolling left
+      const startCell = document.querySelector("#map tr:first-child td.start");
+      const label = document.querySelector("th.rowlabel");
+      if (startCell && label) {
+        document.querySelector(".wrap").scrollLeft =
+          startCell.offsetLeft - label.offsetWidth - 8;
+      }
+
+      const dlg = document.getElementById("zoom");
+      document.addEventListener("click", (e) => {
+        if (e.target.classList.contains("shot")) {
+          dlg.querySelector("img").src = e.target.src;
+          dlg.showModal();
+        } else if (e.target.closest("dialog")) dlg.close();
+      });
+    </script>
+  </body>
+</html>

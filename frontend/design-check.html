@@ -1,0 +1,1615 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Design Check Draft</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <!--
+  Design check step, draft v1 (2026-10-20)
+  Desktop (1440) and mobile (390) frames side by side, static markup, no JavaScript,
+  so an HTML-to-Figma import produces two editable frames. Every state is visible as markup:
+  - product switcher with 3 statuses (1 Reviewing, 2 Approved, 3 To check)
+  - "Request a change" EXPANDED on desktop, COLLAPSED on mobile
+  - "Continue to your details" DISABLED until all 3 designs are approved
+  Requirements covered:
+  - 5-step stepper (offers with a mockup get the extra "Check your design" step)
+  - one proof per product, large image, print position + size, max print area legend, 360° hint
+  - checklist "Check these 3 things" (1 of 3 checked)
+  - per-product actions: Approve design (primary) / Request a change (secondary, free)
+  - progress "1 of 3 designs approved", final CTA gated, "Back to your offer"
+  - optional, visually secondary "Improve print quality": PMS choice, vector upload, free redraw
+  - account manager card (initials avatar, no staff photo), offer valid until 3 Nov
+  - mobile: proof near the top, sticky "Approve design 1/3" bar
+  Replaces the old page (screenshots/18-offer-design-review.png): green text wall, tiny tabs,
+  PMS/vector upload mixed into approval, 3 stacked green buttons.
+-->
+    <style>
+      :root {
+        --brand: #00aed8;
+        --brand-dark: #00799a;
+        --brand-50: #e6f7fc;
+        --green: #5db12a;
+        --green-dark: #4a9620;
+        --green-50: #eef7e6;
+        --orange: #f07d00;
+        --orange-50: #fff3e3;
+        --red: #e0343a;
+        --ink: #1c2530;
+        --ink-2: #4a5866;
+        --muted: #7b8794;
+        --line: #e1e7ed;
+        --bg: #f4f6f9;
+        --white: #ffffff;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background: #d9dee4;
+        font-family: Nunito, Arial, sans-serif;
+        color: var(--ink);
+        font-size: 15px;
+        line-height: 1.45;
+      }
+      img {
+        display: block;
+      }
+      a {
+        color: var(--brand-dark);
+        text-decoration: none;
+      }
+
+      /* Canvas: two frames side by side */
+      .canvas {
+        display: flex;
+        gap: 80px;
+        align-items: flex-start;
+        padding: 60px;
+        width: max-content;
+      }
+      .frame-label {
+        font-size: 14px;
+        font-weight: 800;
+        color: #5b6672;
+        margin-bottom: 12px;
+        letter-spacing: 0.04em;
+      }
+      .frame {
+        background: var(--bg);
+        overflow: hidden;
+      }
+      .frame.desktop {
+        width: 1440px;
+      }
+      .frame.mobile {
+        width: 390px;
+        border-radius: 28px;
+        position: relative;
+      }
+
+      /* Shared bits */
+      .logo {
+        font-weight: 800;
+        font-size: 28px;
+        letter-spacing: -1px;
+        color: var(--brand);
+        line-height: 1;
+      }
+      .logo span {
+        color: var(--green);
+      }
+      .row {
+        display: flex;
+        align-items: center;
+      }
+      .col {
+        display: flex;
+        flex-direction: column;
+      }
+      .card {
+        background: var(--white);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+      }
+      .h2 {
+        font-size: 20px;
+        font-weight: 800;
+      }
+      .h3 {
+        font-size: 16px;
+        font-weight: 800;
+      }
+      .small {
+        font-size: 13px;
+        color: var(--muted);
+      }
+      .tiny {
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .avatar {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: var(--brand-50);
+        color: var(--brand-dark);
+        font-weight: 800;
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: none;
+      }
+      .avatar.lg {
+        width: 64px;
+        height: 64px;
+        font-size: 20px;
+      }
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 800;
+        white-space: nowrap;
+      }
+      .pill.green {
+        background: var(--green-50);
+        color: var(--green-dark);
+      }
+      .pill.blue {
+        background: var(--brand-50);
+        color: var(--brand-dark);
+      }
+      .pill.orange {
+        background: var(--orange-50);
+        color: #b45f00;
+      }
+      .pill.grey {
+        background: var(--bg);
+        color: var(--ink-2);
+      }
+      .btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        border-radius: 10px;
+        font-weight: 800;
+        font-size: 15px;
+        height: 48px;
+        padding: 0 18px;
+        white-space: nowrap;
+      }
+      .btn.primary {
+        background: var(--green);
+        color: #fff;
+        height: 56px;
+        font-size: 17px;
+      }
+      .btn.secondary {
+        background: #fff;
+        border: 1.5px solid var(--line);
+        color: var(--ink);
+      }
+      .btn.secondary.active {
+        border: 2px solid var(--brand);
+        background: var(--brand-50);
+        color: var(--brand-dark);
+      }
+      .btn.disabled {
+        background: #dfe4ea;
+        color: #8c97a3;
+        height: 56px;
+        font-size: 17px;
+      }
+      .btn.blue {
+        background: var(--brand);
+        color: #fff;
+      }
+      .btn.link {
+        height: auto;
+        padding: 0;
+        color: var(--brand-dark);
+        font-size: 14px;
+      }
+      .icon {
+        width: 18px;
+        height: 18px;
+        flex: none;
+      }
+      .divider {
+        height: 1px;
+        background: var(--line);
+      }
+
+      /* Header */
+      .topbar {
+        background: #fff;
+        border-bottom: 1px solid var(--line);
+      }
+      .usp {
+        background: var(--brand);
+        color: #fff;
+        font-size: 13px;
+        font-weight: 700;
+      }
+      .usp .item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      /* Stepper */
+      .stepper {
+        display: flex;
+        gap: 8px;
+      }
+      .step {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 14px;
+        border-radius: 10px;
+        background: #fff;
+        border: 1px solid var(--line);
+        font-weight: 700;
+        font-size: 14px;
+        color: var(--muted);
+      }
+      .step .num {
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        border: 2px solid #c7d0d9;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        font-weight: 800;
+        flex: none;
+      }
+      .step.done {
+        color: var(--ink-2);
+      }
+      .step.done .num {
+        background: var(--green);
+        border-color: var(--green);
+        color: #fff;
+      }
+      .step.current {
+        border: 2px solid var(--brand);
+        color: var(--ink);
+        background: var(--brand-50);
+      }
+      .step.current .num {
+        background: var(--brand);
+        border-color: var(--brand);
+        color: #fff;
+      }
+      .seg {
+        flex: 1;
+        height: 6px;
+        border-radius: 3px;
+        background: var(--line);
+      }
+      .seg.done {
+        background: var(--green);
+      }
+      .seg.current {
+        background: var(--brand);
+      }
+
+      /* Product switcher */
+      .thumb-tab {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        border-radius: 12px;
+        background: #fff;
+        border: 1.5px solid var(--line);
+      }
+      .thumb-tab.current {
+        border: 2px solid var(--brand);
+        background: var(--brand-50);
+      }
+      .thumb {
+        width: 56px;
+        height: 56px;
+        border-radius: 8px;
+        background: #f7f8fa;
+        border: 1px solid var(--line);
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: none;
+      }
+      .thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+
+      /* Proof viewer */
+      .proof {
+        position: relative;
+        background: #ffffff;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .proof img {
+        object-fit: contain;
+      }
+      .proof .layer {
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+      .proof .tag {
+        position: absolute;
+        background: rgba(28, 37, 48, 0.82);
+        color: #fff;
+        font-size: 12px;
+        font-weight: 800;
+        padding: 6px 10px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .legend-swatch {
+        width: 22px;
+        height: 0;
+        border-top: 2px dashed var(--red);
+        flex: none;
+      }
+
+      /* Checklist */
+      .check-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 14px;
+        border: 1.5px solid var(--line);
+        border-radius: 10px;
+        background: #fff;
+        font-weight: 700;
+        font-size: 14px;
+      }
+      .check-item.on {
+        border-color: var(--green);
+        background: var(--green-50);
+      }
+      .box {
+        width: 22px;
+        height: 22px;
+        border-radius: 6px;
+        border: 2px solid #b7c2cd;
+        background: #fff;
+        flex: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .check-item.on .box {
+        background: var(--green);
+        border-color: var(--green);
+      }
+
+      /* Forms */
+      .textarea {
+        height: 104px;
+        border: 2px solid var(--brand);
+        border-radius: 10px;
+        padding: 12px;
+        color: var(--muted);
+        font-size: 14px;
+        background: #fff;
+      }
+      .radio {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        border: 2px solid #b7c2cd;
+        flex: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .radio-in {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--brand);
+      }
+      .opt {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 12px;
+        border: 1.5px solid var(--line);
+        border-radius: 10px;
+        background: #fff;
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--ink-2);
+      }
+      .opt.sel {
+        border-color: var(--brand);
+        color: var(--ink);
+      }
+      .opt.sel .radio {
+        border-color: var(--brand);
+      }
+      .drop {
+        border: 1.5px dashed #b7c2cd;
+        border-radius: 10px;
+        padding: 14px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: #fafbfc;
+        font-size: 14px;
+      }
+      .note {
+        background: var(--bg);
+        border-radius: 10px;
+        padding: 10px 12px;
+        font-size: 13px;
+        color: var(--ink-2);
+      }
+      .bar {
+        height: 8px;
+        border-radius: 4px;
+        background: var(--line);
+        display: flex;
+        overflow: hidden;
+      }
+      .bar .fill {
+        width: 33.3%;
+        background: var(--green);
+      }
+      .pay {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+      .pay span {
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        padding: 3px 8px;
+        font-size: 12px;
+        font-weight: 800;
+        color: var(--ink-2);
+        background: #fff;
+      }
+
+      /* Mobile sticky bar */
+      .sticky {
+        position: sticky;
+        bottom: 0;
+        background: #fff;
+        border-top: 1px solid var(--line);
+        box-shadow: 0 -6px 20px rgba(20, 30, 40, 0.08);
+        padding: 12px 16px 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="canvas">
+      <!-- =========================================================
+     DESKTOP · 1440
+     ========================================================= -->
+      <div>
+        <div class="frame-label">
+          DESKTOP · 1440 · Check your design · Step 3 of 5 · "Request a change"
+          expanded
+        </div>
+        <div class="frame desktop">
+          <!-- Header -->
+          <div class="topbar">
+            <div
+              class="row"
+              style="
+                width: 1200px;
+                margin: 0 auto;
+                height: 76px;
+                justify-content: space-between;
+              "
+            >
+              <div class="row" style="gap: 28px">
+                <div class="logo">loopper<span>.</span></div>
+                <div
+                  class="col"
+                  style="border-left: 1px solid var(--line); padding-left: 28px"
+                >
+                  <span class="tiny" style="font-weight: 700">YOUR OFFER</span>
+                  <span style="font-weight: 800; font-size: 16px"
+                    >5436794 · Loopper</span
+                  >
+                </div>
+              </div>
+              <div class="row" style="gap: 12px">
+                <div class="col" style="align-items: flex-end">
+                  <span style="font-weight: 800; font-size: 14px"
+                    >Caynalin · your account manager</span
+                  >
+                  <span class="small"
+                    >+44 20 4576 5960 · caynalin@loopper.com</span
+                  >
+                </div>
+                <div class="avatar">CB</div>
+              </div>
+            </div>
+          </div>
+          <div class="usp">
+            <div
+              class="row"
+              style="
+                width: 1200px;
+                margin: 0 auto;
+                height: 36px;
+                justify-content: space-between;
+              "
+            >
+              <div class="row" style="gap: 28px">
+                <span class="item"
+                  ><svg class="icon" viewBox="0 0 20 20" fill="none">
+                    <path
+                      d="M5 10.5l3 3 7-7"
+                      stroke="#fff"
+                      stroke-width="2.4"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    /></svg
+                  >Free digital design</span
+                >
+                <span class="item"
+                  ><svg class="icon" viewBox="0 0 20 20" fill="none">
+                    <path
+                      d="M5 10.5l3 3 7-7"
+                      stroke="#fff"
+                      stroke-width="2.4"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    /></svg
+                  >Personal service</span
+                >
+                <span class="item"
+                  ><svg class="icon" viewBox="0 0 20 20" fill="none">
+                    <path
+                      d="M5 10.5l3 3 7-7"
+                      stroke="#fff"
+                      stroke-width="2.4"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    /></svg
+                  >24 years of experience</span
+                >
+              </div>
+              <span class="item">Trustpilot 4.7/5 · 1,282 reviews</span>
+            </div>
+          </div>
+
+          <!-- Stepper: 5 steps because this offer has a mockup -->
+          <div style="width: 1200px; margin: 0 auto; padding: 28px 0 0">
+            <div class="stepper">
+              <div class="step done">
+                <span class="num">✓</span>Request received
+              </div>
+              <div class="step done"><span class="num">✓</span>Your offer</div>
+              <div class="step current">
+                <span class="num">3</span>Check your design
+              </div>
+              <div class="step"><span class="num">4</span>Your details</div>
+              <div class="step"><span class="num">5</span>Payment</div>
+            </div>
+          </div>
+
+          <!-- Intro + product switcher -->
+          <div
+            class="col"
+            style="width: 1200px; margin: 0 auto; padding: 24px 0 0; gap: 18px"
+          >
+            <div
+              class="row"
+              style="justify-content: space-between; align-items: flex-end"
+            >
+              <div class="col" style="gap: 4px">
+                <span
+                  style="font-size: 30px; font-weight: 800; line-height: 1.15"
+                  >Hi Cayna, check your designs</span
+                >
+                <span style="color: var(--ink-2)"
+                  >Your free digital design is ready. Check it and approve, or
+                  ask for a change — changes are free.</span
+                >
+              </div>
+              <span class="pill grey">Offer valid until 3 Nov</span>
+            </div>
+
+            <!-- Switcher: one tab per product with status chip -->
+            <div class="row" style="gap: 12px">
+              <div class="thumb-tab current">
+                <div class="thumb">
+                  <img
+                    src="https://img.loopper.com/storage/webshop/articles/pfconcept/87/10067181.jpg"
+                    alt="Thermos bottle gold"
+                  />
+                </div>
+                <div class="col" style="flex: 1; gap: 2px">
+                  <span class="tiny" style="font-weight: 700">Design 1</span>
+                  <span style="font-weight: 800; font-size: 14px"
+                    >Thermos bottle · 500 ml</span
+                  >
+                </div>
+                <span class="pill blue"
+                  ><svg
+                    class="icon"
+                    style="width: 12px; height: 12px"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                  >
+                    <circle cx="10" cy="10" r="6" fill="#00799A" /></svg
+                  >Reviewing</span
+                >
+              </div>
+              <div class="thumb-tab">
+                <div class="thumb" style="background: #f1f8ea">
+                  <svg width="30" height="48" viewBox="0 0 40 64" fill="none">
+                    <rect
+                      x="12"
+                      y="2"
+                      width="16"
+                      height="8"
+                      rx="3"
+                      fill="#6E9E2F"
+                    />
+                    <rect
+                      x="6"
+                      y="10"
+                      width="28"
+                      height="52"
+                      rx="10"
+                      fill="#9BCB45"
+                    />
+                    <rect
+                      x="10"
+                      y="26"
+                      width="20"
+                      height="16"
+                      rx="3"
+                      fill="#fff"
+                      opacity="0.7"
+                    />
+                  </svg>
+                </div>
+                <div class="col" style="flex: 1; gap: 2px">
+                  <span class="tiny" style="font-weight: 700">Design 2</span>
+                  <span style="font-weight: 800; font-size: 14px"
+                    >Water bottle · 750 ml</span
+                  >
+                </div>
+                <span class="pill green">✓ Approved</span>
+              </div>
+              <div class="thumb-tab">
+                <div class="thumb" style="background: #f8f4ea">
+                  <svg width="40" height="46" viewBox="0 0 48 56" fill="none">
+                    <path
+                      d="M16 14c0-8 16-8 16 0"
+                      stroke="#C9B994"
+                      stroke-width="3"
+                      fill="none"
+                    />
+                    <rect
+                      x="4"
+                      y="14"
+                      width="40"
+                      height="40"
+                      rx="3"
+                      fill="#EDE4CF"
+                    />
+                    <rect
+                      x="14"
+                      y="26"
+                      width="20"
+                      height="16"
+                      rx="2"
+                      fill="#fff"
+                      opacity="0.8"
+                    />
+                  </svg>
+                </div>
+                <div class="col" style="flex: 1; gap: 2px">
+                  <span class="tiny" style="font-weight: 700">Design 3</span>
+                  <span style="font-weight: 800; font-size: 14px"
+                    >Shopping bag · Cotton</span
+                  >
+                </div>
+                <span class="pill orange">To check</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Main -->
+          <div
+            class="row"
+            style="
+              width: 1200px;
+              margin: 0 auto;
+              padding: 20px 0 48px;
+              gap: 28px;
+              align-items: flex-start;
+            "
+          >
+            <!-- Left column: proof -->
+            <div class="col" style="flex: 1; gap: 20px">
+              <div class="card" style="padding: 22px 24px">
+                <div
+                  class="row"
+                  style="justify-content: space-between; margin-bottom: 4px"
+                >
+                  <span class="h2"
+                    >Thermos bottle · Stainless steel · 500 ml</span
+                  >
+                  <span class="small" style="font-weight: 700"
+                    >Design 1 of 3</span
+                  >
+                </div>
+                <div class="row" style="gap: 6px; margin-bottom: 16px">
+                  <span class="pill grey">Colour: Silver</span>
+                  <span class="pill grey">Full-colour print</span>
+                  <span class="pill grey">Wrap-around · 223×100 mm</span>
+                </div>
+
+                <!-- Proof image with logo overlay + max print area -->
+                <div class="proof" style="height: 520px">
+                  <img
+                    src="https://img.loopper.com/storage/webshop/articles/pfconcept/87/10067181.jpg"
+                    alt="Thermos bottle gold with your design"
+                    style="width: 520px; height: 520px"
+                  />
+                  <svg
+                    class="layer"
+                    width="722"
+                    height="520"
+                    viewBox="0 0 722 520"
+                  >
+                    <rect
+                      x="301"
+                      y="190"
+                      width="120"
+                      height="190"
+                      rx="4"
+                      fill="none"
+                      stroke="#E0343A"
+                      stroke-width="2"
+                      stroke-dasharray="8 6"
+                    />
+                    <text
+                      x="361"
+                      y="275"
+                      text-anchor="middle"
+                      font-family="Arial"
+                      font-weight="900"
+                      font-size="17"
+                      fill="#F4F1EA"
+                      opacity="0.92"
+                    >
+                      YOUR
+                    </text>
+                    <text
+                      x="361"
+                      y="296"
+                      text-anchor="middle"
+                      font-family="Arial"
+                      font-weight="900"
+                      font-size="17"
+                      fill="#F4F1EA"
+                      opacity="0.92"
+                    >
+                      DESIGN
+                    </text>
+                    <text
+                      x="361"
+                      y="317"
+                      text-anchor="middle"
+                      font-family="Arial"
+                      font-weight="900"
+                      font-size="17"
+                      fill="#F4F1EA"
+                      opacity="0.92"
+                    >
+                      HERE
+                    </text>
+                  </svg>
+                  <div class="tag" style="left: 14px; top: 14px">
+                    Print position: wrap-around · 223×100 mm
+                  </div>
+                  <div class="tag" style="right: 14px; top: 14px">
+                    <svg
+                      class="icon"
+                      style="width: 14px; height: 14px"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                    >
+                      <path
+                        d="M16 10a6 6 0 1 1-2-4.5M16 3v3.5h-3.5"
+                        stroke="#fff"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                    Drag to rotate 360°
+                  </div>
+                </div>
+                <div
+                  class="row"
+                  style="justify-content: space-between; margin-top: 12px"
+                >
+                  <span class="row small" style="gap: 8px"
+                    ><span class="legend-swatch"></span>Red dashed line = max
+                    print area (not printed)</span
+                  >
+                  <span class="row" style="gap: 16px">
+                    <a class="btn link" href="#">Zoom in</a>
+                    <a class="btn link" href="#">Download proof (PDF)</a>
+                  </span>
+                </div>
+              </div>
+
+              <!-- Optional extras: visually secondary -->
+              <div class="card" style="padding: 18px 24px; background: #fafbfc">
+                <div class="row" style="justify-content: space-between">
+                  <div class="col" style="gap: 2px">
+                    <span class="h3"
+                      >Improve print quality
+                      <span class="small">(optional)</span></span
+                    >
+                    <span class="small"
+                      >You can skip this. Our designer already checked your
+                      logo.</span
+                    >
+                  </div>
+                  <svg class="icon" viewBox="0 0 20 20" fill="none">
+                    <path
+                      d="M5 12.5l5-5 5 5"
+                      stroke="#7B8794"
+                      stroke-width="2.2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </div>
+                <div
+                  class="row"
+                  style="gap: 24px; margin-top: 16px; align-items: flex-start"
+                >
+                  <div class="col" style="flex: 1; gap: 8px">
+                    <span style="font-weight: 800; font-size: 14px"
+                      >Colour matching</span
+                    >
+                    <div class="opt sel">
+                      <div class="radio"><div class="radio-in"></div></div>
+                      Let Loopper match a colour
+                    </div>
+                    <div class="opt">
+                      <div class="radio"></div>
+                      I have a PMS colour
+                    </div>
+                  </div>
+                  <div class="col" style="flex: 1; gap: 8px">
+                    <span style="font-weight: 800; font-size: 14px"
+                      >Vector logo</span
+                    >
+                    <div class="drop">
+                      <svg class="icon" viewBox="0 0 20 20" fill="none">
+                        <path
+                          d="M10 14V4m0 0L6 8m4-4l4 4M4 16h12"
+                          stroke="#00799A"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                      <div class="col">
+                        <span style="font-weight: 700"
+                          ><a href="#">Upload vector logo</a></span
+                        >
+                        <span class="tiny">.svg, .ai, .pdf or .eps</span>
+                      </div>
+                    </div>
+                    <span class="tiny"
+                      >No vector file? We redraw your logo for free.</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right column: review panel -->
+            <div class="col" style="width: 400px; gap: 16px">
+              <!-- Checklist + actions -->
+              <div class="card" style="padding: 24px">
+                <span class="h2">Check these 3 things</span>
+                <div class="col" style="gap: 8px; margin-top: 14px">
+                  <div class="check-item on">
+                    <div class="box">
+                      <svg
+                        class="icon"
+                        style="width: 14px; height: 14px"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                      >
+                        <path
+                          d="M5 10.5l3 3 7-7"
+                          stroke="#fff"
+                          stroke-width="3"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                    </div>
+                    Is your logo in the right position?
+                  </div>
+                  <div class="check-item">
+                    <div class="box"></div>
+                    Is the print correct?
+                  </div>
+                  <div class="check-item">
+                    <div class="box"></div>
+                    Are spelling and punctuation correct?
+                  </div>
+                </div>
+
+                <div class="btn primary" style="margin-top: 18px">
+                  <svg class="icon" viewBox="0 0 20 20" fill="none">
+                    <path
+                      d="M5 10.5l3 3 7-7"
+                      stroke="#fff"
+                      stroke-width="2.6"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    /></svg
+                  >Approve design
+                </div>
+                <span
+                  class="tiny"
+                  style="display: block; text-align: center; margin-top: 6px"
+                  >Next: Shopping bag (design 3)</span
+                >
+
+                <!-- Request a change: expanded state -->
+                <div class="btn secondary active" style="margin-top: 14px">
+                  <svg class="icon" viewBox="0 0 20 20" fill="none">
+                    <path
+                      d="M4 16h3l8.5-8.5-3-3L4 13v3z"
+                      stroke="#00799A"
+                      stroke-width="2"
+                      stroke-linejoin="round"
+                    /></svg
+                  >Request a change
+                </div>
+                <div class="col" style="gap: 8px; margin-top: 10px">
+                  <div class="textarea">
+                    Describe what you'd like to change…
+                  </div>
+                  <div class="row" style="justify-content: space-between">
+                    <span class="tiny"
+                      >Free · new design within 1 working day</span
+                    >
+                    <div class="btn blue" style="height: 40px; font-size: 14px">
+                      Send to designer
+                    </div>
+                  </div>
+                </div>
+
+                <div class="note" style="margin-top: 16px">
+                  Approving doesn't mean ordering yet. You can still change
+                  quantities.
+                </div>
+              </div>
+
+              <!-- Progress + gated CTA -->
+              <div class="card" style="padding: 24px">
+                <div
+                  class="row"
+                  style="justify-content: space-between; margin-bottom: 10px"
+                >
+                  <span class="h3">1 of 3 designs approved</span>
+                  <span class="small">Valid until 3 Nov</span>
+                </div>
+                <div class="bar"><div class="fill"></div></div>
+                <div
+                  class="col"
+                  style="gap: 6px; margin-top: 14px; font-size: 14px"
+                >
+                  <span class="row" style="gap: 8px; color: var(--ink-2)"
+                    ><span
+                      class="pill blue"
+                      style="width: 78px; justify-content: center"
+                      >Reviewing</span
+                    >Thermos bottle</span
+                  >
+                  <span class="row" style="gap: 8px; color: var(--ink-2)"
+                    ><span
+                      class="pill green"
+                      style="width: 78px; justify-content: center"
+                      >✓ Approved</span
+                    >Water bottle</span
+                  >
+                  <span class="row" style="gap: 8px; color: var(--ink-2)"
+                    ><span
+                      class="pill orange"
+                      style="width: 78px; justify-content: center"
+                      >To check</span
+                    >Shopping bag</span
+                  >
+                </div>
+                <div class="btn disabled" style="margin-top: 18px">
+                  Continue to your details
+                  <svg class="icon" viewBox="0 0 20 20" fill="none">
+                    <path
+                      d="M7 4l6 6-6 6"
+                      stroke="#8C97A3"
+                      stroke-width="2.6"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </div>
+                <span
+                  class="tiny"
+                  style="display: block; text-align: center; margin-top: 8px"
+                  >Approve all 3 designs to continue</span
+                >
+                <a class="btn link" href="#" style="margin-top: 14px"
+                  >‹ Back to your offer</a
+                >
+              </div>
+
+              <!-- Account manager -->
+              <div
+                class="card row"
+                style="padding: 20px; gap: 14px; align-items: flex-start"
+              >
+                <div class="avatar lg">CB</div>
+                <div class="col" style="gap: 4px">
+                  <span style="font-weight: 800"
+                    >Caynalin, your account manager</span
+                  >
+                  <span class="small"
+                    >"Not sure about a detail? Call or email me, I'll check it
+                    with our designer."</span
+                  >
+                  <div class="row" style="gap: 8px; margin-top: 8px">
+                    <div
+                      class="btn secondary"
+                      style="height: 38px; font-size: 13px"
+                    >
+                      Call +44 20 4576 5960
+                    </div>
+                    <div
+                      class="btn secondary"
+                      style="height: 38px; font-size: 13px"
+                    >
+                      Email
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Footer -->
+          <div style="background: #fff; border-top: 1px solid var(--line)">
+            <div
+              class="row"
+              style="
+                width: 1200px;
+                margin: 0 auto;
+                height: 72px;
+                justify-content: space-between;
+              "
+            >
+              <div class="logo" style="font-size: 22px">
+                loopper<span>.</span>
+              </div>
+              <div class="pay">
+                <span>Bank transfer</span><span>iDEAL</span><span>Visa</span
+                ><span>Mastercard</span><span>PayPal</span><span>Klarna</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- =========================================================
+     MOBILE · 390
+     ========================================================= -->
+      <div>
+        <div class="frame-label">
+          MOBILE · 390 · Check your design · Step 3 of 5 · "Request a change"
+          collapsed
+        </div>
+        <div class="frame mobile">
+          <!-- Header -->
+          <div
+            class="topbar row"
+            style="
+              height: 64px;
+              padding: 0 16px;
+              justify-content: space-between;
+            "
+          >
+            <div class="logo" style="font-size: 24px">
+              loopper<span>.</span>
+            </div>
+            <div class="row" style="gap: 10px">
+              <div class="col" style="align-items: flex-end">
+                <span class="tiny" style="font-weight: 700">Offer 5436794</span>
+                <span style="font-weight: 800; font-size: 13px">Caynalin</span>
+              </div>
+              <div
+                class="avatar"
+                style="width: 38px; height: 38px; font-size: 13px"
+              >
+                CB
+              </div>
+            </div>
+          </div>
+
+          <!-- Compact stepper -->
+          <div
+            style="
+              background: #fff;
+              padding: 12px 16px 14px;
+              border-bottom: 1px solid var(--line);
+            "
+          >
+            <div
+              class="row"
+              style="justify-content: space-between; margin-bottom: 8px"
+            >
+              <span style="font-weight: 800; font-size: 14px"
+                >Step 3 of 5 · Check your design</span
+              >
+              <span class="tiny">Next: your details</span>
+            </div>
+            <div class="row" style="gap: 4px">
+              <div class="seg done"></div>
+              <div class="seg done"></div>
+              <div class="seg current"></div>
+              <div class="seg"></div>
+              <div class="seg"></div>
+            </div>
+          </div>
+
+          <div class="col" style="padding: 16px 16px 20px; gap: 14px">
+            <!-- Intro -->
+            <div class="col" style="gap: 4px">
+              <span style="font-size: 22px; font-weight: 800; line-height: 1.2"
+                >Hi Cayna, check your designs</span
+              >
+              <span style="color: var(--ink-2); font-size: 14px"
+                >Your free digital design is ready. Approve it or ask for a
+                change — changes are free.</span
+              >
+            </div>
+
+            <!-- Switcher: Design 1 of 3 with prev/next + thumbnails -->
+            <div class="col" style="gap: 10px">
+              <div class="row" style="justify-content: space-between">
+                <div
+                  class="btn secondary"
+                  style="width: 40px; height: 40px; padding: 0; color: #b7c2cd"
+                >
+                  ‹
+                </div>
+                <div class="col" style="align-items: center">
+                  <span style="font-weight: 800; font-size: 15px"
+                    >Design 1 of 3</span
+                  >
+                  <span class="tiny">1 of 3 approved</span>
+                </div>
+                <div
+                  class="btn secondary"
+                  style="width: 40px; height: 40px; padding: 0"
+                >
+                  ›
+                </div>
+              </div>
+              <div class="row" style="gap: 8px">
+                <div
+                  class="thumb-tab current"
+                  style="flex-direction: column; gap: 6px; padding: 8px"
+                >
+                  <div class="thumb" style="width: 48px; height: 48px">
+                    <img
+                      src="https://img.loopper.com/storage/webshop/articles/pfconcept/87/10067181.jpg"
+                      alt="Thermos bottle gold"
+                    />
+                  </div>
+                  <span
+                    class="pill blue"
+                    style="font-size: 11px; padding: 2px 8px"
+                    >Reviewing</span
+                  >
+                </div>
+                <div
+                  class="thumb-tab"
+                  style="flex-direction: column; gap: 6px; padding: 8px"
+                >
+                  <div
+                    class="thumb"
+                    style="width: 48px; height: 48px; background: #f1f8ea"
+                  >
+                    <svg width="24" height="38" viewBox="0 0 40 64" fill="none">
+                      <rect
+                        x="12"
+                        y="2"
+                        width="16"
+                        height="8"
+                        rx="3"
+                        fill="#6E9E2F"
+                      />
+                      <rect
+                        x="6"
+                        y="10"
+                        width="28"
+                        height="52"
+                        rx="10"
+                        fill="#9BCB45"
+                      />
+                      <rect
+                        x="10"
+                        y="26"
+                        width="20"
+                        height="16"
+                        rx="3"
+                        fill="#fff"
+                        opacity="0.7"
+                      />
+                    </svg>
+                  </div>
+                  <span
+                    class="pill green"
+                    style="font-size: 11px; padding: 2px 8px"
+                    >✓ Approved</span
+                  >
+                </div>
+                <div
+                  class="thumb-tab"
+                  style="flex-direction: column; gap: 6px; padding: 8px"
+                >
+                  <div
+                    class="thumb"
+                    style="width: 48px; height: 48px; background: #f8f4ea"
+                  >
+                    <svg width="32" height="37" viewBox="0 0 48 56" fill="none">
+                      <path
+                        d="M16 14c0-8 16-8 16 0"
+                        stroke="#C9B994"
+                        stroke-width="3"
+                        fill="none"
+                      />
+                      <rect
+                        x="4"
+                        y="14"
+                        width="40"
+                        height="40"
+                        rx="3"
+                        fill="#EDE4CF"
+                      />
+                      <rect
+                        x="14"
+                        y="26"
+                        width="20"
+                        height="16"
+                        rx="2"
+                        fill="#fff"
+                        opacity="0.8"
+                      />
+                    </svg>
+                  </div>
+                  <span
+                    class="pill orange"
+                    style="font-size: 11px; padding: 2px 8px"
+                    >To check</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- Proof -->
+            <div class="card" style="padding: 12px">
+              <div class="proof" style="height: 330px">
+                <img
+                  src="https://img.loopper.com/storage/webshop/articles/pfconcept/87/10067181.jpg"
+                  alt="Thermos bottle gold with your design"
+                  style="width: 330px; height: 330px"
+                />
+                <svg
+                  class="layer"
+                  width="332"
+                  height="330"
+                  viewBox="0 0 332 330"
+                >
+                  <rect
+                    x="128"
+                    y="120"
+                    width="76"
+                    height="122"
+                    rx="3"
+                    fill="none"
+                    stroke="#E0343A"
+                    stroke-width="1.6"
+                    stroke-dasharray="6 4"
+                  />
+                  <text
+                    x="166"
+                    y="174"
+                    text-anchor="middle"
+                    font-family="Arial"
+                    font-weight="900"
+                    font-size="12"
+                    fill="#F4F1EA"
+                    opacity="0.92"
+                  >
+                    YOUR
+                  </text>
+                  <text
+                    x="166"
+                    y="189"
+                    text-anchor="middle"
+                    font-family="Arial"
+                    font-weight="900"
+                    font-size="12"
+                    fill="#F4F1EA"
+                    opacity="0.92"
+                  >
+                    DESIGN
+                  </text>
+                  <text
+                    x="166"
+                    y="204"
+                    text-anchor="middle"
+                    font-family="Arial"
+                    font-weight="900"
+                    font-size="12"
+                    fill="#F4F1EA"
+                    opacity="0.92"
+                  >
+                    HERE
+                  </text>
+                </svg>
+                <div class="tag" style="left: 10px; top: 10px; font-size: 11px">
+                  Wrap-around · 223×100 mm
+                </div>
+                <div
+                  class="tag"
+                  style="right: 10px; bottom: 10px; font-size: 11px"
+                >
+                  <svg
+                    class="icon"
+                    style="width: 13px; height: 13px"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                  >
+                    <path
+                      d="M16 10a6 6 0 1 1-2-4.5M16 3v3.5h-3.5"
+                      stroke="#fff"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                  360°
+                </div>
+              </div>
+              <span class="row tiny" style="gap: 8px; margin-top: 8px"
+                ><span class="legend-swatch"></span>Red dashed line = max print
+                area (not printed)</span
+              >
+              <div class="col" style="gap: 2px; margin-top: 10px">
+                <span style="font-weight: 800; font-size: 15px"
+                  >Thermos bottle · Stainless steel · 500 ml</span
+                >
+                <span class="tiny"
+                  >Silver · Full-colour print · wrap-around 223×100 mm</span
+                >
+              </div>
+            </div>
+
+            <!-- Checklist -->
+            <div class="card" style="padding: 16px">
+              <span class="h3">Check these 3 things</span>
+              <div class="col" style="gap: 8px; margin-top: 10px">
+                <div class="check-item on" style="padding: 10px 12px">
+                  <div class="box">
+                    <svg
+                      class="icon"
+                      style="width: 14px; height: 14px"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                    >
+                      <path
+                        d="M5 10.5l3 3 7-7"
+                        stroke="#fff"
+                        stroke-width="3"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </div>
+                  Is your logo in the right position?
+                </div>
+                <div class="check-item" style="padding: 10px 12px">
+                  <div class="box"></div>
+                  Is the print correct?
+                </div>
+                <div class="check-item" style="padding: 10px 12px">
+                  <div class="box"></div>
+                  Are spelling and punctuation correct?
+                </div>
+              </div>
+
+              <!-- Request a change: collapsed state -->
+              <div class="btn secondary" style="margin-top: 14px">
+                <svg class="icon" viewBox="0 0 20 20" fill="none">
+                  <path
+                    d="M4 16h3l8.5-8.5-3-3L4 13v3z"
+                    stroke="#1C2530"
+                    stroke-width="2"
+                    stroke-linejoin="round"
+                  /></svg
+                >Request a change
+                <span class="tiny" style="font-weight: 700">· free</span>
+              </div>
+              <span
+                class="tiny"
+                style="display: block; margin-top: 10px; text-align: center"
+                >Approving doesn't mean ordering yet. You can still change
+                quantities.</span
+              >
+            </div>
+
+            <!-- Progress + gated CTA -->
+            <div class="card" style="padding: 16px">
+              <div
+                class="row"
+                style="justify-content: space-between; margin-bottom: 8px"
+              >
+                <span class="h3">1 of 3 designs approved</span>
+                <span class="tiny">Valid until 3 Nov</span>
+              </div>
+              <div class="bar"><div class="fill"></div></div>
+              <div
+                class="btn disabled"
+                style="margin-top: 14px; height: 48px; font-size: 15px"
+              >
+                Continue to your details
+              </div>
+              <span
+                class="tiny"
+                style="display: block; text-align: center; margin-top: 6px"
+                >Approve all 3 designs to continue</span
+              >
+              <a
+                class="btn link"
+                href="#"
+                style="margin-top: 10px; font-size: 13px"
+                >‹ Back to your offer</a
+              >
+            </div>
+
+            <!-- Optional extras: collapsed -->
+            <div
+              class="card row"
+              style="padding: 14px 16px; gap: 12px; background: #fafbfc"
+            >
+              <div class="col" style="flex: 1; gap: 2px">
+                <span style="font-weight: 800; font-size: 14px"
+                  >Improve print quality
+                  <span class="tiny">(optional)</span></span
+                >
+                <span class="tiny">PMS colour · vector logo · free redraw</span>
+              </div>
+              <svg class="icon" viewBox="0 0 20 20" fill="none">
+                <path
+                  d="M5 7.5l5 5 5-5"
+                  stroke="#7B8794"
+                  stroke-width="2.2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+
+            <!-- Account manager -->
+            <div
+              class="card row"
+              style="padding: 16px; gap: 12px; align-items: flex-start"
+            >
+              <div
+                class="avatar lg"
+                style="width: 52px; height: 52px; font-size: 16px"
+              >
+                CB
+              </div>
+              <div class="col" style="gap: 2px">
+                <span style="font-weight: 800"
+                  >Caynalin, your account manager</span
+                >
+                <span class="small"
+                  >"Not sure about a detail? Call or email me."</span
+                >
+                <div class="row" style="gap: 8px; margin-top: 8px">
+                  <div
+                    class="btn secondary"
+                    style="height: 38px; font-size: 13px"
+                  >
+                    Call
+                  </div>
+                  <div
+                    class="btn secondary"
+                    style="height: 38px; font-size: 13px"
+                  >
+                    Email
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Footer -->
+            <div
+              class="col"
+              style="align-items: center; gap: 8px; padding: 6px 0 4px"
+            >
+              <div class="logo" style="font-size: 20px">
+                loopper<span>.</span>
+              </div>
+              <span class="tiny">Trustpilot 4.7/5 · 1,282 reviews</span>
+            </div>
+          </div>
+
+          <!-- Sticky bottom bar -->
+          <div class="sticky col" style="gap: 6px">
+            <div class="btn primary" style="height: 52px; font-size: 16px">
+              <svg class="icon" viewBox="0 0 20 20" fill="none">
+                <path
+                  d="M5 10.5l3 3 7-7"
+                  stroke="#fff"
+                  stroke-width="2.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                /></svg
+              >Approve design 1/3
+            </div>
+            <span class="tiny" style="text-align: center"
+              >Next: Shopping bag (design 3)</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,1852 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Project Page Prototype</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --brand: #00aed8;
+        --brand-50: #e6f7fc;
+        --brand-ink: #00799a;
+        --green: #5da91c;
+        --green-50: #eef7e4;
+        --amber: #c77800;
+        --amber-50: #fff4e0;
+        --red: #d33a2f;
+        --red-50: #fdecea;
+        --ink: #1c2530;
+        --ink-2: #4a5866;
+        --muted: #7b8794;
+        --line: #e3e8ee;
+        --bg: #f4f6f9;
+        --card: #ffffff;
+        --radius: 10px;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font:
+          14px/1.45 Nunito,
+          system-ui,
+          sans-serif;
+      }
+      button {
+        font: inherit;
+        cursor: pointer;
+      }
+      a {
+        color: var(--brand-ink);
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+
+      /* ---------- App shell ---------- */
+      .topbar {
+        height: 52px;
+        background: var(--brand);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 0 20px;
+      }
+      .topbar .logo {
+        font-weight: 800;
+        font-size: 20px;
+        letter-spacing: -0.5px;
+      }
+      .topbar .search {
+        flex: 1;
+        max-width: 420px;
+        background: rgba(255, 255, 255, 0.18);
+        border: 0;
+        border-radius: 8px;
+        padding: 8px 12px;
+        color: #fff;
+      }
+      .topbar .search::placeholder {
+        color: rgba(255, 255, 255, 0.85);
+      }
+      .topbar .spacer {
+        flex: 1;
+      }
+      .topbar .me {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 700;
+      }
+      .avatar {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: #fff;
+        color: var(--brand-ink);
+        display: grid;
+        place-items: center;
+        font-weight: 800;
+        font-size: 12px;
+        flex: none;
+      }
+      .avatar.lg {
+        width: 38px;
+        height: 38px;
+        font-size: 14px;
+      }
+      .avatar.empty {
+        background: var(--bg);
+        color: var(--muted);
+        border: 1.5px dashed #b7c2cd;
+      }
+
+      .shell {
+        display: grid;
+        grid-template-columns: 210px 1fr;
+        min-height: calc(100vh - 52px);
+      }
+      .projnav {
+        background: #fff;
+        border-right: 1px solid var(--line);
+        padding: 16px 10px;
+        position: sticky;
+        top: 0;
+        align-self: start;
+        height: calc(100vh - 52px);
+      }
+      .projnav .back {
+        display: block;
+        font-size: 12px;
+        color: var(--muted);
+        padding: 0 10px 14px;
+      }
+      .projnav a.item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 10px;
+        border-radius: 8px;
+        color: var(--ink-2);
+        font-weight: 600;
+      }
+      .projnav a.item:hover {
+        background: var(--bg);
+        text-decoration: none;
+      }
+      .projnav a.item.active {
+        background: var(--brand-50);
+        color: var(--brand-ink);
+      }
+      .projnav a.item.disabled {
+        color: #b3bcc6;
+        cursor: default;
+      }
+      .projnav .count {
+        font-size: 11px;
+        font-weight: 800;
+        padding: 1px 7px;
+        border-radius: 10px;
+        background: var(--bg);
+        color: var(--ink-2);
+      }
+      .projnav .count.warn {
+        background: var(--amber-50);
+        color: var(--amber);
+      }
+      .projnav .group {
+        font-size: 10px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+        font-weight: 800;
+        padding: 16px 10px 6px;
+      }
+
+      main {
+        padding: 20px 24px 60px;
+        min-width: 0;
+      }
+
+      /* ---------- Header ---------- */
+      .phead {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        padding: 16px 20px;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 12px 24px;
+        align-items: start;
+      }
+      .ptitle {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .ptitle h1 {
+        margin: 0;
+        font-size: 22px;
+        font-weight: 800;
+      }
+      .ptitle .client {
+        color: var(--ink-2);
+        font-weight: 600;
+      }
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 3px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 800;
+        white-space: nowrap;
+      }
+      .pill.blue {
+        background: var(--brand-50);
+        color: var(--brand-ink);
+      }
+      .pill.amber {
+        background: var(--amber-50);
+        color: var(--amber);
+      }
+      .pill.green {
+        background: var(--green-50);
+        color: var(--green);
+      }
+      .pill.red {
+        background: var(--red-50);
+        color: var(--red);
+      }
+      .pill.grey {
+        background: var(--bg);
+        color: var(--ink-2);
+      }
+      .meta {
+        display: flex;
+        gap: 22px;
+        flex-wrap: wrap;
+        margin-top: 10px;
+        color: var(--ink-2);
+        font-size: 13px;
+      }
+      .meta b {
+        color: var(--ink);
+      }
+      .actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+      .btn {
+        border: 1px solid var(--line);
+        background: #fff;
+        color: var(--ink);
+        border-radius: 8px;
+        padding: 8px 14px;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+      .btn:hover {
+        border-color: #c5cfd9;
+      }
+      .btn.primary {
+        background: var(--green);
+        border-color: var(--green);
+        color: #fff;
+      }
+      .btn.primary:hover {
+        background: #4e9216;
+      }
+      .btn.brand {
+        background: var(--brand);
+        border-color: var(--brand);
+        color: #fff;
+      }
+      .btn.sm {
+        padding: 5px 10px;
+        font-size: 12px;
+      }
+      .btn.ghost {
+        border-color: transparent;
+        background: transparent;
+        color: var(--brand-ink);
+        padding-left: 6px;
+        padding-right: 6px;
+      }
+
+      /* Stage tracker */
+      .stages {
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        margin-top: 6px;
+      }
+      .stage {
+        position: relative;
+        padding-top: 18px;
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .stage::before {
+        content: "";
+        position: absolute;
+        top: 6px;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: var(--line);
+      }
+      .stage::after {
+        content: "";
+        position: absolute;
+        top: 1px;
+        left: 0;
+        width: 13px;
+        height: 13px;
+        border-radius: 50%;
+        background: #fff;
+        border: 2px solid #c8d1da;
+      }
+      .stage.done::before,
+      .stage.done::after {
+        background: var(--green);
+        border-color: var(--green);
+      }
+      .stage.now::before {
+        background: linear-gradient(90deg, var(--green) 0 30%, var(--line) 30%);
+      }
+      .stage.now::after {
+        background: #fff;
+        border-color: var(--brand);
+        box-shadow: 0 0 0 4px var(--brand-50);
+      }
+      .stage b {
+        display: block;
+        color: var(--ink);
+        font-size: 13px;
+      }
+      .stage.todo b {
+        color: var(--muted);
+        font-weight: 600;
+      }
+
+      /* ---------- Layout ---------- */
+      .grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 340px;
+        gap: 18px;
+        margin-top: 18px;
+      }
+      .col {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        min-width: 0;
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+      }
+      .card > header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 14px 18px;
+        border-bottom: 1px solid var(--line);
+      }
+      .card > header h2 {
+        margin: 0;
+        font-size: 15px;
+        font-weight: 800;
+      }
+      .card > header .sub {
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 600;
+      }
+      .card .body {
+        padding: 16px 18px;
+      }
+      .card.next {
+        border-color: #9edcec;
+        background: linear-gradient(0deg, #fff, #f3fbfe);
+      }
+
+      /* Next action */
+      .next .lead {
+        display: flex;
+        gap: 14px;
+        align-items: flex-start;
+      }
+      .next .icon {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        background: var(--brand);
+        color: #fff;
+        display: grid;
+        place-items: center;
+        font-weight: 800;
+        flex: none;
+      }
+      .next h3 {
+        margin: 0 0 2px;
+        font-size: 16px;
+      }
+      .next p {
+        margin: 0;
+        color: var(--ink-2);
+      }
+      .checks {
+        list-style: none;
+        margin: 14px 0 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+      }
+      .checks li {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 9px 12px;
+        border-radius: 8px;
+        background: #fff;
+        border: 1px solid var(--line);
+      }
+      .checks .st {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        font-size: 12px;
+        font-weight: 800;
+        flex: none;
+      }
+      .checks .ok .st {
+        background: var(--green-50);
+        color: var(--green);
+      }
+      .checks .bad .st {
+        background: var(--red-50);
+        color: var(--red);
+      }
+      .checks .opt .st {
+        background: var(--bg);
+        color: var(--muted);
+      }
+      .checks .txt {
+        flex: 1;
+        min-width: 0;
+      }
+      .checks .txt small {
+        display: block;
+        color: var(--muted);
+      }
+      .checks button {
+        flex: none;
+      }
+
+      /* Request summary */
+      .req {
+        display: grid;
+        grid-template-columns: 96px 1fr;
+        gap: 16px;
+      }
+      .prodimg {
+        width: 96px;
+        height: 96px;
+        border-radius: 10px;
+        border: 1px solid var(--line);
+        background: #fafbfc center / contain no-repeat;
+      }
+      .req h3 {
+        margin: 0 0 8px;
+        font-size: 15px;
+      }
+      .spec {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+      }
+      .spec div {
+        background: var(--bg);
+        border-radius: 8px;
+        padding: 8px 10px;
+      }
+      .spec small {
+        display: block;
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .spec b {
+        font-size: 13px;
+      }
+      .spec .diff {
+        outline: 2px solid var(--amber-50);
+      }
+      .spec .diff em {
+        display: block;
+        font-style: normal;
+        font-size: 11px;
+        color: var(--amber);
+        font-weight: 700;
+      }
+      .reqrow {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin-top: 16px;
+      }
+      .label {
+        font-size: 11px;
+        font-weight: 800;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 6px;
+      }
+      .logos {
+        display: flex;
+        gap: 10px;
+      }
+      .logo-tile {
+        width: 120px;
+      }
+      .logo-tile .img {
+        height: 72px;
+        border-radius: 8px;
+        border: 1px solid var(--line);
+        display: grid;
+        place-items: center;
+        font-weight: 800;
+        font-size: 11px;
+        text-align: center;
+        line-height: 1.1;
+        background-color: #9aa6b2;
+        background-image:
+          linear-gradient(45deg, #8a96a3 25%, transparent 25%),
+          linear-gradient(-45deg, #8a96a3 25%, transparent 25%),
+          linear-gradient(45deg, transparent 75%, #8a96a3 75%),
+          linear-gradient(-45deg, transparent 75%, #8a96a3 75%);
+        background-size: 12px 12px;
+        background-position:
+          0 0,
+          0 6px,
+          6px -6px,
+          -6px 0;
+        color: #fff;
+      }
+      .logo-tile .img.text {
+        background: #fff;
+        color: #7a3fa0;
+        font-family: "Times New Roman", serif;
+        font-size: 12px;
+        padding: 6px;
+      }
+      .logo-tile small {
+        display: block;
+        margin-top: 4px;
+        color: var(--ink-2);
+        font-size: 11px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .quote {
+        background: var(--bg);
+        border-left: 3px solid var(--brand);
+        padding: 8px 12px;
+        border-radius: 0 8px 8px 0;
+      }
+      .quote small {
+        color: var(--muted);
+        display: block;
+      }
+
+      /* Offer card */
+      .offer {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 12px 20px;
+        align-items: center;
+      }
+      .offer .total {
+        font-size: 26px;
+        font-weight: 800;
+      }
+      .offer .total small {
+        font-size: 13px;
+        color: var(--muted);
+        font-weight: 600;
+      }
+      .breakdown {
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 1px;
+        background: var(--line);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      .breakdown div {
+        background: #fff;
+        padding: 8px 10px;
+      }
+      .breakdown small {
+        display: block;
+        color: var(--muted);
+        font-size: 11px;
+      }
+      .breakdown b {
+        font-size: 14px;
+      }
+      .offer-foot {
+        grid-column: 1 / -1;
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+      .offer-foot .grow {
+        flex: 1;
+      }
+
+      /* Timeline */
+      .tabs {
+        display: flex;
+        gap: 4px;
+      }
+      .tabs button {
+        border: 0;
+        background: transparent;
+        padding: 5px 10px;
+        border-radius: 6px;
+        font-weight: 700;
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .tabs button.on {
+        background: var(--brand-50);
+        color: var(--brand-ink);
+      }
+      .composer {
+        display: flex;
+        gap: 8px;
+        padding: 12px 18px;
+        border-bottom: 1px solid var(--line);
+        background: #fafbfc;
+      }
+      .composer input {
+        flex: 1;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 8px 12px;
+        font: inherit;
+      }
+      .tl {
+        list-style: none;
+        margin: 0;
+        padding: 6px 18px 12px;
+      }
+      .tl li {
+        display: grid;
+        grid-template-columns: 54px 22px 1fr;
+        gap: 8px;
+        padding: 9px 0;
+        border-bottom: 1px dashed var(--line);
+      }
+      .tl li:last-child {
+        border-bottom: 0;
+      }
+      .tl time {
+        color: var(--muted);
+        font-size: 12px;
+        padding-top: 1px;
+      }
+      .tl .dot {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        font-size: 11px;
+        font-weight: 800;
+      }
+      .tl .client .dot {
+        background: var(--brand-50);
+        color: var(--brand-ink);
+      }
+      .tl .system .dot {
+        background: var(--bg);
+        color: var(--ink-2);
+      }
+      .tl .internal .dot {
+        background: var(--amber-50);
+        color: var(--amber);
+      }
+      .tl .what small {
+        display: block;
+        color: var(--muted);
+      }
+      .tl li.hide {
+        display: none;
+      }
+
+      /* Side column */
+      .kv {
+        display: grid;
+        grid-template-columns: 110px 1fr;
+        gap: 7px 10px;
+        font-size: 13px;
+      }
+      .kv dt {
+        color: var(--muted);
+      }
+      .kv dd {
+        margin: 0;
+        min-width: 0;
+        overflow-wrap: anywhere;
+      }
+      .missing {
+        color: var(--red);
+        font-weight: 700;
+      }
+      .team {
+        display: grid;
+        gap: 10px;
+      }
+      .member {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .member .who {
+        flex: 1;
+        min-width: 0;
+      }
+      .member .who small {
+        display: block;
+        color: var(--muted);
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        font-weight: 800;
+      }
+      .addr {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 10px 12px;
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+        margin-bottom: 8px;
+        cursor: pointer;
+      }
+      .addr input {
+        margin-top: 3px;
+      }
+      .addr small {
+        display: block;
+        color: var(--muted);
+      }
+      .addr.sel {
+        border-color: var(--brand);
+        background: var(--brand-50);
+      }
+      .warnbox {
+        background: var(--amber-50);
+        color: #7a4a00;
+        border-radius: 8px;
+        padding: 9px 12px;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+      details.card > summary {
+        list-style: none;
+        cursor: pointer;
+        padding: 14px 18px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 800;
+        font-size: 15px;
+      }
+      details.card > summary::-webkit-details-marker {
+        display: none;
+      }
+      details.card > summary::after {
+        content: "▾";
+        color: var(--muted);
+      }
+      details.card[open] > summary {
+        border-bottom: 1px solid var(--line);
+      }
+      details.card[open] > summary::after {
+        content: "▴";
+      }
+      .field {
+        display: grid;
+        gap: 4px;
+        margin-bottom: 10px;
+      }
+      .field label {
+        font-size: 12px;
+        color: var(--muted);
+        font-weight: 700;
+      }
+      .field input,
+      .field select,
+      .field textarea {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 7px 10px;
+        font: inherit;
+        background: #fff;
+      }
+      .toggle-row {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+        font-size: 13px;
+      }
+      .mini-proj {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 8px 0;
+        border-bottom: 1px dashed var(--line);
+        font-size: 13px;
+      }
+      .mini-proj:last-child {
+        border-bottom: 0;
+      }
+
+      /* Status menu */
+      .status-menu {
+        position: relative;
+      }
+      .status-menu .menu {
+        display: none;
+        position: absolute;
+        right: 0;
+        top: 40px;
+        z-index: 5;
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(20, 30, 40, 0.12);
+        width: 260px;
+        padding: 8px;
+        max-height: 360px;
+        overflow: auto;
+      }
+      .status-menu.open .menu {
+        display: block;
+      }
+      .menu .grp {
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--muted);
+        font-weight: 800;
+        padding: 8px 8px 4px;
+      }
+      .menu button {
+        display: block;
+        width: 100%;
+        text-align: left;
+        border: 0;
+        background: transparent;
+        padding: 6px 8px;
+        border-radius: 6px;
+      }
+      .menu button:hover {
+        background: var(--bg);
+      }
+      .menu button.cur {
+        background: var(--brand-50);
+        color: var(--brand-ink);
+        font-weight: 800;
+      }
+
+      .toast {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%) translateY(80px);
+        background: var(--ink);
+        color: #fff;
+        padding: 10px 16px;
+        border-radius: 8px;
+        font-weight: 700;
+        transition: transform 0.25s;
+        z-index: 20;
+      }
+      .toast.show {
+        transform: translateX(-50%) translateY(0);
+      }
+
+      /* UX notes overlay */
+      .note {
+        display: none;
+        position: absolute;
+        z-index: 4;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: #7b3fe4;
+        color: #fff;
+        font-size: 11px;
+        font-weight: 800;
+        place-items: center;
+        box-shadow: 0 0 0 3px #fff;
+        cursor: help;
+      }
+      body.notes .note {
+        display: grid;
+      }
+      .note[data-tip]:hover::after {
+        content: attr(data-tip);
+        position: absolute;
+        top: 26px;
+        left: -8px;
+        width: 260px;
+        background: #2b1a4a;
+        color: #fff;
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 1.4;
+        padding: 8px 10px;
+        border-radius: 8px;
+        z-index: 30;
+      }
+      .rel {
+        position: relative;
+      }
+      .notes-toggle {
+        position: fixed;
+        right: 18px;
+        bottom: 18px;
+        z-index: 25;
+        background: #7b3fe4;
+        color: #fff;
+        border: 0;
+        border-radius: 22px;
+        padding: 10px 16px;
+        font-weight: 800;
+        box-shadow: 0 6px 20px rgba(80, 40, 160, 0.35);
+      }
+
+      @media (max-width: 1180px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+        .spec {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .breakdown {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+      @media (max-width: 860px) {
+        .shell {
+          grid-template-columns: 1fr;
+        }
+        .projnav {
+          display: none;
+        }
+        .phead {
+          grid-template-columns: 1fr;
+        }
+        .actions {
+          justify-content: flex-start;
+        }
+        .stages {
+          grid-template-columns: repeat(4, 1fr);
+          row-gap: 12px;
+        }
+        .checks,
+        .reqrow {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="topbar">
+      <span class="logo">loopper</span>
+      <input class="search" placeholder="Search projects, clients, products…" />
+      <span class="spacer"></span>
+      <span
+        class="pill"
+        style="background: rgba(255, 255, 255, 0.2); color: #fff"
+        >28 pending</span
+      >
+      <span class="me"><span class="avatar">CB</span> Caynalin B.</span>
+    </div>
+
+    <div class="shell">
+      <!-- Project navigation: same sections as today, with counts that mean something -->
+      <nav class="projnav rel">
+        <span
+          class="note"
+          style="top: 8px; right: 8px"
+          data-tip="Section badges show meaningful state ('2 · not checked') instead of a red ✗. Locked sections stay visible but explain why they're locked."
+          >1</span
+        >
+        <a class="back" href="#">← All projects</a>
+        <a class="item active" href="#">Overview</a>
+        <a class="item" href="#"
+          >Logos <span class="count warn">2 · not checked</span></a
+        >
+        <a class="item" href="#">Digital design</a>
+        <a class="item" href="#">Mockups <span class="count">none</span></a>
+        <a class="item" href="#">Offers <span class="count">1</span></a>
+        <div class="group">After client confirms</div>
+        <a
+          class="item disabled"
+          title="Available once the client accepts the offer"
+          >Orders</a
+        >
+        <a class="item disabled" title="Available once an order exists"
+          >Suppliers</a
+        >
+        <a class="item disabled" title="Available once an order exists"
+          >Invoices</a
+        >
+        <a class="item" href="#">Payments <span class="count">2</span></a>
+        <a class="item disabled" title="No complaints">Complaints</a>
+        <div class="group">More</div>
+        <a class="item" href="#">Automails &amp; tasks</a>
+        <a class="item" href="#">Logbook</a>
+        <a class="item" href="#">Settings</a>
+      </nav>
+
+      <main>
+        <!-- ============ HEADER ============ -->
+        <section class="phead rel">
+          <span
+            class="note"
+            style="top: -8px; left: -8px"
+            data-tip="One header answers: what is this, who is it for, what state is it in, and what's the deadline. Statuses moved into one 'Change status' menu (was 3 dropdowns with 3 Save buttons)."
+            >2</span
+          >
+          <div>
+            <div class="ptitle">
+              <h1>5436794</h1>
+              <span class="client">Loopper · TEST Cayna TESTING</span>
+              <span class="pill amber" id="statusPill"
+                >Pending · offer to send</span
+              >
+              <span
+                class="pill grey"
+                title="Auto rating 22: company name 1, note 3, logo 2, email 10, smiley 6"
+                >Rating: Medium</span
+              >
+              <span class="pill grey">🇬🇧 EN · non-EU</span>
+            </div>
+            <div class="meta">
+              <span>Requested <b>Tue 13 Oct, 17:54</b></span>
+              <span
+                >Offer due <b style="color: var(--amber)">Wed 14 Oct, 12:00</b>
+                <span class="pill amber" style="padding: 1px 7px"
+                  >in 15h</span
+                ></span
+              >
+              <span
+                >Value <b>€ 246,50</b>
+                <span class="pill grey" style="padding: 1px 7px"
+                  >E · below €400</span
+                ></span
+              >
+              <span
+                >Source <b class="missing">unknown</b>
+                <a href="#attribution">fix</a></span
+              >
+            </div>
+          </div>
+          <div class="actions">
+            <button class="btn" onclick="toast('Call logged')">📞 Call</button>
+            <button class="btn" onclick="toast('Task created')">+ Task</button>
+            <div class="status-menu" id="statusMenu">
+              <button
+                class="btn"
+                onclick="
+                  document.getElementById('statusMenu').classList.toggle('open')
+                "
+              >
+                Change status ▾
+              </button>
+              <div class="menu" id="statusList"></div>
+            </div>
+            <button class="btn primary" onclick="toast('Offer preview opened')">
+              Review &amp; send offer →
+            </button>
+          </div>
+
+          <div class="stages rel">
+            <span
+              class="note"
+              style="top: -14px; left: 42%"
+              data-tip="Replaces the '56% complete' bar and the 9 red/green tiles. Shows real events with timestamps, so 'Offered ✓' can't appear before an offer is sent."
+              >3</span
+            >
+            <div class="stage done"><b>Requested</b>13 Oct 17:54</div>
+            <div class="stage done"><b>Assigned</b>20:22 · Caynalin</div>
+            <div class="stage now"><b>Offer sent</b>draft ready</div>
+            <div class="stage todo"><b>Viewed</b>—</div>
+            <div class="stage todo"><b>Client confirmed</b>—</div>
+            <div class="stage todo"><b>Paid &amp; approved</b>—</div>
+            <div class="stage todo"><b>Delivered</b>—</div>
+          </div>
+        </section>
+
+        <div class="grid">
+          <!-- ============ MAIN COLUMN ============ -->
+          <div class="col">
+            <!-- Next best action -->
+            <section class="card next rel">
+              <span
+                class="note"
+                style="top: -8px; left: -8px"
+                data-tip="'Next step' card: one sentence of guidance and the checks that block sending. Every open item has its fix button right there, no hunting through the page."
+                >4</span
+              >
+              <div class="body">
+                <div class="lead">
+                  <div class="icon">→</div>
+                  <div>
+                    <h3>Send offer 5436794.01 to the client</h3>
+                    <p>
+                      The draft is complete except for <b>2 checks</b>. The
+                      client chose engraving and asked to also see a sustainable
+                      and a bigger-print option.
+                    </p>
+                  </div>
+                </div>
+                <ul class="checks">
+                  <li class="ok">
+                    <span class="st">✓</span
+                    ><span class="txt"
+                      >Logo received<small
+                        >2 files · 18:00 via portal</small
+                      ></span
+                    >
+                  </li>
+                  <li class="ok">
+                    <span class="st">✓</span
+                    ><span class="txt"
+                      >Print option set<small
+                        >Engraving, front 50×90 mm</small
+                      ></span
+                    >
+                  </li>
+                  <li class="bad">
+                    <span class="st">!</span
+                    ><span class="txt"
+                      >VAT number not verified<small
+                        >FR38449955590 · client is non-EU</small
+                      ></span
+                    ><button class="btn sm" onclick="verifyVat(this)">
+                      Verify
+                    </button>
+                  </li>
+                  <li class="bad">
+                    <span class="st">!</span
+                    ><span class="txt"
+                      >No invoice address selected<small
+                        >3 saved addresses</small
+                      ></span
+                    ><button
+                      class="btn sm"
+                      onclick="
+                        document
+                          .getElementById('addresses')
+                          .scrollIntoView({ behavior: 'smooth' })
+                      "
+                    >
+                      Choose
+                    </button>
+                  </li>
+                  <li class="opt">
+                    <span class="st">–</span
+                    ><span class="txt"
+                      >Alternatives requested<small
+                        >Sustainable · Bigger print</small
+                      ></span
+                    ><button
+                      class="btn sm"
+                      onclick="toast('Alternative product search opened')"
+                    >
+                      Add
+                    </button>
+                  </li>
+                  <li class="opt">
+                    <span class="st">–</span
+                    ><span class="txt"
+                      >Price tiers<small
+                        >Optional: show 50 / 100 / 250</small
+                      ></span
+                    ><button
+                      class="btn sm"
+                      onclick="toast('Tiers 25 / 50 / 100 / 250 generated')"
+                    >
+                      Generate
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            </section>
+
+            <!-- What the client asked for -->
+            <section class="card rel">
+              <span
+                class="note"
+                style="top: -8px; left: -8px"
+                data-tip="Everything the client asked for in one card, mirroring what they saw on the website. Where the request differs from the product page, it's flagged, so lost configuration is visible."
+                >5</span
+              >
+              <header>
+                <h2>What the client asked for</h2>
+                <span class="sub"
+                  >Quote form · 13 Oct 17:54 · from Google Ads</span
+                >
+              </header>
+              <div class="body">
+                <div class="req">
+                  <div
+                    class="prodimg"
+                    style="
+                      background-image: url(&quot;https://img.loopper.com/storage/webshop/articles/pfconcept/87/10067181.jpg&quot;);
+                    "
+                  ></div>
+                  <div>
+                    <h3>
+                      <a href="#"
+                        >Thermos bottle | Stainless steel | 500 ml |
+                        Must-have</a
+                      >
+                    </h3>
+                    <div class="spec">
+                      <div><small>Colour</small><b>Silver</b></div>
+                      <div class="diff">
+                        <small>Quantity</small><b>25 pcs</b
+                        ><em>Product page: 250</em>
+                      </div>
+                      <div class="diff">
+                        <small>Print</small><b>Engraving</b
+                        ><em>Not sent by form, added by AM</em>
+                      </div>
+                      <div>
+                        <small>Deadline</small><b>As soon as possible</b>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="reqrow">
+                  <div>
+                    <div class="label">
+                      Logos
+                      <a
+                        href="#"
+                        style="
+                          text-transform: none;
+                          letter-spacing: 0;
+                          font-weight: 700;
+                          margin-left: 6px;
+                        "
+                        >Check logos →</a
+                      >
+                    </div>
+                    <div class="logos">
+                      <div class="logo-tile">
+                        <div class="img">YOUR<br />DESIGN<br />HERE</div>
+                        <small>ydh_white.png · portal 18:00</small>
+                      </div>
+                      <div class="logo-tile">
+                        <div class="img text">FAKE OFFER BY MARKETING</div>
+                        <small>Text · Times, purple</small>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="label">Client said</div>
+                    <div class="quote">
+                      “TEST OFFER - IGNORE”<small
+                        >Comment on quote form · 17:54</small
+                      >
+                    </div>
+                    <div class="label" style="margin-top: 12px">
+                      Also wants to see
+                    </div>
+                    <div class="chips">
+                      <span class="pill green">Sustainable option</span
+                      ><span class="pill blue">Bigger print</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Offer -->
+            <section class="card rel">
+              <span
+                class="note"
+                style="top: -8px; left: -8px"
+                data-tip="Offer summary on the overview: total, breakdown and margin, plus whether the client opened it. Sending, preview and the client link are visible buttons instead of icons hidden behind a ⋮ menu."
+                >6</span
+              >
+              <header>
+                <h2>Offer 5436794.01</h2>
+                <span class="pill amber">Draft · not sent</span>
+              </header>
+              <div class="body offer">
+                <div>
+                  <div class="total">
+                    € 246,50 <small>excl. VAT · € 9,86 p.p. all-in</small>
+                  </div>
+                  <div style="color: var(--muted); font-size: 13px">
+                    25 × Thermos bottle Silver · engraving front · delivery 10
+                    workdays · 100% upfront
+                  </div>
+                </div>
+                <span class="pill green">Margin 27%</span>
+                <div class="breakdown">
+                  <div><small>Product</small><b>€ 128,75</b></div>
+                  <div><small>Engraving + setup</small><b>€ 87,75</b></div>
+                  <div><small>VAT</small><b>0% · export</b></div>
+                  <div><small>Shipping</small><b>€ 30,00</b></div>
+                  <div>
+                    <small>Client opened</small
+                    ><b style="color: var(--muted)">not yet</b>
+                  </div>
+                </div>
+                <div class="offer-foot">
+                  <button class="btn">Edit offer</button>
+                  <button class="btn">Preview as client</button>
+                  <button class="btn ghost">PDF</button>
+                  <button
+                    class="btn ghost"
+                    onclick="toast('Client link copied')"
+                  >
+                    Copy client link
+                  </button>
+                  <span class="grow"></span>
+                  <button
+                    class="btn primary"
+                    onclick="toast('Offer preview opened')"
+                  >
+                    Review &amp; send →
+                  </button>
+                </div>
+              </div>
+            </section>
+
+            <!-- Activity -->
+            <section class="card rel">
+              <span
+                class="note"
+                style="top: -8px; left: -8px"
+                data-tip="One timeline replaces 5 separate boxes: Schedule, Internal comments, Customer comments, Activity timeline and Offer visit logs. Filter by who did it, and add a note or task in one field."
+                >7</span
+              >
+              <header>
+                <h2>Activity</h2>
+                <div class="tabs" id="tlTabs">
+                  <button class="on" data-f="all">All</button>
+                  <button data-f="client">Client</button>
+                  <button data-f="internal">Team</button>
+                  <button data-f="system">System</button>
+                </div>
+              </header>
+              <div class="composer">
+                <input
+                  id="noteInput"
+                  placeholder="Add an internal note, or type /task to create a task…"
+                />
+                <button class="btn brand" onclick="addNote()">Add</button>
+              </div>
+              <ul class="tl" id="timeline">
+                <li class="internal">
+                  <time>20:25</time><span class="dot">✎</span
+                  ><span class="what"
+                    >Engraving added to offer · total €158,75 → €246,50<small
+                      >Caynalin B.</small
+                    ></span
+                  >
+                </li>
+                <li class="internal">
+                  <time>20:22</time><span class="dot">✎</span
+                  ><span class="what"
+                    >Note: “Rely on automail”<small>Caynalin B.</small></span
+                  >
+                </li>
+                <li class="system">
+                  <time>20:22</time><span class="dot">⚙</span
+                  ><span class="what"
+                    >Assigned to Caynalin B. · status New → Pending<small
+                      >2 h 28 min after request</small
+                    ></span
+                  >
+                </li>
+                <li class="client">
+                  <time>18:00</time><span class="dot">↑</span
+                  ><span class="what"
+                    >Uploaded a logo via portal<small
+                      >ydh_white.png</small
+                    ></span
+                  >
+                </li>
+                <li class="client">
+                  <time>17:55</time><span class="dot">★</span
+                  ><span class="what"
+                    >Asked for alternatives: Sustainable, Bigger print<small
+                      >Thank-you page</small
+                    ></span
+                  >
+                </li>
+                <li class="system">
+                  <time>17:54</time><span class="dot">✉</span
+                  ><span class="what"
+                    >Confirmation email sent<small
+                      >“Your request succeeded - 5436794.01”</small
+                    ></span
+                  >
+                </li>
+                <li class="system">
+                  <time>17:54</time><span class="dot">⚙</span
+                  ><span class="what"
+                    >Draft offer .01 created automatically · €158,75 (no
+                    print)</span
+                  >
+                </li>
+                <li class="client">
+                  <time>17:54</time><span class="dot">↓</span
+                  ><span class="what"
+                    >Submitted quote request<small
+                      >Thermos bottle Silver · 25 pcs · text logo +
+                      comment</small
+                    ></span
+                  >
+                </li>
+              </ul>
+            </section>
+          </div>
+
+          <!-- ============ SIDE COLUMN ============ -->
+          <aside class="col">
+            <section class="card rel">
+              <span
+                class="note"
+                style="top: -8px; left: -8px"
+                data-tip="Team as a compact list with an Assign button per role (today: icon-only slots, and the AM picker is a separate dropdown + Save)."
+                >8</span
+              >
+              <header><h2>Team</h2></header>
+              <div class="body team">
+                <div class="member">
+                  <span class="avatar lg" style="background: var(--brand-50)"
+                    >CB</span
+                  ><span class="who"
+                    ><small>Account manager</small>Caynalin B.</span
+                  ><button class="btn sm ghost">Change</button>
+                </div>
+                <div class="member">
+                  <span class="avatar lg empty">?</span
+                  ><span class="who"><small>Designer</small>Not needed yet</span
+                  ><button class="btn sm" onclick="assign(this)">Assign</button>
+                </div>
+                <div class="member">
+                  <span class="avatar lg empty">?</span
+                  ><span class="who"><small>Product specialist</small>—</span
+                  ><button class="btn sm" onclick="assign(this)">Assign</button>
+                </div>
+                <div class="member">
+                  <span class="avatar lg empty">?</span
+                  ><span class="who"><small>Call manager</small>—</span
+                  ><button class="btn sm" onclick="assign(this)">Assign</button>
+                </div>
+              </div>
+            </section>
+
+            <section class="card">
+              <header>
+                <h2>Client</h2>
+                <a href="#" style="font-size: 12px; font-weight: 700"
+                  >Open client →</a
+                >
+              </header>
+              <div class="body">
+                <dl class="kv">
+                  <dt>Contact</dt>
+                  <dd>TEST Cayna TESTING</dd>
+                  <dt>Email</dt>
+                  <dd>caynalin@loopper.com ✓</dd>
+                  <dt>Phone</dt>
+                  <dd class="missing">Missing · <a href="#">add</a></dd>
+                  <dt>Company</dt>
+                  <dd>Loopper · returning (2 projects)</dd>
+                  <dt>Type</dt>
+                  <dd>Company</dd>
+                  <dt>Language</dt>
+                  <dd>English · non-EU</dd>
+                  <dt>Portal</dt>
+                  <dd><a href="#">Send login link</a></dd>
+                </dl>
+              </div>
+            </section>
+
+            <section class="card" id="addresses">
+              <header>
+                <h2>Addresses</h2>
+                <button class="btn sm ghost">+ New</button>
+              </header>
+              <div class="body">
+                <div class="warnbox">
+                  Select an invoice address before sending. Duplicates of the
+                  same address are merged.
+                </div>
+                <div class="label">Invoice address</div>
+                <label class="addr"
+                  ><input
+                    type="radio"
+                    name="inv"
+                    onchange="pickAddr(this)"
+                  /><span
+                    >Pieter Braaijweg 101<small
+                      >1114 AJ Amsterdam, NL · used most · 3 duplicates
+                      merged</small
+                    ></span
+                  ></label
+                >
+                <label class="addr"
+                  ><input
+                    type="radio"
+                    name="inv"
+                    onchange="pickAddr(this)"
+                  /><span
+                    >Bakkerstraat 7<small
+                      >4132 VC Vianen, NL · last used 17 Jun 2025</small
+                    ></span
+                  ></label
+                >
+                <label class="addr"
+                  ><input
+                    type="radio"
+                    name="inv"
+                    onchange="pickAddr(this)"
+                  /><span
+                    >Bernbrucher Str. 20A<small
+                      >01917 Kamenz, DE · last used 21 Jul 2025</small
+                    ></span
+                  ></label
+                >
+                <div class="label" style="margin-top: 14px">
+                  Delivery address
+                </div>
+                <label style="font-size: 13px"
+                  ><input type="checkbox" checked /> Same as invoice
+                  address</label
+                >
+              </div>
+            </section>
+
+            <section class="card">
+              <header><h2>Payment &amp; VAT</h2></header>
+              <div class="body">
+                <dl class="kv">
+                  <dt>Terms</dt>
+                  <dd>100% upfront</dd>
+                  <dt>Payment</dt>
+                  <dd>
+                    <span class="pill grey">Not started</span>
+                    <small style="color: var(--muted)"
+                      >starts after client confirms</small
+                    >
+                  </dd>
+                  <dt>VAT</dt>
+                  <dd>0% (export, non-EU)</dd>
+                  <dt>VAT number</dt>
+                  <dd>
+                    FR38449955590
+                    <span class="pill red" id="vatPill">not verified</span>
+                  </dd>
+                </dl>
+              </div>
+            </section>
+
+            <details class="card">
+              <summary>Dates &amp; delivery</summary>
+              <div class="body">
+                <div class="field">
+                  <label>Client deadline</label
+                  ><input value="As soon as possible" />
+                </div>
+                <div class="field">
+                  <label>Expected closing date</label><input type="date" />
+                </div>
+                <div class="field">
+                  <label>Do not ship before</label><input type="date" />
+                </div>
+                <div class="toggle-row">
+                  <label><input type="checkbox" /> Hard deadline</label
+                  ><label><input type="checkbox" /> Express delivery</label
+                  ><label><input type="checkbox" /> Private address</label>
+                </div>
+              </div>
+            </details>
+
+            <details class="card">
+              <summary>Purchase notes</summary>
+              <div class="body">
+                <div class="field">
+                  <label>PMS colour</label
+                  ><input placeholder="e.g. PMS 299 C" />
+                </div>
+                <div class="field">
+                  <label>Note for purchasing</label
+                  ><textarea rows="3"></textarea>
+                </div>
+                <button class="btn sm">
+                  Attach special offer / credit file
+                </button>
+              </div>
+            </details>
+
+            <details class="card" id="attribution">
+              <summary>
+                Marketing source
+                <span
+                  class="pill red"
+                  style="margin-left: auto; margin-right: 10px"
+                  >missing</span
+                >
+              </summary>
+              <div class="body">
+                <dl class="kv">
+                  <dt>Source</dt>
+                  <dd class="missing">not found</dd>
+                  <dt>Medium</dt>
+                  <dd class="missing">not found</dd>
+                  <dt>Campaign</dt>
+                  <dd class="missing">not found</dd>
+                  <dt>Click id</dt>
+                  <dd>0AAAAADPM5uu…</dd>
+                  <dt>Client id</dt>
+                  <dd>2041253835.17…</dd>
+                </dl>
+                <p
+                  style="font-size: 12px; color: var(--muted); margin: 10px 0 0"
+                >
+                  A click id exists, so the visit came from Google Ads. The
+                  backend should resolve it to campaign data.
+                </p>
+              </div>
+            </details>
+
+            <details class="card">
+              <summary>Other projects · Loopper (2)</summary>
+              <div class="body">
+                <div class="mini-proj">
+                  <span><b>5435244</b> · 250 pcs</span
+                  ><span class="pill amber">Pending</span><span>€ 1.651</span>
+                </div>
+                <div class="mini-proj">
+                  <span><b>5367905</b> · 25 pcs</span
+                  ><span class="pill red">Cancelled</span><span>€ 188</span>
+                </div>
+              </div>
+            </details>
+          </aside>
+        </div>
+      </main>
+    </div>
+
+    <button
+      class="notes-toggle"
+      onclick="document.body.classList.toggle('notes')"
+    >
+      Show UX notes
+    </button>
+    <div class="toast" id="toast"></div>
+
+    <script>
+      // Status menu: the 30 existing statuses grouped by stage instead of one flat list
+      const statuses = {
+        Request: ["Lead", "New request", "Pending", "In talks", "Concept"],
+        Design: ["Digital design", "Dd pending", "Dd send"],
+        Offer: [
+          "Offer sent",
+          "Offer sent by system",
+          "Offer sent (dd viewed)",
+          "Offer canceled",
+        ],
+        Sample: [
+          "Sample",
+          "Sample offer send",
+          "Sample client confirmed",
+          "Sample loopper confirmed",
+        ],
+        Order: [
+          "Client confirmed",
+          "Loopper confirmed",
+          "Order processing",
+          "In production",
+          "Supplier order issues",
+          "On hold",
+          "Order canceled",
+        ],
+        Delivery: ["Shipping", "Tracking", "Delivery", "Complete"],
+        "Finance & after-sales": [
+          "Ready for invoicing",
+          "Payment collection by atradius",
+          "Complaint",
+        ],
+      };
+      const list = document.getElementById("statusList");
+      for (const [grp, items] of Object.entries(statuses)) {
+        list.insertAdjacentHTML(
+          "beforeend",
+          `<div class="grp">${grp}</div>` +
+            items
+              .map(
+                (s) =>
+                  `<button class="${s === "Pending" ? "cur" : ""}">${s}</button>`,
+              )
+              .join(""),
+        );
+      }
+      list.addEventListener("click", (e) => {
+        if (e.target.tagName !== "BUTTON") return;
+        list
+          .querySelectorAll("button")
+          .forEach((b) => b.classList.remove("cur"));
+        e.target.classList.add("cur");
+        document.getElementById("statusPill").textContent =
+          e.target.textContent;
+        document.getElementById("statusMenu").classList.remove("open");
+        toast("Status saved: " + e.target.textContent);
+      });
+      document.addEventListener("click", (e) => {
+        if (!e.target.closest("#statusMenu"))
+          document.getElementById("statusMenu").classList.remove("open");
+      });
+
+      // Timeline filter
+      document.getElementById("tlTabs").addEventListener("click", (e) => {
+        const f = e.target.dataset.f;
+        if (!f) return;
+        document
+          .querySelectorAll("#tlTabs button")
+          .forEach((b) => b.classList.toggle("on", b === e.target));
+        document
+          .querySelectorAll("#timeline li")
+          .forEach((li) =>
+            li.classList.toggle(
+              "hide",
+              f !== "all" && !li.classList.contains(f),
+            ),
+          );
+      });
+
+      function addNote() {
+        const inp = document.getElementById("noteInput");
+        const v = inp.value.trim();
+        if (!v) return;
+        const now = new Date();
+        const t =
+          now.getHours().toString().padStart(2, "0") +
+          ":" +
+          now.getMinutes().toString().padStart(2, "0");
+        const isTask = v.startsWith("/task");
+        document
+          .getElementById("timeline")
+          .insertAdjacentHTML(
+            "afterbegin",
+            `<li class="internal"><time>${t}</time><span class="dot">${isTask ? "☐" : "✎"}</span><span class="what">${isTask ? "Task: " + v.slice(5).trim() : "Note: “" + v + "”"}<small>Caynalin B.</small></span></li>`,
+          );
+        inp.value = "";
+        toast(isTask ? "Task created" : "Note saved");
+      }
+      document.getElementById("noteInput").addEventListener("keydown", (e) => {
+        if (e.key === "Enter") addNote();
+      });
+
+      function verifyVat(btn) {
+        const li = btn.closest("li");
+        li.className = "ok";
+        li.querySelector(".st").textContent = "✓";
+        li.querySelector("small").textContent =
+          "Not needed: 0% export VAT for non-EU";
+        btn.remove();
+        const p = document.getElementById("vatPill");
+        p.className = "pill grey";
+        p.textContent = "not required";
+        toast("VAT checked");
+      }
+      function pickAddr(inp) {
+        document
+          .querySelectorAll(".addr")
+          .forEach((a) => a.classList.toggle("sel", a.contains(inp)));
+        const li = [...document.querySelectorAll(".checks li")].find((l) =>
+          l.textContent.includes("invoice address"),
+        );
+        if (li) {
+          li.className = "ok";
+          li.querySelector(".st").textContent = "✓";
+          li.querySelector(".txt").innerHTML =
+            "Invoice address selected<small>" +
+            inp.nextElementSibling.firstChild.textContent +
+            "</small>";
+          li.querySelector("button")?.remove();
+        }
+        toast("Invoice address saved");
+      }
+      function assign(btn) {
+        const who = btn.previousElementSibling;
+        who.lastChild.textContent = "Caynalin B.";
+        btn.previousElementSibling.previousElementSibling.textContent = "CB";
+        btn.previousElementSibling.previousElementSibling.classList.remove(
+          "empty",
+        );
+        btn.textContent = "Change";
+        btn.className = "btn sm ghost";
+        toast("Assigned");
+      }
+      let tt;
+      function toast(msg) {
+        const t = document.getElementById("toast");
+        t.textContent = msg;
+        t.classList.add("show");
+        clearTimeout(tt);
+        tt = setTimeout(() => t.classList.remove("show"), 1800);
+      }
+    </script>
+  </body>
+</html>
