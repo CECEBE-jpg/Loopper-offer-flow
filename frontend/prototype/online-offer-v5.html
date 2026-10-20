@@ -1623,6 +1623,69 @@
       .sum-total strong {
         font-weight: 900;
       }
+      /* ---------- v5: Figma 17:544 open logo section ---------- */
+      .logos-dd {
+        padding: 14px 24px;
+      }
+      .logos-dd[open] {
+        padding-bottom: 22px;
+      }
+      .logos-dd-body {
+        gap: 0;
+        padding-top: 10px;
+      }
+      .logos-row {
+        align-items: stretch;
+        justify-content: space-between;
+        padding-top: 1px;
+      }
+      .logos {
+        gap: 20px;
+        width: 323px;
+      }
+      .logo {
+        flex: 1;
+        width: auto;
+        height: 188px;
+        min-width: 0;
+      }
+      .logo-thumb {
+        width: 100%;
+        border-width: 1px;
+      }
+      .logo-btn {
+        width: 100%;
+        height: 29px;
+        padding: 0 9px;
+        border-radius: 7px;
+        font-size: 11px;
+      }
+      .logos-aside {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: space-between;
+        height: 188px;
+        padding-top: 14px;
+      }
+      .design-note {
+        width: 311px;
+        height: 128px;
+        padding: 0 11px 0 23px;
+        border: 0.5px solid var(--amber-text);
+        border-radius: 14px;
+        background: var(--amber-50);
+        color: var(--amber-text);
+      }
+      .design-note span {
+        width: 244px;
+      }
+      .design-note b {
+        color: var(--amber-text);
+      }
+      .logos-aside .upload-link {
+        align-self: flex-end;
+      }
     </style>
   </head>
   <body>
@@ -1730,7 +1793,7 @@
             </span>
             <span class="logos-dd-right">
               <span class="chip chip-amber"
-                >Design requested · ready within 30 min</span
+                >Design requested - ready within 30 min</span
               >
               <svg
                 class="logos-dd-chev"
@@ -1799,18 +1862,20 @@
                   </button>
                 </div>
               </div>
-              <p class="design-note">
-                <span
-                  >We'll
-                  <b>email you as soon as your free digital design is ready</b
-                  >.<br />You can approve it or ask for changes before you
-                  order.</span
-                >
-              </p>
+              <div class="logos-aside">
+                <p class="design-note">
+                  <span
+                    >We'll
+                    <b>email you as soon as your free digital mockup is ready</b
+                    >.<br />You can approve it or ask for changes before you
+                    order.</span
+                  >
+                </p>
+                <button type="button" class="upload-link">
+                  <b aria-hidden="true">+</b>Upload another logo
+                </button>
+              </div>
             </div>
-            <button type="button" class="upload-link">
-              <b aria-hidden="true">+</b>Upload another logo
-            </button>
           </div>
         </details>
 
