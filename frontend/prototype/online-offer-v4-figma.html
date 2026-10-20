@@ -1464,14 +1464,16 @@
       }
       /* Account manager photo (cropped to the face inside the round avatar) */
       .avatar-photo {
-        background-color: #fff;
+        background-color: var(
+          --blue-50
+        ); /* light-blue placeholder when the photo is missing */
         background-image: url("assets/offer-v3/account-manager.png");
         background-repeat: no-repeat;
         background-size: 175%;
         background-position: 47% 22%;
       }
       .am-chat-avatar.avatar-photo {
-        background-color: #fff;
+        background-color: var(--blue-50);
         background-image: url("assets/offer-v3/account-manager.png");
       }
       .alt[hidden],
