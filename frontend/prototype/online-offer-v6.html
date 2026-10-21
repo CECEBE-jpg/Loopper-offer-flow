@@ -2966,6 +2966,26 @@
         line-height: 16px;
         color: var(--muted);
       }
+      /* Header logo box: text-logo fallback and hidden state */
+      .client-logo[hidden] {
+        display: none;
+      }
+      .client-logo-text {
+        position: relative;
+        padding: 0 4px;
+        overflow: hidden;
+        font-size: 9px;
+        line-height: 10px;
+        text-align: center;
+        word-break: break-word;
+      }
+      .client-logo:has(.client-logo-img[hidden]) {
+        background: #fff;
+      }
+      .client-logo-img[hidden],
+      .client-logo-text[hidden] {
+        display: none;
+      }
     </style>
   </head>
   <body>
@@ -4949,6 +4969,111 @@
           document.querySelector("#logoUpload input[type=file]").click();
         });
     </script>
+    <script>
+      // Header logo follows the first logo in "Your logo & design":
+      // first image logo -> that image; none -> first text logo; none at all -> box hidden.
+      // Transparent images get the contrasting background (light logo on black, dark logo on white).
+      (function () {
+        var box = document.querySelector(".client-logo");
+        var img = box.querySelector(".client-logo-img");
+        var list = document.querySelector(".logos-dd .logos");
+        var defaultSrc = img.getAttribute("src"); // sample logo (or ?logo=black variant, set on load)
+        var textEl = document.createElement("span");
+        textEl.className = "client-logo-text";
+        box.appendChild(textEl);
+
+        function contrast() {
+          box.removeAttribute("data-logo-bg");
+          if (!img.naturalWidth) return;
+          try {
+            var w = 120,
+              h = Math.max(
+                1,
+                Math.round((120 * img.naturalHeight) / img.naturalWidth),
+              );
+            var c = document.createElement("canvas");
+            c.width = w;
+            c.height = h;
+            var ctx = c.getContext("2d");
+            ctx.drawImage(img, 0, 0, w, h);
+            var d = ctx.getImageData(0, 0, w, h).data,
+              transparent = 0,
+              lum = 0,
+              solid = 0;
+            for (var i = 0; i < d.length; i += 4) {
+              if (d[i + 3] < 250) transparent++;
+              if (d[i + 3] > 128) {
+                lum +=
+                  (0.2126 * d[i] + 0.7152 * d[i + 1] + 0.0722 * d[i + 2]) / 255;
+                solid++;
+              }
+            }
+            if (transparent && solid)
+              box.setAttribute(
+                "data-logo-bg",
+                lum / solid > 0.6 ? "dark" : "light",
+              );
+          } catch (e) {}
+        }
+        img.addEventListener("load", contrast);
+
+        function sync() {
+          var files = list.querySelectorAll('[data-logo="file"]');
+          var src = null,
+            name = "";
+          for (var i = 0; i < files.length; i++) {
+            var t = files[i];
+            if (t.querySelector(".logo-thumb-file")) {
+              src = new URL(defaultSrc, location.href).href;
+            } else {
+              var up = t.querySelector(".logo-thumb-upload img");
+              if (up) src = up.src;
+            }
+            if (src) {
+              name = t.querySelector(".logo-name").textContent.trim();
+              break;
+            }
+          }
+          box.hidden = false;
+          if (src) {
+            textEl.hidden = true;
+            img.hidden = false;
+            if (img.src !== src) img.src = src;
+            else contrast();
+            box.setAttribute("aria-label", "Your uploaded logo: " + name);
+            return;
+          }
+          img.hidden = true;
+          box.removeAttribute("data-logo-bg");
+          var tl = list.querySelector('[data-logo="text"] .logo-thumb-text');
+          if (tl) {
+            textEl.hidden = false;
+            textEl.textContent = tl.textContent.trim();
+            textEl.style.fontFamily = tl.style.fontFamily;
+            textEl.style.color = tl.style.color || getComputedStyle(tl).color;
+            box.setAttribute(
+              "aria-label",
+              "Your text logo: " + textEl.textContent,
+            );
+          } else {
+            box.hidden = true;
+          }
+        }
+        new MutationObserver(sync).observe(list, {
+          childList: true,
+          subtree: true,
+          characterData: true,
+          attributes: true,
+          attributeFilter: ["style"],
+        });
+        // pick up the ?logo=black demo source once the earlier script has swapped it
+        setTimeout(function () {
+          defaultSrc = img.getAttribute("src");
+          sync();
+        }, 0);
+      })();
+    </script>
+
     <!-- Step navigation, always visible at the bottom -->
     <nav class="step-nav" aria-label="Offer steps navigation">
       <div class="step-nav-inner">
