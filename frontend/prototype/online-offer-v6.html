@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,700&family=Arimo&display=swap"
       rel="stylesheet"
     />
     <style>
@@ -2475,6 +2475,38 @@
         background: transparent;
       }
 
+      /* Base styles the modal relies on (from 03 Request flow/styles.css), scoped to the modal.
+         :where() keeps them at element-level specificity, exactly like on the request page. */
+      .tlm {
+        color: #2c3e50;
+        font-family: "Nunito", ui-rounded, "Segoe UI", system-ui, sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+      :where(.tlm) *,
+      :where(.tlm) *::before,
+      :where(.tlm) *::after {
+        box-sizing: border-box;
+      }
+      :where(.tlm) p {
+        margin: 0;
+      }
+      :where(.tlm) img {
+        display: block;
+      }
+      :where(.tlm) button,
+      :where(.tlm) input,
+      :where(.tlm) textarea,
+      :where(.tlm) select {
+        font: inherit;
+        color: inherit;
+      }
+      :where(.tlm) button {
+        background: none;
+        border: 0;
+        padding: 0;
+        cursor: pointer;
+        text-align: inherit;
+      }
       /* ===== Text logo modal, copied from 03 Request flow/styles.css ===== */
       .tlm {
         --cyan: #00aed8;
@@ -2876,6 +2908,21 @@
           transition-duration: 0s !important;
         }
       }
+      /* Add tiles: no invisible stretched hit area; only the dashed box is clickable */
+      .logos-dd .logo.logo-add {
+        align-self: flex-start;
+        cursor: default;
+      }
+      #logoUpload .logo-add-box {
+        cursor: pointer;
+        font: inherit;
+        font-size: 13px;
+        font-weight: 800;
+        color: var(--text);
+      }
+      #logoAddText {
+        cursor: pointer;
+      }
     </style>
   </head>
   <body>
@@ -3102,17 +3149,19 @@
                   </div>
                 </div>
                 <!-- Add tiles: upload a logo file / add a text logo -->
-                <label class="logo logo-add" id="logoUpload">
-                  <span class="logo-add-box">
+                <!-- Upload tile: a real button (not a <label>), so only a click on the dashed box opens the file picker -->
+                <div class="logo logo-add" id="logoUpload">
+                  <button type="button" class="logo-add-box" id="logoUploadBtn">
                     <b aria-hidden="true">+</b>Upload logo
-                  </span>
+                  </button>
                   <span class="logo-sub">PNG, SVG, AI, EPS or PDF</span>
                   <input
                     type="file"
                     accept=".png,.svg,.ai,.eps,.pdf,image/*"
                     hidden
+                    tabindex="-1"
                   />
-                </label>
+                </div>
                 <button type="button" class="logo logo-add" id="logoAddText">
                   <span class="logo-add-box">
                     <b aria-hidden="true">+</b>Add text logo
@@ -4803,6 +4852,14 @@
       })();
     </script>
 
+    <script>
+      // Upload tile opens the hidden file input only from its own button
+      document
+        .getElementById("logoUploadBtn")
+        .addEventListener("click", function () {
+          document.querySelector("#logoUpload input[type=file]").click();
+        });
+    </script>
     <!-- Step navigation, always visible at the bottom -->
     <nav class="step-nav" aria-label="Offer steps navigation">
       <div class="step-nav-inner">
