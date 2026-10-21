@@ -2211,6 +2211,69 @@
       .side .am-card {
         width: 400px;
       }
+      /* v6 header: client logo box + formal 20px greeting */
+      .header-client {
+        display: flex;
+        flex: 1;
+        align-items: center;
+        gap: 14px;
+        min-width: 0;
+        margin-left: -9px;
+        padding-left: 15px;
+        border-left: 1px solid #8d8d8d;
+      }
+      .header-client .header-title {
+        flex: none;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        font-size: 20px;
+        line-height: 26px;
+      }
+      .client-logo {
+        position: relative;
+        display: flex;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: center;
+        width: 84px;
+        height: 44px;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #898989;
+        transition: all 0.2s ease;
+      }
+      .client-logo img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.31;
+      }
+      .client-logo span {
+        position: relative;
+        font-family: Arial, sans-serif;
+        font-size: 9px;
+        line-height: 10px;
+        font-weight: 700;
+        text-align: center;
+        color: #fff;
+      }
+      .top.is-condensed .header-client .header-title {
+        font-size: 16px;
+        line-height: 20px;
+      }
+      .top.is-condensed .client-logo {
+        width: 54px;
+        height: 28px;
+        border-radius: 6px;
+      }
+      .top.is-condensed .client-logo span {
+        font-size: 6px;
+        line-height: 7px;
+      }
     </style>
   </head>
   <body>
@@ -2259,7 +2322,20 @@
             height="35.8333"
             alt="Loopper"
           />
-          <h1 class="header-title">Hi Cayna, here's your offer</h1>
+          <div class="header-client">
+            <!-- Client's uploaded logo (the file from "Your logo & design") -->
+            <div
+              class="client-logo"
+              role="img"
+              aria-label="Your uploaded logo: ydh_white.png"
+            >
+              <img src="assets/offer-v3/logo-placeholder-bg.png" alt="" />
+              <span>YOUR DESIGN<br />HERE</span>
+            </div>
+            <h1 class="header-title">
+              Dear Cayna, please find your offer below
+            </h1>
+          </div>
           <dl class="header-facts">
             <div>
               <dt>Project number</dt>
