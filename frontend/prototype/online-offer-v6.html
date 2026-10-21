@@ -2923,6 +2923,17 @@
       #logoAddText {
         cursor: pointer;
       }
+      /* Chosen PMS dot: keep its 2px ring visible (the value box clipped it); long names still end in … */
+      .tlm-dd[data-kind="pms"] .tlm-dd-val {
+        overflow: visible;
+        padding-left: 2px;
+      }
+      .tlm-dd[data-kind="pms"] .tlm-dd-txt {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
     </style>
   </head>
   <body>
