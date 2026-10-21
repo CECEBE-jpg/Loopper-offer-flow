@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Loopper – Your offer (v6)</title>
-    <!-- v6 (2026-10-21): layout from the user's wireframe: header card with offer facts + account manager, centred steps, full-width cards, summary bottom-right, fixed Previous/Next bar. Styling and interactions from v5 (Figma 17:128 / 17:544). -->
+    <!-- v6 (2026-10-21): v5 header + steps; layout from the user's wireframe: centred steps, full-width cards, summary bottom-right, fixed Previous/Next bar. Styling and interactions from v5 (Figma 17:128 / 17:544). -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -2194,50 +2194,86 @@
         color: var(--ink);
         cursor: pointer;
       }
+      /* v6: header and steps from v5 (overrides the earlier v6 header-card rules) */
+      .top {
+        position: sticky;
+        top: 0;
+      }
+      .top .stepper-bar {
+        border-bottom: 0.8px solid var(--line);
+        background: rgba(255, 255, 255, 0.96);
+        backdrop-filter: blur(6px);
+      }
+      .top .stepper {
+        width: 1212px;
+        padding: 10px 0;
+      }
+      .side .am-card {
+        width: 400px;
+      }
     </style>
   </head>
   <body>
+    <div class="usp-bar">
+      <ul class="usp-list">
+        <li>
+          <span class="usp-check"
+            ><img
+              src="assets/offer-v3/icon-usp-check.svg"
+              width="18.0604"
+              height="14.0691"
+              alt="" /></span
+          >23 years of experience
+        </li>
+        <li>
+          <span class="usp-check"
+            ><img
+              src="assets/offer-v3/icon-usp-check.svg"
+              width="18.0604"
+              height="14.0691"
+              alt="" /></span
+          >Free digital design
+        </li>
+        <li>
+          <span class="usp-check"
+            ><img
+              src="assets/offer-v3/icon-usp-check.svg"
+              width="18.0604"
+              height="14.0691"
+              alt="" /></span
+          >Personal service
+        </li>
+      </ul>
+      <img
+        src="assets/offer-v3/trustpilot-rating.png"
+        alt="Trustpilot 4.7/5 (1,282 reviews)"
+      />
+    </div>
+
     <div class="top" id="top">
-      <header class="site-header v6-header">
-        <div class="v6-head-card">
+      <header class="site-header">
+        <div class="site-header-inner">
           <img
             src="assets/offer-v3/loopper-logo.svg"
-            width="132"
-            height="28.67"
+            width="165"
+            height="35.8333"
             alt="Loopper"
           />
-          <div class="v6-offer">
-            <p class="eyebrow">Your offer</p>
-            <dl class="v6-facts">
-              <div>
-                <dt>Project number</dt>
-                <dd>5436794</dd>
-              </div>
-              <div>
-                <dt>Company name</dt>
-                <dd>Company A</dd>
-              </div>
-              <div>
-                <dt>Project date</dt>
-                <dd>13/10/26</dd>
-              </div>
-            </dl>
-          </div>
-          <div class="v6-am">
-            <p class="eyebrow">Your account manager</p>
-            <p class="v6-am-name">
-              Jildou
-              <span
-                class="avatar avatar-photo"
-                role="img"
-                aria-label="Jildou, your account manager"
-              ></span>
-            </p>
-            <p class="v6-am-contact">
-              <a href="tel:+442045765960">+44 20 4576 5960</a>
-              <a href="mailto:Jildou@loopper.com">Jildou@loopper.com</a>
-            </p>
-          </div>
+          <h1 class="header-title">Hi Cayna, here's your offer</h1>
+          <dl class="header-facts">
+            <div>
+              <dt>Project number</dt>
+              <dd>#5436794</dd>
+            </div>
+            <div>
+              <dt>Company name</dt>
+              <dd>Bloom agency</dd>
+            </div>
+            <div>
+              <dt>Project date</dt>
+              <dd>13/10/26</dd>
+            </div>
+          </dl>
         </div>
       </header>
 
@@ -2841,6 +2877,23 @@
       </main>
 
       <aside class="side">
+        <section class="side-card am-card" aria-label="Your account manager">
+          <span
+            class="avatar avatar-photo"
+            role="img"
+            aria-label="Jildou, your account manager"
+            style="width: 120px; height: 120px"
+          ></span>
+          <div class="am-card-body">
+            <p class="eyebrow">Your account manager</p>
+            <p class="am-name">Jildou</p>
+            <p class="am-contact">
+              <a href="tel:+442045765960">+44 20 4576 5960</a>
+              <a href="mailto:Jildou@loopper.com">Jildou@loopper.com</a>
+            </p>
+          </div>
+        </section>
+
         <section class="side-card summary" aria-labelledby="sumTitle">
           <div>
             <h2 id="sumTitle">Summary</h2>
@@ -3068,6 +3121,31 @@
         $("altQty").addEventListener("change", function () {
           update(true);
         });
+      })();
+    </script>
+
+    <script>
+      // Shrink header + progress bar after scrolling; keep the sticky sidebar below it.
+      (function () {
+        var top = document.getElementById("top");
+        var root = document.documentElement;
+        var condensed = false;
+        function setTopHeight() {
+          root.style.setProperty("--top-h", top.offsetHeight + "px");
+        }
+        function onScroll() {
+          // Hysteresis so the height change itself doesn't make it flicker
+          var y = window.scrollY;
+          if (!condensed && y > 80) condensed = true;
+          else if (condensed && y < 10) condensed = false;
+          top.classList.toggle("is-condensed", condensed);
+          setTopHeight();
+        }
+        window.addEventListener("scroll", onScroll, { passive: true });
+        new ResizeObserver(setTopHeight).observe(top);
+        top.addEventListener("transitionend", setTopHeight);
+        onScroll();
+        setTopHeight();
       })();
     </script>
 
