@@ -2997,6 +2997,84 @@
       .top .stepper-bar {
         border-bottom: 0;
       }
+      /* Account manager feature (left of the summary) */
+      .page {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 400px;
+        column-gap: 28px;
+        row-gap: 16px;
+        align-items: start;
+      }
+      .page > .main {
+        grid-column: 1 / -1;
+      }
+      .page > .side {
+        grid-column: 2;
+        grid-row: 2;
+        align-self: start;
+      }
+      .am-feature {
+        grid-column: 1;
+        grid-row: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 520px;
+        padding-top: 8px;
+      }
+      .am-feature-photo {
+        width: 293px;
+        height: auto;
+        margin: 0 0 -1px 32px;
+        position: relative;
+        z-index: 1;
+      }
+      .am-feature-card {
+        width: 100%;
+        padding: 20px 24px 22px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: #fff;
+        box-shadow: 1px 6px 19px rgba(0, 0, 0, 0.06);
+      }
+      .am-feature-card .eyebrow {
+        font-size: 12px;
+        line-height: 18px;
+      }
+      .am-feature-name {
+        margin-top: 2px;
+        font-size: 22px;
+        line-height: 28px;
+        font-weight: 800;
+        color: var(--ink);
+      }
+      .am-feature-quote {
+        margin-top: 8px;
+        font-size: 14px;
+        line-height: 21px;
+        color: var(--text);
+      }
+      .am-feature-contact {
+        display: flex;
+        gap: 20px;
+        margin-top: 12px;
+        font-size: 14px;
+        font-weight: 700;
+      }
+      .am-feature-contact a {
+        color: var(--ink);
+        text-decoration: none;
+      }
+      .am-feature-contact a + a {
+        color: #004591;
+      }
+      /* same placeholder face in the comment bubble */
+      .am-chat-avatar.avatar-photo {
+        background-color: #e6f7fc;
+        background-image: url("assets/offer-v3/account-manager-model.png");
+        background-size: 330%;
+        background-position: 46% 18%;
+      }
     </style>
   </head>
   <body>
@@ -3622,24 +3700,30 @@
         </section>
       </main>
 
-      <aside class="side">
-        <section class="side-card am-card" aria-label="Your account manager">
-          <span
-            class="avatar avatar-photo"
-            role="img"
-            aria-label="Jildou, your account manager"
-            style="width: 120px; height: 120px"
-          ></span>
-          <div class="am-card-body">
-            <p class="eyebrow">Your account manager</p>
-            <p class="am-name">Jildou</p>
-            <p class="am-contact">
-              <a href="tel:+442045765960">+44 20 4576 5960</a>
-              <a href="mailto:Jildou@loopper.com">Jildou@loopper.com</a>
-            </p>
-          </div>
-        </section>
+      <!-- Account manager: cut-out photo on top of a card, in the space left of the summary -->
+      <section class="am-feature" aria-label="Your account manager">
+        <img
+          class="am-feature-photo"
+          src="assets/offer-v3/account-manager-model.png"
+          width="293"
+          height="240"
+          alt="Jildou, your account manager"
+        />
+        <div class="am-feature-card">
+          <p class="eyebrow">Your account manager</p>
+          <p class="am-feature-name">Jildou</p>
+          <p class="am-feature-quote">
+            “I've put this offer together for you. Questions about sizes,
+            colours or delivery? Call or email me, I'm happy to help.”
+          </p>
+          <p class="am-feature-contact">
+            <a href="tel:+442045765960">+44 20 4576 5960</a>
+            <a href="mailto:Jildou@loopper.com">Jildou@loopper.com</a>
+          </p>
+        </div>
+      </section>
 
+      <aside class="side">
         <section class="side-card summary" aria-labelledby="sumTitle">
           <div>
             <h2 id="sumTitle">Summary</h2>
