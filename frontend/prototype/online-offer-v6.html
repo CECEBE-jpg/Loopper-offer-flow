@@ -2274,6 +2274,21 @@
         font-size: 6px;
         line-height: 7px;
       }
+      /* Suggested product: "Add to offer" toggle in the same left column as "In offer" */
+      .alt {
+        margin: 0;
+        padding: 18px 0;
+      }
+      .alt-row {
+        gap: 16px;
+      }
+      .alt-switch {
+        flex-direction: column-reverse;
+        width: 64px;
+        gap: 6px;
+        font-size: 12px;
+        line-height: 15px;
+      }
     </style>
   </head>
   <body>
@@ -2715,10 +2730,18 @@
 
           <hr class="p5-rule" />
 
-          <!-- Requested alternative, not in the offer yet: small row with the toggle on the right.
+          <!-- Requested alternative, not in the offer yet: small row with the toggle on the left (same column as "In offer").
                Switching it on swaps the row for a full product card (#altProduct), see script at end of body. -->
           <div class="alt" id="alt">
             <div class="alt-row">
+              <label class="switch alt-switch">
+                <input
+                  type="checkbox"
+                  id="altToggle"
+                  aria-describedby="altTitle"
+                />
+                <span class="alt-switch-label">Add to offer</span>
+              </label>
               <div class="alt-photo">
                 <img
                   src="assets/offer-v3/water-bottle-black.png"
@@ -2737,14 +2760,6 @@
                   Full-colour print · from € 3,03 per piece at 250 pcs
                 </p>
               </div>
-              <label class="switch alt-switch">
-                <input
-                  type="checkbox"
-                  id="altToggle"
-                  aria-describedby="altTitle"
-                />
-                <span class="alt-switch-label">Add to offer</span>
-              </label>
             </div>
           </div>
 
