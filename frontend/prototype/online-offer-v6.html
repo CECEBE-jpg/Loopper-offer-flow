@@ -2986,6 +2986,13 @@
       .client-logo-text[hidden] {
         display: none;
       }
+      /* v6 product cards: selected options as pills, like v5 */
+      .p6-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin: 2px 0;
+      }
     </style>
   </head>
   <body>
@@ -3289,9 +3296,10 @@
                 Thermos bottle | Stainless steel | 500 ml | Silver
               </h3>
               <p class="p6-meta">Article number: 6383162</p>
-              <p class="p6-meta">
-                Engraving<br />Personalisation: engraving: front (50×90 mm)
-              </p>
+              <div class="chips p6-chips">
+                <span class="chip chip-grey">Colour: Silver</span>
+                <span class="chip chip-grey">Engraving: front (50×90 mm)</span>
+              </div>
               <div class="p6-delivery">
                 <span class="fast-badge"
                   ><svg
@@ -3398,9 +3406,10 @@
                 Thermos bottle | Stainless steel | 500 ml | Silver
               </h3>
               <p class="p6-meta">Article number: 6383162</p>
-              <p class="p6-meta">
-                Engraving<br />Personalisation: engraving: front (50×90 mm)
-              </p>
+              <div class="chips p6-chips">
+                <span class="chip chip-grey">Colour: Silver</span>
+                <span class="chip chip-grey">Engraving: front (50×90 mm)</span>
+              </div>
               <dl class="p6-stock">
                 <div><dt>Not in stock</dt></div>
                 <div>
@@ -3548,10 +3557,12 @@
                 Water bottle | Recycled stainless steel | 750 ml | Black
               </h3>
               <p class="p6-meta">Article number: 6457285</p>
-              <p class="p6-meta">
-                Digital print<br />Personalisation: full colour: wrap-around
-                (230×160 mm)
-              </p>
+              <div class="chips p6-chips">
+                <span class="chip chip-grey">Colour: Black</span>
+                <span class="chip chip-grey"
+                  >Full-colour print: wrap-around (230×160 mm)</span
+                >
+              </div>
               <div class="p6-delivery">
                 <span class="fast-badge"
                   ><svg
