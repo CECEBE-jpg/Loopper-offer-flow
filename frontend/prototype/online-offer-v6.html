@@ -2934,6 +2934,38 @@
         text-overflow: ellipsis;
         white-space: nowrap;
       }
+      /* Uploaded logos: checkered when transparent (same look as the first tile), white when solid */
+      .logo-thumb-upload {
+        background: #fff;
+      }
+      .logo-thumb-upload.is-transparent {
+        background-color: #898989;
+        background-image:
+          linear-gradient(rgba(137, 137, 137, 0.69), rgba(137, 137, 137, 0.69)),
+          url("assets/offer-v3/logo-placeholder-bg.png");
+        background-size: cover;
+        background-position: center;
+      }
+      .logo-thumb-upload.is-file {
+        display: grid;
+        place-items: center;
+        background: #f7f8fa;
+      }
+      .logo-file-badge {
+        padding: 6px 12px;
+        border: 1.5px solid #b7c2cd;
+        border-radius: 6px;
+        background: #fff;
+        font-size: 14px;
+        font-weight: 800;
+        letter-spacing: 0.04em;
+        color: var(--text);
+      }
+      .logo-bg-note {
+        font-size: 12px;
+        line-height: 16px;
+        color: var(--muted);
+      }
     </style>
   </head>
   <body>
@@ -3099,6 +3131,7 @@
                       />ydh_white.png
                     </p>
                     <p class="logo-sub">Received 13 Oct, 18:00</p>
+                    <p class="logo-bg-note">Transparent background</p>
                   </div>
                   <button
                     type="button"
@@ -3980,18 +4013,63 @@
             font + " · " + colourName(colour);
           return el;
         }
+        // Is the image transparent? Draw it small on a canvas and look for see-through pixels.
+        function hasTransparency(img) {
+          try {
+            var w = 96,
+              h = Math.max(
+                1,
+                Math.round((96 * img.naturalHeight) / img.naturalWidth),
+              );
+            var c = document.createElement("canvas");
+            c.width = w;
+            c.height = h;
+            var ctx = c.getContext("2d");
+            ctx.drawImage(img, 0, 0, w, h);
+            var d = ctx.getImageData(0, 0, w, h).data;
+            for (var i = 3; i < d.length; i += 4) if (d[i] < 250) return true;
+            return false;
+          } catch (e) {
+            return false;
+          }
+        }
         function fileTile(file) {
           var el = document.createElement("div");
           el.className = "logo";
           el.setAttribute("data-logo", "file");
-          var url = URL.createObjectURL(file);
           el.innerHTML =
-            '<div class="logo-top"><div class="logo-thumb logo-thumb-upload"><img alt="" /></div>' +
+            '<div class="logo-top"><div class="logo-thumb logo-thumb-upload"></div>' +
             '<p class="logo-name"><img src="assets/offer-v3/icon-check.svg" width="14" height="14" alt="" /><span></span></p>' +
-            '<p class="logo-sub">Received just now</p></div>' +
+            '<p class="logo-sub">Received just now</p><p class="logo-bg-note"></p></div>' +
             btn("delete", "icon-remove.svg", 12.2142, 12.6353, "Remove");
-          el.querySelector(".logo-thumb-upload img").src = url;
           el.querySelector(".logo-name span").textContent = file.name;
+          var thumb = el.querySelector(".logo-thumb-upload");
+          var note = el.querySelector(".logo-bg-note");
+          var isImage =
+            /^image\//.test(file.type) ||
+            /\.(png|svg|jpe?g|gif|webp)$/i.test(file.name);
+          if (!isImage) {
+            // AI / EPS / PDF: the browser cannot preview these
+            thumb.classList.add("is-file");
+            thumb.innerHTML = '<span class="logo-file-badge"></span>';
+            thumb.firstChild.textContent = (
+              file.name.split(".").pop() || "FILE"
+            ).toUpperCase();
+            note.textContent = "Preview after our designer checks it";
+            return el;
+          }
+          var img = new Image();
+          img.alt = "";
+          img.addEventListener("load", function () {
+            var transparent = hasTransparency(img);
+            thumb.classList.toggle("is-transparent", transparent);
+            thumb.classList.toggle("is-solid", !transparent);
+            note.textContent = transparent
+              ? "Transparent background"
+              : "Solid background";
+          });
+          img.src = URL.createObjectURL(file);
+          thumb.appendChild(img);
           return el;
         }
         function startEdit(tile) {
