@@ -2289,6 +2289,42 @@
         font-size: 12px;
         line-height: 15px;
       }
+      /* Uploaded logo: transparent logos get a contrasting background (set by the script at the end of <body>) */
+      .client-logo,
+      .logo-mini-file,
+      .logo-thumb-file {
+        background: #fff;
+        transition: background 0.2s;
+      }
+      .client-logo-img {
+        position: relative;
+        inset: auto;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        opacity: 1;
+        padding: 4px;
+        transform: none;
+      }
+      .logo-thumb-file .client-logo-img {
+        padding: 10px;
+      }
+      [data-logo-bg="dark"] {
+        background: #111 !important;
+      }
+      [data-logo-bg="light"] {
+        background: #fff !important;
+      }
+      .client-logo {
+        transition:
+          width 0.2s ease,
+          height 0.2s ease,
+          border-radius 0.2s ease;
+      }
+      .logo-mini-file,
+      .logo-thumb-file {
+        transition: none;
+      }
     </style>
   </head>
   <body>
@@ -2344,8 +2380,12 @@
               role="img"
               aria-label="Your uploaded logo: ydh_white.png"
             >
-              <img src="assets/offer-v3/logo-placeholder-bg.png" alt="" />
-              <span>YOUR DESIGN<br />HERE</span>
+              <img
+                class="client-logo-img"
+                data-auto-bg
+                src="assets/offer-v3/sample-logo-white.svg"
+                alt=""
+              />
             </div>
             <h1 class="header-title">
               Dear Cayna, please find your offer below
@@ -2398,8 +2438,12 @@
               <h2 id="logosTitle">Your logo &amp; design</h2>
               <span class="logos-dd-hint">
                 <span class="logo-mini logo-mini-file">
-                  <img src="assets/offer-v3/logo-placeholder-bg.png" alt="" />
-                  <span>YOUR DESIGN<br />HERE</span>
+                  <img
+                    class="client-logo-img"
+                    data-auto-bg
+                    src="assets/offer-v3/sample-logo-white.svg"
+                    alt=""
+                  />
                 </span>
                 <span class="logo-mini logo-mini-text"
                   >FAKE OFFER BY MARKETING</span
@@ -2436,10 +2480,11 @@
                   <div class="logo-top">
                     <div class="logo-thumb logo-thumb-file">
                       <img
-                        src="assets/offer-v3/logo-placeholder-bg.png"
+                        class="client-logo-img"
+                        data-auto-bg
+                        src="assets/offer-v3/sample-logo-white.svg"
                         alt=""
                       />
-                      <span>YOUR DESIGN<br />HERE</span>
                     </div>
                     <p class="logo-name">
                       <img
@@ -3168,6 +3213,57 @@
         top.addEventListener("transitionend", setTopHeight);
         onScroll();
         setTopHeight();
+      })();
+    </script>
+
+    <script>
+      // Uploaded logo background: if the logo is transparent, light logos get a black
+      // background and dark logos a white one. Demo the dark-logo case with ?logo=black
+      (function () {
+        if (new URLSearchParams(location.search).get("logo") === "black") {
+          document
+            .querySelectorAll("img[data-auto-bg]")
+            .forEach(function (img) {
+              img.src = img.src.replace(
+                "sample-logo-white",
+                "sample-logo-black",
+              );
+            });
+        }
+        function analyse(img) {
+          var w = 120,
+            h = Math.max(
+              1,
+              Math.round((120 * img.naturalHeight) / img.naturalWidth),
+            );
+          var c = document.createElement("canvas");
+          c.width = w;
+          c.height = h;
+          var ctx = c.getContext("2d");
+          ctx.drawImage(img, 0, 0, w, h);
+          var d = ctx.getImageData(0, 0, w, h).data;
+          var transparent = 0,
+            lum = 0,
+            solid = 0;
+          for (var i = 0; i < d.length; i += 4) {
+            if (d[i + 3] < 250) transparent++;
+            if (d[i + 3] > 128) {
+              lum +=
+                (0.2126 * d[i] + 0.7152 * d[i + 1] + 0.0722 * d[i + 2]) / 255;
+              solid++;
+            }
+          }
+          if (!transparent || !solid) return null; // has its own background: leave it
+          return lum / solid > 0.6 ? "dark" : "light";
+        }
+        document.querySelectorAll("img[data-auto-bg]").forEach(function (img) {
+          function apply() {
+            var bg = analyse(img);
+            if (bg) img.parentElement.setAttribute("data-logo-bg", bg);
+          }
+          if (img.complete && img.naturalWidth) apply();
+          else img.addEventListener("load", apply);
+        });
       })();
     </script>
 
