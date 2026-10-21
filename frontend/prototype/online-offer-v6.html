@@ -2290,9 +2290,7 @@
         line-height: 15px;
       }
       /* Uploaded logo: transparent logos get a contrasting background (set by the script at the end of <body>) */
-      .client-logo,
-      .logo-mini-file,
-      .logo-thumb-file {
+      .client-logo {
         background: #fff;
         transition: background 0.2s;
       }
@@ -2320,10 +2318,6 @@
           width 0.2s ease,
           height 0.2s ease,
           border-radius 0.2s ease;
-      }
-      .logo-mini-file,
-      .logo-thumb-file {
-        transition: none;
       }
     </style>
   </head>
@@ -2438,12 +2432,8 @@
               <h2 id="logosTitle">Your logo &amp; design</h2>
               <span class="logos-dd-hint">
                 <span class="logo-mini logo-mini-file">
-                  <img
-                    class="client-logo-img"
-                    data-auto-bg
-                    src="assets/offer-v3/sample-logo-white.svg"
-                    alt=""
-                  />
+                  <img src="assets/offer-v3/logo-placeholder-bg.png" alt="" />
+                  <span>YOUR DESIGN<br />HERE</span>
                 </span>
                 <span class="logo-mini logo-mini-text"
                   >FAKE OFFER BY MARKETING</span
@@ -2480,11 +2470,10 @@
                   <div class="logo-top">
                     <div class="logo-thumb logo-thumb-file">
                       <img
-                        class="client-logo-img"
-                        data-auto-bg
-                        src="assets/offer-v3/sample-logo-white.svg"
+                        src="assets/offer-v3/logo-placeholder-bg.png"
                         alt=""
                       />
+                      <span>YOUR DESIGN<br />HERE</span>
                     </div>
                     <p class="logo-name">
                       <img
@@ -3217,7 +3206,7 @@
     </script>
 
     <script>
-      // Uploaded logo background: if the logo is transparent, light logos get a black
+      // Header logo background: if the uploaded logo is transparent, light logos get a black
       // background and dark logos a white one. Demo the dark-logo case with ?logo=black
       (function () {
         if (new URLSearchParams(location.search).get("logo") === "black") {
