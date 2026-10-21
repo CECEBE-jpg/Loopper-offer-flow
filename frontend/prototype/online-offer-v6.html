@@ -2319,6 +2319,12 @@
           height 0.2s ease,
           border-radius 0.2s ease;
       }
+      /* Header logo: show the uploaded file as-is (beats the faded ".client-logo img" placeholder rule) */
+      .client-logo .client-logo-img {
+        position: relative;
+        opacity: 1;
+        object-fit: contain;
+      }
     </style>
   </head>
   <body>
