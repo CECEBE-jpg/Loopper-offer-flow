@@ -1908,6 +1908,292 @@
       .p5.is-collapsed .p5-qty .qty:not(:has(input[type="radio"]:checked)) {
         display: none;
       }
+      /* ---------- v6 product cards: table layout like the current live offer ---------- */
+      .p6-headrow,
+      .product.p6 {
+        display: grid;
+        grid-template-columns: 64px 176px minmax(0, 1fr) 400px;
+        column-gap: 16px;
+      }
+      .p6-headrow {
+        align-items: end;
+        padding-bottom: 8px;
+        border-bottom: 2px solid #d4d4d4;
+        font-size: 13px;
+        font-weight: 800;
+      }
+      .p6-h-products {
+        grid-column: 1 / 4;
+      }
+      .p6-h-qty,
+      .p6-h-pp,
+      .p6-h-sub {
+        grid-row: 1;
+      }
+      .p6-headrow .p6-h-qty {
+        grid-column: 4;
+      }
+      .p6-headrow .p6-h-pp {
+        grid-column: 4;
+        justify-self: end;
+        margin-right: 112px;
+      }
+      .p6-headrow .p6-h-sub {
+        grid-column: 4;
+        justify-self: end;
+      }
+      .product.p6 {
+        align-items: start;
+        margin: 0;
+        padding: 18px 0;
+        border: 0;
+        border-bottom: 1px solid #d4d4d4;
+      }
+      .product.p6[hidden] {
+        display: none;
+      }
+      .p6-offer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        padding-top: 30px;
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--muted);
+        cursor: pointer;
+      }
+      .p6-media {
+        display: flex;
+        gap: 8px;
+      }
+      .p6-photo {
+        position: relative;
+        width: 120px;
+        height: 120px;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+      }
+      .p6-photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+      .p6-overlay {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        background: rgba(110, 110, 110, 0.72);
+        color: #fff;
+        font-size: 15px;
+        font-weight: 800;
+        line-height: 18px;
+        text-align: center;
+      }
+      .p6-thumbs {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .p6-thumb {
+        width: 36px;
+        height: 36px;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        background: #fff;
+      }
+      .p6-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+      .p6-info {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        min-width: 0;
+      }
+      .p6-title {
+        font-size: 13px;
+        line-height: 17px;
+        font-weight: 800;
+      }
+      .p6-meta {
+        font-size: 12px;
+        line-height: 16px;
+      }
+      .p6-delivery {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 4px;
+      }
+      .p6-delivery p {
+        font-size: 12px;
+        line-height: 15px;
+        font-weight: 700;
+      }
+      .fast-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        height: 24px;
+        padding: 0 20px 0 8px;
+        border-radius: 4px 0 0 4px;
+        background: #2fb4e0;
+        color: #fff;
+        font-size: 12px;
+        font-weight: 700;
+        white-space: nowrap;
+        clip-path: polygon(
+          0 0,
+          calc(100% - 10px) 0,
+          100% 50%,
+          calc(100% - 10px) 100%,
+          0 100%
+        );
+      }
+      .p6-stock {
+        display: flex;
+        flex-direction: column;
+        margin: 4px 0 0;
+        font-size: 13px;
+        font-weight: 800;
+      }
+      .p6-stock div {
+        display: flex;
+        gap: 4px;
+      }
+      .p6-stock dd {
+        margin: 0;
+        color: var(--green);
+      }
+      .p6-tiers {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        margin: 0;
+        padding: 0;
+        border: 0;
+      }
+      .p6-tier {
+        display: grid;
+        grid-template-columns: 22px 44px 86px 1fr 96px;
+        column-gap: 8px;
+        align-items: center;
+        min-height: 30px;
+        font-size: 12px;
+        cursor: pointer;
+      }
+      .p6-tier input {
+        display: grid;
+        place-items: center;
+        width: 16px;
+        height: 16px;
+        margin: 0;
+        border: 1.5px solid #9aa5b1;
+        border-radius: 50%;
+        appearance: none;
+        cursor: pointer;
+      }
+      .p6-tier input:checked {
+        border-color: var(--green);
+      }
+      .p6-tier input:checked::after {
+        content: "";
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--green);
+      }
+      .p6-q {
+        font-weight: 700;
+      }
+      .disc-tag {
+        display: inline-flex;
+        align-items: center;
+        height: 18px;
+        padding: 0 12px 0 7px;
+        background: #f5a623;
+        color: #fff;
+        font-size: 10px;
+        font-weight: 800;
+        white-space: nowrap;
+        clip-path: polygon(
+          0 0,
+          calc(100% - 7px) 0,
+          100% 50%,
+          calc(100% - 7px) 100%,
+          0 100%
+        );
+      }
+      .p6-pp {
+        text-align: right;
+        white-space: nowrap;
+      }
+      .p6-pp s {
+        color: #9aa5b1;
+      }
+      .p6-pp b {
+        font-weight: 700;
+      }
+      .p6-sub {
+        text-align: right;
+        white-space: nowrap;
+      }
+      .p6-tier:has(input:checked) .p6-q,
+      .p6-tier:has(input:checked) .p6-pp b,
+      .p6-tier:has(input:checked) .p6-sub {
+        color: var(--green);
+        font-weight: 800;
+      }
+      .p6-custom {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 6px;
+      }
+      .p6-custom input {
+        width: 92px;
+        height: 26px;
+        padding: 0 8px;
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        font-size: 12px;
+      }
+      .p6-save {
+        height: 26px;
+        padding: 0 16px;
+        border: 0;
+        border-radius: 4px;
+        background: var(--green);
+        color: #fff;
+        font: inherit;
+        font-size: 12px;
+        font-weight: 800;
+        cursor: pointer;
+      }
+      .p6-sample {
+        align-self: flex-start;
+        height: 40px;
+        margin-top: 4px;
+        padding: 0 18px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+        font: inherit;
+        font-size: 14px;
+        font-weight: 800;
+        color: var(--ink);
+        cursor: pointer;
+      }
     </style>
   </head>
   <body>
@@ -2087,57 +2373,94 @@
           <div class="card-head">
             <h2 id="productsTitle">Your products</h2>
           </div>
-          <hr class="p5-rule" />
-          <article class="product p5 is-collapsed">
-            <div class="p5-head">
-              <div class="p5-photo">
+          <div class="p6-headrow" aria-hidden="true">
+            <span class="p6-h-products">Selected products</span>
+            <span class="p6-h-qty">Choose quantity</span>
+            <span class="p6-h-pp">Price per piece</span>
+            <span class="p6-h-sub">Subtotal</span>
+          </div>
+          <article class="product p6">
+            <label class="p6-offer">
+              <span>In offer</span>
+              <span class="switch"
+                ><input type="checkbox" checked aria-label="In offer"
+              /></span>
+            </label>
+            <div class="p6-media">
+              <div class="p6-photo">
                 <img
                   src="assets/offer-v3/thermos-silver.jpg"
                   alt="Thermos bottle, silver"
                 />
-              </div>
-              <div class="p5-info">
-                <div>
-                  <h3 class="product-title">
-                    Thermos bottle · Stainless steel · 500 ml
-                  </h3>
-                  <p class="product-sku">Article 6383162</p>
-                </div>
-                <div class="chips">
-                  <span class="chip chip-grey">Colour: Silver</span>
-                  <span class="chip chip-grey"
-                    >Engraving: front (50×90 mm)</span
-                  >
-                  <span class="chip chip-grey">Fast delivery: 28 Oct</span>
-                </div>
-              </div>
-              <div class="p5-actions">
-                <label class="switch"
-                  >In offer <input type="checkbox" checked
-                /></label>
-                <button type="button" class="p5-toggle" aria-expanded="false">
-                  <span class="p5-toggle-label">Show prices</span>
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 20 20"
+                <span class="p6-overlay"
+                  ><svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
                     fill="none"
                     aria-hidden="true"
                   >
                     <path
-                      d="M5 8l5 5 5-5"
-                      stroke="currentColor"
-                      stroke-width="2.4"
+                      d="M20 12a8 8 0 0 1-13.7 5.6M4 12a8 8 0 0 1 13.7-5.6"
+                      stroke="#fff"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                    />
+                    <path
+                      d="M18 2.5v4h-4M6 21.5v-4h4"
+                      stroke="#fff"
+                      stroke-width="2"
                       stroke-linecap="round"
                       stroke-linejoin="round"
-                    />
-                  </svg>
-                </button>
+                    /></svg
+                  ><span>Design in<br />progress</span></span
+                >
+              </div>
+              <div class="p6-thumbs">
+                <span class="p6-thumb"
+                  ><img src="assets/offer-v3/thermos-silver.jpg" alt=""
+                /></span>
+                <span class="p6-thumb"
+                  ><img src="assets/offer-v3/thermos-silver.jpg" alt=""
+                /></span>
+                <span class="p6-thumb"
+                  ><img src="assets/offer-v3/thermos-silver.jpg" alt=""
+                /></span>
               </div>
             </div>
-            <fieldset class="p5-qty">
-              <legend class="sr-only">Choose your quantity</legend>
-              <label class="qty">
+            <div class="p6-info">
+              <h3 class="p6-title">
+                Thermos bottle | Stainless steel | 500 ml | Silver
+              </h3>
+              <p class="p6-meta">Article number: 6383162</p>
+              <p class="p6-meta">
+                Engraving<br />Personalisation: engraving: front (50×90 mm)
+              </p>
+              <div class="p6-delivery">
+                <span class="fast-badge"
+                  ><svg
+                    width="18"
+                    height="12"
+                    viewBox="0 0 18 12"
+                    fill="none"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M1 1h10v8H1zM11 4h3.5L17 7v2h-6z"
+                      stroke="#fff"
+                      stroke-width="1.4"
+                      stroke-linejoin="round"
+                    />
+                    <circle cx="4.5" cy="10" r="1.4" fill="#fff" />
+                    <circle cx="13.5" cy="10" r="1.4" fill="#fff" /></svg
+                  ><i>Fast delivery</i></span
+                >
+                <p>Expected delivery:<br /><b>28 October 2026</b></p>
+              </div>
+            </div>
+            <fieldset class="p6-tiers">
+              <legend class="sr-only">Choose quantity</legend>
+              <label class="p6-tier">
                 <input
                   type="radio"
                   name="qty1"
@@ -2145,97 +2468,122 @@
                   data-price="9.86"
                   checked
                 />
-                <span class="qty-n">25 pcs</span>
-                <span class="qty-price">€ 9,86 <small>per piece</small></span>
-                <span class="qty-total">€ 246,50</span>
+                <span class="p6-q">25</span>
+                <span class="p6-tag"></span>
+                <span class="p6-pp"><b>€ 9,86</b></span>
+                <span class="p6-sub">€ 246,50</span>
               </label>
-              <label class="qty">
+              <label class="p6-tier">
                 <input type="radio" name="qty1" value="50" data-price="7.72" />
-                <span class="qty-n">50 pcs</span>
-                <span class="qty-price">€ 7,72 <small>per piece</small></span>
-                <span class="qty-save">€ 2,14 less per piece</span>
-                <span class="qty-total">€ 386,00</span>
+                <span class="p6-q">50</span>
+                <span class="p6-tag"
+                  ><span class="disc-tag">22% discount</span></span
+                >
+                <span class="p6-pp"><s>€ 9,86</s> / <b>€ 7,72</b></span>
+                <span class="p6-sub">€ 386,00</span>
               </label>
-              <label class="qty">
+              <label class="p6-tier">
                 <input type="radio" name="qty1" value="100" data-price="6.39" />
-                <span class="qty-n">100 pcs</span>
-                <span class="qty-price">€ 6,39 <small>per piece</small></span>
-                <span class="qty-save">€ 3,47 less per piece</span>
-                <span class="qty-total">€ 639,00</span>
+                <span class="p6-q">100</span>
+                <span class="p6-tag"
+                  ><span class="disc-tag">35% discount</span></span
+                >
+                <span class="p6-pp"><s>€ 9,86</s> / <b>€ 6,39</b></span>
+                <span class="p6-sub">€ 639,00</span>
               </label>
-              <label class="qty">
+              <label class="p6-tier">
                 <input type="radio" name="qty1" value="250" data-price="5.77" />
-                <span class="qty-n">250 pcs</span>
-                <span class="qty-price">€ 5,77 <small>per piece</small></span>
-                <span class="qty-save">€ 4,47 less per piece</span>
-                <span class="qty-total">€ 1.442,50</span>
+                <span class="p6-q">250</span>
+                <span class="p6-tag"
+                  ><span class="disc-tag">41% discount</span></span
+                >
+                <span class="p6-pp"><s>€ 9,86</s> / <b>€ 5,77</b></span>
+                <span class="p6-sub">€ 1.442,50</span>
               </label>
-              <label class="qty qty-custom">
-                <input type="radio" name="qty1" value="custom" />
-                <span class="qty-custom-label">Choose your quantity</span>
-                <span class="qty-custom-fields">
-                  <input
-                    type="number"
-                    min="1"
-                    placeholder="Other quantity…"
-                    aria-label="Other quantity"
-                  />
-                  <button type="button" class="btn">Update price</button>
-                </span>
-              </label>
+              <div class="p6-custom">
+                <input
+                  type="number"
+                  min="1"
+                  placeholder="Quantity"
+                  aria-label="Other quantity"
+                />
+                <button type="button" class="p6-save">Save</button>
+              </div>
             </fieldset>
           </article>
           <hr class="p5-rule" />
-          <article class="product p5 is-collapsed">
-            <div class="p5-head">
-              <div class="p5-photo">
+          <article class="product p6">
+            <label class="p6-offer">
+              <span>In offer</span>
+              <span class="switch"
+                ><input type="checkbox" checked aria-label="In offer"
+              /></span>
+            </label>
+            <div class="p6-media">
+              <div class="p6-photo">
                 <img
                   src="assets/offer-v3/thermos-silver.jpg"
                   alt="Thermos bottle, silver"
                 />
-              </div>
-              <div class="p5-info">
-                <div>
-                  <h3 class="product-title">
-                    Thermos bottle · Stainless steel · 500 ml
-                  </h3>
-                  <p class="product-sku">Article 6383162</p>
-                </div>
-                <div class="chips">
-                  <span class="chip chip-grey">Colour: Silver</span>
-                  <span class="chip chip-grey"
-                    >Engraving: front (50×90 mm)</span
-                  >
-                  <span class="chip chip-grey">Fast delivery: 28 Oct</span>
-                </div>
-              </div>
-              <div class="p5-actions">
-                <label class="switch"
-                  >In offer <input type="checkbox" checked
-                /></label>
-                <button type="button" class="p5-toggle" aria-expanded="false">
-                  <span class="p5-toggle-label">Show prices</span>
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 20 20"
+                <span class="p6-overlay"
+                  ><svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
                     fill="none"
                     aria-hidden="true"
                   >
                     <path
-                      d="M5 8l5 5 5-5"
-                      stroke="currentColor"
-                      stroke-width="2.4"
+                      d="M20 12a8 8 0 0 1-13.7 5.6M4 12a8 8 0 0 1 13.7-5.6"
+                      stroke="#fff"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                    />
+                    <path
+                      d="M18 2.5v4h-4M6 21.5v-4h4"
+                      stroke="#fff"
+                      stroke-width="2"
                       stroke-linecap="round"
                       stroke-linejoin="round"
-                    />
-                  </svg>
-                </button>
+                    /></svg
+                  ><span>Design in<br />progress</span></span
+                >
+              </div>
+              <div class="p6-thumbs">
+                <span class="p6-thumb"
+                  ><img src="assets/offer-v3/thermos-silver.jpg" alt=""
+                /></span>
+                <span class="p6-thumb"
+                  ><img src="assets/offer-v3/thermos-silver.jpg" alt=""
+                /></span>
+                <span class="p6-thumb"
+                  ><img src="assets/offer-v3/thermos-silver.jpg" alt=""
+                /></span>
               </div>
             </div>
-            <fieldset class="p5-qty">
-              <legend class="sr-only">Choose your quantity</legend>
-              <label class="qty">
+            <div class="p6-info">
+              <h3 class="p6-title">
+                Thermos bottle | Stainless steel | 500 ml | Silver
+              </h3>
+              <p class="p6-meta">Article number: 6383162</p>
+              <p class="p6-meta">
+                Engraving<br />Personalisation: engraving: front (50×90 mm)
+              </p>
+              <dl class="p6-stock">
+                <div><dt>Not in stock</dt></div>
+                <div>
+                  <dt>Incoming stock:</dt>
+                  <dd>1,409</dd>
+                </div>
+                <div>
+                  <dt>Date incoming stock:</dt>
+                  <dd>26-10-2026</dd>
+                </div>
+              </dl>
+            </div>
+            <fieldset class="p6-tiers">
+              <legend class="sr-only">Choose quantity</legend>
+              <label class="p6-tier">
                 <input
                   type="radio"
                   name="qty2"
@@ -2243,44 +2591,47 @@
                   data-price="9.86"
                   checked
                 />
-                <span class="qty-n">25 pcs</span>
-                <span class="qty-price">€ 9,86 <small>per piece</small></span>
-                <span class="qty-total">€ 246,50</span>
+                <span class="p6-q">25</span>
+                <span class="p6-tag"></span>
+                <span class="p6-pp"><b>€ 9,86</b></span>
+                <span class="p6-sub">€ 246,50</span>
               </label>
-              <label class="qty">
+              <label class="p6-tier">
                 <input type="radio" name="qty2" value="50" data-price="7.72" />
-                <span class="qty-n">50 pcs</span>
-                <span class="qty-price">€ 7,72 <small>per piece</small></span>
-                <span class="qty-save">€ 2,14 less per piece</span>
-                <span class="qty-total">€ 386,00</span>
+                <span class="p6-q">50</span>
+                <span class="p6-tag"
+                  ><span class="disc-tag">22% discount</span></span
+                >
+                <span class="p6-pp"><s>€ 9,86</s> / <b>€ 7,72</b></span>
+                <span class="p6-sub">€ 386,00</span>
               </label>
-              <label class="qty">
+              <label class="p6-tier">
                 <input type="radio" name="qty2" value="100" data-price="6.39" />
-                <span class="qty-n">100 pcs</span>
-                <span class="qty-price">€ 6,39 <small>per piece</small></span>
-                <span class="qty-save">€ 3,47 less per piece</span>
-                <span class="qty-total">€ 639,00</span>
+                <span class="p6-q">100</span>
+                <span class="p6-tag"
+                  ><span class="disc-tag">35% discount</span></span
+                >
+                <span class="p6-pp"><s>€ 9,86</s> / <b>€ 6,39</b></span>
+                <span class="p6-sub">€ 639,00</span>
               </label>
-              <label class="qty">
+              <label class="p6-tier">
                 <input type="radio" name="qty2" value="250" data-price="5.77" />
-                <span class="qty-n">250 pcs</span>
-                <span class="qty-price">€ 5,77 <small>per piece</small></span>
-                <span class="qty-save">€ 4,47 less per piece</span>
-                <span class="qty-total">€ 1.442,50</span>
+                <span class="p6-q">250</span>
+                <span class="p6-tag"
+                  ><span class="disc-tag">41% discount</span></span
+                >
+                <span class="p6-pp"><s>€ 9,86</s> / <b>€ 5,77</b></span>
+                <span class="p6-sub">€ 1.442,50</span>
               </label>
-              <label class="qty qty-custom">
-                <input type="radio" name="qty2" value="custom" />
-                <span class="qty-custom-label">Choose your quantity</span>
-                <span class="qty-custom-fields">
-                  <input
-                    type="number"
-                    min="1"
-                    placeholder="Other quantity…"
-                    aria-label="Other quantity"
-                  />
-                  <button type="button" class="btn">Update price</button>
-                </span>
-              </label>
+              <div class="p6-custom">
+                <input
+                  type="number"
+                  min="1"
+                  placeholder="Quantity"
+                  aria-label="Other quantity"
+                />
+                <button type="button" class="p6-save">Save</button>
+              </div>
             </fieldset>
           </article>
 
@@ -2332,35 +2683,93 @@
           </div>
 
           <!-- Same layout as the other product cards -->
-          <article class="product p5" id="altProduct" hidden>
-            <div class="p5-head">
-              <div class="p5-photo">
+          <article class="product p6" id="altProduct" hidden>
+            <label class="p6-offer">
+              <span>In offer</span>
+              <span class="switch"
+                ><input
+                  type="checkbox"
+                  id="altInOffer"
+                  checked
+                  aria-label="In offer"
+              /></span>
+            </label>
+            <div class="p6-media">
+              <div class="p6-photo">
                 <img
                   src="assets/offer-v3/water-bottle-black.png"
                   alt="Water bottle, black"
                 />
+                <span class="p6-overlay"
+                  ><svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M20 12a8 8 0 0 1-13.7 5.6M4 12a8 8 0 0 1 13.7-5.6"
+                      stroke="#fff"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                    />
+                    <path
+                      d="M18 2.5v4h-4M6 21.5v-4h4"
+                      stroke="#fff"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    /></svg
+                  ><span>Design in<br />progress</span></span
+                >
               </div>
-              <div class="p5-info">
-                <div>
-                  <h3 class="product-title">
-                    Water bottle · Recycled stainless steel · 750 ml
-                  </h3>
-                  <p class="product-sku">Article 6457285</p>
-                </div>
-                <div class="chips">
-                  <span class="chip chip-green">Sustainable alternative</span>
-                  <span class="chip chip-grey">Colour: Black</span>
-                  <span class="chip chip-grey">Full-colour print</span>
-                  <span class="chip chip-grey">Fast delivery: 28 Oct</span>
-                </div>
+              <div class="p6-thumbs">
+                <span class="p6-thumb"
+                  ><img src="assets/offer-v3/water-bottle-black.png" alt=""
+                /></span>
+                <span class="p6-thumb"
+                  ><img src="assets/offer-v3/water-bottle-black.png" alt=""
+                /></span>
+                <span class="p6-thumb"
+                  ><img src="assets/offer-v3/water-bottle-black.png" alt=""
+                /></span>
               </div>
-              <label class="switch"
-                >In offer <input type="checkbox" id="altInOffer" checked
-              /></label>
             </div>
-            <fieldset class="p5-qty" id="altQty">
-              <legend class="sr-only">Choose your quantity</legend>
-              <label class="qty">
+            <div class="p6-info">
+              <h3 class="p6-title">
+                Water bottle | Recycled stainless steel | 750 ml | Black
+              </h3>
+              <p class="p6-meta">Article number: 6457285</p>
+              <p class="p6-meta">
+                Digital print<br />Personalisation: full colour: wrap-around
+                (230×160 mm)
+              </p>
+              <div class="p6-delivery">
+                <span class="fast-badge"
+                  ><svg
+                    width="18"
+                    height="12"
+                    viewBox="0 0 18 12"
+                    fill="none"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M1 1h10v8H1zM11 4h3.5L17 7v2h-6z"
+                      stroke="#fff"
+                      stroke-width="1.4"
+                      stroke-linejoin="round"
+                    />
+                    <circle cx="4.5" cy="10" r="1.4" fill="#fff" />
+                    <circle cx="13.5" cy="10" r="1.4" fill="#fff" /></svg
+                  ><i>Fast delivery</i></span
+                >
+                <p>Expected delivery:<br /><b>28 October 2026</b></p>
+              </div>
+            </div>
+            <fieldset class="p6-tiers" id="altQty">
+              <legend class="sr-only">Choose quantity</legend>
+              <label class="p6-tier">
                 <input
                   type="radio"
                   name="qtyAlt"
@@ -2368,61 +2777,66 @@
                   data-price="3.03"
                   checked
                 />
-                <span class="qty-n">250 pcs</span>
-                <span class="qty-price">€ 3,03 <small>per piece</small></span>
-                <span class="qty-total">€ 757,50</span>
+                <span class="p6-q">250</span>
+                <span class="p6-tag"></span>
+                <span class="p6-pp"><b>€ 3,03</b></span>
+                <span class="p6-sub">€ 757,50</span>
               </label>
-              <label class="qty">
+              <label class="p6-tier">
                 <input
                   type="radio"
                   name="qtyAlt"
                   value="500"
                   data-price="2.86"
                 />
-                <span class="qty-n">500 pcs</span>
-                <span class="qty-price">€ 2,86 <small>per piece</small></span>
-                <span class="qty-save">€ 0,17 less per piece</span>
-                <span class="qty-total">€ 1.430,00</span>
+                <span class="p6-q">500</span>
+                <span class="p6-tag"
+                  ><span class="disc-tag">6% discount</span></span
+                >
+                <span class="p6-pp"><s>€ 3,03</s> / <b>€ 2,86</b></span>
+                <span class="p6-sub">€ 1.430,00</span>
               </label>
-              <label class="qty">
+              <label class="p6-tier">
                 <input
                   type="radio"
                   name="qtyAlt"
                   value="1000"
                   data-price="2.74"
                 />
-                <span class="qty-n">1,000 pcs</span>
-                <span class="qty-price">€ 2,74 <small>per piece</small></span>
-                <span class="qty-save">€ 0,29 less per piece</span>
-                <span class="qty-total">€ 2.740,00</span>
+                <span class="p6-q">1,000</span>
+                <span class="p6-tag"
+                  ><span class="disc-tag">10% discount</span></span
+                >
+                <span class="p6-pp"><s>€ 3,03</s> / <b>€ 2,74</b></span>
+                <span class="p6-sub">€ 2.740,00</span>
               </label>
-              <label class="qty">
+              <label class="p6-tier">
                 <input
                   type="radio"
                   name="qtyAlt"
                   value="2500"
                   data-price="2.63"
                 />
-                <span class="qty-n">2,500 pcs</span>
-                <span class="qty-price">€ 2,63 <small>per piece</small></span>
-                <span class="qty-save">€ 0,40 less per piece</span>
-                <span class="qty-total">€ 6.575,00</span>
+                <span class="p6-q">2,500</span>
+                <span class="p6-tag"
+                  ><span class="disc-tag">13% discount</span></span
+                >
+                <span class="p6-pp"><s>€ 3,03</s> / <b>€ 2,63</b></span>
+                <span class="p6-sub">€ 6.575,00</span>
               </label>
-              <label class="qty qty-custom">
-                <input type="radio" name="qtyAlt" value="custom" />
-                <span class="qty-custom-label">Choose your quantity</span>
-                <span class="qty-custom-fields">
-                  <input
-                    type="number"
-                    min="1"
-                    placeholder="Other quantity…"
-                    aria-label="Other quantity"
-                  />
-                  <button type="button" class="btn">Update price</button>
-                </span>
-              </label>
+              <div class="p6-custom">
+                <input
+                  type="number"
+                  min="1"
+                  placeholder="Quantity"
+                  aria-label="Other quantity"
+                />
+                <button type="button" class="p6-save">Save</button>
+              </div>
             </fieldset>
           </article>
+
+          <button type="button" class="p6-sample">Request sample offer</button>
         </section>
       </main>
 
@@ -2655,19 +3069,6 @@
           update(true);
         });
       })();
-    </script>
-    <script>
-      // Product cards: collapse the price list, keep the selected quantity visible
-      document.querySelectorAll(".p5-toggle").forEach(function (btn) {
-        btn.addEventListener("click", function () {
-          var card = btn.closest(".p5");
-          var collapsed = card.classList.toggle("is-collapsed");
-          btn.setAttribute("aria-expanded", String(!collapsed));
-          btn.querySelector(".p5-toggle-label").textContent = collapsed
-            ? "Show prices"
-            : "Hide prices";
-        });
-      });
     </script>
 
     <!-- Step navigation, always visible at the bottom -->
