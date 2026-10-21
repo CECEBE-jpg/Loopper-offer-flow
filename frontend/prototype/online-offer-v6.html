@@ -2357,6 +2357,105 @@
         align-items: flex-start;
         gap: 6px;
       }
+      /* Logo tiles: fixed 152px squares, dashed add tiles, Edit/Delete for text logos */
+      .logos-dd .logos {
+        flex-wrap: wrap;
+        width: auto;
+        max-width: 700px;
+        gap: 20px;
+      }
+      .logos-dd .logo {
+        flex: none;
+        width: 152px;
+      }
+      .logo-actions {
+        display: flex;
+        gap: 6px;
+      }
+      .logo-actions .logo-btn {
+        flex: 1;
+        padding: 0 6px;
+      }
+      .logo-add {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 0;
+        border: 0;
+        background: none;
+        font: inherit;
+        text-align: left;
+        cursor: pointer;
+      }
+      .logo-add-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        border: 1.5px dashed #b7c2cd;
+        border-radius: 10px;
+        background: #f1f3f5;
+        font-size: 13px;
+        font-weight: 800;
+        color: var(--text);
+        transition:
+          border-color 0.15s,
+          background 0.15s;
+      }
+      .logo-add-box b {
+        font-size: 28px;
+        line-height: 28px;
+        font-weight: 500;
+        color: var(--blue);
+      }
+      .logo-add:hover .logo-add-box,
+      .logo-add:focus-visible .logo-add-box {
+        border-color: var(--blue);
+        background: #eaf6fa;
+      }
+      .logo-thumb-upload {
+        background: #fff;
+        padding: 10px;
+      }
+      .logo-thumb-upload img {
+        position: static !important;
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: contain;
+        opacity: 1 !important;
+        transform: none !important;
+      }
+      .logo-thumb-text[contenteditable="true"] {
+        outline: 2px solid var(--blue);
+        outline-offset: -2px;
+        cursor: text;
+      }
+      .logo-edit {
+        display: flex;
+        gap: 6px;
+      }
+      .logo-edit select,
+      .logo-edit input[type="color"] {
+        height: 26px;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        font: inherit;
+        font-size: 11px;
+      }
+      .logo-edit select {
+        flex: 1;
+        min-width: 0;
+      }
+      .logo-edit input[type="color"] {
+        width: 30px;
+        padding: 1px;
+      }
+      .logos-dd .logo.logo-add {
+        justify-content: flex-start;
+      }
     </style>
   </head>
   <body>
@@ -2504,7 +2603,7 @@
           <div class="logos-dd-body">
             <div class="logos-row">
               <div class="logos">
-                <div class="logo">
+                <div class="logo" data-logo="file">
                   <div class="logo-top">
                     <div class="logo-thumb logo-thumb-file">
                       <img
@@ -2523,7 +2622,11 @@
                     </p>
                     <p class="logo-sub">Received 13 Oct, 18:00</p>
                   </div>
-                  <button type="button" class="logo-btn">
+                  <button
+                    type="button"
+                    class="logo-btn"
+                    data-logo-action="delete"
+                  >
                     <img
                       src="assets/offer-v3/icon-remove.svg"
                       width="12.2142"
@@ -2532,23 +2635,65 @@
                     />Remove
                   </button>
                 </div>
-                <div class="logo">
+                <div class="logo" data-logo="text">
                   <div class="logo-top">
-                    <div class="logo-thumb logo-thumb-text">
+                    <div
+                      class="logo-thumb logo-thumb-text"
+                      style="
+                        font-family: &quot;Times New Roman&quot;, serif;
+                        color: #7a3fa0;
+                      "
+                    >
                       FAKE OFFER BY MARKETING
                     </div>
                     <p class="logo-name">Text logo</p>
                     <p class="logo-sub">Times New Roman · purple</p>
                   </div>
-                  <button type="button" class="logo-btn">
-                    <img
-                      src="assets/offer-v3/icon-edit.svg"
-                      width="14.9621"
-                      height="14.3636"
-                      alt=""
-                    />Edit text logo
-                  </button>
+                  <div class="logo-actions">
+                    <button
+                      type="button"
+                      class="logo-btn"
+                      data-logo-action="edit"
+                    >
+                      <img
+                        src="assets/offer-v3/icon-edit.svg"
+                        width="14.9621"
+                        height="14.3636"
+                        alt=""
+                      />Edit
+                    </button>
+                    <button
+                      type="button"
+                      class="logo-btn"
+                      data-logo-action="delete"
+                    >
+                      <img
+                        src="assets/offer-v3/icon-remove.svg"
+                        width="12.2142"
+                        height="12.6353"
+                        alt=""
+                      />Delete
+                    </button>
+                  </div>
                 </div>
+                <!-- Add tiles: upload a logo file / add a text logo -->
+                <label class="logo logo-add" id="logoUpload">
+                  <span class="logo-add-box">
+                    <b aria-hidden="true">+</b>Upload logo
+                  </span>
+                  <span class="logo-sub">PNG, SVG, AI, EPS or PDF</span>
+                  <input
+                    type="file"
+                    accept=".png,.svg,.ai,.eps,.pdf,image/*"
+                    hidden
+                  />
+                </label>
+                <button type="button" class="logo logo-add" id="logoAddText">
+                  <span class="logo-add-box">
+                    <b aria-hidden="true">+</b>Add text logo
+                  </span>
+                  <span class="logo-sub">Type your company name</span>
+                </button>
               </div>
               <div class="logos-aside">
                 <p class="design-note">
@@ -2559,9 +2704,6 @@
                     order.</span
                   >
                 </p>
-                <button type="button" class="upload-link">
-                  <b aria-hidden="true">+</b>Upload another logo
-                </button>
               </div>
             </div>
           </div>
@@ -3291,6 +3433,177 @@
           if (img.complete && img.naturalWidth) apply();
           else img.addEventListener("load", apply);
         });
+      })();
+    </script>
+
+    <script>
+      // "Your logo & design": upload a file, add / edit / delete text logos, remove logos
+      (function () {
+        var list = document.querySelector(".logos-dd .logos");
+        var uploadTile = document.getElementById("logoUpload");
+        var count = document.querySelector(".logos-dd-count");
+        var FONTS = [
+          "Times New Roman",
+          "Arial",
+          "Georgia",
+          "Courier New",
+          "Nunito",
+        ];
+        var COLOURS = {
+          "#7a3fa0": "purple",
+          "#1c2530": "black",
+          "#ffffff": "white",
+          "#00799a": "blue",
+          "#4a9620": "green",
+          "#d64545": "red",
+        };
+        function colourName(hex) {
+          return COLOURS[hex.toLowerCase()] || hex;
+        }
+        function updateCount() {
+          var n = list.querySelectorAll("[data-logo]").length;
+          count.textContent = n + (n === 1 ? " logo" : " logos");
+        }
+        function btn(action, icon, w, h, label) {
+          return (
+            '<button type="button" class="logo-btn" data-logo-action="' +
+            action +
+            '"><img src="assets/offer-v3/' +
+            icon +
+            '" width="' +
+            w +
+            '" height="' +
+            h +
+            '" alt="" />' +
+            label +
+            "</button>"
+          );
+        }
+        function textTile(text, font, colour) {
+          var el = document.createElement("div");
+          el.className = "logo";
+          el.setAttribute("data-logo", "text");
+          el.innerHTML =
+            '<div class="logo-top"><div class="logo-thumb logo-thumb-text"></div>' +
+            '<p class="logo-name">Text logo</p><p class="logo-sub"></p></div>' +
+            '<div class="logo-actions">' +
+            btn("edit", "icon-edit.svg", 14.9621, 14.3636, "Edit") +
+            btn("delete", "icon-remove.svg", 12.2142, 12.6353, "Delete") +
+            "</div>";
+          var thumb = el.querySelector(".logo-thumb-text");
+          thumb.textContent = text;
+          thumb.style.fontFamily = "'" + font + "', serif";
+          thumb.style.color = colour;
+          el.querySelector(".logo-sub").textContent =
+            font + " · " + colourName(colour);
+          return el;
+        }
+        function fileTile(file) {
+          var el = document.createElement("div");
+          el.className = "logo";
+          el.setAttribute("data-logo", "file");
+          var url = URL.createObjectURL(file);
+          el.innerHTML =
+            '<div class="logo-top"><div class="logo-thumb logo-thumb-upload"><img alt="" /></div>' +
+            '<p class="logo-name"><img src="assets/offer-v3/icon-check.svg" width="14" height="14" alt="" /><span></span></p>' +
+            '<p class="logo-sub">Received just now</p></div>' +
+            btn("delete", "icon-remove.svg", 12.2142, 12.6353, "Remove");
+          el.querySelector(".logo-thumb-upload img").src = url;
+          el.querySelector(".logo-name span").textContent = file.name;
+          return el;
+        }
+        function startEdit(tile) {
+          var thumb = tile.querySelector(".logo-thumb-text");
+          var sub = tile.querySelector(".logo-sub");
+          var font = (thumb.style.fontFamily || "Times New Roman")
+            .replace(/['"]/g, "")
+            .split(",")[0]
+            .trim();
+          var rgb = getComputedStyle(thumb).color.match(/\d+/g) || [0, 0, 0];
+          var hex =
+            "#" +
+            rgb
+              .slice(0, 3)
+              .map(function (v) {
+                return ("0" + (+v).toString(16)).slice(-2);
+              })
+              .join("");
+          thumb.contentEditable = "true";
+          thumb.focus();
+          document.getSelection().selectAllChildren(thumb);
+          var bar = document.createElement("div");
+          bar.className = "logo-edit";
+          bar.innerHTML =
+            '<select aria-label="Font">' +
+            FONTS.map(function (f) {
+              return (
+                "<option" +
+                (f === font ? " selected" : "") +
+                ">" +
+                f +
+                "</option>"
+              );
+            }).join("") +
+            '</select><input type="color" aria-label="Colour" value="' +
+            hex +
+            '" />';
+          sub.replaceWith(bar);
+          bar.querySelector("select").addEventListener("change", function (e) {
+            thumb.style.fontFamily = "'" + e.target.value + "', serif";
+          });
+          bar.querySelector("input").addEventListener("input", function (e) {
+            thumb.style.color = e.target.value;
+          });
+          var edit = tile.querySelector('[data-logo-action="edit"]');
+          edit.setAttribute("data-logo-action", "save");
+          edit.lastChild.textContent = "Save";
+        }
+        function saveEdit(tile) {
+          var thumb = tile.querySelector(".logo-thumb-text");
+          var bar = tile.querySelector(".logo-edit");
+          if (!thumb.textContent.trim()) thumb.textContent = "Your company";
+          thumb.contentEditable = "false";
+          var sel = window.getSelection();
+          if (sel) sel.removeAllRanges();
+          var sub = document.createElement("p");
+          sub.className = "logo-sub";
+          sub.textContent =
+            bar.querySelector("select").value +
+            " · " +
+            colourName(bar.querySelector("input").value);
+          bar.replaceWith(sub);
+          var save = tile.querySelector('[data-logo-action="save"]');
+          save.setAttribute("data-logo-action", "edit");
+          save.lastChild.textContent = "Edit";
+        }
+        list.addEventListener("click", function (e) {
+          var b = e.target.closest("[data-logo-action]");
+          if (!b) return;
+          var tile = b.closest("[data-logo]");
+          var a = b.getAttribute("data-logo-action");
+          if (a === "delete") {
+            tile.remove();
+            updateCount();
+          } else if (a === "edit") startEdit(tile);
+          else if (a === "save") saveEdit(tile);
+        });
+        document
+          .getElementById("logoAddText")
+          .addEventListener("click", function () {
+            var tile = textTile("Your company", "Times New Roman", "#1c2530");
+            list.insertBefore(tile, uploadTile);
+            updateCount();
+            startEdit(tile);
+          });
+        uploadTile
+          .querySelector("input")
+          .addEventListener("change", function (e) {
+            Array.prototype.forEach.call(e.target.files, function (file) {
+              list.insertBefore(fileTile(file), uploadTile);
+            });
+            e.target.value = "";
+            updateCount();
+          });
       })();
     </script>
 
