@@ -2474,6 +2474,408 @@
       .logo-add:focus-visible .logo-add-box {
         background: transparent;
       }
+
+      /* ===== Text logo modal, copied from 03 Request flow/styles.css ===== */
+      .tlm {
+        --cyan: #00aed8;
+        --font: "Nunito", ui-rounded, "Segoe UI", system-ui, sans-serif;
+      }
+      /* "Add text logo" modal (Figma modal-window/Default 640:10698) + Font / PMS
+         dropdowns (input-container 640:11065). Open lists float over the rows below,
+         like the other dropdowns. Smart Animate default: ease-out 300ms. */
+      .tlm {
+        --tlm-dur: 300ms;
+        --tlm-ease: ease-out;
+        position: fixed;
+        inset: 0;
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+        font-family: var(--font);
+      }
+      .tlm[hidden] {
+        display: none;
+      }
+      .tlm-backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.45);
+        opacity: 0;
+        transition: opacity var(--tlm-dur) var(--tlm-ease);
+      }
+      .tlm-win {
+        position: relative;
+        width: 680px;
+        max-width: 100%;
+        max-height: 100%;
+        display: flex;
+        flex-direction: column;
+        border-radius: 12px;
+        background: #fff;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+        opacity: 0;
+        transform: translateY(16px) scale(0.98);
+        transition:
+          opacity var(--tlm-dur) var(--tlm-ease),
+          transform var(--tlm-dur) var(--tlm-ease);
+      }
+      .tlm.is-open .tlm-backdrop,
+      .tlm.is-open .tlm-win {
+        opacity: 1;
+      }
+      .tlm.is-open .tlm-win {
+        transform: none;
+      }
+      .tlm-head {
+        height: 49px;
+        flex: none;
+        padding: 0 9px 0 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: var(--cyan);
+      }
+      .tlm-head h2 {
+        margin: 0;
+        font-size: 20px;
+        font-weight: 700;
+        color: #fff;
+      }
+      .tlm-x {
+        width: 39px;
+        height: 39px;
+        border-radius: 50%;
+        transition: background-color 150ms ease-out;
+      }
+      .tlm-x:hover {
+        background: rgba(255, 255, 255, 0.15);
+      }
+      .tlm-body {
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+      }
+      .tlm-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 16px;
+      }
+      .tlm-label {
+        width: 96px;
+        flex: none;
+        padding-top: 8px;
+        font-size: 15px;
+        font-weight: 700;
+        color: #333;
+      }
+      .tlm-row > :last-child {
+        flex: 1 0 0;
+        min-width: 0;
+      }
+      .tlm-field {
+        width: 100%;
+        border: 1px solid #ccc;
+        border-radius: 10px; /* consistent: form field */
+        background: #fff;
+        font: inherit;
+        font-size: 14px;
+        color: #333;
+        outline: none;
+        transition: border-color 150ms ease-out;
+      }
+      .tlm-field::placeholder {
+        color: #999;
+        opacity: 1;
+      }
+      .tlm-field:focus {
+        border-color: var(--cyan);
+      }
+      .tlm-field.is-invalid,
+      .tlm-dd.is-invalid .tlm-dd-box {
+        border-color: #e03131;
+      }
+      .tlm-area {
+        height: 96px;
+        padding: 11px; /* 12 minus the 1px stroke */
+        resize: none;
+        display: block;
+      }
+      .tlm-input {
+        height: 42px;
+        padding: 0 15px;
+      }
+      .tlm-stack {
+        display: flex;
+        flex-direction: column;
+        gap: 11px;
+      }
+
+      /* dropdown: closed = 42px field; open = same box grows with the list */
+      .tlm-dd {
+        position: relative;
+        height: 42px;
+      }
+      .tlm-dd-box {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        background: #fff;
+        overflow: hidden;
+        transition:
+          box-shadow var(--tlm-dur) var(--tlm-ease),
+          border-color 150ms ease-out;
+      }
+      .tlm-dd.is-open .tlm-dd-box {
+        z-index: 3;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+      }
+      .tlm-dd-head {
+        width: 100%;
+        height: 40px;
+        padding: 0 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-align: left;
+        border-bottom: 1px solid transparent;
+        transition: border-color var(--tlm-dur) var(--tlm-ease);
+      }
+      .tlm-dd.is-open .tlm-dd-head {
+        border-bottom-color: #8e8e8e;
+      }
+      .tlm-dd-val {
+        flex: 1 0 0;
+        min-width: 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        font-size: 14px;
+        font-weight: 700;
+        color: #333;
+      }
+      .tlm-dd-val.is-dark {
+        color: #000;
+      }
+      .tlm-dd-dot {
+        display: none;
+        width: 16px;
+        height: 16px;
+        flex: none;
+        border-radius: 50%;
+        box-shadow: 0 0 0 2px #ccc;
+      }
+      .tlm-dd.has-value .tlm-dd-dot {
+        display: block;
+      }
+      .tlm-chev {
+        flex: none;
+        transition: transform var(--tlm-dur) var(--tlm-ease);
+      }
+      .tlm-dd.is-open .tlm-chev {
+        transform: rotate(180deg);
+      }
+      .tlm-dd-collapse {
+        display: grid;
+        grid-template-rows: 0fr;
+        opacity: 0;
+        transition:
+          grid-template-rows var(--tlm-dur) var(--tlm-ease),
+          opacity var(--tlm-dur) var(--tlm-ease);
+      }
+      .tlm-dd.is-open .tlm-dd-collapse {
+        grid-template-rows: 1fr;
+        opacity: 1;
+      }
+      .tlm-dd-collapse > * {
+        min-height: 0;
+        overflow: hidden;
+      }
+
+      /* Font list (open variant 640:11064): native-select look, highlighted row in blue */
+      .tlm-fonts {
+        padding: 0 0 1px;
+        display: flex;
+        flex-direction: column;
+      }
+      .tlm-font {
+        height: 35.5px;
+        padding: 0 16px;
+        font-size: 17px;
+        color: #000;
+        text-align: left;
+        white-space: nowrap;
+      }
+      .tlm-font.is-placeholder {
+        font-family: var(--font);
+        font-weight: 600;
+      }
+      .tlm-font.is-active,
+      .tlm-font:hover,
+      .tlm-font:focus-visible {
+        background: #1f6fd6;
+        color: #fff;
+        outline: none;
+      }
+      .tlm-fonts:hover .tlm-font.is-active:not(:hover) {
+        background: none;
+        color: #000;
+      }
+
+      /* PMS list (dropdown3 640:11093): scrolling swatch grid */
+      .tlm-pms {
+        height: 242px;
+        margin: 0 2px 4px;
+        padding: 12px 10px 4px;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+      }
+      .tlm-pms-h {
+        margin-bottom: 8px;
+        font-size: 15px;
+        font-weight: 800;
+        color: #333;
+      }
+      .tlm-grid {
+        margin-bottom: 14px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        row-gap: 6px;
+      }
+      .tlm-sw {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 3px;
+        padding: 2px 0;
+        border-radius: 8px;
+      }
+      .tlm-dot {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        border: 4px solid #d0d0d0;
+        transition:
+          border-color 150ms ease-out,
+          transform 150ms ease-out;
+      }
+      .tlm-sw:hover .tlm-dot {
+        transform: scale(1.06);
+      }
+      .tlm-sw.is-selected .tlm-dot {
+        border-color: var(--cyan);
+      }
+      .tlm-sw:focus-visible {
+        outline: 2px solid var(--cyan);
+      }
+      .tlm-sw-name {
+        font-size: 12px;
+        color: #333;
+        white-space: nowrap;
+      }
+
+      .tlm-preview {
+        height: 70px;
+        padding: 0 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #e3e8ec;
+        border-radius: 10px;
+        background: #f9f9f9;
+        overflow: hidden;
+      }
+      .tlm-preview-txt {
+        max-width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        font-size: 26px;
+        color: #333;
+        transition: color var(--tlm-dur) var(--tlm-ease);
+      }
+      .tlm-preview-txt.is-empty {
+        font-family: var(--font) !important;
+        font-size: 14px;
+        font-style: italic;
+        color: #888 !important;
+      }
+      .tlm-preview.is-light {
+        background: #3a3a3a; /* keeps a white PMS readable */
+      }
+      .tlm-foot {
+        flex: none;
+        padding: 16px 24px;
+        display: flex;
+        justify-content: flex-end;
+        border-top: 1px solid #e3e8ec;
+      }
+      .tlm-save {
+        padding: 10px 20px;
+        border-radius: 6px; /* consistent: same as the logo buttons */
+        background: var(--cyan);
+        text-align: center;
+        color: #fff;
+        font-size: 14px;
+        line-height: 19px;
+        font-weight: 700;
+        transition: background-color 150ms ease-out;
+      }
+      .tlm-save:hover {
+        background: #0098bd;
+      }
+      body.tlm-lock {
+        overflow: hidden;
+      }
+      @media (max-width: 767.98px) {
+        .tlm-head {
+          padding-left: 20px;
+        }
+        .tlm-body {
+          padding: 20px;
+          gap: 16px;
+        }
+        .tlm-row {
+          flex-direction: column;
+          align-items: stretch;
+          gap: 6px;
+        }
+        .tlm-label {
+          width: auto;
+          padding-top: 0;
+        }
+        .tlm-row > :last-child {
+          flex: none;
+        }
+        .tlm-grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+        .tlm-foot {
+          padding: 16px 20px;
+        }
+        .tlm-save {
+          width: 100%;
+          padding: 12px 20px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .tlm,
+        .tlm * {
+          transition-duration: 0s !important;
+        }
+      }
     </style>
   </head>
   <body>
@@ -2653,7 +3055,12 @@
                     />Remove
                   </button>
                 </div>
-                <div class="logo" data-logo="text">
+                <div
+                  class="logo"
+                  data-logo="text"
+                  data-font="Times New Roman"
+                  data-pms-swatch="Purple"
+                >
                   <div class="logo-top">
                     <div
                       class="logo-thumb logo-thumb-text"
@@ -3599,16 +4006,13 @@
           if (a === "delete") {
             tile.remove();
             updateCount();
-          } else if (a === "edit") startEdit(tile);
+          } else if (a === "edit") window.openTextLogoModal(tile, b);
           else if (a === "save") saveEdit(tile);
         });
         document
           .getElementById("logoAddText")
-          .addEventListener("click", function () {
-            var tile = textTile("Your company", "Times New Roman", "#1c2530");
-            list.insertBefore(tile, uploadTile);
-            updateCount();
-            startEdit(tile);
+          .addEventListener("click", function (e) {
+            window.openTextLogoModal(null, e.currentTarget);
           });
         uploadTile
           .querySelector("input")
@@ -3619,6 +4023,783 @@
             e.target.value = "";
             updateCount();
           });
+      })();
+    </script>
+
+    <!-- "Add text logo": Figma modal-window/Default 640:10698 with the Font and
+         PMS/Color input-container states 640:11065 (closed / open / dropdown3) -->
+    <div class="tlm" id="text-logo-modal" hidden>
+      <div class="tlm-backdrop" data-tlm-close></div>
+      <div
+        class="tlm-win"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="tlm-title"
+      >
+        <div class="tlm-head">
+          <h2 id="tlm-title">Add text logo</h2>
+          <button class="tlm-x" type="button" aria-label="Close" data-tlm-close>
+            <img
+              src="assets/offer-v3/modal/modal-x-circle.svg"
+              width="39"
+              height="39"
+              alt=""
+            />
+          </button>
+        </div>
+        <div class="tlm-body">
+          <div class="tlm-row">
+            <label class="tlm-label" for="tlm-text">Text *</label>
+            <textarea
+              class="tlm-field tlm-area"
+              id="tlm-text"
+              placeholder="Type your text here"
+            ></textarea>
+          </div>
+          <div class="tlm-row">
+            <span class="tlm-label" id="tlm-font-l">Font*:</span>
+            <div class="tlm-dd" data-kind="font">
+              <div class="tlm-dd-box">
+                <button
+                  class="tlm-dd-head"
+                  type="button"
+                  aria-haspopup="listbox"
+                  aria-expanded="false"
+                  aria-labelledby="tlm-font-l tlm-font-v"
+                >
+                  <span class="tlm-dd-val" id="tlm-font-v">Select Font</span
+                  ><img
+                    class="tlm-chev"
+                    src="assets/offer-v3/modal/modal-chevron-down.svg"
+                    width="12"
+                    height="12"
+                    alt=""
+                  />
+                </button>
+                <div class="tlm-dd-collapse">
+                  <div>
+                    <div
+                      class="tlm-fonts"
+                      role="listbox"
+                      aria-labelledby="tlm-font-l"
+                    >
+                      <button
+                        class="tlm-font is-placeholder is-active"
+                        type="button"
+                        role="option"
+                        aria-selected="true"
+                        data-value=""
+                      >
+                        Select Font</button
+                      ><button
+                        class="tlm-font"
+                        type="button"
+                        role="option"
+                        aria-selected="false"
+                        data-value="Calibri"
+                        style="
+                          font-family:
+                            Calibri, Carlito, &quot;Segoe UI&quot;, sans-serif;
+                        "
+                        data-family='Calibri, Carlito, "Segoe UI", sans-serif'
+                      >
+                        Calibri</button
+                      ><button
+                        class="tlm-font"
+                        type="button"
+                        role="option"
+                        aria-selected="false"
+                        data-value="Arial"
+                        style="font-family: Arial, Helvetica, sans-serif"
+                        data-family="Arial, Helvetica, sans-serif"
+                      >
+                        Arial</button
+                      ><button
+                        class="tlm-font"
+                        type="button"
+                        role="option"
+                        aria-selected="false"
+                        data-value="Times New Roman"
+                        style="
+                          font-family:
+                            &quot;Times New Roman&quot;, Times, serif;
+                        "
+                        data-family='"Times New Roman", Times, serif'
+                      >
+                        Times New Roman</button
+                      ><button
+                        class="tlm-font"
+                        type="button"
+                        role="option"
+                        aria-selected="false"
+                        data-value="Futura"
+                        style="
+                          font-family:
+                            Futura, &quot;Century Gothic&quot;,
+                            &quot;Trebuchet MS&quot;, sans-serif;
+                        "
+                        data-family='Futura, "Century Gothic", "Trebuchet MS", sans-serif'
+                      >
+                        Futura</button
+                      ><button
+                        class="tlm-font"
+                        type="button"
+                        role="option"
+                        aria-selected="false"
+                        data-value="Myriad Pro"
+                        style="
+                          font-family:
+                            &quot;Myriad Pro&quot;, &quot;Segoe UI&quot;,
+                            sans-serif;
+                        "
+                        data-family='"Myriad Pro", "Segoe UI", sans-serif'
+                      >
+                        Myriad Pro</button
+                      ><button
+                        class="tlm-font"
+                        type="button"
+                        role="option"
+                        aria-selected="false"
+                        data-value="Helvetica"
+                        style="
+                          font-family:
+                            &quot;Helvetica Neue&quot;, Helvetica, Arial,
+                            sans-serif;
+                        "
+                        data-family='"Helvetica Neue", Helvetica, Arial, sans-serif'
+                      >
+                        Helvetica
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tlm-row">
+            <span class="tlm-label" id="tlm-pms-l">PMS/Color:</span>
+            <div class="tlm-stack">
+              <div class="tlm-dd" data-kind="pms">
+                <div class="tlm-dd-box">
+                  <button
+                    class="tlm-dd-head"
+                    type="button"
+                    aria-haspopup="listbox"
+                    aria-expanded="false"
+                    aria-labelledby="tlm-pms-l tlm-pms-v"
+                  >
+                    <span class="tlm-dd-val is-dark" id="tlm-pms-v"
+                      ><span class="tlm-dd-dot"></span
+                      ><span class="tlm-dd-txt"
+                        >Select your PMS/Color</span
+                      ></span
+                    ><img
+                      class="tlm-chev"
+                      src="assets/offer-v3/modal/modal-chevron-down.svg"
+                      width="12"
+                      height="12"
+                      alt=""
+                    />
+                  </button>
+                  <div class="tlm-dd-collapse">
+                    <div>
+                      <div
+                        class="tlm-pms"
+                        role="listbox"
+                        aria-labelledby="tlm-pms-l"
+                      >
+                        <p class="tlm-pms-h">Popular</p>
+                        <div class="tlm-grid">
+                          <button
+                            class="tlm-sw"
+                            type="button"
+                            role="option"
+                            aria-selected="false"
+                            data-value="White"
+                            data-color="#ffffff"
+                          >
+                            <span
+                              class="tlm-dot"
+                              style="background: #ffffff"
+                            ></span
+                            ><span class="tlm-sw-name">White</span></button
+                          ><button
+                            class="tlm-sw"
+                            type="button"
+                            role="option"
+                            aria-selected="false"
+                            data-value="YELLOW"
+                            data-color="#fde21a"
+                          >
+                            <span
+                              class="tlm-dot"
+                              style="background: #fde21a"
+                            ></span
+                            ><span class="tlm-sw-name">YELLOW</span></button
+                          ><button
+                            class="tlm-sw"
+                            type="button"
+                            role="option"
+                            aria-selected="false"
+                            data-value="Orange PMS 021"
+                            data-color="#f26b00"
+                          >
+                            <span
+                              class="tlm-dot"
+                              style="background: #f26b00"
+                            ></span
+                            ><span class="tlm-sw-name"
+                              >Orange PMS 021</span
+                            ></button
+                          ><button
+                            class="tlm-sw"
+                            type="button"
+                            role="option"
+                            aria-selected="false"
+                            data-value="Purple"
+                            data-color="#c22fb3"
+                          >
+                            <span
+                              class="tlm-dot"
+                              style="background: #c22fb3"
+                            ></span
+                            ><span class="tlm-sw-name">Purple</span></button
+                          ><button
+                            class="tlm-sw"
+                            type="button"
+                            role="option"
+                            aria-selected="false"
+                            data-value="Reflex Blue"
+                            data-color="#0f1f8c"
+                          >
+                            <span
+                              class="tlm-dot"
+                              style="background: #0f1f8c"
+                            ></span
+                            ><span class="tlm-sw-name"
+                              >Reflex Blue</span
+                            ></button
+                          ><button
+                            class="tlm-sw"
+                            type="button"
+                            role="option"
+                            aria-selected="false"
+                            data-value="Process Blue"
+                            data-color="#0090cf"
+                          >
+                            <span
+                              class="tlm-dot"
+                              style="background: #0090cf"
+                            ></span
+                            ><span class="tlm-sw-name"
+                              >Process Blue</span
+                            ></button
+                          ><button
+                            class="tlm-sw"
+                            type="button"
+                            role="option"
+                            aria-selected="false"
+                            data-value="PMS"
+                            data-color="#00a065"
+                          >
+                            <span
+                              class="tlm-dot"
+                              style="background: #00a065"
+                            ></span
+                            ><span class="tlm-sw-name">PMS</span></button
+                          ><button
+                            class="tlm-sw"
+                            type="button"
+                            role="option"
+                            aria-selected="false"
+                            data-value="Black"
+                            data-color="#3c3129"
+                          >
+                            <span
+                              class="tlm-dot"
+                              style="background: #3c3129"
+                            ></span
+                            ><span class="tlm-sw-name">Black</span></button
+                          ><button
+                            class="tlm-sw"
+                            type="button"
+                            role="option"
+                            aria-selected="false"
+                            data-value="PMS 485"
+                            data-color="#da291c"
+                          >
+                            <span
+                              class="tlm-dot"
+                              style="background: #da291c"
+                            ></span
+                            ><span class="tlm-sw-name">PMS 485</span>
+                          </button>
+                        </div>
+                        <p class="tlm-pms-h">All colors</p>
+                        <div class="tlm-grid">
+                          <button
+                            class="tlm-sw"
+                            type="button"
+                            role="option"
+                            aria-selected="false"
+                            data-value="Gold PMS 871"
+                            data-color="#84754e"
+                          >
+                            <span
+                              class="tlm-dot"
+                              style="background: #84754e"
+                            ></span
+                            ><span class="tlm-sw-name"
+                              >Gold PMS 871</span
+                            ></button
+                          ><button
+                            class="tlm-sw"
+                            type="button"
+                            role="option"
+                            aria-selected="false"
+                            data-value="PMS Cool Gray"
+                            data-color="#a7a8a3"
+                          >
+                            <span
+                              class="tlm-dot"
+                              style="background: #a7a8a3"
+                            ></span
+                            ><span class="tlm-sw-name"
+                              >PMS Cool Gray</span
+                            ></button
+                          ><button
+                            class="tlm-sw"
+                            type="button"
+                            role="option"
+                            aria-selected="false"
+                            data-value="PMS 100"
+                            data-color="#f6eb7d"
+                          >
+                            <span
+                              class="tlm-dot"
+                              style="background: #f6eb7d"
+                            ></span
+                            ><span class="tlm-sw-name">PMS 100</span></button
+                          ><button
+                            class="tlm-sw"
+                            type="button"
+                            role="option"
+                            aria-selected="false"
+                            data-value="PMS 101"
+                            data-color="#f5ec4a"
+                          >
+                            <span
+                              class="tlm-dot"
+                              style="background: #f5ec4a"
+                            ></span
+                            ><span class="tlm-sw-name">PMS 101</span></button
+                          ><button
+                            class="tlm-sw"
+                            type="button"
+                            role="option"
+                            aria-selected="false"
+                            data-value="PMS 109"
+                            data-color="#ffd100"
+                          >
+                            <span
+                              class="tlm-dot"
+                              style="background: #ffd100"
+                            ></span
+                            ><span class="tlm-sw-name">PMS 109</span></button
+                          ><button
+                            class="tlm-sw"
+                            type="button"
+                            role="option"
+                            aria-selected="false"
+                            data-value="PMS 123"
+                            data-color="#ffc72c"
+                          >
+                            <span
+                              class="tlm-dot"
+                              style="background: #ffc72c"
+                            ></span
+                            ><span class="tlm-sw-name">PMS 123</span></button
+                          ><button
+                            class="tlm-sw"
+                            type="button"
+                            role="option"
+                            aria-selected="false"
+                            data-value="PMS 151"
+                            data-color="#ff8200"
+                          >
+                            <span
+                              class="tlm-dot"
+                              style="background: #ff8200"
+                            ></span
+                            ><span class="tlm-sw-name">PMS 151</span></button
+                          ><button
+                            class="tlm-sw"
+                            type="button"
+                            role="option"
+                            aria-selected="false"
+                            data-value="PMS 186"
+                            data-color="#c8102e"
+                          >
+                            <span
+                              class="tlm-dot"
+                              style="background: #c8102e"
+                            ></span
+                            ><span class="tlm-sw-name">PMS 186</span></button
+                          ><button
+                            class="tlm-sw"
+                            type="button"
+                            role="option"
+                            aria-selected="false"
+                            data-value="PMS 213"
+                            data-color="#e31c79"
+                          >
+                            <span
+                              class="tlm-dot"
+                              style="background: #e31c79"
+                            ></span
+                            ><span class="tlm-sw-name">PMS 213</span></button
+                          ><button
+                            class="tlm-sw"
+                            type="button"
+                            role="option"
+                            aria-selected="false"
+                            data-value="PMS 266"
+                            data-color="#753bbd"
+                          >
+                            <span
+                              class="tlm-dot"
+                              style="background: #753bbd"
+                            ></span
+                            ><span class="tlm-sw-name">PMS 266</span></button
+                          ><button
+                            class="tlm-sw"
+                            type="button"
+                            role="option"
+                            aria-selected="false"
+                            data-value="PMS 286"
+                            data-color="#0033a0"
+                          >
+                            <span
+                              class="tlm-dot"
+                              style="background: #0033a0"
+                            ></span
+                            ><span class="tlm-sw-name">PMS 286</span></button
+                          ><button
+                            class="tlm-sw"
+                            type="button"
+                            role="option"
+                            aria-selected="false"
+                            data-value="PMS 300"
+                            data-color="#005eb8"
+                          >
+                            <span
+                              class="tlm-dot"
+                              style="background: #005eb8"
+                            ></span
+                            ><span class="tlm-sw-name">PMS 300</span></button
+                          ><button
+                            class="tlm-sw"
+                            type="button"
+                            role="option"
+                            aria-selected="false"
+                            data-value="PMS 354"
+                            data-color="#00b140"
+                          >
+                            <span
+                              class="tlm-dot"
+                              style="background: #00b140"
+                            ></span
+                            ><span class="tlm-sw-name">PMS 354</span></button
+                          ><button
+                            class="tlm-sw"
+                            type="button"
+                            role="option"
+                            aria-selected="false"
+                            data-value="PMS 368"
+                            data-color="#78be20"
+                          >
+                            <span
+                              class="tlm-dot"
+                              style="background: #78be20"
+                            ></span
+                            ><span class="tlm-sw-name">PMS 368</span></button
+                          ><button
+                            class="tlm-sw"
+                            type="button"
+                            role="option"
+                            aria-selected="false"
+                            data-value="PMS 432"
+                            data-color="#333f48"
+                          >
+                            <span
+                              class="tlm-dot"
+                              style="background: #333f48"
+                            ></span
+                            ><span class="tlm-sw-name">PMS 432</span></button
+                          ><button
+                            class="tlm-sw"
+                            type="button"
+                            role="option"
+                            aria-selected="false"
+                            data-value="Silver PMS 877"
+                            data-color="#8a8d8f"
+                          >
+                            <span
+                              class="tlm-dot"
+                              style="background: #8a8d8f"
+                            ></span
+                            ><span class="tlm-sw-name">Silver PMS 877</span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <input
+                class="tlm-field tlm-input"
+                id="tlm-pms-own"
+                type="text"
+                placeholder="Or fill in you PMS color here"
+                aria-label="Or fill in your PMS color"
+              />
+            </div>
+          </div>
+          <div class="tlm-row">
+            <span class="tlm-label">Preview:</span>
+            <div class="tlm-preview" aria-live="polite">
+              <span class="tlm-preview-txt is-empty"
+                >Your text preview will appear here</span
+              >
+            </div>
+          </div>
+          <div class="tlm-row">
+            <label class="tlm-label" for="tlm-remarks">Remarks</label>
+            <textarea
+              class="tlm-field tlm-area"
+              id="tlm-remarks"
+              placeholder="Type your message here"
+            ></textarea>
+          </div>
+        </div>
+        <div class="tlm-foot">
+          <button class="tlm-save" type="button">Save text</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Text logo modal (same as the request page): add a new text logo or edit an existing one
+      (function () {
+        var modal = document.getElementById("text-logo-modal");
+        var text = modal.querySelector("#tlm-text");
+        var own = modal.querySelector("#tlm-pms-own");
+        var remarks = modal.querySelector("#tlm-remarks");
+        var prev = modal.querySelector(".tlm-preview-txt");
+        var prevBox = modal.querySelector(".tlm-preview");
+        var fontDd = modal.querySelector('.tlm-dd[data-kind="font"]');
+        var pmsDd = modal.querySelector('.tlm-dd[data-kind="pms"]');
+        var list = document.querySelector(".logos-dd .logos");
+        var uploadTile = document.getElementById("logoUpload");
+        var count = document.querySelector(".logos-dd-count");
+        var state = { family: "", font: "", color: "", pms: "" };
+        var editing = null,
+          opener = null,
+          closeTimer = null;
+
+        function setDd(dd, open) {
+          dd.classList.toggle("is-open", open);
+          dd.querySelector(".tlm-dd-head").setAttribute(
+            "aria-expanded",
+            String(open),
+          );
+          dd.querySelector(".tlm-dd-collapse").inert = !open;
+        }
+        function closeDds(except) {
+          modal.querySelectorAll(".tlm-dd.is-open").forEach(function (dd) {
+            if (dd !== except) setDd(dd, false);
+          });
+        }
+        function render() {
+          var t = text.value.trim();
+          prev.classList.toggle("is-empty", !t);
+          prev.textContent = t || "Your text preview will appear here";
+          prev.style.fontFamily = t ? state.family : "";
+          prev.style.color = t ? state.color : "";
+          prevBox.classList.toggle(
+            "is-light",
+            !!t && /^(#fff(fff)?|white)$/i.test(state.color),
+          );
+        }
+        function cssColor(v) {
+          var p = new Option().style;
+          p.color = v;
+          return p.color ? v : "";
+        }
+        modal.querySelectorAll(".tlm-dd").forEach(function (dd) {
+          setDd(dd, false);
+          dd.querySelector(".tlm-dd-head").addEventListener(
+            "click",
+            function () {
+              var open = !dd.classList.contains("is-open");
+              closeDds(dd);
+              setDd(dd, open);
+            },
+          );
+        });
+        fontDd.querySelectorAll(".tlm-font").forEach(function (opt) {
+          opt.addEventListener("click", function () {
+            fontDd.querySelectorAll(".tlm-font").forEach(function (o) {
+              o.classList.toggle("is-active", o === opt);
+              o.setAttribute("aria-selected", String(o === opt));
+            });
+            state.font = opt.dataset.value;
+            state.family = opt.dataset.family || "";
+            var val = fontDd.querySelector(".tlm-dd-val");
+            val.textContent = state.font || "Select Font";
+            val.style.fontFamily = state.family;
+            fontDd.classList.toggle("has-value", !!state.font);
+            if (state.font) fontDd.classList.remove("is-invalid");
+            setDd(fontDd, false);
+            render();
+          });
+        });
+        function pickPms(opt) {
+          pmsDd.querySelectorAll(".tlm-sw").forEach(function (o) {
+            o.classList.toggle("is-selected", o === opt);
+            o.setAttribute("aria-selected", String(o === opt));
+          });
+          pmsDd.classList.toggle("has-value", !!opt);
+          pmsDd.querySelector(".tlm-dd-txt").textContent = opt
+            ? opt.dataset.value
+            : "Select your PMS/Color";
+          pmsDd.querySelector(".tlm-dd-dot").style.background = opt
+            ? opt.dataset.color
+            : "";
+        }
+        pmsDd.querySelectorAll(".tlm-sw").forEach(function (opt) {
+          opt.addEventListener("click", function () {
+            pickPms(opt);
+            state.pms = opt.dataset.value;
+            state.color = opt.dataset.color;
+            own.value = "";
+            setDd(pmsDd, false);
+            render();
+          });
+        });
+        own.addEventListener("input", function () {
+          var v = own.value.trim();
+          if (v) pickPms(null);
+          state.pms = v;
+          state.color = cssColor(v);
+          render();
+        });
+        text.addEventListener("input", function () {
+          if (text.value.trim()) text.classList.remove("is-invalid");
+          render();
+        });
+
+        function open(tile, from) {
+          editing = tile;
+          opener = from || null;
+          clearTimeout(closeTimer);
+          var d = tile ? tile.dataset : {};
+          text.value = tile
+            ? tile.querySelector(".logo-thumb-text").textContent.trim()
+            : "";
+          remarks.value = d.remarks || "";
+          own.value = d.own || "";
+          var fontOpt =
+            fontDd.querySelector(
+              '.tlm-font[data-value="' + (d.font || "") + '"]',
+            ) || fontDd.querySelector('.tlm-font[data-value=""]');
+          fontOpt.click();
+          var sw =
+            d.pmsSwatch &&
+            pmsDd.querySelector('.tlm-sw[data-value="' + d.pmsSwatch + '"]');
+          if (sw) sw.click();
+          else {
+            pickPms(null);
+            state.pms = d.own || "";
+            state.color = cssColor(state.pms);
+          }
+          modal.querySelector("#tlm-title").textContent = tile
+            ? "Edit text logo"
+            : "Add text logo";
+          text.classList.remove("is-invalid");
+          fontDd.classList.remove("is-invalid");
+          closeDds();
+          render();
+          modal.hidden = false;
+          document.body.classList.add("tlm-lock");
+          modal.offsetWidth;
+          modal.classList.add("is-open");
+          text.focus({ preventScroll: true });
+        }
+        function close() {
+          if (modal.hidden) return;
+          closeDds();
+          modal.classList.remove("is-open");
+          document.body.classList.remove("tlm-lock");
+          var ms =
+            parseFloat(getComputedStyle(modal).getPropertyValue("--tlm-dur")) ||
+            0;
+          if (matchMedia("(prefers-reduced-motion: reduce)").matches) ms = 0;
+          closeTimer = setTimeout(function () {
+            modal.hidden = true;
+          }, ms);
+          if (opener) opener.focus({ preventScroll: true });
+        }
+        modal.querySelectorAll("[data-tlm-close]").forEach(function (el) {
+          el.addEventListener("click", close);
+        });
+        modal.addEventListener("click", function (e) {
+          if (!e.target.closest(".tlm-dd")) closeDds();
+        });
+        document.addEventListener("keydown", function (e) {
+          if (modal.hidden) return;
+          if (e.key === "Escape") {
+            if (modal.querySelector(".tlm-dd.is-open")) closeDds();
+            else close();
+          }
+        });
+
+        function newTile() {
+          var el = document.createElement("div");
+          el.className = "logo";
+          el.setAttribute("data-logo", "text");
+          el.innerHTML =
+            '<div class="logo-top"><div class="logo-thumb logo-thumb-text"></div>' +
+            '<p class="logo-name">Text logo</p><p class="logo-sub"></p></div><div class="logo-actions">' +
+            '<button type="button" class="logo-btn" data-logo-action="edit"><img src="assets/offer-v3/icon-edit.svg" width="14.9621" height="14.3636" alt="" />Edit</button>' +
+            '<button type="button" class="logo-btn" data-logo-action="delete"><img src="assets/offer-v3/icon-remove.svg" width="12.2142" height="12.6353" alt="" />Delete</button></div>';
+          list.insertBefore(el, uploadTile);
+          return el;
+        }
+        modal.querySelector(".tlm-save").addEventListener("click", function () {
+          var t = text.value.trim();
+          text.classList.toggle("is-invalid", !t);
+          fontDd.classList.toggle("is-invalid", !state.font);
+          if (!t) return text.focus();
+          if (!state.font) return fontDd.querySelector(".tlm-dd-head").click();
+          var tile = editing || newTile();
+          var sel = pmsDd.querySelector(".tlm-sw.is-selected");
+          tile.dataset.font = state.font;
+          tile.dataset.pmsSwatch = sel ? sel.dataset.value : "";
+          tile.dataset.own = own.value.trim();
+          tile.dataset.remarks = remarks.value;
+          var thumb = tile.querySelector(".logo-thumb-text");
+          thumb.textContent = t;
+          thumb.style.fontFamily = state.family || state.font;
+          thumb.style.color = state.color || "#1c2530";
+          tile.querySelector(".logo-sub").textContent =
+            state.font + (state.pms ? " · " + state.pms : "");
+          var n = list.querySelectorAll("[data-logo]").length;
+          count.textContent = n + (n === 1 ? " logo" : " logos");
+          close();
+        });
+
+        window.openTextLogoModal = open;
       })();
     </script>
 
