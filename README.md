@@ -6,6 +6,7 @@ Redesign of the client-facing offer flow (online offer → design approval → d
 
 | Path | What it is |
 |---|---|
+| `frontend/prototype/online-offer-v6.html` | Layout variant (also on branch `v6`): header card with offer facts + account manager, centred steps, full-width collapsible product cards, summary bottom-right, fixed Previous/Next bar |
 | `frontend/prototype/online-offer-v5.html` | Latest online offer page (Figma "Offer flow" 17:128: compact product cards, full-width quantity rows, custom-quantity row) |
 | `frontend/prototype/online-offer-v4.html` | Previous version, also kept on branch `v4` (Figma "Offer flow" 5:914 + iterations: logo dropdown, sticky/condensing header, add-alternative toggle) |
 | `frontend/prototype/online-offer-v4-figma.html` | Static 3-frame version of v4 for pushing into Figma; built with `node export-figma.js` |
