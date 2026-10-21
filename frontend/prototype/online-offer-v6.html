@@ -2456,6 +2456,16 @@
       .logos-dd .logo.logo-add {
         justify-content: flex-start;
       }
+      /* Dividers: exactly one line between products; none between a product and its comment */
+      .product.p6:has(+ .am-chat) {
+        border-bottom: 0;
+        padding-bottom: 6px;
+      }
+      .products-card .am-chat {
+        margin: 0;
+        padding: 0 0 18px 272px; /* bubble lines up with the product text column */
+        border-bottom: 1px solid #d4d4d4;
+      }
     </style>
   </head>
   <body>
@@ -2829,7 +2839,6 @@
               </div>
             </fieldset>
           </article>
-          <hr class="p5-rule" />
           <article class="product p6">
             <label class="p6-offer">
               <span>In offer</span>
@@ -2941,8 +2950,6 @@
               <p class="am-chat-text">I think.. so and so and so</p>
             </div>
           </div>
-
-          <hr class="p5-rule" />
 
           <!-- Requested alternative, not in the offer yet: small row with the toggle on the left (same column as "In offer").
                Switching it on swaps the row for a full product card (#altProduct), see script at end of body. -->
