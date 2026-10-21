@@ -1877,7 +1877,7 @@
       .alt-body {
         flex: 1;
       }
-      /* Collapsible product cards: only the price list collapses; the chosen row stays visible */
+      /* Collapsible product cards (collapsed by default): only the price list collapses; the chosen row stays visible */
       .p5-actions {
         display: flex;
         flex-direction: column;
@@ -1907,14 +1907,6 @@
       }
       .p5.is-collapsed .p5-qty .qty:not(:has(input[type="radio"]:checked)) {
         display: none;
-      }
-      .p5.is-collapsed .p5-qty:not(:has(input[type="radio"]:checked))::after {
-        content: "No quantity chosen yet. Show prices to pick one.";
-        padding: 10px 12px;
-        border: 1px dashed var(--line);
-        border-radius: 10px;
-        font-size: 13px;
-        color: var(--muted);
       }
     </style>
   </head>
@@ -2096,7 +2088,7 @@
             <h2 id="productsTitle">Your products</h2>
           </div>
           <hr class="p5-rule" />
-          <article class="product p5">
+          <article class="product p5 is-collapsed">
             <div class="p5-head">
               <div class="p5-photo">
                 <img
@@ -2123,8 +2115,8 @@
                 <label class="switch"
                   >In offer <input type="checkbox" checked
                 /></label>
-                <button type="button" class="p5-toggle" aria-expanded="true">
-                  <span class="p5-toggle-label">Hide prices</span>
+                <button type="button" class="p5-toggle" aria-expanded="false">
+                  <span class="p5-toggle-label">Show prices</span>
                   <svg
                     width="20"
                     height="20"
@@ -2146,7 +2138,13 @@
             <fieldset class="p5-qty">
               <legend class="sr-only">Choose your quantity</legend>
               <label class="qty">
-                <input type="radio" name="qty1" value="25" data-price="9.86" />
+                <input
+                  type="radio"
+                  name="qty1"
+                  value="25"
+                  data-price="9.86"
+                  checked
+                />
                 <span class="qty-n">25 pcs</span>
                 <span class="qty-price">€ 9,86 <small>per piece</small></span>
                 <span class="qty-total">€ 246,50</span>
@@ -2188,7 +2186,7 @@
             </fieldset>
           </article>
           <hr class="p5-rule" />
-          <article class="product p5">
+          <article class="product p5 is-collapsed">
             <div class="p5-head">
               <div class="p5-photo">
                 <img
@@ -2215,8 +2213,8 @@
                 <label class="switch"
                   >In offer <input type="checkbox" checked
                 /></label>
-                <button type="button" class="p5-toggle" aria-expanded="true">
-                  <span class="p5-toggle-label">Hide prices</span>
+                <button type="button" class="p5-toggle" aria-expanded="false">
+                  <span class="p5-toggle-label">Show prices</span>
                   <svg
                     width="20"
                     height="20"
@@ -2238,7 +2236,13 @@
             <fieldset class="p5-qty">
               <legend class="sr-only">Choose your quantity</legend>
               <label class="qty">
-                <input type="radio" name="qty2" value="25" data-price="9.86" />
+                <input
+                  type="radio"
+                  name="qty2"
+                  value="25"
+                  data-price="9.86"
+                  checked
+                />
                 <span class="qty-n">25 pcs</span>
                 <span class="qty-price">€ 9,86 <small>per piece</small></span>
                 <span class="qty-total">€ 246,50</span>
