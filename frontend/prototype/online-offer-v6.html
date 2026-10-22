@@ -3489,6 +3489,202 @@
         font-weight: 800;
         cursor: pointer;
       }
+      /* ---------- Figma 9:9 / 9:579 (2026-10-22) ---------- */
+      /* quantity rows: qty | pieces | price p.p | save | total */
+      .q-row {
+        grid-template-columns: 18px 80px 80px minmax(0, 1fr) auto;
+        column-gap: 13px;
+      }
+      .q-row > .q-main > .q-top > .q-qty {
+        grid-column: 2;
+        display: flex;
+      }
+      .q-qty {
+        justify-self: start;
+      }
+      .q-unit {
+        grid-column: 2;
+        justify-self: end;
+        font-size: 14px;
+        line-height: 20px;
+        font-weight: 300;
+        color: var(--ink);
+      }
+      .q-top {
+        display: contents;
+      }
+      .q-row > input,
+      .q-qty,
+      .q-unit,
+      .q-pp,
+      .q-save,
+      .q-total,
+      .q-custom-line {
+        grid-row: 1;
+      }
+      .q-pp {
+        grid-column: 3;
+        padding-left: 10px;
+        font-size: 12px;
+      }
+      .q-pp b {
+        font-size: 13px;
+      }
+      .q-save {
+        grid-column: 4;
+      }
+      .q-total {
+        grid-column: 5;
+      }
+      .q-custom .q-qty {
+        grid-column: 2;
+      }
+      .q-custom-line {
+        grid-column: 3 / 5;
+      }
+      .q-custom-price {
+        margin-left: 0;
+        color: var(--muted);
+      }
+      /* header + steps */
+      .client-logo[data-logo-bg="dark"] {
+        background: #324a67 !important;
+      }
+      .top .stepper-bar {
+        border-bottom: 1px solid #e5e5e5;
+        box-shadow: 0 7px 6px rgba(20, 30, 40, 0.06);
+      }
+      .logos-dd {
+        box-shadow: 1px 7px 12px rgba(0, 0, 0, 0.06);
+      }
+      /* open logo section: add buttons fill the tile height, wider note */
+      .logo-adds {
+        width: 210px;
+        height: 152px;
+        gap: 14px;
+      }
+      .logo-adds .logo-add {
+        flex: 1;
+      }
+      .logo-adds .logo-add-box {
+        height: 100%;
+      }
+      .design-note {
+        width: 338px;
+      }
+      /* account manager + summary row */
+      .page {
+        grid-template-columns: 448px 648px;
+        justify-content: space-between;
+        column-gap: 0;
+      }
+      .am-feature {
+        width: 448px;
+        padding: 8px 0 0;
+      }
+      .am-feature-photo {
+        width: 293px;
+        margin: 0 0 -1px 46px;
+      }
+      .am-feature-card {
+        width: 349px;
+        margin-left: 18px;
+        padding: 20px 24px 22px;
+        box-shadow: 1px 6px 9.5px rgba(0, 0, 0, 0.06);
+      }
+      .am-feature-id {
+        padding-top: 2px;
+      }
+      .am-feature-name {
+        margin: 0;
+        font-size: 24px;
+        line-height: 28px;
+      }
+      .am-feature-id .eyebrow {
+        font-size: 12px;
+        line-height: 18px;
+        color: #6c7783;
+      }
+      .am-feature-quote {
+        margin-top: 12px;
+      }
+      .am-feature-contact {
+        justify-content: space-between;
+        margin-top: 12px;
+      }
+      .page > .side {
+        width: 648px;
+        align-self: end;
+      }
+      .summary {
+        height: 432px;
+        padding: 18px 20px;
+      }
+      .summary > div {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+      }
+      .summary h2 {
+        text-align: left;
+      }
+      .sum-rows {
+        gap: 7px;
+        margin-top: 0;
+      }
+      .sum-rows .sum-row {
+        padding-bottom: 2px;
+      }
+      .sum-rows .sum-row:not(:has(#sumVat)):not(:has(#sumExcl)) {
+        border-bottom: 1px dashed #bdbdbd;
+      }
+      .sum-rows .sum-row:has(#sumVat) {
+        border-bottom: 1px solid #bdbdbd;
+      }
+      .sum-rows .sum-rule {
+        display: none;
+      }
+      .sum-hint {
+        display: none;
+      }
+      .summary .sum-actions {
+        margin-top: 0;
+      }
+      .summary .deadline {
+        margin-top: -6px;
+      }
+      /* footer: payment logos strip + Trustpilot */
+      .bottom-bar {
+        justify-content: space-between;
+        width: 1310px;
+        margin: 0 auto;
+        padding: 16px 0;
+        border-top: 0;
+      }
+      .pay-logos {
+        width: 788px;
+        height: 33.406px;
+        object-fit: cover;
+      }
+      .tp-rating {
+        width: 315px;
+        height: 18px;
+        object-fit: cover;
+      }
+      /* bottom bar: Next only, with note */
+      .step-nav-inner {
+        justify-content: flex-end;
+      }
+      .step-nav-hint {
+        width: 247px;
+        font-size: 12px;
+        line-height: normal;
+        color: #7b8794;
+      }
+      .step-nav-hint b {
+        font-weight: 700;
+      }
     </style>
   </head>
   <body>
@@ -3830,8 +4026,11 @@
                   checked
                 />
                 <span class="q-main">
-                  <span class="q-top"><b class="q-qty">25 pcs</b></span>
-                  <span class="q-pp"><b>€ 9,86</b> per piece</span>
+                  <span class="q-top"
+                    ><b class="q-qty">25</b
+                    ><span class="q-unit">pieces</span></span
+                  >
+                  <span class="q-pp"><b>€ 9,86</b> p.p</span>
                 </span>
                 <span class="q-total"
                   ><b>€ 246,50</b><small>excl. VAT</small></span
@@ -3840,8 +4039,11 @@
               <label class="q-row">
                 <input type="radio" name="qty1" value="50" data-price="7.72" />
                 <span class="q-main">
-                  <span class="q-top"><b class="q-qty">50 pcs</b></span>
-                  <span class="q-pp"><b>€ 7,72</b> per piece</span>
+                  <span class="q-top"
+                    ><b class="q-qty">50</b
+                    ><span class="q-unit">pieces</span></span
+                  >
+                  <span class="q-pp"><b>€ 7,72</b> p.p</span>
                   <span class="q-save">save € 107</span>
                 </span>
                 <span class="q-total"
@@ -3851,8 +4053,11 @@
               <label class="q-row">
                 <input type="radio" name="qty1" value="100" data-price="6.39" />
                 <span class="q-main">
-                  <span class="q-top"><b class="q-qty">100 pcs</b></span>
-                  <span class="q-pp"><b>€ 6,39</b> per piece</span>
+                  <span class="q-top"
+                    ><b class="q-qty">100</b
+                    ><span class="q-unit">pieces</span></span
+                  >
+                  <span class="q-pp"><b>€ 6,39</b> p.p</span>
                   <span class="q-save">save € 347</span>
                 </span>
                 <span class="q-total"
@@ -3862,8 +4067,11 @@
               <label class="q-row">
                 <input type="radio" name="qty1" value="250" data-price="5.77" />
                 <span class="q-main">
-                  <span class="q-top"><b class="q-qty">250 pcs</b></span>
-                  <span class="q-pp"><b>€ 5,77</b> per piece</span>
+                  <span class="q-top"
+                    ><b class="q-qty">250</b
+                    ><span class="q-unit">pieces</span></span
+                  >
+                  <span class="q-pp"><b>€ 5,77</b> p.p</span>
                   <span class="q-save">save € 1.022,50</span>
                 </span>
                 <span class="q-total"
@@ -3884,10 +4092,7 @@
                       placeholder="e.g. 150"
                       aria-label="Other quantity in pieces"
                     />
-                    pcs
-                    <span class="q-custom-price" aria-live="polite"
-                      >Minimum 25 pcs</span
-                    >
+                    <span class="q-custom-price" aria-live="polite">p.p</span>
                   </span>
                 </span>
                 <span class="q-total"
@@ -3957,8 +4162,11 @@
                   checked
                 />
                 <span class="q-main">
-                  <span class="q-top"><b class="q-qty">25 pcs</b></span>
-                  <span class="q-pp"><b>€ 9,86</b> per piece</span>
+                  <span class="q-top"
+                    ><b class="q-qty">25</b
+                    ><span class="q-unit">pieces</span></span
+                  >
+                  <span class="q-pp"><b>€ 9,86</b> p.p</span>
                 </span>
                 <span class="q-total"
                   ><b>€ 246,50</b><small>excl. VAT</small></span
@@ -3967,8 +4175,11 @@
               <label class="q-row">
                 <input type="radio" name="qty2" value="50" data-price="7.72" />
                 <span class="q-main">
-                  <span class="q-top"><b class="q-qty">50 pcs</b></span>
-                  <span class="q-pp"><b>€ 7,72</b> per piece</span>
+                  <span class="q-top"
+                    ><b class="q-qty">50</b
+                    ><span class="q-unit">pieces</span></span
+                  >
+                  <span class="q-pp"><b>€ 7,72</b> p.p</span>
                   <span class="q-save">save € 107</span>
                 </span>
                 <span class="q-total"
@@ -3978,8 +4189,11 @@
               <label class="q-row">
                 <input type="radio" name="qty2" value="100" data-price="6.39" />
                 <span class="q-main">
-                  <span class="q-top"><b class="q-qty">100 pcs</b></span>
-                  <span class="q-pp"><b>€ 6,39</b> per piece</span>
+                  <span class="q-top"
+                    ><b class="q-qty">100</b
+                    ><span class="q-unit">pieces</span></span
+                  >
+                  <span class="q-pp"><b>€ 6,39</b> p.p</span>
                   <span class="q-save">save € 347</span>
                 </span>
                 <span class="q-total"
@@ -3989,8 +4203,11 @@
               <label class="q-row">
                 <input type="radio" name="qty2" value="250" data-price="5.77" />
                 <span class="q-main">
-                  <span class="q-top"><b class="q-qty">250 pcs</b></span>
-                  <span class="q-pp"><b>€ 5,77</b> per piece</span>
+                  <span class="q-top"
+                    ><b class="q-qty">250</b
+                    ><span class="q-unit">pieces</span></span
+                  >
+                  <span class="q-pp"><b>€ 5,77</b> p.p</span>
                   <span class="q-save">save € 1.022,50</span>
                 </span>
                 <span class="q-total"
@@ -4011,10 +4228,7 @@
                       placeholder="e.g. 150"
                       aria-label="Other quantity in pieces"
                     />
-                    pcs
-                    <span class="q-custom-price" aria-live="polite"
-                      >Minimum 25 pcs</span
-                    >
+                    <span class="q-custom-price" aria-live="polite">p.p</span>
                   </span>
                 </span>
                 <span class="q-total"
@@ -4128,8 +4342,11 @@
                   checked
                 />
                 <span class="q-main">
-                  <span class="q-top"><b class="q-qty">250 pcs</b></span>
-                  <span class="q-pp"><b>€ 3,03</b> per piece</span>
+                  <span class="q-top"
+                    ><b class="q-qty">250</b
+                    ><span class="q-unit">pieces</span></span
+                  >
+                  <span class="q-pp"><b>€ 3,03</b> p.p</span>
                 </span>
                 <span class="q-total"
                   ><b>€ 757,50</b><small>excl. VAT</small></span
@@ -4143,8 +4360,11 @@
                   data-price="2.86"
                 />
                 <span class="q-main">
-                  <span class="q-top"><b class="q-qty">500 pcs</b></span>
-                  <span class="q-pp"><b>€ 2,86</b> per piece</span>
+                  <span class="q-top"
+                    ><b class="q-qty">500</b
+                    ><span class="q-unit">pieces</span></span
+                  >
+                  <span class="q-pp"><b>€ 2,86</b> p.p</span>
                   <span class="q-save">save € 85</span>
                 </span>
                 <span class="q-total"
@@ -4159,8 +4379,11 @@
                   data-price="2.74"
                 />
                 <span class="q-main">
-                  <span class="q-top"><b class="q-qty">1,000 pcs</b></span>
-                  <span class="q-pp"><b>€ 2,74</b> per piece</span>
+                  <span class="q-top"
+                    ><b class="q-qty">1000</b
+                    ><span class="q-unit">pieces</span></span
+                  >
+                  <span class="q-pp"><b>€ 2,74</b> p.p</span>
                   <span class="q-save">save € 290</span>
                 </span>
                 <span class="q-total"
@@ -4175,8 +4398,11 @@
                   data-price="2.63"
                 />
                 <span class="q-main">
-                  <span class="q-top"><b class="q-qty">2,500 pcs</b></span>
-                  <span class="q-pp"><b>€ 2,63</b> per piece</span>
+                  <span class="q-top"
+                    ><b class="q-qty">2500</b
+                    ><span class="q-unit">pieces</span></span
+                  >
+                  <span class="q-pp"><b>€ 2,63</b> p.p</span>
                   <span class="q-save">save € 1.000</span>
                 </span>
                 <span class="q-total"
@@ -4197,10 +4423,7 @@
                       placeholder="e.g. 150"
                       aria-label="Other quantity in pieces"
                     />
-                    pcs
-                    <span class="q-custom-price" aria-live="polite"
-                      >Minimum 250 pcs</span
-                    >
+                    <span class="q-custom-price" aria-live="polite">p.p</span>
                   </span>
                 </span>
                 <span class="q-total"
@@ -4224,50 +4447,18 @@
           alt="Jildou, your account manager"
         />
         <div class="am-feature-card">
-          <p class="eyebrow">Your account manager</p>
-          <p class="am-feature-name">Jildou</p>
+          <div class="am-feature-id">
+            <p class="am-feature-name">Jildou</p>
+            <p class="eyebrow">Your account manager</p>
+          </div>
           <p class="am-feature-quote">
-            “I've put this offer together for you. Questions about sizes,
-            colours or delivery? Call or email me, I'm happy to help.”
+            “I've put this offer together for you.<br />Questions about sizes,
+            colours or delivery?<br />Call or email me, I'm happy to help.”
           </p>
           <p class="am-feature-contact">
             <a href="tel:+442045765960">+44 20 4576 5960</a>
             <a href="mailto:Jildou@loopper.com">Jildou@loopper.com</a>
           </p>
-          <div class="am-feature-actions">
-            <button
-              type="button"
-              class="am-btn am-btn-chat"
-              id="amChatBtn"
-              aria-haspopup="dialog"
-            >
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 20 20"
-                fill="none"
-                aria-hidden="true"
-              >
-                <path
-                  d="M4 4h12a1.5 1.5 0 0 1 1.5 1.5v7A1.5 1.5 0 0 1 16 14H9l-4 3v-3H4a1.5 1.5 0 0 1-1.5-1.5v-7A1.5 1.5 0 0 1 4 4z"
-                  stroke="currentColor"
-                  stroke-width="1.7"
-                  stroke-linejoin="round"
-                /></svg
-              >Chat with Jildou
-            </button>
-            <a
-              class="am-btn"
-              href="mailto:Jildou@loopper.com?subject=Question%20about%20offer%20%235436794"
-            >
-              <img
-                src="assets/offer-v3/icon-mail.svg"
-                width="18"
-                height="18"
-                alt=""
-              />Send email
-            </a>
-          </div>
         </div>
       </section>
 
@@ -4401,55 +4592,20 @@
 
     <!-- Bottom brand bar (5:1209) -->
     <footer class="bottom-bar">
-      <ul class="pay-methods" aria-label="Payment methods">
-        <li style="color: #1a2e40">SEPA</li>
-        <li style="color: #003087">PayPal</li>
-        <li style="color: #eb001b">Mastercard</li>
-        <li style="color: #1a19f4">VISA</li>
-        <li style="color: #016fd0">AMEX</li>
-        <li style="color: #016fd0">Belfius</li>
-        <li style="color: #0599bf">Trustly</li>
-      </ul>
-      <div class="tp-widget">
-        <span class="tp-stars" aria-hidden="true">
-          <span
-            ><img
-              src="assets/offer-v3/icon-star.svg"
-              width="11"
-              height="11"
-              alt=""
-          /></span>
-          <span
-            ><img
-              src="assets/offer-v3/icon-star.svg"
-              width="11"
-              height="11"
-              alt=""
-          /></span>
-          <span
-            ><img
-              src="assets/offer-v3/icon-star.svg"
-              width="11"
-              height="11"
-              alt=""
-          /></span>
-          <span
-            ><img
-              src="assets/offer-v3/icon-star.svg"
-              width="11"
-              height="11"
-              alt=""
-          /></span>
-          <span
-            ><img
-              src="assets/offer-v3/icon-star.svg"
-              width="11"
-              height="11"
-              alt=""
-          /></span>
-        </span>
-        <p>Trustpilot <b>4.7/5</b> (1,272 reviews)</p>
-      </div>
+      <img
+        class="pay-logos"
+        src="assets/offer-v3/payment-logos.png"
+        width="788"
+        height="33"
+        alt="Payment methods: Mastercard, iDEAL, VISA, American Express, PayPal, SEPA, eps, Belfius, Postepay, Klarna, Bancontact, Satispay, BLIK, Przelewy24, Billie"
+      />
+      <img
+        class="tp-rating"
+        src="assets/offer-v3/trustpilot-rating.png"
+        width="315"
+        height="18"
+        alt="Trustpilot 4.7/5 (1,282 reviews)"
+      />
     </footer>
     <script>
       // Prototype: add the requested alternative to the offer and update the summary.
@@ -5723,7 +5879,7 @@
             radio.removeAttribute("data-price");
             radio.value = "custom";
             if (!q) {
-              price.textContent = "Minimum " + pcs(min);
+              price.textContent = "p.p";
               price.classList.remove("is-warn");
               total.textContent = "–";
               return;
@@ -5736,7 +5892,7 @@
             }
             var t = tierFor(q);
             price.classList.remove("is-warn");
-            price.textContent = eur(t.p) + " per piece";
+            price.textContent = eur(t.p) + " p.p";
             total.textContent = eur(t.p * q);
             radio.value = String(q);
             radio.setAttribute("data-price", String(t.p));
@@ -5791,94 +5947,14 @@
       })();
     </script>
 
-    <!-- Prototype chat panel (opens from "Chat with Jildou") -->
-    <div
-      class="am-chat-panel"
-      id="amChatPanel"
-      role="dialog"
-      aria-label="Chat with Jildou"
-      hidden
-    >
-      <div class="am-chat-panel-head">
-        <span
-          class="avatar avatar-photo am-chat-avatar"
-          aria-hidden="true"
-        ></span>
-        <span
-          ><b>Jildou</b
-          ><small
-            >Your account manager · usually replies within 1 hour</small
-          ></span
-        >
-        <button type="button" class="am-chat-close" aria-label="Close chat">
-          ×
-        </button>
-      </div>
-      <div class="am-chat-panel-body" aria-live="polite">
-        <p class="am-msg am-msg-in">
-          Hi Cayna! 👋 Do you have a question about your offer?
-        </p>
-      </div>
-      <form class="am-chat-panel-form">
-        <input
-          type="text"
-          placeholder="Type your message…"
-          aria-label="Message"
-          autocomplete="off"
-        />
-        <button type="submit">Send</button>
-      </form>
-    </div>
-    <script>
-      // Prototype chat: open/close and echo the visitor's messages
-      (function () {
-        var panel = document.getElementById("amChatPanel");
-        var body = panel.querySelector(".am-chat-panel-body");
-        var form = panel.querySelector("form");
-        var input = form.querySelector("input");
-        function open() {
-          panel.hidden = false;
-          input.focus();
-        }
-        function close() {
-          panel.hidden = true;
-          document.getElementById("amChatBtn").focus();
-        }
-        document.getElementById("amChatBtn").addEventListener("click", open);
-        panel.querySelector(".am-chat-close").addEventListener("click", close);
-        document.addEventListener("keydown", function (e) {
-          if (e.key === "Escape" && !panel.hidden) close();
-        });
-        form.addEventListener("submit", function (e) {
-          e.preventDefault();
-          var t = input.value.trim();
-          if (!t) return;
-          var p = document.createElement("p");
-          p.className = "am-msg am-msg-out";
-          p.textContent = t;
-          body.appendChild(p);
-          input.value = "";
-          setTimeout(function () {
-            var r = document.createElement("p");
-            r.className = "am-msg am-msg-in";
-            r.textContent = "Thanks! I'll get back to you shortly.";
-            body.appendChild(r);
-            body.scrollTop = body.scrollHeight;
-          }, 700);
-          body.scrollTop = body.scrollHeight;
-        });
-      })();
-    </script>
-
     <!-- Step navigation, always visible at the bottom -->
     <nav class="step-nav" aria-label="Offer steps navigation">
       <div class="step-nav-inner">
-        <button type="button" class="step-nav-btn step-nav-prev">
-          <span aria-hidden="true">‹</span> Previous
-          <small>Logo uploaded</small>
-        </button>
         <div class="step-nav-next-wrap">
-          <span class="step-nav-hint">Available when your mockup is ready</span>
+          <span class="step-nav-hint"
+            >Available when your <b>Mockup design</b> is ready. We will notify
+            you via email when it is ready.</span
+          >
           <button type="button" class="cta step-nav-next" disabled>
             <span>Next: Approve design</span>
             <img
