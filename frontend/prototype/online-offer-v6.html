@@ -3246,6 +3246,54 @@
         background: var(--green-50);
         color: var(--green-text);
       }
+      /* Quantity options on one line: radio | qty | price per piece | savings | total */
+      .q-list {
+        gap: 5px;
+      }
+      .q-row {
+        grid-template-columns: 18px 64px minmax(0, 1fr) auto 92px;
+        column-gap: 10px;
+        padding: 7px 12px;
+        min-height: 38px;
+      }
+      .q-row:has(> input:checked) {
+        padding: 6.4px 11.4px;
+      }
+      .q-main,
+      .q-top {
+        display: contents;
+      }
+      .q-badge,
+      .q-total small {
+        display: none;
+      }
+      .q-qty {
+        grid-column: 2;
+        white-space: nowrap;
+      }
+      .q-pp {
+        grid-column: 3;
+        white-space: nowrap;
+      }
+      .q-save {
+        grid-column: 4;
+        white-space: nowrap;
+      }
+      .q-total {
+        grid-column: 5;
+      }
+      .q-custom-line {
+        grid-column: 3 / 5;
+        margin-top: 0;
+      }
+      .q-custom-input {
+        height: 26px;
+        width: 76px;
+      }
+      .p6-h-qty small {
+        font-weight: 600;
+        color: var(--muted);
+      }
     </style>
   </head>
   <body>
@@ -3514,7 +3562,9 @@
           </div>
           <div class="p6-headrow" aria-hidden="true">
             <span class="p6-h-products">Selected products</span>
-            <span class="p6-h-qty">Choose quantity</span>
+            <span class="p6-h-qty"
+              >Choose quantity <small>· prices excl. VAT</small></span
+            >
             <span class="p6-h-pp">Price per piece</span>
             <span class="p6-h-sub">Subtotal</span>
           </div>
@@ -3581,7 +3631,7 @@
                 <span class="q-main">
                   <span class="q-top"><b class="q-qty">50 pcs</b></span>
                   <span class="q-pp"><b>€ 7,72</b> per piece</span>
-                  <span class="q-save">€ 2,14 less per piece · save € 107</span>
+                  <span class="q-save">save € 107</span>
                 </span>
                 <span class="q-total"
                   ><b>€ 386,00</b><small>excl. VAT</small></span
@@ -3590,12 +3640,9 @@
               <label class="q-row">
                 <input type="radio" name="qty1" value="100" data-price="6.39" />
                 <span class="q-main">
-                  <span class="q-top"
-                    ><b class="q-qty">100 pcs</b
-                    ><span class="q-badge">Most chosen</span></span
-                  >
+                  <span class="q-top"><b class="q-qty">100 pcs</b></span>
                   <span class="q-pp"><b>€ 6,39</b> per piece</span>
-                  <span class="q-save">€ 3,47 less per piece · save € 347</span>
+                  <span class="q-save">save € 347</span>
                 </span>
                 <span class="q-total"
                   ><b>€ 639,00</b><small>excl. VAT</small></span
@@ -3604,16 +3651,9 @@
               <label class="q-row">
                 <input type="radio" name="qty1" value="250" data-price="5.77" />
                 <span class="q-main">
-                  <span class="q-top"
-                    ><b class="q-qty">250 pcs</b
-                    ><span class="q-badge q-badge-green"
-                      >Lowest price per piece</span
-                    ></span
-                  >
+                  <span class="q-top"><b class="q-qty">250 pcs</b></span>
                   <span class="q-pp"><b>€ 5,77</b> per piece</span>
-                  <span class="q-save"
-                    >€ 4,09 less per piece · save € 1.022,50</span
-                  >
+                  <span class="q-save">save € 1.022,50</span>
                 </span>
                 <span class="q-total"
                   ><b>€ 1.442,50</b><small>excl. VAT</small></span
@@ -3622,7 +3662,7 @@
               <label class="q-row q-custom">
                 <input type="radio" name="qty1" value="custom" />
                 <span class="q-main">
-                  <span class="q-top"><b class="q-qty">Other quantity</b></span>
+                  <span class="q-top"><b class="q-qty">Other</b></span>
                   <span class="q-custom-line">
                     <input
                       class="q-custom-input"
@@ -3719,7 +3759,7 @@
                 <span class="q-main">
                   <span class="q-top"><b class="q-qty">50 pcs</b></span>
                   <span class="q-pp"><b>€ 7,72</b> per piece</span>
-                  <span class="q-save">€ 2,14 less per piece · save € 107</span>
+                  <span class="q-save">save € 107</span>
                 </span>
                 <span class="q-total"
                   ><b>€ 386,00</b><small>excl. VAT</small></span
@@ -3728,12 +3768,9 @@
               <label class="q-row">
                 <input type="radio" name="qty2" value="100" data-price="6.39" />
                 <span class="q-main">
-                  <span class="q-top"
-                    ><b class="q-qty">100 pcs</b
-                    ><span class="q-badge">Most chosen</span></span
-                  >
+                  <span class="q-top"><b class="q-qty">100 pcs</b></span>
                   <span class="q-pp"><b>€ 6,39</b> per piece</span>
-                  <span class="q-save">€ 3,47 less per piece · save € 347</span>
+                  <span class="q-save">save € 347</span>
                 </span>
                 <span class="q-total"
                   ><b>€ 639,00</b><small>excl. VAT</small></span
@@ -3742,16 +3779,9 @@
               <label class="q-row">
                 <input type="radio" name="qty2" value="250" data-price="5.77" />
                 <span class="q-main">
-                  <span class="q-top"
-                    ><b class="q-qty">250 pcs</b
-                    ><span class="q-badge q-badge-green"
-                      >Lowest price per piece</span
-                    ></span
-                  >
+                  <span class="q-top"><b class="q-qty">250 pcs</b></span>
                   <span class="q-pp"><b>€ 5,77</b> per piece</span>
-                  <span class="q-save"
-                    >€ 4,09 less per piece · save € 1.022,50</span
-                  >
+                  <span class="q-save">save € 1.022,50</span>
                 </span>
                 <span class="q-total"
                   ><b>€ 1.442,50</b><small>excl. VAT</small></span
@@ -3760,7 +3790,7 @@
               <label class="q-row q-custom">
                 <input type="radio" name="qty2" value="custom" />
                 <span class="q-main">
-                  <span class="q-top"><b class="q-qty">Other quantity</b></span>
+                  <span class="q-top"><b class="q-qty">Other</b></span>
                   <span class="q-custom-line">
                     <input
                       class="q-custom-input"
@@ -3904,12 +3934,9 @@
                   data-price="2.86"
                 />
                 <span class="q-main">
-                  <span class="q-top"
-                    ><b class="q-qty">500 pcs</b
-                    ><span class="q-badge">Most chosen</span></span
-                  >
+                  <span class="q-top"><b class="q-qty">500 pcs</b></span>
                   <span class="q-pp"><b>€ 2,86</b> per piece</span>
-                  <span class="q-save">€ 0,17 less per piece · save € 85</span>
+                  <span class="q-save">save € 85</span>
                 </span>
                 <span class="q-total"
                   ><b>€ 1.430,00</b><small>excl. VAT</small></span
@@ -3925,7 +3952,7 @@
                 <span class="q-main">
                   <span class="q-top"><b class="q-qty">1,000 pcs</b></span>
                   <span class="q-pp"><b>€ 2,74</b> per piece</span>
-                  <span class="q-save">€ 0,29 less per piece · save € 290</span>
+                  <span class="q-save">save € 290</span>
                 </span>
                 <span class="q-total"
                   ><b>€ 2.740,00</b><small>excl. VAT</small></span
@@ -3939,16 +3966,9 @@
                   data-price="2.63"
                 />
                 <span class="q-main">
-                  <span class="q-top"
-                    ><b class="q-qty">2,500 pcs</b
-                    ><span class="q-badge q-badge-green"
-                      >Lowest price per piece</span
-                    ></span
-                  >
+                  <span class="q-top"><b class="q-qty">2,500 pcs</b></span>
                   <span class="q-pp"><b>€ 2,63</b> per piece</span>
-                  <span class="q-save"
-                    >€ 0,40 less per piece · save € 1.000</span
-                  >
+                  <span class="q-save">save € 1.000</span>
                 </span>
                 <span class="q-total"
                   ><b>€ 6.575,00</b><small>excl. VAT</small></span
@@ -3957,7 +3977,7 @@
               <label class="q-row q-custom">
                 <input type="radio" name="qtyAlt" value="custom" />
                 <span class="q-main">
-                  <span class="q-top"><b class="q-qty">Other quantity</b></span>
+                  <span class="q-top"><b class="q-qty">Other</b></span>
                   <span class="q-custom-line">
                     <input
                       class="q-custom-input"
