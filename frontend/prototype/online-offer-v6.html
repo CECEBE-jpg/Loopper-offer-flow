@@ -3685,6 +3685,16 @@
       .step-nav-hint b {
         font-weight: 700;
       }
+      /* Figma 9:9 top section: no line under the default header (the condensed header keeps it, as in 9:579) */
+      .top:not(.is-condensed) .site-header {
+        border-bottom: 0;
+      }
+      .top.is-condensed .site-header {
+        border-bottom: 1px solid #e1e7ed;
+      }
+      .client-logo .client-logo-img {
+        padding: 4px;
+      }
     </style>
   </head>
   <body>
