@@ -3075,6 +3075,177 @@
         background-size: 330%;
         background-position: 46% 18%;
       }
+      /* ---------- Pricing block: selectable cards, volume pricing, live custom quantity ---------- */
+      .p6-headrow,
+      .product.p6 {
+        grid-template-columns: 64px 176px minmax(0, 1fr) 440px;
+      }
+      .p6-headrow .p6-h-pp,
+      .p6-headrow .p6-h-sub {
+        display: none;
+      }
+      .q-list {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        margin: 0;
+        padding: 0;
+        border: 0;
+      }
+      .q-row {
+        display: grid;
+        grid-template-columns: 18px minmax(0, 1fr) auto;
+        column-gap: 12px;
+        align-items: center;
+        padding: 9px 12px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: #fff;
+        cursor: pointer;
+        transition:
+          border-color 0.15s,
+          background-color 0.15s;
+      }
+      .q-row:hover {
+        border-color: #b7c2cd;
+      }
+      .q-row:has(> input:checked) {
+        border: 1.6px solid var(--green);
+        padding: 8.4px 11.4px;
+        background: var(--green-50);
+      }
+      .q-row:has(> input:focus-visible) {
+        outline: 2px solid var(--blue);
+        outline-offset: 2px;
+      }
+      .q-row > input[type="radio"] {
+        appearance: none;
+        display: grid;
+        place-items: center;
+        width: 18px;
+        height: 18px;
+        margin: 0;
+        border: 1.5px solid #9aa5b1;
+        border-radius: 50%;
+        background: #fff;
+        cursor: pointer;
+      }
+      .q-row > input[type="radio"]:checked {
+        border-color: var(--green);
+      }
+      .q-row > input[type="radio"]:checked::after {
+        content: "";
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--green);
+      }
+      .q-main {
+        display: flex;
+        flex-direction: column;
+        gap: 1px;
+        min-width: 0;
+      }
+      .q-top {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .q-qty {
+        font-size: 14px;
+        line-height: 20px;
+        font-weight: 800;
+        color: var(--ink);
+      }
+      .q-badge {
+        padding: 1px 8px;
+        border-radius: 20px;
+        background: var(--blue-50);
+        color: var(--blue);
+        font-size: 11px;
+        line-height: 16px;
+        font-weight: 800;
+      }
+      .q-pp {
+        font-size: 12px;
+        line-height: 17px;
+        color: var(--muted);
+      }
+      .q-pp b {
+        font-size: 13px;
+        font-weight: 800;
+        color: var(--ink);
+      }
+      .q-save {
+        font-size: 11.5px;
+        line-height: 16px;
+        font-weight: 700;
+        color: var(--green-text);
+      }
+      .q-total {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        text-align: right;
+      }
+      .q-total b {
+        font-size: 14px;
+        line-height: 20px;
+        font-weight: 800;
+        color: var(--ink);
+      }
+      .q-total small {
+        font-size: 11px;
+        line-height: 14px;
+        color: var(--muted);
+      }
+      .q-row:has(> input:checked) .q-total b {
+        color: var(--green-text);
+      }
+      .q-custom-line {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 3px;
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .q-custom-input {
+        width: 86px;
+        height: 28px;
+        padding: 0 8px;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        font: inherit;
+        font-size: 13px;
+        color: var(--ink);
+        background: #fff;
+      }
+      .q-custom-input:focus {
+        outline: none;
+        border-color: var(--blue);
+      }
+      .q-custom-price {
+        margin-left: 4px;
+      }
+      .q-custom-price.is-warn {
+        color: #b45f00;
+        font-weight: 700;
+      }
+      .q-nudge {
+        min-height: 17px;
+        margin: 2px 2px 0;
+        font-size: 12px;
+        line-height: 17px;
+        color: var(--text);
+      }
+      .q-nudge b {
+        color: var(--ink);
+      }
+      .q-badge-green {
+        background: var(--green-50);
+        color: var(--green-text);
+      }
     </style>
   </head>
   <body>
@@ -3384,9 +3555,12 @@
                 <span class="chip chip-grey">Fast delivery: 28 Oct</span>
               </div>
             </div>
-            <fieldset class="p6-tiers">
+            <fieldset
+              class="p6-tiers q-list"
+              data-tiers='[{"q":25,"p":9.86},{"q":50,"p":7.72},{"q":100,"p":6.39},{"q":250,"p":5.77}]'
+            >
               <legend class="sr-only">Choose quantity</legend>
-              <label class="p6-tier">
+              <label class="q-row">
                 <input
                   type="radio"
                   name="qty1"
@@ -3394,47 +3568,82 @@
                   data-price="9.86"
                   checked
                 />
-                <span class="p6-q">25</span>
-                <span class="p6-tag"></span>
-                <span class="p6-pp"><b>€ 9,86</b></span>
-                <span class="p6-sub">€ 246,50</span>
+                <span class="q-main">
+                  <span class="q-top"><b class="q-qty">25 pcs</b></span>
+                  <span class="q-pp"><b>€ 9,86</b> per piece</span>
+                </span>
+                <span class="q-total"
+                  ><b>€ 246,50</b><small>excl. VAT</small></span
+                >
               </label>
-              <label class="p6-tier">
+              <label class="q-row">
                 <input type="radio" name="qty1" value="50" data-price="7.72" />
-                <span class="p6-q">50</span>
-                <span class="p6-tag"
-                  ><span class="disc-tag">22% discount</span></span
+                <span class="q-main">
+                  <span class="q-top"><b class="q-qty">50 pcs</b></span>
+                  <span class="q-pp"><b>€ 7,72</b> per piece</span>
+                  <span class="q-save">€ 2,14 less per piece · save € 107</span>
+                </span>
+                <span class="q-total"
+                  ><b>€ 386,00</b><small>excl. VAT</small></span
                 >
-                <span class="p6-pp"><s>€ 9,86</s> / <b>€ 7,72</b></span>
-                <span class="p6-sub">€ 386,00</span>
               </label>
-              <label class="p6-tier">
+              <label class="q-row">
                 <input type="radio" name="qty1" value="100" data-price="6.39" />
-                <span class="p6-q">100</span>
-                <span class="p6-tag"
-                  ><span class="disc-tag">35% discount</span></span
+                <span class="q-main">
+                  <span class="q-top"
+                    ><b class="q-qty">100 pcs</b
+                    ><span class="q-badge">Most chosen</span></span
+                  >
+                  <span class="q-pp"><b>€ 6,39</b> per piece</span>
+                  <span class="q-save">€ 3,47 less per piece · save € 347</span>
+                </span>
+                <span class="q-total"
+                  ><b>€ 639,00</b><small>excl. VAT</small></span
                 >
-                <span class="p6-pp"><s>€ 9,86</s> / <b>€ 6,39</b></span>
-                <span class="p6-sub">€ 639,00</span>
               </label>
-              <label class="p6-tier">
+              <label class="q-row">
                 <input type="radio" name="qty1" value="250" data-price="5.77" />
-                <span class="p6-q">250</span>
-                <span class="p6-tag"
-                  ><span class="disc-tag">41% discount</span></span
+                <span class="q-main">
+                  <span class="q-top"
+                    ><b class="q-qty">250 pcs</b
+                    ><span class="q-badge q-badge-green"
+                      >Lowest price per piece</span
+                    ></span
+                  >
+                  <span class="q-pp"><b>€ 5,77</b> per piece</span>
+                  <span class="q-save"
+                    >€ 4,09 less per piece · save € 1.022,50</span
+                  >
+                </span>
+                <span class="q-total"
+                  ><b>€ 1.442,50</b><small>excl. VAT</small></span
                 >
-                <span class="p6-pp"><s>€ 9,86</s> / <b>€ 5,77</b></span>
-                <span class="p6-sub">€ 1.442,50</span>
               </label>
-              <div class="p6-custom">
-                <input
-                  type="number"
-                  min="1"
-                  placeholder="Quantity"
-                  aria-label="Other quantity"
-                />
-                <button type="button" class="p6-save">Save</button>
-              </div>
+              <label class="q-row q-custom">
+                <input type="radio" name="qty1" value="custom" />
+                <span class="q-main">
+                  <span class="q-top"><b class="q-qty">Other quantity</b></span>
+                  <span class="q-custom-line">
+                    <input
+                      class="q-custom-input"
+                      type="number"
+                      min="1"
+                      step="1"
+                      inputmode="numeric"
+                      placeholder="e.g. 150"
+                      aria-label="Other quantity in pieces"
+                    />
+                    pcs
+                    <span class="q-custom-price" aria-live="polite"
+                      >Minimum 25 pcs</span
+                    >
+                  </span>
+                </span>
+                <span class="q-total"
+                  ><b class="q-custom-total">–</b><small>excl. VAT</small></span
+                >
+              </label>
+              <p class="q-nudge" aria-live="polite"></p>
             </fieldset>
           </article>
           <article class="product p6">
@@ -3484,9 +3693,12 @@
                 </div>
               </dl>
             </div>
-            <fieldset class="p6-tiers">
+            <fieldset
+              class="p6-tiers q-list"
+              data-tiers='[{"q":25,"p":9.86},{"q":50,"p":7.72},{"q":100,"p":6.39},{"q":250,"p":5.77}]'
+            >
               <legend class="sr-only">Choose quantity</legend>
-              <label class="p6-tier">
+              <label class="q-row">
                 <input
                   type="radio"
                   name="qty2"
@@ -3494,47 +3706,82 @@
                   data-price="9.86"
                   checked
                 />
-                <span class="p6-q">25</span>
-                <span class="p6-tag"></span>
-                <span class="p6-pp"><b>€ 9,86</b></span>
-                <span class="p6-sub">€ 246,50</span>
+                <span class="q-main">
+                  <span class="q-top"><b class="q-qty">25 pcs</b></span>
+                  <span class="q-pp"><b>€ 9,86</b> per piece</span>
+                </span>
+                <span class="q-total"
+                  ><b>€ 246,50</b><small>excl. VAT</small></span
+                >
               </label>
-              <label class="p6-tier">
+              <label class="q-row">
                 <input type="radio" name="qty2" value="50" data-price="7.72" />
-                <span class="p6-q">50</span>
-                <span class="p6-tag"
-                  ><span class="disc-tag">22% discount</span></span
+                <span class="q-main">
+                  <span class="q-top"><b class="q-qty">50 pcs</b></span>
+                  <span class="q-pp"><b>€ 7,72</b> per piece</span>
+                  <span class="q-save">€ 2,14 less per piece · save € 107</span>
+                </span>
+                <span class="q-total"
+                  ><b>€ 386,00</b><small>excl. VAT</small></span
                 >
-                <span class="p6-pp"><s>€ 9,86</s> / <b>€ 7,72</b></span>
-                <span class="p6-sub">€ 386,00</span>
               </label>
-              <label class="p6-tier">
+              <label class="q-row">
                 <input type="radio" name="qty2" value="100" data-price="6.39" />
-                <span class="p6-q">100</span>
-                <span class="p6-tag"
-                  ><span class="disc-tag">35% discount</span></span
+                <span class="q-main">
+                  <span class="q-top"
+                    ><b class="q-qty">100 pcs</b
+                    ><span class="q-badge">Most chosen</span></span
+                  >
+                  <span class="q-pp"><b>€ 6,39</b> per piece</span>
+                  <span class="q-save">€ 3,47 less per piece · save € 347</span>
+                </span>
+                <span class="q-total"
+                  ><b>€ 639,00</b><small>excl. VAT</small></span
                 >
-                <span class="p6-pp"><s>€ 9,86</s> / <b>€ 6,39</b></span>
-                <span class="p6-sub">€ 639,00</span>
               </label>
-              <label class="p6-tier">
+              <label class="q-row">
                 <input type="radio" name="qty2" value="250" data-price="5.77" />
-                <span class="p6-q">250</span>
-                <span class="p6-tag"
-                  ><span class="disc-tag">41% discount</span></span
+                <span class="q-main">
+                  <span class="q-top"
+                    ><b class="q-qty">250 pcs</b
+                    ><span class="q-badge q-badge-green"
+                      >Lowest price per piece</span
+                    ></span
+                  >
+                  <span class="q-pp"><b>€ 5,77</b> per piece</span>
+                  <span class="q-save"
+                    >€ 4,09 less per piece · save € 1.022,50</span
+                  >
+                </span>
+                <span class="q-total"
+                  ><b>€ 1.442,50</b><small>excl. VAT</small></span
                 >
-                <span class="p6-pp"><s>€ 9,86</s> / <b>€ 5,77</b></span>
-                <span class="p6-sub">€ 1.442,50</span>
               </label>
-              <div class="p6-custom">
-                <input
-                  type="number"
-                  min="1"
-                  placeholder="Quantity"
-                  aria-label="Other quantity"
-                />
-                <button type="button" class="p6-save">Save</button>
-              </div>
+              <label class="q-row q-custom">
+                <input type="radio" name="qty2" value="custom" />
+                <span class="q-main">
+                  <span class="q-top"><b class="q-qty">Other quantity</b></span>
+                  <span class="q-custom-line">
+                    <input
+                      class="q-custom-input"
+                      type="number"
+                      min="1"
+                      step="1"
+                      inputmode="numeric"
+                      placeholder="e.g. 150"
+                      aria-label="Other quantity in pieces"
+                    />
+                    pcs
+                    <span class="q-custom-price" aria-live="polite"
+                      >Minimum 25 pcs</span
+                    >
+                  </span>
+                </span>
+                <span class="q-total"
+                  ><b class="q-custom-total">–</b><small>excl. VAT</small></span
+                >
+              </label>
+              <p class="q-nudge" aria-live="polite"></p>
             </fieldset>
           </article>
 
@@ -3627,9 +3874,13 @@
                 <span class="chip chip-grey">Fast delivery: 28 Oct</span>
               </div>
             </div>
-            <fieldset class="p6-tiers" id="altQty">
+            <fieldset
+              class="p6-tiers q-list"
+              id="altQty"
+              data-tiers='[{"q":250,"p":3.03},{"q":500,"p":2.86},{"q":1000,"p":2.74},{"q":2500,"p":2.63}]'
+            >
               <legend class="sr-only">Choose quantity</legend>
-              <label class="p6-tier">
+              <label class="q-row">
                 <input
                   type="radio"
                   name="qtyAlt"
@@ -3637,62 +3888,97 @@
                   data-price="3.03"
                   checked
                 />
-                <span class="p6-q">250</span>
-                <span class="p6-tag"></span>
-                <span class="p6-pp"><b>€ 3,03</b></span>
-                <span class="p6-sub">€ 757,50</span>
+                <span class="q-main">
+                  <span class="q-top"><b class="q-qty">250 pcs</b></span>
+                  <span class="q-pp"><b>€ 3,03</b> per piece</span>
+                </span>
+                <span class="q-total"
+                  ><b>€ 757,50</b><small>excl. VAT</small></span
+                >
               </label>
-              <label class="p6-tier">
+              <label class="q-row">
                 <input
                   type="radio"
                   name="qtyAlt"
                   value="500"
                   data-price="2.86"
                 />
-                <span class="p6-q">500</span>
-                <span class="p6-tag"
-                  ><span class="disc-tag">6% discount</span></span
+                <span class="q-main">
+                  <span class="q-top"
+                    ><b class="q-qty">500 pcs</b
+                    ><span class="q-badge">Most chosen</span></span
+                  >
+                  <span class="q-pp"><b>€ 2,86</b> per piece</span>
+                  <span class="q-save">€ 0,17 less per piece · save € 85</span>
+                </span>
+                <span class="q-total"
+                  ><b>€ 1.430,00</b><small>excl. VAT</small></span
                 >
-                <span class="p6-pp"><s>€ 3,03</s> / <b>€ 2,86</b></span>
-                <span class="p6-sub">€ 1.430,00</span>
               </label>
-              <label class="p6-tier">
+              <label class="q-row">
                 <input
                   type="radio"
                   name="qtyAlt"
                   value="1000"
                   data-price="2.74"
                 />
-                <span class="p6-q">1,000</span>
-                <span class="p6-tag"
-                  ><span class="disc-tag">10% discount</span></span
+                <span class="q-main">
+                  <span class="q-top"><b class="q-qty">1,000 pcs</b></span>
+                  <span class="q-pp"><b>€ 2,74</b> per piece</span>
+                  <span class="q-save">€ 0,29 less per piece · save € 290</span>
+                </span>
+                <span class="q-total"
+                  ><b>€ 2.740,00</b><small>excl. VAT</small></span
                 >
-                <span class="p6-pp"><s>€ 3,03</s> / <b>€ 2,74</b></span>
-                <span class="p6-sub">€ 2.740,00</span>
               </label>
-              <label class="p6-tier">
+              <label class="q-row">
                 <input
                   type="radio"
                   name="qtyAlt"
                   value="2500"
                   data-price="2.63"
                 />
-                <span class="p6-q">2,500</span>
-                <span class="p6-tag"
-                  ><span class="disc-tag">13% discount</span></span
+                <span class="q-main">
+                  <span class="q-top"
+                    ><b class="q-qty">2,500 pcs</b
+                    ><span class="q-badge q-badge-green"
+                      >Lowest price per piece</span
+                    ></span
+                  >
+                  <span class="q-pp"><b>€ 2,63</b> per piece</span>
+                  <span class="q-save"
+                    >€ 0,40 less per piece · save € 1.000</span
+                  >
+                </span>
+                <span class="q-total"
+                  ><b>€ 6.575,00</b><small>excl. VAT</small></span
                 >
-                <span class="p6-pp"><s>€ 3,03</s> / <b>€ 2,63</b></span>
-                <span class="p6-sub">€ 6.575,00</span>
               </label>
-              <div class="p6-custom">
-                <input
-                  type="number"
-                  min="1"
-                  placeholder="Quantity"
-                  aria-label="Other quantity"
-                />
-                <button type="button" class="p6-save">Save</button>
-              </div>
+              <label class="q-row q-custom">
+                <input type="radio" name="qtyAlt" value="custom" />
+                <span class="q-main">
+                  <span class="q-top"><b class="q-qty">Other quantity</b></span>
+                  <span class="q-custom-line">
+                    <input
+                      class="q-custom-input"
+                      type="number"
+                      min="1"
+                      step="1"
+                      inputmode="numeric"
+                      placeholder="e.g. 150"
+                      aria-label="Other quantity in pieces"
+                    />
+                    pcs
+                    <span class="q-custom-price" aria-live="polite"
+                      >Minimum 250 pcs</span
+                    >
+                  </span>
+                </span>
+                <span class="q-total"
+                  ><b class="q-custom-total">–</b><small>excl. VAT</small></span
+                >
+              </label>
+              <p class="q-nudge" aria-live="polite"></p>
             </fieldset>
           </article>
 
@@ -5130,6 +5416,111 @@
           defaultSrc = img.getAttribute("src");
           sync();
         }, 0);
+      })();
+    </script>
+
+    <script>
+      // Pricing block: live custom quantity + next-tier tip
+      (function () {
+        function eur(n) {
+          return (
+            "€ " +
+            n.toLocaleString("nl-NL", {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })
+          );
+        }
+        function eurShort(n) {
+          return eur(n).replace(/,00$/, "");
+        }
+        function pcs(q) {
+          return q.toLocaleString("en-GB") + " pcs";
+        }
+        document.querySelectorAll(".q-list").forEach(function (list) {
+          var tiers = JSON.parse(list.getAttribute("data-tiers"));
+          var min = tiers[0].q;
+          var custom = list.querySelector(".q-custom");
+          var radio = custom.querySelector('input[type="radio"]');
+          var input = custom.querySelector(".q-custom-input");
+          var price = custom.querySelector(".q-custom-price");
+          var total = custom.querySelector(".q-custom-total");
+          var nudge = list.querySelector(".q-nudge");
+          function tierFor(q) {
+            var t = tiers[0];
+            tiers.forEach(function (x) {
+              if (q >= x.q) t = x;
+            });
+            return t;
+          }
+          function updateCustom() {
+            var q = parseInt(input.value, 10);
+            radio.removeAttribute("data-price");
+            radio.value = "custom";
+            if (!q) {
+              price.textContent = "Minimum " + pcs(min);
+              price.classList.remove("is-warn");
+              total.textContent = "–";
+              return;
+            }
+            if (q < min) {
+              price.textContent = "Minimum " + pcs(min);
+              price.classList.add("is-warn");
+              total.textContent = "–";
+              return;
+            }
+            var t = tierFor(q);
+            price.classList.remove("is-warn");
+            price.textContent = eur(t.p) + " per piece";
+            total.textContent = eur(t.p * q);
+            radio.value = String(q);
+            radio.setAttribute("data-price", String(t.p));
+          }
+          function updateNudge() {
+            var sel = list.querySelector(
+              '.q-row > input[type="radio"]:checked',
+            );
+            var q =
+              sel && sel.getAttribute("data-price")
+                ? parseInt(sel.value, 10)
+                : 0;
+            var next = null;
+            tiers.forEach(function (t) {
+              if (!next && t.q > q) next = t;
+            });
+            if (!q || !next) {
+              nudge.textContent = q
+                ? "You have the lowest price per piece."
+                : "";
+              return;
+            }
+            var cur = tierFor(q);
+            var more = next.p * next.q - cur.p * q;
+            nudge.innerHTML =
+              "Tip: <b>" +
+              pcs(next.q) +
+              "</b> for " +
+              eurShort(more) +
+              " more (" +
+              eur(next.p) +
+              " per piece)";
+          }
+          input.addEventListener("focus", function () {
+            if (!radio.checked) {
+              radio.checked = true;
+              list.dispatchEvent(new Event("change", { bubbles: true }));
+            }
+          });
+          input.addEventListener("input", function () {
+            radio.checked = true;
+            updateCustom();
+            updateNudge();
+            list.dispatchEvent(new Event("change", { bubbles: true }));
+          });
+          list.addEventListener("change", updateNudge);
+          updateCustom();
+          updateNudge();
+        });
       })();
     </script>
 
