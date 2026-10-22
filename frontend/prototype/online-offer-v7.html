@@ -1786,6 +1786,67 @@
         border-color: transparent;
         background: transparent;
       }
+      /* v7: account manager feature under the products (from v6), fades in when scrolled into view */
+      .am-feature {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding-top: 8px;
+        transition:
+          opacity 0.5s ease,
+          transform 0.5s ease;
+      }
+      .am-feature.is-pending {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+      .am-feature-photo {
+        position: relative;
+        z-index: 1;
+        width: 293px;
+        height: auto;
+        margin: 0 0 -1px 46px;
+      }
+      .am-feature-card {
+        width: 435px;
+        padding: 20px 24px 22px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: #fff;
+        box-shadow: 1px 6px 19px rgba(0, 0, 0, 0.06);
+      }
+      .am-feature-name {
+        margin: 0;
+        font-size: 24px;
+        line-height: 28px;
+        font-weight: 800;
+        color: var(--ink);
+      }
+      .am-feature-card .eyebrow {
+        font-size: 12px;
+        line-height: 18px;
+        color: #6c7783;
+      }
+      .am-feature-quote {
+        margin-top: 12px;
+        font-size: 14px;
+        line-height: 21px;
+        color: var(--text);
+      }
+      .am-feature-contact {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 12px;
+        font-size: 14px;
+        font-weight: 700;
+      }
+      .am-feature-contact a {
+        color: var(--ink);
+        text-decoration: none;
+      }
+      .am-feature-contact a + a {
+        color: #004591;
+      }
     </style>
   </head>
   <body>
@@ -2270,6 +2331,28 @@
             </fieldset>
           </article>
         </section>
+        <!-- Account manager: cut-out photo on top of a card, under the products -->
+        <section class="am-feature" aria-label="Your account manager">
+          <img
+            class="am-feature-photo"
+            src="assets/offer-v3/account-manager-model.png"
+            width="293"
+            height="240"
+            alt="Jildou, your account manager"
+          />
+          <div class="am-feature-card">
+            <p class="am-feature-name">Jildou</p>
+            <p class="eyebrow">Your account manager</p>
+            <p class="am-feature-quote">
+              “I’ve put this offer together for you.<br />Questions about sizes,
+              colours or delivery?<br />Call or email me, I’m happy to help.”
+            </p>
+            <p class="am-feature-contact">
+              <a href="tel:+442045765960">+44 20 4576 5960</a>
+              <a href="mailto:Jildou@loopper.com">Jildou@loopper.com</a>
+            </p>
+          </div>
+        </section>
       </main>
 
       <aside class="side">
@@ -2557,6 +2640,22 @@
         $("altQty").addEventListener("change", function () {
           update(true);
         });
+      })();
+    </script>
+    <script>
+      // Account manager feature: reveal once it scrolls into view
+      (function () {
+        var el = document.querySelector(".am-feature");
+        if (!el) return;
+        el.classList.add("is-pending");
+        function check() {
+          if (el.getBoundingClientRect().top < window.innerHeight * 0.85) {
+            el.classList.remove("is-pending");
+            window.removeEventListener("scroll", check);
+          }
+        }
+        window.addEventListener("scroll", check, { passive: true });
+        check();
       })();
     </script>
   </body>
