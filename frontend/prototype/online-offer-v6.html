@@ -3695,6 +3695,60 @@
       .client-logo .client-logo-img {
         padding: 4px;
       }
+      /* Account manager in the sticky bottom bar, until the account manager section scrolls into view */
+      .step-nav-inner {
+        justify-content: space-between;
+      }
+      .step-nav-am {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        transition:
+          opacity 0.25s ease,
+          transform 0.25s ease;
+      }
+      .step-nav-am.is-hidden {
+        opacity: 0;
+        transform: translateY(8px);
+        pointer-events: none;
+      }
+      .step-nav-am-photo {
+        flex: none;
+        width: 44px !important;
+        height: 44px !important;
+      }
+      .step-nav-am-id {
+        display: flex;
+        flex-direction: column;
+        font-size: 16px;
+        line-height: 20px;
+        color: var(--ink);
+      }
+      .step-nav-am-id small {
+        font-size: 11px;
+        line-height: 14px;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        color: #6c7783;
+      }
+      .step-nav-am-contact {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        padding-left: 14px;
+        border-left: 1px solid var(--line);
+        font-size: 13px;
+        line-height: 17px;
+        font-weight: 700;
+      }
+      .step-nav-am-contact a {
+        color: var(--ink);
+        text-decoration: none;
+      }
+      .step-nav-am-contact a + a {
+        color: #004591;
+      }
     </style>
   </head>
   <body>
@@ -5960,6 +6014,20 @@
     <!-- Step navigation, always visible at the bottom -->
     <nav class="step-nav" aria-label="Offer steps navigation">
       <div class="step-nav-inner">
+        <div class="step-nav-am" aria-label="Your account manager">
+          <span
+            class="avatar avatar-photo am-chat-avatar step-nav-am-photo"
+            role="img"
+            aria-label="Jildou, your account manager"
+          ></span>
+          <span class="step-nav-am-id"
+            ><b>Jildou</b><small>Your account manager</small></span
+          >
+          <span class="step-nav-am-contact">
+            <a href="tel:+442045765960">+44 20 4576 5960</a>
+            <a href="mailto:Jildou@loopper.com">Jildou@loopper.com</a>
+          </span>
+        </div>
         <div class="step-nav-next-wrap">
           <span class="step-nav-hint"
             >Available when your <b>Mockup design</b> is ready. We will notify
@@ -5977,5 +6045,23 @@
         </div>
       </div>
     </nav>
+    <script>
+      // Hide the bottom-bar account manager once the account manager section is on screen
+      (function () {
+        var mini = document.querySelector(".step-nav-am");
+        var section = document.querySelector(".am-feature");
+        if (!mini || !section) return;
+        function check() {
+          var r = section.getBoundingClientRect();
+          mini.classList.toggle(
+            "is-hidden",
+            r.top < window.innerHeight - 80 && r.bottom > 0,
+          );
+        }
+        window.addEventListener("scroll", check, { passive: true });
+        window.addEventListener("resize", check);
+        check();
+      })();
+    </script>
   </body>
 </html>
