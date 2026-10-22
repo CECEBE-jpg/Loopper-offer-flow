@@ -3294,6 +3294,32 @@
         font-weight: 600;
         color: var(--muted);
       }
+      /* Add tiles stacked: Upload logo on top, Add text logo below */
+      .logo-adds {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        width: 210px;
+        flex: none;
+      }
+      .logos-dd .logo-adds .logo {
+        width: 100%;
+      }
+      .logo-adds .logo-add-box {
+        flex-direction: row;
+        justify-content: flex-start;
+        gap: 10px;
+        aspect-ratio: auto;
+        height: 52px;
+        padding: 0 16px;
+      }
+      .logo-adds .logo-add-box b {
+        font-size: 22px;
+        line-height: 22px;
+      }
+      .logo-adds .logo-add {
+        gap: 5px;
+      }
     </style>
   </head>
   <body>
@@ -3520,26 +3546,32 @@
                     </button>
                   </div>
                 </div>
-                <!-- Add tiles: upload a logo file / add a text logo -->
-                <!-- Upload tile: a real button (not a <label>), so only a click on the dashed box opens the file picker -->
-                <div class="logo logo-add" id="logoUpload">
-                  <button type="button" class="logo-add-box" id="logoUploadBtn">
-                    <b aria-hidden="true">+</b>Upload logo
+                <!-- Add tiles, stacked: upload a logo file (top) / add a text logo -->
+                <div class="logo-adds">
+                  <!-- Upload tile: a real button (not a <label>), so only a click on the dashed box opens the file picker -->
+                  <div class="logo logo-add" id="logoUpload">
+                    <button
+                      type="button"
+                      class="logo-add-box"
+                      id="logoUploadBtn"
+                    >
+                      <b aria-hidden="true">+</b>Upload logo
+                    </button>
+                    <span class="logo-sub">PNG, SVG, AI, EPS or PDF</span>
+                    <input
+                      type="file"
+                      accept=".png,.svg,.ai,.eps,.pdf,image/*"
+                      hidden
+                      tabindex="-1"
+                    />
+                  </div>
+                  <button type="button" class="logo logo-add" id="logoAddText">
+                    <span class="logo-add-box">
+                      <b aria-hidden="true">+</b>Add text logo
+                    </span>
+                    <span class="logo-sub">Type a text message or logo</span>
                   </button>
-                  <span class="logo-sub">PNG, SVG, AI, EPS or PDF</span>
-                  <input
-                    type="file"
-                    accept=".png,.svg,.ai,.eps,.pdf,image/*"
-                    hidden
-                    tabindex="-1"
-                  />
                 </div>
-                <button type="button" class="logo logo-add" id="logoAddText">
-                  <span class="logo-add-box">
-                    <b aria-hidden="true">+</b>Add text logo
-                  </span>
-                  <span class="logo-sub">Type a text message or logo</span>
-                </button>
               </div>
               <div class="logos-aside">
                 <p class="design-note">
@@ -4541,7 +4573,10 @@
           .querySelector("input")
           .addEventListener("change", function (e) {
             Array.prototype.forEach.call(e.target.files, function (file) {
-              list.insertBefore(fileTile(file), uploadTile);
+              list.insertBefore(
+                fileTile(file),
+                document.querySelector(".logo-adds"),
+              );
             });
             e.target.value = "";
             updateCount();
@@ -5296,7 +5331,7 @@
             '<p class="logo-name">Text logo</p><p class="logo-sub"></p></div><div class="logo-actions">' +
             '<button type="button" class="logo-btn" data-logo-action="edit"><img src="assets/offer-v3/icon-edit.svg" width="14.9621" height="14.3636" alt="" />Edit</button>' +
             '<button type="button" class="logo-btn" data-logo-action="delete"><img src="assets/offer-v3/icon-remove.svg" width="12.2142" height="12.6353" alt="" />Remove</button></div>';
-          list.insertBefore(el, uploadTile);
+          list.insertBefore(el, document.querySelector(".logo-adds"));
           return el;
         }
         modal.querySelector(".tlm-save").addEventListener("click", function () {
