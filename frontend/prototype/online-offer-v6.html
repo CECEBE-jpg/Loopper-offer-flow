@@ -3320,6 +3320,32 @@
       .logo-adds .logo-add {
         gap: 5px;
       }
+      /* Add tiles: hint inside the dashed box, under the title */
+      .logo-adds .logo-add-box {
+        height: auto;
+        min-height: 58px;
+        padding: 10px 16px;
+        align-items: center;
+      }
+      .logo-add-text {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1px;
+        text-align: left;
+      }
+      .logo-add-title {
+        font-size: 13px;
+        line-height: 18px;
+        font-weight: 800;
+        color: var(--text);
+      }
+      .logo-add-hint {
+        font-size: 11.5px;
+        line-height: 15px;
+        font-weight: 400;
+        color: var(--muted);
+      }
     </style>
   </head>
   <body>
@@ -3555,9 +3581,14 @@
                       class="logo-add-box"
                       id="logoUploadBtn"
                     >
-                      <b aria-hidden="true">+</b>Upload logo
+                      <b aria-hidden="true">+</b
+                      ><span class="logo-add-text"
+                        ><span class="logo-add-title">Upload logo</span
+                        ><span class="logo-add-hint"
+                          >PNG, SVG, AI, EPS or PDF</span
+                        ></span
+                      >
                     </button>
-                    <span class="logo-sub">PNG, SVG, AI, EPS or PDF</span>
                     <input
                       type="file"
                       accept=".png,.svg,.ai,.eps,.pdf,image/*"
@@ -3567,9 +3598,14 @@
                   </div>
                   <button type="button" class="logo logo-add" id="logoAddText">
                     <span class="logo-add-box">
-                      <b aria-hidden="true">+</b>Add text logo
+                      <b aria-hidden="true">+</b
+                      ><span class="logo-add-text"
+                        ><span class="logo-add-title">Add text logo</span
+                        ><span class="logo-add-hint"
+                          >Type a text message or logo</span
+                        ></span
+                      >
                     </span>
-                    <span class="logo-sub">Type a text message or logo</span>
                   </button>
                 </div>
               </div>
