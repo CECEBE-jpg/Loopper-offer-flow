@@ -3715,7 +3715,6 @@
                   ><b class="q-custom-total">–</b><small>excl. VAT</small></span
                 >
               </label>
-              <p class="q-nudge" aria-live="polite"></p>
             </fieldset>
           </article>
           <article class="product p6">
@@ -3843,7 +3842,6 @@
                   ><b class="q-custom-total">–</b><small>excl. VAT</small></span
                 >
               </label>
-              <p class="q-nudge" aria-live="polite"></p>
             </fieldset>
           </article>
 
@@ -4030,7 +4028,6 @@
                   ><b class="q-custom-total">–</b><small>excl. VAT</small></span
                 >
               </label>
-              <p class="q-nudge" aria-live="polite"></p>
             </fieldset>
           </article>
 
@@ -5532,6 +5529,8 @@
             radio.setAttribute("data-price", String(t.p));
           }
           function updateNudge() {
+            if (!nudge) return; // tip removed
+
             var sel = list.querySelector(
               '.q-row > input[type="radio"]:checked',
             );
