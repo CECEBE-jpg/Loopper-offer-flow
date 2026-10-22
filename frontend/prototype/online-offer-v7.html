@@ -1756,6 +1756,36 @@
       .facts-card .header-facts {
         width: 100%;
       }
+      /* v7 sidebar hierarchy: facts card tinted, summary card lifted as the main card, Trustpilot stays quiet */
+      .facts-card {
+        border-color: #cfe6f3;
+        background: #eff7ff;
+      }
+      .facts-card .header-facts dt {
+        color: #5b6672;
+        font-size: 13px;
+      }
+      .facts-card .header-facts dd {
+        color: #324a67;
+      }
+      .side-card.summary {
+        border: 1px solid #cfd8e1;
+        border-top: 4px solid #00aed8;
+        box-shadow: 0 10px 24px rgba(20, 30, 40, 0.1);
+      }
+      .summary h2 {
+        font-size: 24px;
+      }
+      .sum-total {
+        margin-top: 4px;
+        padding: 12px 14px;
+        border-radius: 10px;
+        background: #f4f7fa;
+      }
+      .trust {
+        border-color: transparent;
+        background: transparent;
+      }
     </style>
   </head>
   <body>
