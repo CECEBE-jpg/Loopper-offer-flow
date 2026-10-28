@@ -4249,6 +4249,13 @@
       .p6-chat-send:hover {
         background: #3aa50e;
       }
+      /* Logo section always open: no chevron, summary is not clickable */
+      .logos-dd.is-locked > summary {
+        cursor: default;
+      }
+      .logos-dd.is-locked .logos-dd-chev {
+        display: none;
+      }
     </style>
   </head>
   <body>
@@ -4347,9 +4354,9 @@
     <div class="page">
       <main class="main">
         <!-- Your logo & design -->
-        <!-- Dropdown: native <details>, closed by default (add the "open" attribute to start open) -->
-        <details class="card logos-card logos-dd">
-          <summary class="card-head">
+        <!-- Always open: the <details> is kept for its styling, but the summary no longer collapses it (script at end of body) -->
+        <details class="card logos-card logos-dd is-locked" open>
+          <summary class="card-head" tabindex="-1">
             <span class="logos-dd-title">
               <h2 id="logosTitle">Your logo &amp; design</h2>
               <span class="logos-dd-hint">
@@ -6661,6 +6668,15 @@
           log.appendChild(msg);
           input.value = "";
           log.scrollTop = log.scrollHeight;
+        });
+      });
+    </script>
+    <script>
+      // Logo section stays open: block the native <details> toggle
+      document.querySelectorAll(".logos-dd.is-locked").forEach(function (dd) {
+        dd.open = true;
+        dd.querySelector("summary").addEventListener("click", function (e) {
+          e.preventDefault();
         });
       });
     </script>
