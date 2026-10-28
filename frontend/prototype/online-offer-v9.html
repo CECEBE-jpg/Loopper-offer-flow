@@ -3894,6 +3894,361 @@
       .q-action:hover {
         border-color: #b7c2cd;
       }
+      /* ---------- v9 ← Figma 41:7318 "Product offer" (2026-10-28) ----------
+         in offer | gallery (status pill on top) | details (specs, labels) | pricing 426px; chat under gallery + details */
+      .product.p6 {
+        grid-template-columns: 44px 161px minmax(0, 1fr) 426px;
+        column-gap: 22px;
+        row-gap: 18px;
+        align-items: start;
+        padding: 21px 23px;
+      }
+      .p6-offer {
+        padding-top: 30px;
+        gap: 7px;
+        font-size: 10px;
+        color: #6e7e96;
+      }
+      .p6-gallery {
+        display: flex;
+        flex-direction: column;
+        gap: 13px;
+        width: 161px;
+      }
+      .p6-status {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: 160px;
+        height: 24px;
+        padding: 0 6px;
+        border-radius: 20px;
+        background: #e7f4ff;
+        color: #006ed0;
+        font-size: 10px;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+      .p6-status-dot {
+        flex-shrink: 0;
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: #0086ff;
+      }
+      .p6-status.is-queued .p6-status-dot {
+        box-sizing: border-box;
+        border: 2px solid #0086ff;
+        background: transparent;
+      }
+      .p6-images {
+        display: flex;
+        gap: 6px;
+      }
+      .p6-images .p6-photo {
+        width: 118px;
+        height: 128px;
+        border: 1px solid #dfe5ed;
+        border-radius: 7px;
+      }
+      .p6-images .p6-thumbs {
+        gap: 5px;
+      }
+      .p6-images .p6-thumb {
+        width: 37px;
+        height: 38px;
+        border: 1px solid #dfe5ed;
+        border-radius: 5px;
+      }
+      .product.p6 .p6-info {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        min-height: 165px;
+        padding-left: 41px;
+      }
+      .p6-title {
+        font-size: 13px;
+        line-height: 18px;
+        font-weight: 700;
+        color: #142235;
+      }
+      .p6-meta {
+        margin-top: -10px;
+        font-size: 13px;
+        line-height: 18px;
+        color: #53627a;
+      }
+      .p6-chips {
+        gap: 6px;
+      }
+      .p6-chips .chip-grey {
+        height: 26px;
+        padding: 0 11px;
+        background: #f2f4f7;
+        color: #53627a;
+        font-size: 12px;
+        font-weight: 700;
+      }
+      .p6-labels {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1px;
+        margin-top: auto;
+      }
+      .p6-label {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        padding: 0 6px;
+        border: 0;
+        border-radius: 6px;
+        background: #fff;
+        font: inherit;
+        font-size: 12px;
+        color: #53627a;
+        white-space: nowrap;
+        cursor: pointer;
+      }
+      .p6-label img {
+        margin: 2px 2.24px 3px; /* 16px icon box */
+      }
+      .p6-label:hover {
+        background: #f2f4f7;
+      }
+      /* pricing */
+      .q-list {
+        gap: 5px;
+        width: 426px;
+      }
+      .q-head,
+      .q-row {
+        grid-template-columns: 18px 41px 87px 100px minmax(0, 1fr);
+        column-gap: 11px;
+      }
+      .q-head {
+        height: 15px;
+        padding: 0 15px 0 10px;
+        font-size: 10px;
+        line-height: 15px;
+        font-weight: 700;
+        color: #6e7e96;
+      }
+      .q-head span:nth-child(1) {
+        grid-column: 2;
+      }
+      .q-head span:nth-child(2) {
+        grid-column: 4;
+      }
+      .q-head span:nth-child(3) {
+        grid-column: 5;
+        text-align: right;
+      }
+      .q-row {
+        height: 43px;
+        min-height: 43px;
+        padding: 0 10px;
+        border: 1px solid #dfe5ed;
+        border-radius: 6px;
+      }
+      .q-row:has(> input:checked) {
+        padding: 0 10.3px;
+        border: 0.7px solid #43be10;
+        background: #f1fae9;
+      }
+      .q-row > input[type="radio"] {
+        border: 1px solid #b6c2d2;
+      }
+      .q-row > input[type="radio"]:checked {
+        border: 1.5px solid #43be10;
+      }
+      .q-row > input[type="radio"]:checked::after {
+        background: #43be10;
+      }
+      .q-qty {
+        font-size: 14px;
+        font-weight: 700;
+        color: #142235;
+      }
+      .q-tag {
+        display: flex;
+        align-items: center;
+        height: 20px;
+        padding: 0 8px;
+        background: #effae6;
+        color: #43be10;
+        font-size: 10px;
+        font-weight: 700;
+      }
+      .q-row:has(> input:checked) .q-tag {
+        background: #effae6;
+      }
+      .q-tag-none {
+        padding: 0;
+        background: none;
+      }
+      .q-pp {
+        font-size: 14px;
+        color: #142235;
+      }
+      .q-pp b {
+        font-size: 14px;
+        font-weight: 700;
+      }
+      .q-pp s {
+        font-size: 14px;
+        font-weight: 400;
+        color: #8a96a8;
+      }
+      .q-total b {
+        font-size: 14px;
+        font-weight: 700;
+        color: #142235;
+      }
+      .q-row:has(> input:checked) .q-total b {
+        color: #43be10;
+      }
+      .q-row:has(> input:checked) .q-was {
+        display: none;
+      }
+      .q-custom {
+        padding: 0 12px;
+        border-color: #e1e7ed;
+      }
+      .q-custom .q-custom-line {
+        grid-column: 2 / 5;
+      }
+      .q-custom .q-custom-input {
+        width: 121px;
+        height: 26px;
+        border-color: #e1e7ed;
+        font-size: 13px;
+      }
+      .q-custom .q-custom-input::placeholder {
+        color: #757575;
+      }
+      .q-custom-input:placeholder-shown + .q-custom-price {
+        display: none;
+      }
+      .q-custom .q-total b {
+        font-weight: 800;
+        color: #1c2530;
+      }
+      /* chat on product level */
+      .p6-chat {
+        grid-column: 2 / 4;
+        display: flex;
+        flex-direction: column;
+        gap: 13px;
+        height: 138px;
+        padding: 6px 7px;
+        border: 1px solid #c3c3c3;
+        border-radius: 10px;
+        background: #fff;
+      }
+      .p6-chat-log {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        gap: 13px;
+        min-height: 0;
+        padding-right: 4px;
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: #5b5b5b #b9b9b9;
+      }
+      .p6-chat-log:empty {
+        display: none;
+      }
+      .p6-chat:has(.p6-chat-log:empty) {
+        justify-content: flex-end;
+        height: auto;
+      }
+      .p6-msg {
+        display: flex;
+        align-items: flex-end;
+        gap: 10px;
+      }
+      .p6-msg-you {
+        justify-content: flex-end;
+      }
+      .p6-chat-avatar {
+        flex-shrink: 0;
+        width: 36px;
+        height: 36px;
+        border-radius: 18px;
+        box-shadow: 0 0 0 1px #e1e7ed;
+        background: #e6f7fc url("assets/offer-v3/account-manager-model.png")
+          no-repeat;
+        background-size: 191.82% 157.12%;
+        background-position: 49% 10%;
+      }
+      .p6-bubble {
+        max-width: 444px;
+        padding: 10px 14px 11px;
+        border-radius: 16px 16px 16px 4px;
+        background: #f4f4f4;
+      }
+      .p6-msg-you .p6-bubble {
+        max-width: 448px;
+        border-radius: 16px 16px 4px 16px;
+      }
+      .p6-bubble-from {
+        margin: 0;
+        font-size: 12px;
+        line-height: 16px;
+        color: #7b8794;
+      }
+      .p6-bubble-from b {
+        font-weight: 800;
+        color: #1c2530;
+      }
+      .p6-bubble-text {
+        margin: 0;
+        padding-top: 2px;
+        font-size: 14px;
+        line-height: 20px;
+        color: #1c2530;
+      }
+      .p6-chat-form {
+        display: flex;
+        gap: 10px;
+        height: 45px;
+        margin: 0;
+      }
+      .p6-chat-input {
+        flex: 1;
+        min-width: 0;
+        padding: 0 14px;
+        border: 1px solid #949494;
+        border-radius: 7px;
+        font: inherit;
+        font-size: 14px;
+        color: #1c2530;
+      }
+      .p6-chat-input::placeholder {
+        color: #767676;
+      }
+      .p6-chat-input:focus {
+        outline: none;
+        border-color: #43be10;
+      }
+      .p6-chat-send {
+        display: grid;
+        place-items: center;
+        width: 59px;
+        border: 0;
+        border-radius: 11px;
+        background: #43be10;
+        cursor: pointer;
+      }
+      .p6-chat-send img {
+        margin: 0 0 6px 4px;
+        transform: rotate(-41.2deg);
+      }
+      .p6-chat-send:hover {
+        background: #3aa50e;
+      }
     </style>
   </head>
   <body>
@@ -3979,20 +4334,12 @@
 
       <div class="stepper-bar">
         <ol class="stepper" aria-label="Offer steps">
-          <li class="step step-done">
-            <img
-              src="assets/offer-v3/icon-step-done.svg"
-              width="26"
-              height="26"
-              alt="Done:"
-            />Logo uploaded
-          </li>
           <li class="step step-current" aria-current="step">
-            <span class="step-num">2</span>Your offer
+            <span class="step-num">1</span>Your offer
           </li>
-          <li class="step"><span class="step-num">3</span>Approve design</li>
-          <li class="step"><span class="step-num">4</span>Your details</li>
-          <li class="step"><span class="step-num">5</span>Payment</li>
+          <li class="step"><span class="step-num">2</span>Approve design</li>
+          <li class="step"><span class="step-num">3</span>Your details</li>
+          <li class="step"><span class="step-num">4</span>Payment</li>
         </ol>
       </div>
     </div>
@@ -4191,28 +4538,29 @@
                 ><input type="checkbox" checked aria-label="In offer"
               /></span>
             </label>
-            <div class="p6-media">
-              <div class="p6-photo-col">
+            <div class="p6-gallery">
+              <span class="p6-status"
+                ><span class="p6-status-dot" aria-hidden="true"></span>Mockup in
+                progress</span
+              >
+              <div class="p6-images">
                 <div class="p6-photo">
                   <img
                     src="assets/offer-v3/thermos-silver.jpg"
                     alt="Thermos bottle, silver"
                   />
                 </div>
-                <span class="chip chip-blue chip-dot p6-status"
-                  >Mockup in progress</span
-                >
-              </div>
-              <div class="p6-thumbs">
-                <span class="p6-thumb"
-                  ><img src="assets/offer-v3/thermos-silver.jpg" alt=""
-                /></span>
-                <span class="p6-thumb"
-                  ><img src="assets/offer-v3/thermos-silver.jpg" alt=""
-                /></span>
-                <span class="p6-thumb"
-                  ><img src="assets/offer-v3/thermos-silver.jpg" alt=""
-                /></span>
+                <div class="p6-thumbs">
+                  <span class="p6-thumb"
+                    ><img src="assets/offer-v3/thermos-silver.jpg" alt=""
+                  /></span>
+                  <span class="p6-thumb"
+                    ><img src="assets/offer-v3/thermos-silver.jpg" alt=""
+                  /></span>
+                  <span class="p6-thumb"
+                    ><img src="assets/offer-v3/thermos-silver.jpg" alt=""
+                  /></span>
+                </div>
               </div>
             </div>
             <div class="p6-info">
@@ -4221,9 +4569,28 @@
               </h3>
               <p class="p6-meta">Article number: 6383162</p>
               <div class="chips p6-chips">
-                <span class="chip chip-grey">Colour: Silver</span>
+                <span class="chip chip-grey">Item colour: Silver</span>
+                <span class="chip chip-grey">Printing in: 1 colour</span>
                 <span class="chip chip-grey">Engraving: front (50×90 mm)</span>
                 <span class="chip chip-grey">Fast delivery: 28 Oct</span>
+              </div>
+              <div class="p6-labels">
+                <button type="button" class="p6-label">
+                  <img
+                    src="assets/offer-v3/icon-star-label.svg"
+                    width="11.5267"
+                    height="11.0503"
+                    alt=""
+                  />Larger print
+                </button>
+                <button type="button" class="p6-label">
+                  <img
+                    src="assets/offer-v3/icon-star-label.svg"
+                    width="11.5267"
+                    height="11.0503"
+                    alt=""
+                  />Great alternative
+                </button>
               </div>
             </div>
             <fieldset
@@ -4232,7 +4599,8 @@
             >
               <legend class="sr-only">Choose quantity</legend>
               <div class="q-head" aria-hidden="true">
-                <span>Price per piece</span><span>Subtotal</span>
+                <span>Pieces</span><span>Price per piece</span
+                ><span>Subtotal</span>
               </div>
               <label class="q-row">
                 <input
@@ -4312,10 +4680,9 @@
                       min="1"
                       step="1"
                       inputmode="numeric"
-                      placeholder="Change quantity"
+                      placeholder="Other quantity"
                       aria-label="Other quantity in pieces"
                     />
-                    <button type="button" class="q-save-btn">Save</button>
                     <span class="q-custom-price" aria-live="polite">p.p</span>
                   </span>
                 </span>
@@ -4323,13 +4690,51 @@
                   ><b class="q-custom-total">–</b><small>excl. VAT</small></span
                 >
               </label>
-              <div class="q-actions">
-                <button type="button" class="q-action">Larger print</button>
-                <button type="button" class="q-action">
-                  Great alternative
-                </button>
-              </div>
             </fieldset>
+            <div class="p6-chat">
+              <div class="p6-chat-log" aria-live="polite">
+                <div class="p6-msg p6-msg-am">
+                  <span class="p6-chat-avatar" aria-hidden="true"></span>
+                  <div class="p6-bubble">
+                    <p class="p6-bubble-from">
+                      <b>Jildou</b> | Your account manager
+                    </p>
+                    <p class="p6-bubble-text">I think.. so and so and so</p>
+                  </div>
+                </div>
+                <div class="p6-msg p6-msg-you">
+                  <div class="p6-bubble">
+                    <p class="p6-bubble-from"><b>You</b></p>
+                    <p class="p6-bubble-text">I like, but can we ...</p>
+                  </div>
+                </div>
+                <div class="p6-msg p6-msg-am">
+                  <span class="p6-chat-avatar" aria-hidden="true"></span>
+                  <div class="p6-bubble">
+                    <p class="p6-bubble-from">
+                      <b>Jildou</b> | Your account manager
+                    </p>
+                    <p class="p6-bubble-text">Yes, we can do, this and that</p>
+                  </div>
+                </div>
+              </div>
+              <form class="p6-chat-form">
+                <input
+                  class="p6-chat-input"
+                  type="text"
+                  placeholder="Something you want to say about this product?"
+                  aria-label="Message about this product"
+                />
+                <button type="submit" class="p6-chat-send" aria-label="Send">
+                  <img
+                    src="assets/offer-v3/icon-send.svg"
+                    width="18.2836"
+                    height="18.2836"
+                    alt=""
+                  />
+                </button>
+              </form>
+            </div>
           </article>
           <article class="product p6">
             <label class="p6-offer">
@@ -4338,28 +4743,29 @@
                 ><input type="checkbox" checked aria-label="In offer"
               /></span>
             </label>
-            <div class="p6-media">
-              <div class="p6-photo-col">
+            <div class="p6-gallery">
+              <span class="p6-status is-queued"
+                ><span class="p6-status-dot" aria-hidden="true"></span>Mockup
+                requested</span
+              >
+              <div class="p6-images">
                 <div class="p6-photo">
                   <img
                     src="assets/offer-v3/thermos-silver.jpg"
                     alt="Thermos bottle, silver"
                   />
                 </div>
-                <span class="chip chip-blue chip-dot is-queued p6-status"
-                  >Mockup requested</span
-                >
-              </div>
-              <div class="p6-thumbs">
-                <span class="p6-thumb"
-                  ><img src="assets/offer-v3/thermos-silver.jpg" alt=""
-                /></span>
-                <span class="p6-thumb"
-                  ><img src="assets/offer-v3/thermos-silver.jpg" alt=""
-                /></span>
-                <span class="p6-thumb"
-                  ><img src="assets/offer-v3/thermos-silver.jpg" alt=""
-                /></span>
+                <div class="p6-thumbs">
+                  <span class="p6-thumb"
+                    ><img src="assets/offer-v3/thermos-silver.jpg" alt=""
+                  /></span>
+                  <span class="p6-thumb"
+                    ><img src="assets/offer-v3/thermos-silver.jpg" alt=""
+                  /></span>
+                  <span class="p6-thumb"
+                    ><img src="assets/offer-v3/thermos-silver.jpg" alt=""
+                  /></span>
+                </div>
               </div>
             </div>
             <div class="p6-info">
@@ -4368,7 +4774,8 @@
               </h3>
               <p class="p6-meta">Article number: 6383162</p>
               <div class="chips p6-chips">
-                <span class="chip chip-grey">Colour: Silver</span>
+                <span class="chip chip-grey">Item colour: Silver</span>
+                <span class="chip chip-grey">Printing in: 1 colour</span>
                 <span class="chip chip-grey">Engraving: front (50×90 mm)</span>
               </div>
               <dl class="p6-stock">
@@ -4382,6 +4789,24 @@
                   <dd>26-10-2026</dd>
                 </div>
               </dl>
+              <div class="p6-labels">
+                <button type="button" class="p6-label">
+                  <img
+                    src="assets/offer-v3/icon-star-label.svg"
+                    width="11.5267"
+                    height="11.0503"
+                    alt=""
+                  />Larger print
+                </button>
+                <button type="button" class="p6-label">
+                  <img
+                    src="assets/offer-v3/icon-star-label.svg"
+                    width="11.5267"
+                    height="11.0503"
+                    alt=""
+                  />Great alternative
+                </button>
+              </div>
             </div>
             <fieldset
               class="p6-tiers q-list"
@@ -4389,7 +4814,8 @@
             >
               <legend class="sr-only">Choose quantity</legend>
               <div class="q-head" aria-hidden="true">
-                <span>Price per piece</span><span>Subtotal</span>
+                <span>Pieces</span><span>Price per piece</span
+                ><span>Subtotal</span>
               </div>
               <label class="q-row">
                 <input
@@ -4469,10 +4895,9 @@
                       min="1"
                       step="1"
                       inputmode="numeric"
-                      placeholder="Change quantity"
+                      placeholder="Other quantity"
                       aria-label="Other quantity in pieces"
                     />
-                    <button type="button" class="q-save-btn">Save</button>
                     <span class="q-custom-price" aria-live="polite">p.p</span>
                   </span>
                 </span>
@@ -4480,26 +4905,27 @@
                   ><b class="q-custom-total">–</b><small>excl. VAT</small></span
                 >
               </label>
-              <div class="q-actions">
-                <button type="button" class="q-action">Larger print</button>
-                <button type="button" class="q-action">
-                  Great alternative
-                </button>
-              </div>
             </fieldset>
-          </article>
-
-          <!-- Account manager comment on the product above, as a chat bubble -->
-          <div class="am-note am-chat">
-            <span
-              class="avatar avatar-photo am-chat-avatar"
-              aria-hidden="true"
-            ></span>
-            <div class="am-chat-bubble">
-              <p class="am-chat-from"><b>Jildou</b> · your account manager</p>
-              <p class="am-chat-text">I think.. so and so and so</p>
+            <div class="p6-chat">
+              <div class="p6-chat-log" aria-live="polite"></div>
+              <form class="p6-chat-form">
+                <input
+                  class="p6-chat-input"
+                  type="text"
+                  placeholder="Something you want to say about this product?"
+                  aria-label="Message about this product"
+                />
+                <button type="submit" class="p6-chat-send" aria-label="Send">
+                  <img
+                    src="assets/offer-v3/icon-send.svg"
+                    width="18.2836"
+                    height="18.2836"
+                    alt=""
+                  />
+                </button>
+              </form>
             </div>
-          </div>
+          </article>
 
           <!-- Requested alternative, not in the offer yet: small row with the toggle on the left (same column as "In offer").
                Switching it on swaps the row for a full product card (#altProduct), see script at end of body. -->
@@ -4585,7 +5011,8 @@
             >
               <legend class="sr-only">Choose quantity</legend>
               <div class="q-head" aria-hidden="true">
-                <span>Price per piece</span><span>Subtotal</span>
+                <span>Pieces</span><span>Price per piece</span
+                ><span>Subtotal</span>
               </div>
               <label class="q-row">
                 <input
@@ -4680,10 +5107,9 @@
                       min="1"
                       step="1"
                       inputmode="numeric"
-                      placeholder="Change quantity"
+                      placeholder="Other quantity"
                       aria-label="Other quantity in pieces"
                     />
-                    <button type="button" class="q-save-btn">Save</button>
                     <span class="q-custom-price" aria-live="polite">p.p</span>
                   </span>
                 </span>
@@ -6215,6 +6641,28 @@
           updateNudge();
         });
       })();
+    </script>
+    <script>
+      // Chat on product level: send adds a "You" bubble and keeps the log scrolled to the latest message
+      document.querySelectorAll(".p6-chat").forEach(function (chat) {
+        var log = chat.querySelector(".p6-chat-log");
+        var form = chat.querySelector(".p6-chat-form");
+        var input = chat.querySelector(".p6-chat-input");
+        log.scrollTop = log.scrollHeight;
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          var text = input.value.trim();
+          if (!text) return;
+          var msg = document.createElement("div");
+          msg.className = "p6-msg p6-msg-you";
+          msg.innerHTML =
+            '<div class="p6-bubble"><p class="p6-bubble-from"><b>You</b></p><p class="p6-bubble-text"></p></div>';
+          msg.querySelector(".p6-bubble-text").textContent = text;
+          log.appendChild(msg);
+          input.value = "";
+          log.scrollTop = log.scrollHeight;
+        });
+      });
     </script>
   </body>
 </html>
