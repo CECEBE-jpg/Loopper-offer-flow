@@ -299,6 +299,20 @@
         border-radius: 4px;
         background: var(--amber);
       }
+      /* Status pill (mockup requested / in progress): blue, more positive than amber */
+      .chip-dot::before {
+        content: "";
+        flex-shrink: 0;
+        width: 8px;
+        height: 8px;
+        border-radius: 4px;
+        background: #00aed8;
+      }
+      .chip-dot.is-queued::before {
+        box-sizing: border-box;
+        border: 2px solid #00aed8;
+        background: transparent;
+      }
 
       /* Your logo & design */
       .logos-card {
@@ -1980,6 +1994,19 @@
         width: 100%;
         height: 100%;
         object-fit: contain;
+      }
+      /* Mockup status pill under the product photo */
+      .p6-photo-col {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        width: 120px;
+      }
+      .p6-status {
+        justify-content: center;
+        padding: 4px 8px;
+        font-size: 11px;
+        line-height: 16px;
       }
       .p6-overlay {
         position: absolute;
@@ -3876,7 +3903,7 @@
               </span>
             </span>
             <span class="logos-dd-right">
-              <span class="chip chip-amber"
+              <span class="chip chip-blue chip-dot"
                 >Mockup design requested - ready within 30 min</span
               >
               <svg
@@ -4051,11 +4078,16 @@
               /></span>
             </label>
             <div class="p6-media">
-              <div class="p6-photo">
-                <img
-                  src="assets/offer-v3/thermos-silver.jpg"
-                  alt="Thermos bottle, silver"
-                />
+              <div class="p6-photo-col">
+                <div class="p6-photo">
+                  <img
+                    src="assets/offer-v3/thermos-silver.jpg"
+                    alt="Thermos bottle, silver"
+                  />
+                </div>
+                <span class="chip chip-blue chip-dot p6-status"
+                  >Mockup in progress</span
+                >
               </div>
               <div class="p6-thumbs">
                 <span class="p6-thumb"
@@ -4177,11 +4209,16 @@
               /></span>
             </label>
             <div class="p6-media">
-              <div class="p6-photo">
-                <img
-                  src="assets/offer-v3/thermos-silver.jpg"
-                  alt="Thermos bottle, silver"
-                />
+              <div class="p6-photo-col">
+                <div class="p6-photo">
+                  <img
+                    src="assets/offer-v3/thermos-silver.jpg"
+                    alt="Thermos bottle, silver"
+                  />
+                </div>
+                <span class="chip chip-blue chip-dot is-queued p6-status"
+                  >Mockup requested</span
+                >
               </div>
               <div class="p6-thumbs">
                 <span class="p6-thumb"
