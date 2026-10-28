@@ -4353,6 +4353,88 @@
         grid-row: 2;
         align-self: start;
       }
+      /* Product switched out of the offer: compact row like the suggested product (without its tags) */
+      .product.p6:not(#altProduct):has(> .p6-offer input:not(:checked)) {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 21px 23px 21px 0; /* toggle and photo line up with the suggested product row */
+      }
+      .p6-offer-off,
+      .p6-off-sub {
+        display: none;
+      }
+      .product.p6:not(#altProduct):has(> .p6-offer input:not(:checked))
+        > .p6-offer {
+        flex-shrink: 0;
+        width: 64px;
+        padding-top: 0;
+        gap: 6px;
+        font-size: 12px;
+        line-height: 15px;
+        text-align: center;
+        color: var(--muted);
+      }
+      .product.p6:not(#altProduct):has(> .p6-offer input:not(:checked))
+        .p6-offer-on {
+        display: none;
+      }
+      .product.p6:not(#altProduct):has(> .p6-offer input:not(:checked))
+        .p6-offer-off {
+        display: inline;
+      }
+      .product.p6:not(#altProduct):has(> .p6-offer input:not(:checked))
+        .p6-gallery {
+        width: auto;
+      }
+      .product.p6:not(#altProduct):has(> .p6-offer input:not(:checked))
+        .p6-status,
+      .product.p6:not(#altProduct):has(> .p6-offer input:not(:checked))
+        .p6-thumbs,
+      .product.p6:not(#altProduct):has(> .p6-offer input:not(:checked))
+        .p6-meta,
+      .product.p6:not(#altProduct):has(> .p6-offer input:not(:checked))
+        .p6-chips,
+      .product.p6:not(#altProduct):has(> .p6-offer input:not(:checked))
+        .p6-stock,
+      .product.p6:not(#altProduct):has(> .p6-offer input:not(:checked))
+        .p6-labels,
+      .product.p6:not(#altProduct):has(> .p6-offer input:not(:checked))
+        .cm-entry,
+      .product.p6:not(#altProduct):has(> .p6-offer input:not(:checked))
+        > .p6-tiers,
+      .product.p6:not(#altProduct):has(> .p6-offer input:not(:checked))
+        > .p6-chat {
+        display: none;
+      }
+      .product.p6:not(#altProduct):has(> .p6-offer input:not(:checked))
+        .p6-photo {
+        width: 96px;
+        height: 96px;
+        border: 0.8px solid var(--line);
+        border-radius: 12px;
+      }
+      .product.p6:not(#altProduct):has(> .p6-offer input:not(:checked))
+        .p6-info {
+        gap: 4px;
+        min-height: 0;
+        padding-left: 0;
+      }
+      .product.p6:not(#altProduct):has(> .p6-offer input:not(:checked))
+        .p6-title {
+        font-size: 16px;
+        line-height: 23.2px;
+        font-weight: 800;
+        color: var(--ink);
+      }
+      .product.p6:not(#altProduct):has(> .p6-offer input:not(:checked))
+        .p6-off-sub {
+        display: block;
+        margin: 0;
+        font-size: 13px;
+        line-height: 18.85px;
+        color: var(--muted);
+      }
     </style>
   </head>
   <body>
@@ -4637,7 +4719,8 @@
           </div>
           <article class="product p6">
             <label class="p6-offer">
-              <span>In offer</span>
+              <span class="p6-offer-on">In offer</span
+              ><span class="p6-offer-off">Add to offer</span>
               <span class="switch"
                 ><input type="checkbox" checked aria-label="In offer"
               /></span>
@@ -4671,6 +4754,10 @@
               <h3 class="p6-title">
                 Thermos bottle | Stainless steel | 500 ml | Silver
               </h3>
+              <p class="p6-off-sub">
+                Item colour: Silver · Printing in 1 colour · from € 5,77 per
+                piece at 250 pcs
+              </p>
               <p class="p6-meta">Article number: 6383162</p>
               <div class="chips p6-chips">
                 <span class="chip chip-grey">Item colour: Silver</span>
@@ -4842,7 +4929,8 @@
           </article>
           <article class="product p6">
             <label class="p6-offer">
-              <span>In offer</span>
+              <span class="p6-offer-on">In offer</span
+              ><span class="p6-offer-off">Add to offer</span>
               <span class="switch"
                 ><input type="checkbox" checked aria-label="In offer"
               /></span>
@@ -4876,6 +4964,10 @@
               <h3 class="p6-title">
                 Thermos bottle | Stainless steel | 500 ml | Silver
               </h3>
+              <p class="p6-off-sub">
+                Item colour: Silver · Printing in 1 colour · from € 5,77 per
+                piece at 250 pcs
+              </p>
               <p class="p6-meta">Article number: 6383162</p>
               <div class="chips p6-chips">
                 <span class="chip chip-grey">Item colour: Silver</span>
