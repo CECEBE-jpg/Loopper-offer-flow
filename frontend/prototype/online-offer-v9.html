@@ -4334,6 +4334,25 @@
       .tlm-fontfile:has(.tlm-fontfile-file:not([hidden])) .tlm-fontfile-btn {
         display: none;
       }
+      /* Chat right under gallery + details (max 18px): pricing spans both rows so it no longer pushes the chat down */
+      .product.p6:has(> .p6-chat) {
+        grid-template-rows: auto 1fr;
+        row-gap: 18px;
+      }
+      .product.p6:has(> .p6-chat) > .p6-offer,
+      .product.p6:has(> .p6-chat) > .p6-gallery,
+      .product.p6:has(> .p6-chat) > .p6-info {
+        grid-row: 1;
+      }
+      .product.p6:has(> .p6-chat) > .p6-tiers {
+        grid-column: 4;
+        grid-row: 1 / 3;
+      }
+      .product.p6:has(> .p6-chat) > .p6-chat {
+        grid-column: 2 / 4;
+        grid-row: 2;
+        align-self: start;
+      }
     </style>
   </head>
   <body>
