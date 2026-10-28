@@ -3780,6 +3780,120 @@
       body {
         padding-bottom: 0;
       }
+      /* ---------- v9 C3 (2026-10-28): live pricing structure, v9 styling ----------
+         radio | qty | discount tag | struck base / price p.p | subtotal (struck base on the chosen row),
+         "Change quantity + Save" and "Larger print / Great alternative" as on the live offer */
+      .q-row {
+        grid-template-columns: 18px 52px 96px minmax(0, 1fr) 104px;
+        column-gap: 10px;
+      }
+      .q-unit {
+        display: none;
+      }
+      .q-row > .q-main > .q-top > .q-qty {
+        grid-column: 2;
+      }
+      .q-tag {
+        grid-column: 3;
+        grid-row: 1;
+        justify-self: start;
+        padding: 2px 9px;
+        border-radius: 20px;
+        background: var(--green-50);
+        color: var(--green-text);
+        font-size: 11px;
+        line-height: 16px;
+        font-weight: 800;
+        white-space: nowrap;
+      }
+      .q-row:has(> input:checked) .q-tag {
+        background: #fff;
+      }
+      .q-tag-none {
+        padding: 0;
+        background: none;
+      }
+      .q-pp {
+        grid-column: 4;
+        padding-left: 0;
+      }
+      .q-pp s,
+      .q-was {
+        color: #9aa5b1;
+        font-weight: 600;
+        text-decoration-thickness: 1px;
+      }
+      .q-pp s {
+        font-size: 12px;
+      }
+      .q-was {
+        display: none;
+        font-size: 11px;
+        line-height: 14px;
+      }
+      .q-row:has(> input:checked) .q-was {
+        display: block;
+      }
+      .q-head {
+        display: grid;
+        grid-template-columns: 18px 52px 96px minmax(0, 1fr) 104px;
+        column-gap: 10px;
+        padding: 0 12px 2px;
+        font-size: 11px;
+        line-height: 14px;
+        font-weight: 700;
+        color: var(--muted);
+      }
+      .q-head span:first-child {
+        grid-column: 4;
+      }
+      .q-head span:last-child {
+        grid-column: 5;
+        text-align: right;
+      }
+      .q-custom .q-custom-line {
+        grid-column: 2 / 5;
+        gap: 8px;
+      }
+      .q-custom .q-custom-input {
+        width: 130px;
+        height: 30px;
+      }
+      .q-save-btn {
+        height: 30px;
+        padding: 0 14px;
+        border: 0;
+        border-radius: 6px;
+        background: var(--green);
+        color: #fff;
+        font: inherit;
+        font-size: 12px;
+        font-weight: 800;
+        cursor: pointer;
+      }
+      .q-save-btn:hover {
+        background: var(--green-text);
+      }
+      .q-actions {
+        display: flex;
+        gap: 8px;
+        margin-top: 4px;
+      }
+      .q-action {
+        height: 34px;
+        padding: 0 14px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+        font: inherit;
+        font-size: 13px;
+        font-weight: 800;
+        color: var(--ink);
+        cursor: pointer;
+      }
+      .q-action:hover {
+        border-color: #b7c2cd;
+      }
     </style>
   </head>
   <body>
@@ -4117,6 +4231,9 @@
               data-tiers='[{"q":25,"p":9.86},{"q":50,"p":7.72},{"q":100,"p":6.39},{"q":250,"p":5.77}]'
             >
               <legend class="sr-only">Choose quantity</legend>
+              <div class="q-head" aria-hidden="true">
+                <span>Price per piece</span><span>Subtotal</span>
+              </div>
               <label class="q-row">
                 <input
                   type="radio"
@@ -4130,7 +4247,8 @@
                     ><b class="q-qty">25</b
                     ><span class="q-unit">pieces</span></span
                   >
-                  <span class="q-pp"><b>€ 9,86</b> p.p</span>
+                  <span class="q-tag q-tag-none"></span>
+                  <span class="q-pp"><b>€ 9,86</b></span>
                 </span>
                 <span class="q-total"
                   ><b>€ 246,50</b><small>excl. VAT</small></span
@@ -4143,11 +4261,12 @@
                     ><b class="q-qty">50</b
                     ><span class="q-unit">pieces</span></span
                   >
-                  <span class="q-pp"><b>€ 7,72</b> p.p</span>
-                  <span class="q-save">save € 107</span>
+                  <span class="q-tag">22% discount</span>
+                  <span class="q-pp"><s>€ 9,86</s> / <b>€ 7,72</b></span>
                 </span>
                 <span class="q-total"
-                  ><b>€ 386,00</b><small>excl. VAT</small></span
+                  ><s class="q-was">€ 493,00</s><b>€ 386,00</b
+                  ><small>excl. VAT</small></span
                 >
               </label>
               <label class="q-row">
@@ -4157,11 +4276,12 @@
                     ><b class="q-qty">100</b
                     ><span class="q-unit">pieces</span></span
                   >
-                  <span class="q-pp"><b>€ 6,39</b> p.p</span>
-                  <span class="q-save">save € 347</span>
+                  <span class="q-tag">35% discount</span>
+                  <span class="q-pp"><s>€ 9,86</s> / <b>€ 6,39</b></span>
                 </span>
                 <span class="q-total"
-                  ><b>€ 639,00</b><small>excl. VAT</small></span
+                  ><s class="q-was">€ 986,00</s><b>€ 639,00</b
+                  ><small>excl. VAT</small></span
                 >
               </label>
               <label class="q-row">
@@ -4171,17 +4291,20 @@
                     ><b class="q-qty">250</b
                     ><span class="q-unit">pieces</span></span
                   >
-                  <span class="q-pp"><b>€ 5,77</b> p.p</span>
-                  <span class="q-save">save € 1.022,50</span>
+                  <span class="q-tag">41% discount</span>
+                  <span class="q-pp"><s>€ 9,86</s> / <b>€ 5,77</b></span>
                 </span>
                 <span class="q-total"
-                  ><b>€ 1.442,50</b><small>excl. VAT</small></span
+                  ><s class="q-was">€ 2.465,00</s><b>€ 1.442,50</b
+                  ><small>excl. VAT</small></span
                 >
               </label>
               <label class="q-row q-custom">
                 <input type="radio" name="qty1" value="custom" />
                 <span class="q-main">
-                  <span class="q-top"><b class="q-qty">Other</b></span>
+                  <span class="q-top"
+                    ><b class="q-qty sr-only">Other quantity</b></span
+                  >
                   <span class="q-custom-line">
                     <input
                       class="q-custom-input"
@@ -4189,9 +4312,10 @@
                       min="1"
                       step="1"
                       inputmode="numeric"
-                      placeholder="e.g. 150"
+                      placeholder="Change quantity"
                       aria-label="Other quantity in pieces"
                     />
+                    <button type="button" class="q-save-btn">Save</button>
                     <span class="q-custom-price" aria-live="polite">p.p</span>
                   </span>
                 </span>
@@ -4199,6 +4323,12 @@
                   ><b class="q-custom-total">–</b><small>excl. VAT</small></span
                 >
               </label>
+              <div class="q-actions">
+                <button type="button" class="q-action">Larger print</button>
+                <button type="button" class="q-action">
+                  Great alternative
+                </button>
+              </div>
             </fieldset>
           </article>
           <article class="product p6">
@@ -4258,6 +4388,9 @@
               data-tiers='[{"q":25,"p":9.86},{"q":50,"p":7.72},{"q":100,"p":6.39},{"q":250,"p":5.77}]'
             >
               <legend class="sr-only">Choose quantity</legend>
+              <div class="q-head" aria-hidden="true">
+                <span>Price per piece</span><span>Subtotal</span>
+              </div>
               <label class="q-row">
                 <input
                   type="radio"
@@ -4271,7 +4404,8 @@
                     ><b class="q-qty">25</b
                     ><span class="q-unit">pieces</span></span
                   >
-                  <span class="q-pp"><b>€ 9,86</b> p.p</span>
+                  <span class="q-tag q-tag-none"></span>
+                  <span class="q-pp"><b>€ 9,86</b></span>
                 </span>
                 <span class="q-total"
                   ><b>€ 246,50</b><small>excl. VAT</small></span
@@ -4284,11 +4418,12 @@
                     ><b class="q-qty">50</b
                     ><span class="q-unit">pieces</span></span
                   >
-                  <span class="q-pp"><b>€ 7,72</b> p.p</span>
-                  <span class="q-save">save € 107</span>
+                  <span class="q-tag">22% discount</span>
+                  <span class="q-pp"><s>€ 9,86</s> / <b>€ 7,72</b></span>
                 </span>
                 <span class="q-total"
-                  ><b>€ 386,00</b><small>excl. VAT</small></span
+                  ><s class="q-was">€ 493,00</s><b>€ 386,00</b
+                  ><small>excl. VAT</small></span
                 >
               </label>
               <label class="q-row">
@@ -4298,11 +4433,12 @@
                     ><b class="q-qty">100</b
                     ><span class="q-unit">pieces</span></span
                   >
-                  <span class="q-pp"><b>€ 6,39</b> p.p</span>
-                  <span class="q-save">save € 347</span>
+                  <span class="q-tag">35% discount</span>
+                  <span class="q-pp"><s>€ 9,86</s> / <b>€ 6,39</b></span>
                 </span>
                 <span class="q-total"
-                  ><b>€ 639,00</b><small>excl. VAT</small></span
+                  ><s class="q-was">€ 986,00</s><b>€ 639,00</b
+                  ><small>excl. VAT</small></span
                 >
               </label>
               <label class="q-row">
@@ -4312,17 +4448,20 @@
                     ><b class="q-qty">250</b
                     ><span class="q-unit">pieces</span></span
                   >
-                  <span class="q-pp"><b>€ 5,77</b> p.p</span>
-                  <span class="q-save">save € 1.022,50</span>
+                  <span class="q-tag">41% discount</span>
+                  <span class="q-pp"><s>€ 9,86</s> / <b>€ 5,77</b></span>
                 </span>
                 <span class="q-total"
-                  ><b>€ 1.442,50</b><small>excl. VAT</small></span
+                  ><s class="q-was">€ 2.465,00</s><b>€ 1.442,50</b
+                  ><small>excl. VAT</small></span
                 >
               </label>
               <label class="q-row q-custom">
                 <input type="radio" name="qty2" value="custom" />
                 <span class="q-main">
-                  <span class="q-top"><b class="q-qty">Other</b></span>
+                  <span class="q-top"
+                    ><b class="q-qty sr-only">Other quantity</b></span
+                  >
                   <span class="q-custom-line">
                     <input
                       class="q-custom-input"
@@ -4330,9 +4469,10 @@
                       min="1"
                       step="1"
                       inputmode="numeric"
-                      placeholder="e.g. 150"
+                      placeholder="Change quantity"
                       aria-label="Other quantity in pieces"
                     />
+                    <button type="button" class="q-save-btn">Save</button>
                     <span class="q-custom-price" aria-live="polite">p.p</span>
                   </span>
                 </span>
@@ -4340,6 +4480,12 @@
                   ><b class="q-custom-total">–</b><small>excl. VAT</small></span
                 >
               </label>
+              <div class="q-actions">
+                <button type="button" class="q-action">Larger print</button>
+                <button type="button" class="q-action">
+                  Great alternative
+                </button>
+              </div>
             </fieldset>
           </article>
 
@@ -4438,6 +4584,9 @@
               data-tiers='[{"q":250,"p":3.03},{"q":500,"p":2.86},{"q":1000,"p":2.74},{"q":2500,"p":2.63}]'
             >
               <legend class="sr-only">Choose quantity</legend>
+              <div class="q-head" aria-hidden="true">
+                <span>Price per piece</span><span>Subtotal</span>
+              </div>
               <label class="q-row">
                 <input
                   type="radio"
@@ -4451,7 +4600,8 @@
                     ><b class="q-qty">250</b
                     ><span class="q-unit">pieces</span></span
                   >
-                  <span class="q-pp"><b>€ 3,03</b> p.p</span>
+                  <span class="q-tag q-tag-none"></span>
+                  <span class="q-pp"><b>€ 3,03</b></span>
                 </span>
                 <span class="q-total"
                   ><b>€ 757,50</b><small>excl. VAT</small></span
@@ -4469,11 +4619,12 @@
                     ><b class="q-qty">500</b
                     ><span class="q-unit">pieces</span></span
                   >
-                  <span class="q-pp"><b>€ 2,86</b> p.p</span>
-                  <span class="q-save">save € 85</span>
+                  <span class="q-tag">6% discount</span>
+                  <span class="q-pp"><s>€ 3,03</s> / <b>€ 2,86</b></span>
                 </span>
                 <span class="q-total"
-                  ><b>€ 1.430,00</b><small>excl. VAT</small></span
+                  ><s class="q-was">€ 1.515,00</s><b>€ 1.430,00</b
+                  ><small>excl. VAT</small></span
                 >
               </label>
               <label class="q-row">
@@ -4488,11 +4639,12 @@
                     ><b class="q-qty">1000</b
                     ><span class="q-unit">pieces</span></span
                   >
-                  <span class="q-pp"><b>€ 2,74</b> p.p</span>
-                  <span class="q-save">save € 290</span>
+                  <span class="q-tag">10% discount</span>
+                  <span class="q-pp"><s>€ 3,03</s> / <b>€ 2,74</b></span>
                 </span>
                 <span class="q-total"
-                  ><b>€ 2.740,00</b><small>excl. VAT</small></span
+                  ><s class="q-was">€ 3.030,00</s><b>€ 2.740,00</b
+                  ><small>excl. VAT</small></span
                 >
               </label>
               <label class="q-row">
@@ -4507,17 +4659,20 @@
                     ><b class="q-qty">2500</b
                     ><span class="q-unit">pieces</span></span
                   >
-                  <span class="q-pp"><b>€ 2,63</b> p.p</span>
-                  <span class="q-save">save € 1.000</span>
+                  <span class="q-tag">13% discount</span>
+                  <span class="q-pp"><s>€ 3,03</s> / <b>€ 2,63</b></span>
                 </span>
                 <span class="q-total"
-                  ><b>€ 6.575,00</b><small>excl. VAT</small></span
+                  ><s class="q-was">€ 7.575,00</s><b>€ 6.575,00</b
+                  ><small>excl. VAT</small></span
                 >
               </label>
               <label class="q-row q-custom">
                 <input type="radio" name="qtyAlt" value="custom" />
                 <span class="q-main">
-                  <span class="q-top"><b class="q-qty">Other</b></span>
+                  <span class="q-top"
+                    ><b class="q-qty sr-only">Other quantity</b></span
+                  >
                   <span class="q-custom-line">
                     <input
                       class="q-custom-input"
@@ -4525,9 +4680,10 @@
                       min="1"
                       step="1"
                       inputmode="numeric"
-                      placeholder="e.g. 150"
+                      placeholder="Change quantity"
                       aria-label="Other quantity in pieces"
                     />
+                    <button type="button" class="q-save-btn">Save</button>
                     <span class="q-custom-price" aria-live="polite">p.p</span>
                   </span>
                 </span>
@@ -6045,6 +6201,15 @@
             updateNudge();
             list.dispatchEvent(new Event("change", { bubbles: true }));
           });
+          var save = custom.querySelector(".q-save-btn");
+          if (save)
+            save.addEventListener("click", function (e) {
+              e.preventDefault();
+              radio.checked = true;
+              updateCustom();
+              updateNudge();
+              list.dispatchEvent(new Event("change", { bubbles: true }));
+            });
           list.addEventListener("change", updateNudge);
           updateCustom();
           updateNudge();
