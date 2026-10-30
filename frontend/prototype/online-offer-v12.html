@@ -4888,6 +4888,40 @@
         line-height: 20px;
         color: var(--ink);
       }
+      /* v12 logo section: title left, tiles next to it, add buttons stacked bottom-right, no design note */
+      .logos-dd[open] .logos-dd-body {
+        position: relative;
+        margin-top: -29px;
+        padding-left: 210px;
+        pointer-events: none;
+      }
+      .logos-dd[open] .logos-dd-body > * {
+        pointer-events: auto;
+      }
+      .logos-dd .logos-row {
+        display: block;
+      }
+      .logos-dd .logos-aside {
+        display: none;
+      }
+      .logos-dd .logos {
+        width: 100%;
+        max-width: none;
+        align-items: flex-start;
+      }
+      .logos-dd .logo-adds {
+        align-self: flex-end;
+        width: 220px;
+        height: auto;
+        margin-left: auto;
+        gap: 12px;
+      }
+      .logos-dd .logo-adds .logo-add {
+        flex: none;
+      }
+      .logos-dd .logo-adds .logo-add-box {
+        height: 56px;
+      }
     </style>
   </head>
   <body>
