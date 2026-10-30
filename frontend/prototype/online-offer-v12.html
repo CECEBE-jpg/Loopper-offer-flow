@@ -4782,6 +4782,75 @@
       .p6-tiers .p6-label {
         padding: 0;
       }
+      /* v12: account manager speech bubble above the sticky bar, text follows the section in view */
+      .step-nav-am {
+        position: relative;
+      }
+      .am-bubble {
+        position: absolute;
+        left: 0;
+        bottom: calc(100% + 26px);
+        width: 300px;
+        padding: 12px 34px 12px 14px;
+        border: 1px solid var(--line);
+        border-radius: 14px 14px 14px 4px;
+        background: #fff;
+        box-shadow: 0 10px 28px rgba(20, 30, 40, 0.16);
+        font-size: 14px;
+        line-height: 20px;
+        color: var(--ink);
+        opacity: 1;
+        transform: translateY(0);
+        transition:
+          opacity 0.25s ease,
+          transform 0.25s ease;
+      }
+      .am-bubble::after {
+        content: "";
+        position: absolute;
+        left: 16px;
+        bottom: -7px;
+        width: 12px;
+        height: 12px;
+        border-right: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+        background: #fff;
+        transform: rotate(45deg);
+      }
+      .am-bubble[hidden] {
+        display: block;
+        visibility: hidden;
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      .am-bubble.is-swapping {
+        opacity: 0;
+        transform: translateY(4px);
+      }
+      .am-bubble b {
+        font-weight: 800;
+      }
+      .am-bubble-close {
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        width: 24px;
+        height: 24px;
+        border: 0;
+        border-radius: 50%;
+        background: none;
+        color: #7b8794;
+        font-size: 18px;
+        line-height: 1;
+        cursor: pointer;
+      }
+      .am-bubble-close:hover {
+        background: #f1f4f7;
+      }
+      .step-nav-am.is-hidden .am-bubble {
+        visibility: hidden;
+        opacity: 0;
+      }
     </style>
   </head>
   <body>
@@ -7326,6 +7395,22 @@
     <nav class="step-nav" aria-label="Offer steps navigation">
       <div class="step-nav-inner">
         <div class="step-nav-am" aria-label="Your account manager">
+          <p
+            class="am-bubble"
+            id="amBubble"
+            role="status"
+            aria-live="polite"
+            hidden
+          >
+            <span class="am-bubble-text"></span>
+            <button
+              type="button"
+              class="am-bubble-close"
+              aria-label="Hide message"
+            >
+              ×
+            </button>
+          </p>
           <span
             class="avatar avatar-photo am-chat-avatar step-nav-am-photo"
             role="img"
@@ -7572,6 +7657,80 @@
           prev.innerHTML = "<b>You:</b> ";
           prev.appendChild(document.createTextNode(text));
         });
+      })();
+    </script>
+    <script>
+      // Account manager bubble: message changes with the section in view
+      (function () {
+        var bubble = document.getElementById("amBubble");
+        if (!bubble) return;
+        var text = bubble.querySelector(".am-bubble-text");
+        var products = document.querySelectorAll(
+          ".products-card .product.p6:not([hidden])",
+        );
+        var steps = [
+          {
+            el: document.querySelector(".logos-card"),
+            msg: "Hi Cayna! Your <b>mockup design</b> is being made. It is ready within 30 min, I will email you.",
+          },
+          {
+            el: products[0],
+            msg: "Tip: a higher quantity lowers the <b>price per piece</b>. Pick the row that suits you best.",
+          },
+          {
+            el: products[1],
+            msg: "Need it fast? Check the <b>stock and delivery date</b> before you choose a quantity.",
+          },
+          {
+            el: document.getElementById("alt"),
+            msg: "This <b>water bottle</b> pairs well with your thermos. Switch it on to add it to your offer.",
+          },
+          {
+            el: document.querySelector(".side .summary"),
+            msg: "All set? <b>Download the PDF</b> or share the offer with a colleague for approval.",
+          },
+        ].filter(function (st) {
+          return st.el;
+        });
+        var current = -1,
+          dismissed = {};
+        function pick() {
+          var line = window.innerHeight * 0.7,
+            idx = -1;
+          steps.forEach(function (st, i) {
+            var r = st.el.getBoundingClientRect();
+            if (r.top < line && r.bottom > 0) idx = i;
+          });
+          return window.scrollY < 120 ? 0 : idx; // near the top: greeting about the mockup
+        }
+        function update() {
+          var idx = pick();
+          if (idx === current) return;
+          current = idx;
+          if (idx < 0 || dismissed[idx]) {
+            bubble.hidden = true;
+            return;
+          }
+          if (bubble.hidden) {
+            text.innerHTML = steps[idx].msg;
+            bubble.hidden = false;
+            return;
+          }
+          bubble.classList.add("is-swapping");
+          setTimeout(function () {
+            text.innerHTML = steps[idx].msg;
+            bubble.classList.remove("is-swapping");
+          }, 200);
+        }
+        bubble
+          .querySelector(".am-bubble-close")
+          .addEventListener("click", function () {
+            dismissed[current] = true;
+            bubble.hidden = true;
+          });
+        window.addEventListener("scroll", update, { passive: true });
+        window.addEventListener("resize", update);
+        update();
       })();
     </script>
   </body>
