@@ -4922,6 +4922,45 @@
       .logos-dd .logo-adds .logo-add-box {
         height: 56px;
       }
+      /* pinned comment: avatar on the left + Reply button that opens the comments panel */
+      .cm-pinned {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      .cm-pinned-photo {
+        flex: none;
+        width: 32px !important;
+        height: 32px !important;
+      }
+      .cm-pinned-body {
+        min-width: 0;
+      }
+      .cm-pinned-reply {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        margin-top: 8px;
+        padding: 0;
+        border: 0;
+        background: none;
+        font: inherit;
+        font-size: 12px;
+        font-weight: 800;
+        color: #006ed0;
+        cursor: pointer;
+      }
+      .cm-pinned-reply::before {
+        content: "↩";
+        font-size: 13px;
+      }
+      .cm-pinned-reply:hover {
+        text-decoration: underline;
+      }
+      .cm-pinned-reply:focus-visible {
+        outline: 2px solid #006ed0;
+        outline-offset: 2px;
+      }
     </style>
   </head>
   <body>
@@ -5276,10 +5315,18 @@
                 </p>
                 <!-- Comment pinned by the account manager, always shown under the button -->
                 <div class="cm-pinned">
-                  <p class="cm-pinned-from">
-                    <b>Jildou</b> · your account manager
-                  </p>
-                  <p class="cm-pinned-text">I think.. so and so and so</p>
+                  <span
+                    class="avatar avatar-photo am-chat-avatar cm-pinned-photo"
+                    role="img"
+                    aria-label="Jildou"
+                  ></span>
+                  <div class="cm-pinned-body">
+                    <p class="cm-pinned-from">
+                      <b>Jildou</b> · your account manager
+                    </p>
+                    <p class="cm-pinned-text">I think.. so and so and so</p>
+                    <button type="button" class="cm-pinned-reply">Reply</button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -7810,6 +7857,14 @@
         window.addEventListener("resize", update);
         update();
       })();
+    </script>
+    <script>
+      // Pinned comment "Reply" opens the comments panel of that product
+      document.querySelectorAll(".cm-pinned-reply").forEach(function (b) {
+        b.addEventListener("click", function () {
+          b.closest(".cm-entry").querySelector(".cm-open").click();
+        });
+      });
     </script>
   </body>
 </html>
