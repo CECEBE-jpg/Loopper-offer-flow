@@ -4851,6 +4851,43 @@
         visibility: hidden;
         opacity: 0;
       }
+      /* Pinned account manager comment: grey speech bubble under the Comments button */
+      .cm-entry:has(.cm-pinned) {
+        gap: 0;
+      }
+      .cm-pinned {
+        position: relative;
+        align-self: flex-start;
+        width: 300px;
+        margin: 12px 0 0 22px;
+        padding: 10px 14px 12px;
+        border-radius: 4px 14px 14px 14px;
+        background: #f2f2f2;
+      }
+      .cm-pinned::before {
+        content: "";
+        position: absolute;
+        top: -8px;
+        left: 0;
+        border-bottom: 8px solid #f2f2f2;
+        border-right: 10px solid transparent;
+      }
+      .cm-pinned-from {
+        margin: 0 0 4px;
+        font-size: 12px;
+        line-height: 16px;
+        color: #7b8794;
+      }
+      .cm-pinned-from b {
+        font-weight: 800;
+        color: var(--ink);
+      }
+      .cm-pinned-text {
+        margin: 0;
+        font-size: 14px;
+        line-height: 20px;
+        color: var(--ink);
+      }
     </style>
   </head>
   <body>
@@ -5200,9 +5237,16 @@
                   ><span>Comments</span><span class="cm-count">3</span
                   ><span class="cm-new">1 new reply</span>
                 </button>
-                <p class="cm-preview">
+                <p class="cm-preview" hidden>
                   <b>Jildou:</b> Yes, we can do, this and that
                 </p>
+                <!-- Comment pinned by the account manager, always shown under the button -->
+                <div class="cm-pinned">
+                  <p class="cm-pinned-from">
+                    <b>Jildou</b> · your account manager
+                  </p>
+                  <p class="cm-pinned-text">I think.. so and so and so</p>
+                </div>
               </div>
             </div>
             <fieldset
