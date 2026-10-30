@@ -4961,6 +4961,33 @@
         outline: 2px solid #006ed0;
         outline-offset: 2px;
       }
+      /* Reply CTA on the right of the pinned bubble */
+      .cm-pinned-body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+      .cm-pinned-reply {
+        align-self: flex-end;
+      }
+      /* Sticky-bar bubble in navy with white text */
+      .am-bubble {
+        border-color: #324a67;
+        background: #324a67;
+        color: #fff;
+        box-shadow: 0 10px 28px rgba(20, 30, 40, 0.28);
+      }
+      .am-bubble::after {
+        border-color: #324a67;
+        background: #324a67;
+      }
+      .am-bubble-close {
+        color: rgba(255, 255, 255, 0.75);
+      }
+      .am-bubble-close:hover {
+        background: rgba(255, 255, 255, 0.14);
+        color: #fff;
+      }
     </style>
   </head>
   <body>
