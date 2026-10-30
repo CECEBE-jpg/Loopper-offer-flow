@@ -4387,6 +4387,99 @@
       .q-custom .q-custom-input {
         width: 132px;
       }
+      /* Reply on the pinned comment: inline field inside the bubble, replies listed under the message */
+      .pin-reply {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        margin-top: 6px;
+        padding: 0;
+        border: 0;
+        background: none;
+        font: inherit;
+        font-size: 12px;
+        font-weight: 800;
+        color: #006ed0;
+        cursor: pointer;
+      }
+      .pin-reply[hidden] {
+        display: none;
+      }
+      .pin-reply::before {
+        content: "↩";
+        font-size: 13px;
+      }
+      .pin-reply:hover {
+        text-decoration: underline;
+      }
+      .pin-reply:focus-visible,
+      .pin-send:focus-visible {
+        outline: 2px solid #006ed0;
+        outline-offset: 2px;
+      }
+      .pin-thread {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        margin-top: 8px;
+        padding-top: 8px;
+        border-top: 1px solid #e3e3e3;
+      }
+      .pin-thread:empty {
+        display: none;
+      }
+      .pin-msg {
+        margin: 0;
+        font-size: 13px;
+        line-height: 18px;
+        color: var(--ink);
+      }
+      .pin-msg b {
+        font-weight: 800;
+      }
+      .pin-msg small {
+        margin-left: 6px;
+        font-size: 11px;
+        color: #7b8794;
+      }
+      .pin-form {
+        display: flex;
+        gap: 6px;
+        margin-top: 8px;
+      }
+      .pin-form[hidden] {
+        display: none;
+      }
+      .pin-input {
+        flex: 1;
+        min-width: 0;
+        height: 32px;
+        padding: 0 10px;
+        border: 1px solid #d5dbe1;
+        border-radius: 8px;
+        background: #fff;
+        font: inherit;
+        font-size: 13px;
+      }
+      .pin-input:focus {
+        outline: none;
+        border-color: #006ed0;
+      }
+      .pin-send {
+        height: 32px;
+        padding: 0 14px;
+        border: 0;
+        border-radius: 8px;
+        background: var(--green);
+        color: #fff;
+        font: inherit;
+        font-size: 12px;
+        font-weight: 800;
+        cursor: pointer;
+      }
+      .pin-send:hover {
+        background: var(--green-text);
+      }
     </style>
   </head>
   <body>
@@ -4878,6 +4971,17 @@
               <div class="am-chat-bubble">
                 <p class="am-chat-from"><b>Jildou</b> · your account manager</p>
                 <p class="am-chat-text">I think.. so and so and so</p>
+                <button type="button" class="pin-reply">Reply</button>
+                <div class="pin-thread"></div>
+                <form class="pin-form" hidden>
+                  <input
+                    type="text"
+                    class="pin-input"
+                    placeholder="Write a reply to Jildou…"
+                    aria-label="Reply to Jildou"
+                  />
+                  <button type="submit" class="pin-send">Send</button>
+                </form>
               </div>
             </div>
           </article>
@@ -6828,6 +6932,42 @@
         window.addEventListener("resize", check);
         check();
       })();
+    </script>
+    <script>
+      // Pinned comment: Reply opens an inline field; sent replies show under the account manager's message
+      document.querySelectorAll(".p6-pin").forEach(function (pin) {
+        var btn = pin.querySelector(".pin-reply");
+        var form = pin.querySelector(".pin-form");
+        var input = pin.querySelector(".pin-input");
+        var thread = pin.querySelector(".pin-thread");
+        function closeForm() {
+          form.hidden = true;
+          btn.hidden = false;
+        }
+        btn.addEventListener("click", function () {
+          form.hidden = false;
+          btn.hidden = true;
+          input.focus();
+        });
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          var text = input.value.trim();
+          if (!text) return;
+          var p = document.createElement("p");
+          p.className = "pin-msg";
+          p.innerHTML = "<b>You</b><small>Just now</small><br />";
+          p.appendChild(document.createTextNode(text));
+          thread.appendChild(p);
+          input.value = "";
+          closeForm();
+        });
+        input.addEventListener("keydown", function (e) {
+          if (e.key === "Escape") {
+            closeForm();
+            btn.focus();
+          }
+        });
+      });
     </script>
   </body>
 </html>
