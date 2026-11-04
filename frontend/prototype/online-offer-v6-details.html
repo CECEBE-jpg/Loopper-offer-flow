@@ -5164,6 +5164,56 @@
       .pms-code[hidden] {
         display: none;
       }
+      /* Clickable step cards (2026-11-04): the whole card is the link (the link's
+         ::after covers the card). Hover = drop shadow; press = no shadow + solid
+         green fill, like the "Go to my account" CTA on the confirmation page
+         (03 Request flow .acta, ease-out 300ms). */
+      .step:has(.step-link) {
+        position: relative;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+        transition:
+          background-color 300ms ease-out,
+          border-color 300ms ease-out,
+          color 300ms ease-out,
+          box-shadow 300ms ease-out;
+      }
+      .step-link::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+      }
+      .step-link:hover {
+        text-decoration: none;
+      }
+      .step-link:focus-visible {
+        outline: none;
+      }
+      .step:has(.step-link:focus-visible) {
+        outline: 2px solid #1f8ceb;
+        outline-offset: 2px;
+      }
+      @media (hover: hover) {
+        .step:has(.step-link):hover {
+          box-shadow: 1px 6px 19px rgba(0, 0, 0, 0.16);
+        }
+      }
+      .step:has(.step-link):active {
+        border-color: var(--green);
+        background: var(--green);
+        color: #fff;
+        box-shadow: none;
+      }
+      .step:has(.step-link):active .step-num {
+        border-color: #fff;
+        color: #fff;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .step:has(.step-link) {
+          transition: none;
+        }
+      }
       /* ===== Step 4: Your details (based on the live "My details" page) ===== */
       .det-page {
         width: 1212px;
@@ -5665,56 +5715,6 @@
         }
         .det-table thead {
           display: none;
-        }
-      }
-      /* Clickable step cards (2026-11-04): the whole card is the link (the link's
-         ::after covers the card). Hover = drop shadow; press = no shadow + solid
-         green fill, like the "Go to my account" CTA on the confirmation page
-         (03 Request flow .acta, ease-out 300ms). */
-      .step:has(.step-link) {
-        position: relative;
-        cursor: pointer;
-        -webkit-tap-highlight-color: transparent;
-        transition:
-          background-color 300ms ease-out,
-          border-color 300ms ease-out,
-          color 300ms ease-out,
-          box-shadow 300ms ease-out;
-      }
-      .step-link::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        border-radius: inherit;
-      }
-      .step-link:hover {
-        text-decoration: none;
-      }
-      .step-link:focus-visible {
-        outline: none;
-      }
-      .step:has(.step-link:focus-visible) {
-        outline: 2px solid #1f8ceb;
-        outline-offset: 2px;
-      }
-      @media (hover: hover) {
-        .step:has(.step-link):hover {
-          box-shadow: 1px 6px 19px rgba(0, 0, 0, 0.16);
-        }
-      }
-      .step:has(.step-link):active {
-        border-color: var(--green);
-        background: var(--green);
-        color: #fff;
-        box-shadow: none;
-      }
-      .step:has(.step-link):active .step-num {
-        border-color: #fff;
-        color: #fff;
-      }
-      @media (prefers-reduced-motion: reduce) {
-        .step:has(.step-link) {
-          transition: none;
         }
       }
     </style>
@@ -6326,20 +6326,25 @@
     <!-- Step navigation, always visible at the bottom -->
     <nav class="step-nav" aria-label="Offer steps navigation">
       <div class="step-nav-inner">
-        <div class="step-nav-am" aria-label="Your account manager">
-          <span
-            class="avatar avatar-photo am-chat-avatar step-nav-am-photo"
-            role="img"
-            aria-label="Jildou, your account manager"
-          ></span>
-          <span class="step-nav-am-id"
-            ><b>Jildou</b><small>Your account manager</small></span
+        <!-- Rule: from step 3 on, the bottom bar starts with a return button to the previous step -->
+        <a class="step-nav-back" href="online-offer-v6-approve.html">
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 20 20"
+            fill="none"
+            aria-hidden="true"
           >
-          <span class="step-nav-am-contact">
-            <a href="tel:+442045765960">+44 20 4576 5960</a>
-            <a href="mailto:Jildou@loopper.com">Jildou@loopper.com</a>
-          </span>
-        </div>
+            <path
+              d="M12 5l-5 5 5 5"
+              stroke="currentColor"
+              stroke-width="2.4"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          <span>Back to your design<small>Step 3 · approve design</small></span>
+        </a>
         <div class="step-nav-next-wrap">
           <span class="step-nav-hint" id="navHint"
             >Total <b>€ 295,80</b> incl. VAT · fill in your details and accept
