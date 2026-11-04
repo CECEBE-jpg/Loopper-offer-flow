@@ -5120,6 +5120,50 @@
         width: 560px;
         margin: 0;
       }
+      /* PMS / colour choice (as on the live check-design page) */
+      .pms {
+        margin: 20px 0 0;
+        padding: 0;
+        border: 0;
+      }
+      .pms legend {
+        margin-bottom: 8px;
+        padding: 0;
+        font-size: 15px;
+        font-weight: 800;
+        color: var(--ink);
+      }
+      .pms-opt {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 8px;
+        padding: 10px 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        font-size: 14px;
+        cursor: pointer;
+      }
+      .pms-opt:has(input:checked) {
+        border-color: var(--green);
+        background: #f3faee;
+      }
+      .pms-opt input {
+        accent-color: var(--green);
+      }
+      .pms-code {
+        width: 100%;
+        height: 40px;
+        margin-top: 8px;
+        padding: 0 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        font: inherit;
+        font-size: 14px;
+      }
+      .pms-code[hidden] {
+        display: none;
+      }
       /* ===== Step 4: Your details (based on the live "My details" page) ===== */
       .det-page {
         width: 1212px;
@@ -5159,10 +5203,12 @@
         font-weight: 800;
         color: var(--ink);
       }
+      /* Form fields: same styling as the Request form (03 Request flow, styles.css
+         .f-field / .f-label / .f-input / .f-sal-box / .rd) */
       .det-form {
         display: grid;
         grid-template-columns: repeat(6, minmax(0, 1fr));
-        gap: 14px 12px;
+        gap: 10px 16px;
       }
       .c-6 {
         grid-column: span 6;
@@ -5176,27 +5222,22 @@
       .c-2 {
         grid-column: span 2;
       }
-      /* Floating-label field, like the live page (label sits on the border) */
       .fld {
-        position: relative;
-        display: block;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        min-width: 0;
       }
-      .fld > span {
-        position: absolute;
-        top: -8px;
-        left: 10px;
+      .fld-label {
         display: inline-flex;
         align-items: center;
         gap: 4px;
-        padding: 0 4px;
-        background: #fff;
-        font-size: 12px;
-        font-weight: 600;
-        line-height: 16px;
-        color: var(--muted);
-        pointer-events: none;
+        font-size: 13px;
+        font-weight: 700;
+        color: #555;
+        white-space: nowrap;
       }
-      .fld > span i {
+      .fld-label i {
         display: inline-grid;
         place-items: center;
         width: 13px;
@@ -5207,33 +5248,45 @@
         font-size: 9px;
         font-style: normal;
         font-weight: 800;
-        pointer-events: auto;
         cursor: help;
       }
       .fld input,
       .fld select,
       .fld textarea {
         width: 100%;
-        height: 44px;
+        height: 38px;
         padding: 0 12px;
-        border: 1px solid #cdd5dd;
-        border-radius: 8px;
+        border: 1px solid #c3c3c3;
+        border-radius: 10px;
         background: #fff;
         font: inherit;
-        font-size: 15px;
-        color: var(--ink);
+        font-size: 14px;
+        color: #333;
+        outline: none;
+      }
+      .fld input::placeholder,
+      .fld textarea::placeholder {
+        color: #bbb;
+        opacity: 1;
+      }
+      .fld select:invalid {
+        color: #bbb;
+      }
+      .fld select option {
+        color: #333;
       }
       .fld textarea {
-        height: 96px;
+        height: 70px;
         padding: 12px;
-        resize: vertical;
+        line-height: normal;
+        resize: none;
+        display: block;
       }
       .fld input:focus,
       .fld select:focus,
       .fld textarea:focus {
-        outline: none;
-        border-color: #00aed8;
-        box-shadow: 0 0 0 3px rgba(0, 174, 216, 0.15);
+        border-color: #1f8ceb;
+        box-shadow: 0 0 0 3px rgba(31, 140, 235, 0.15);
       }
       .fld.is-invalid input,
       .fld.is-invalid select {
@@ -5242,7 +5295,6 @@
       }
       .fld-err {
         display: none;
-        margin-top: 4px;
         font-size: 12px;
         font-weight: 600;
         color: #d64545;
@@ -5250,36 +5302,87 @@
       .fld.is-invalid .fld-err {
         display: block;
       }
-      .salutation {
+      /* Salutation: bordered box with the request form's green radios */
+      .sal-box {
+        height: 38px;
+        padding: 0 12px;
+        border: 1px solid #c3c3c3;
+        border-radius: 10px;
+        background: #fff;
         display: flex;
         align-items: center;
-        gap: 16px;
-        height: 44px;
-        margin: 0;
-        padding: 0;
-        border: 0;
-        font-size: 15px;
+        gap: 24px;
       }
-      .salutation label {
+      .rd {
+        position: relative;
         display: inline-flex;
         align-items: center;
-        gap: 6px;
+        gap: 8px;
+        font-size: 14px;
+        color: #333;
+        white-space: nowrap;
         cursor: pointer;
       }
-      .salutation input,
-      .det-terms input,
-      .det-same input {
+      .rd input {
+        position: absolute;
+        opacity: 0;
+        width: 1px;
+        height: 1px;
+        margin: 0;
+      }
+      .rd-box {
+        position: relative;
+        width: 18px;
+        height: 18px;
+        flex: none;
+        border-radius: 9px;
+        background: #fff;
+        box-shadow: inset 0 0 0 1px #ccc;
+      }
+      .rd-box img {
+        position: absolute;
+        inset: 0;
+        display: none;
+      }
+      .rd input:checked + .rd-box img {
+        display: block;
+      }
+      .rd input:focus-visible + .rd-box {
+        outline: 2px solid #1f8ceb;
+        outline-offset: 2px;
+      }
+      .det-terms input {
         width: 18px;
         height: 18px;
         margin: 0;
         accent-color: var(--green);
       }
+      .name-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 16px;
+      }
+      .fld-sal {
+        flex: none;
+      }
+      .fld.is-grow {
+        flex: 1 0 0;
+      }
       .row-with-btn {
         display: flex;
-        gap: 12px;
+        align-items: flex-end;
+        gap: 16px;
       }
       .row-with-btn .fld {
         flex: 1;
+      }
+      .row-with-btn .det-btn {
+        height: 38px;
+        border-color: #c3c3c3;
+        border-radius: 10px;
+      }
+      .fld.is-invalid ~ .det-btn {
+        margin-bottom: 22px;
       }
       .det-btn {
         display: inline-flex;
@@ -5698,7 +5801,7 @@
           <h2 id="invTitle">Invoicing address</h2>
           <form class="det-form" id="invForm" novalidate>
             <label class="fld c-6"
-              ><span>Company*</span
+              ><span class="fld-label">Company*</span
               ><input
                 name="company"
                 value="Bloom agency"
@@ -5706,32 +5809,61 @@
                 autocomplete="organization"
               /><small class="fld-err">Please fill in this field</small></label
             >
-            <fieldset class="salutation c-2">
-              <legend class="sr-only">Salutation</legend>
-              <label><input type="radio" name="sal" />Mr.</label>
-              <label><input type="radio" name="sal" checked />Mrs.</label>
-            </fieldset>
-            <label class="fld c-2"
-              ><span>First name*</span
-              ><input
-                name="first"
-                value="Cayna"
-                required
-                autocomplete="given-name"
-              /><small class="fld-err">Please fill in this field</small></label
-            >
-            <label class="fld c-2"
-              ><span>Last name*</span
-              ><input
-                name="last"
-                value="Bloom"
-                required
-                autocomplete="family-name"
-              /><small class="fld-err">Please fill in this field</small></label
-            >
+            <div class="c-6 name-row">
+              <div class="fld fld-sal">
+                <span class="fld-label" id="salLabel">Salutation</span>
+                <div
+                  class="sal-box"
+                  role="radiogroup"
+                  aria-labelledby="salLabel"
+                >
+                  <label class="rd"
+                    ><input type="radio" name="sal" value="Mr." /><span
+                      class="rd-box"
+                      ><img
+                        src="assets/offer-v3/radio-checked.svg"
+                        width="18"
+                        height="18"
+                        alt="" /></span
+                    >Mr.</label
+                  ><label class="rd"
+                    ><input type="radio" name="sal" value="Mrs." checked /><span
+                      class="rd-box"
+                      ><img
+                        src="assets/offer-v3/radio-checked.svg"
+                        width="18"
+                        height="18"
+                        alt="" /></span
+                    >Mrs.</label
+                  >
+                </div>
+              </div>
+              <label class="fld is-grow"
+                ><span class="fld-label">First name*</span
+                ><input
+                  name="first"
+                  value="Cayna"
+                  required
+                  autocomplete="given-name"
+                /><small class="fld-err"
+                  >Please fill in this field</small
+                ></label
+              >
+              <label class="fld is-grow"
+                ><span class="fld-label">Surname*</span
+                ><input
+                  name="last"
+                  value="Bloom"
+                  required
+                  autocomplete="family-name"
+                /><small class="fld-err"
+                  >Please fill in this field</small
+                ></label
+              >
+            </div>
             <div class="row-with-btn c-6">
               <label class="fld"
-                ><span
+                ><span class="fld-label"
                   >E-mail*
                   <i title="We send your order confirmation to this address"
                     >i</i
@@ -5751,14 +5883,14 @@
               </button>
             </div>
             <label class="fld c-6 det-cc" id="ccField" hidden
-              ><span>CC e-mail</span
+              ><span class="fld-label">CC e-mail</span
               ><input
                 type="email"
                 name="cc"
                 placeholder="colleague@company.com"
             /></label>
             <label class="fld c-6"
-              ><span
+              ><span class="fld-label"
                 >Invoice e-mail (optional)
                 <i
                   title="Do invoices go to another address, for example your finance team? Fill it in here"
@@ -5767,7 +5899,7 @@
               ><input type="email" name="invoiceEmail"
             /></label>
             <label class="fld c-6"
-              ><span>Phone number*</span
+              ><span class="fld-label">Phone number*</span
               ><input
                 type="tel"
                 name="phone"
@@ -5777,7 +5909,7 @@
               /><small class="fld-err">Please fill in this field</small></label
             >
             <label class="fld c-4"
-              ><span>Street address*</span
+              ><span class="fld-label">Street address*</span
               ><input
                 name="street"
                 required
@@ -5785,13 +5917,13 @@
               /><small class="fld-err">Please fill in this field</small></label
             >
             <label class="fld c-2"
-              ><span>House number*</span><input name="house" required /><small
-                class="fld-err"
+              ><span class="fld-label">House number*</span
+              ><input name="house" required /><small class="fld-err"
                 >Please fill in this field</small
               ></label
             >
             <label class="fld c-3"
-              ><span>Postal code*</span
+              ><span class="fld-label">Postal code*</span
               ><input
                 name="postcode"
                 required
@@ -5799,7 +5931,7 @@
               /><small class="fld-err">Please fill in this field</small></label
             >
             <label class="fld c-3"
-              ><span>City*</span
+              ><span class="fld-label">City*</span
               ><input
                 name="city"
                 required
@@ -5807,7 +5939,7 @@
               /><small class="fld-err">Please fill in this field</small></label
             >
             <label class="fld c-6"
-              ><span>Country*</span
+              ><span class="fld-label">Country*</span
               ><select name="country" required autocomplete="country-name">
                 <option value="" selected disabled>Choose a country</option>
                 <option>United Kingdom</option>
@@ -5823,11 +5955,11 @@
               ><small class="fld-err">Please choose a country</small></label
             >
             <label class="fld c-6"
-              ><span>VAT number</span
+              ><span class="fld-label">VAT number</span
               ><input name="vat" placeholder="For example GB123456789"
             /></label>
             <label class="fld c-6"
-              ><span>Your internal reference number</span
+              ><span class="fld-label">Your internal reference number</span
               ><input name="ref" placeholder="For example your PO number"
             /></label>
           </form>
@@ -5859,37 +5991,37 @@
             novalidate
           >
             <label class="fld c-6"
-              ><span>Company / recipient*</span
+              ><span class="fld-label">Company / recipient*</span
               ><input name="dCompany" required /><small class="fld-err"
                 >Please fill in this field</small
               ></label
             >
             <label class="fld c-4"
-              ><span>Street address*</span
+              ><span class="fld-label">Street address*</span
               ><input name="dStreet" required /><small class="fld-err"
                 >Please fill in this field</small
               ></label
             >
             <label class="fld c-2"
-              ><span>House number*</span><input name="dHouse" required /><small
-                class="fld-err"
+              ><span class="fld-label">House number*</span
+              ><input name="dHouse" required /><small class="fld-err"
                 >Please fill in this field</small
               ></label
             >
             <label class="fld c-3"
-              ><span>Postal code*</span
+              ><span class="fld-label">Postal code*</span
               ><input name="dPostcode" required /><small class="fld-err"
                 >Please fill in this field</small
               ></label
             >
             <label class="fld c-3"
-              ><span>City*</span><input name="dCity" required /><small
-                class="fld-err"
+              ><span class="fld-label">City*</span
+              ><input name="dCity" required /><small class="fld-err"
                 >Please fill in this field</small
               ></label
             >
             <label class="fld c-6"
-              ><span>Country*</span
+              ><span class="fld-label">Country*</span
               ><select name="dCountry" required>
                 <option value="" selected disabled>Choose a country</option>
                 <option>United Kingdom</option>
@@ -5914,7 +6046,7 @@
           <div class="det-remarks">
             <h3>Remarks</h3>
             <label class="fld"
-              ><span>Remarks for your order</span
+              ><span class="fld-label">Remarks for your order</span
               ><textarea
                 id="remarks"
                 placeholder="For example delivery instructions or opening hours"
