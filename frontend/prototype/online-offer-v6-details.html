@@ -5667,6 +5667,56 @@
           display: none;
         }
       }
+      /* Clickable step cards (2026-11-04): the whole card is the link (the link's
+         ::after covers the card). Hover = drop shadow; press = no shadow + solid
+         green fill, like the "Go to my account" CTA on the confirmation page
+         (03 Request flow .acta, ease-out 300ms). */
+      .step:has(.step-link) {
+        position: relative;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+        transition:
+          background-color 300ms ease-out,
+          border-color 300ms ease-out,
+          color 300ms ease-out,
+          box-shadow 300ms ease-out;
+      }
+      .step-link::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+      }
+      .step-link:hover {
+        text-decoration: none;
+      }
+      .step-link:focus-visible {
+        outline: none;
+      }
+      .step:has(.step-link:focus-visible) {
+        outline: 2px solid #1f8ceb;
+        outline-offset: 2px;
+      }
+      @media (hover: hover) {
+        .step:has(.step-link):hover {
+          box-shadow: 1px 6px 19px rgba(0, 0, 0, 0.16);
+        }
+      }
+      .step:has(.step-link):active {
+        border-color: var(--green);
+        background: var(--green);
+        color: #fff;
+        box-shadow: none;
+      }
+      .step:has(.step-link):active .step-num {
+        border-color: #fff;
+        color: #fff;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .step:has(.step-link) {
+          transition: none;
+        }
+      }
     </style>
   </head>
   <body>
