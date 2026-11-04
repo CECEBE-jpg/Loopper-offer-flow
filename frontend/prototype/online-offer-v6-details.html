@@ -5809,14 +5809,6 @@
               width="26"
               height="26"
               alt="Done:"
-            />Logo uploaded
-          </li>
-          <li class="step step-done">
-            <img
-              src="assets/offer-v3/icon-step-done.svg"
-              width="26"
-              height="26"
-              alt="Done:"
             /><a class="step-link" href="online-offer-v6.html">Your offer</a>
           </li>
           <li class="step step-done">
@@ -5830,9 +5822,9 @@
             >
           </li>
           <li class="step step-current" aria-current="step">
-            <span class="step-num">4</span>Your details
+            <span class="step-num">3</span>Your details
           </li>
-          <li class="step"><span class="step-num">5</span>Payment</li>
+          <li class="step"><span class="step-num">4</span>Payment</li>
         </ol>
       </div>
     </div>
@@ -6241,7 +6233,7 @@
               </button>
             </div>
             <a class="back-link" href="online-offer-v6-approve.html"
-              >← Go back to step 3 to check your design</a
+              >← Go back to step 2 to check your design</a
             >
           </div>
         </div>
@@ -6326,7 +6318,7 @@
     <!-- Step navigation, always visible at the bottom -->
     <nav class="step-nav" aria-label="Offer steps navigation">
       <div class="step-nav-inner">
-        <!-- Rule: from step 3 on, the bottom bar starts with a return button to the previous step -->
+        <!-- Rule: from step 2 on, the bottom bar starts with a return button to the previous step -->
         <a class="step-nav-back" href="online-offer-v6-approve.html">
           <svg
             width="18"
@@ -6343,7 +6335,7 @@
               stroke-linejoin="round"
             />
           </svg>
-          <span>Back to your design<small>Step 3 · approve design</small></span>
+          <span>Back to your design</span>
         </a>
         <div class="step-nav-next-wrap">
           <span class="step-nav-hint" id="navHint"
@@ -6475,7 +6467,7 @@
           }
           msg.className = "det-msg is-ok";
           msg.textContent =
-            "✓ All set. Prototype: the payment step (5) comes next.";
+            "✓ All set. Prototype: the payment step (4) comes next.";
         }
         $("payBtn").addEventListener("click", pay);
         $("navNext").addEventListener("click", pay);
