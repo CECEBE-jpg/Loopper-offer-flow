@@ -5056,6 +5056,34 @@
         margin-left: 18px;
         margin-right: 18px;
       }
+      .step-nav-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        height: 53px;
+        padding: 0 20px 0 14px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: #fff;
+        color: var(--ink);
+        text-decoration: none;
+      }
+      .step-nav-back:hover {
+        border-color: #b7c2cd;
+      }
+      .step-nav-back span {
+        display: flex;
+        flex-direction: column;
+        font-size: 16px;
+        line-height: 20px;
+        font-weight: 800;
+      }
+      .step-nav-back small {
+        font-size: 12px;
+        line-height: 15px;
+        font-weight: 600;
+        color: var(--muted);
+      }
       .step-nav .cta:not(:disabled) {
         background: var(--green);
         color: #fff;
@@ -5429,9 +5457,6 @@
               alt=""
             />
           </button>
-          <a class="back-link" href="online-offer-v6.html"
-            >← Back to step 2 to check your offer</a
-          >
         </aside>
       </div>
 
@@ -5539,20 +5564,28 @@
     <!-- Step navigation, always visible at the bottom -->
     <nav class="step-nav" aria-label="Offer steps navigation">
       <div class="step-nav-inner">
-        <div class="step-nav-am" aria-label="Your account manager">
-          <span
-            class="avatar avatar-photo am-chat-avatar step-nav-am-photo"
-            role="img"
-            aria-label="Jildou, your account manager"
-          ></span>
-          <span class="step-nav-am-id"
-            ><b>Jildou</b><small>Your account manager</small></span
+        <a class="step-nav-back" href="online-offer-v6.html">
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 20 20"
+            fill="none"
+            aria-hidden="true"
           >
-          <span class="step-nav-am-contact">
-            <a href="tel:+442045765960">+44 20 4576 5960</a>
-            <a href="mailto:Jildou@loopper.com">Jildou@loopper.com</a>
-          </span>
-        </div>
+            <path
+              d="M12 5l-5 5 5 5"
+              stroke="currentColor"
+              stroke-width="2.4"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          <span
+            >Back to your offer<small
+              >Step 2 · prices and quantities</small
+            ></span
+          >
+        </a>
         <div class="step-nav-next-wrap">
           <span class="step-nav-hint" id="navHint"
             >Tick <b>“I agree with this design”</b> to continue to your
@@ -5592,24 +5625,6 @@
         top.addEventListener("transitionend", setTopHeight);
         onScroll();
         setTopHeight();
-      })();
-    </script>
-    <script>
-      // Hide the bottom-bar account manager once the account manager section is on screen
-      (function () {
-        var mini = document.querySelector(".step-nav-am");
-        var section = document.querySelector(".am-feature");
-        if (!mini || !section) return;
-        function check() {
-          var r = section.getBoundingClientRect();
-          mini.classList.toggle(
-            "is-hidden",
-            r.top < window.innerHeight - 80 && r.bottom > 0,
-          );
-        }
-        window.addEventListener("scroll", check, { passive: true });
-        window.addEventListener("resize", check);
-        check();
       })();
     </script>
     <script>

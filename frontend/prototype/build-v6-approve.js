@@ -25,6 +25,12 @@ nav = nav.replace(/<span class="step-nav-hint"\s*>[\s\S]*?<\/span\s*>/, `<span c
 nav = nav.replace(/<button type="button" class="cta step-nav-next" disabled>\s*<span>Next: Approve design<\/span>/, `<button type="button" class="cta step-nav-next" id="navNext" disabled>
             <span>Next: Your details</span>`);
 if (!nav.includes('id="navNext"')) throw new Error("nav next");
+// account manager info lives in the chat and at the bottom of the page; the bar gets the way back to the offer
+nav = nav.replace(/<div class="step-nav-am"[\s\S]*?<\/span>\s*<\/div>/, `<a class="step-nav-back" href="online-offer-v6.html">
+          <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M12 5l-5 5 5 5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          <span>Back to your offer<small>Step 2 · prices and quantities</small></span>
+        </a>`);
+if (!nav.includes("step-nav-back") || nav.includes("step-nav-am")) throw new Error("nav back");
 const condense = cut("    <script>\n      // Shrink header + progress bar after scrolling", "    </script>", "condense") + "    </script>\n";
 const amHide = cut("    <script>\n      // Hide the bottom-bar account manager", "    </script>", "amhide") + "    </script>\n";
 
@@ -117,6 +123,10 @@ const css = `
       .check-block h3 { margin: 0; font-size: 16px; font-weight: 800; }
       .check-card .agree, .check-card .back-link { margin-left: 18px; margin-right: 18px; }
       .check-card .approve-btn { width: calc(100% - 36px); margin-left: 18px; margin-right: 18px; }
+      .step-nav-back { display: inline-flex; align-items: center; gap: 10px; height: 53px; padding: 0 20px 0 14px; border: 1px solid var(--line); border-radius: 10px; background: #fff; color: var(--ink); text-decoration: none; }
+      .step-nav-back:hover { border-color: #b7c2cd; }
+      .step-nav-back span { display: flex; flex-direction: column; font-size: 16px; line-height: 20px; font-weight: 800; }
+      .step-nav-back small { font-size: 12px; line-height: 15px; font-weight: 600; color: var(--muted); }
       .step-nav .cta:not(:disabled) { background: var(--green); color: #fff; cursor: pointer; }
       .back-link { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 12px; font-size: 14px; font-weight: 700; color: #006ed0; text-decoration: none; }
       .back-link:hover { text-decoration: underline; }
@@ -214,7 +224,6 @@ const body = `
             Continue to your details
             <img src="assets/offer-v3/icon-chevron.svg" width="18" height="18" alt="" />
           </button>
-          <a class="back-link" href="online-offer-v6.html">← Back to step 2 to check your offer</a>
         </aside>
       </div>
 
@@ -306,6 +315,6 @@ const script = `    <script>
     </script>
 `;
 
-const out = head + css + "\n  </head>\n  <body>\n" + top + body + footer + nav + condense + amHide + script + "  </body>\n</html>\n";
+const out = head + css + "\n  </head>\n  <body>\n" + top + body + footer + nav + condense + script + "  </body>\n</html>\n";
 fs.writeFileSync(path.join(dir, "online-offer-v6-approve.html"), out);
 console.log("ok", out.length);
