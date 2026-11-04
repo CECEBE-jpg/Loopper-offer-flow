@@ -4531,6 +4531,38 @@
         display: flex;
         flex-direction: column;
       }
+      /* 2026-11-04: avatar inside the grey box, left of name + title; Reply on the same row */
+      .product .am-note.am-chat.p6-pin {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 6px;
+      }
+      .p6-pin .am-chat-bubble {
+        border-radius: 16px;
+      }
+      .p6-pin .am-chat-bubble::before {
+        display: none;
+      }
+      .pin-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .pin-body {
+        flex: 1;
+        min-width: 0;
+      }
+      .pin-row .pin-reply {
+        flex-shrink: 0;
+        margin-top: 0;
+      }
+      .pin-notice {
+        margin: 0;
+        padding-left: 14px;
+        font-size: 12px;
+        line-height: 16px;
+        color: var(--muted);
+      }
       /* prototype: step 3 label links to the approve-design page */
       .step-link {
         color: inherit;
@@ -5090,14 +5122,20 @@
               </div>
             </div>
             <div class="am-note am-chat p6-pin">
-              <span
-                class="avatar avatar-photo am-chat-avatar"
-                aria-hidden="true"
-              ></span>
               <div class="am-chat-bubble">
-                <p class="am-chat-from"><b>Jildou</b> · your account manager</p>
-                <p class="am-chat-text">I think.. so and so and so</p>
-                <button type="button" class="pin-reply">Reply</button>
+                <div class="pin-row">
+                  <span
+                    class="avatar avatar-photo am-chat-avatar"
+                    aria-hidden="true"
+                  ></span>
+                  <div class="pin-body">
+                    <p class="am-chat-from">
+                      <b>Jildou</b> · your account manager
+                    </p>
+                    <p class="am-chat-text">I think.. so and so and so</p>
+                  </div>
+                  <button type="button" class="pin-reply">Reply</button>
+                </div>
                 <div class="pin-thread"></div>
                 <form class="pin-form" hidden>
                   <input
@@ -5109,6 +5147,10 @@
                   <button type="submit" class="pin-send">Send</button>
                 </form>
               </div>
+              <p class="pin-notice">
+                This is not a chat. Your account manager will send you an email
+                when they reply.
+              </p>
             </div>
           </article>
           <article class="product p6">
