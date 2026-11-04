@@ -59,7 +59,7 @@ const css = `
         position: absolute; top: 50%; left: 50%; width: 96px; height: 172px; transform: translate(-50%, -38%);
         display: grid; place-items: center; border: 1.5px dashed #e3262b;
       }
-      .proof-area img { width: 128px; transform: rotate(-90deg); opacity: 0.7; filter: grayscale(1) brightness(0.55); mix-blend-mode: multiply; }
+      .proof-area img { width: 118px; transform: rotate(-90deg); opacity: 0.7; filter: grayscale(1) brightness(0.55); mix-blend-mode: multiply; }
       .proof-legend { display: flex; flex-wrap: wrap; gap: 8px 32px; margin-top: 14px; font-size: 14px; }
       .proof-legend b { font-weight: 800; }
       .proof-legend .line { display: inline-flex; align-items: center; gap: 10px; }
@@ -101,6 +101,22 @@ const css = `
       .agree small { display: block; font-size: 12px; font-weight: 500; color: var(--muted); }
       .approve-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; height: 52px; margin-top: 12px; border: 0; border-radius: 10px; background: var(--green); color: #fff; font: inherit; font-size: 17px; font-weight: 800; cursor: pointer; }
       .approve-btn:disabled { background: #cfd5db; cursor: not-allowed; }
+      /* right card = chat with the account manager, checklist + approval underneath */
+      .check-card { position: static; padding: 0 0 20px; overflow: hidden; }
+      .chat-head { display: flex; align-items: center; gap: 12px; padding: 14px 18px; background: #324a67; color: #fff; }
+      .chat-head h2 { margin: 0; font-size: 17px; font-weight: 800; color: #fff; }
+      .chat-head small { display: flex; align-items: center; gap: 6px; font-size: 12px; opacity: 0.85; }
+      .chat-avatar { flex: none; width: 40px; height: 40px; border: 2px solid #fff; border-radius: 50%; background: #d0ecff url("assets/offer-v3/account-manager-model.png") no-repeat 46% 18% / 330%; }
+      .online { width: 8px; height: 8px; border-radius: 50%; background: #7ddc4a; }
+      .check-card .change-log { height: 230px; max-height: none; padding: 14px 18px; background: #f7f8fa; }
+      .chat-quick { display: flex; flex-wrap: wrap; gap: 6px; padding: 10px 18px 0; }
+      .chat-quick button { padding: 5px 10px; border: 1px solid #c9e6f2; border-radius: 14px; background: #fff; font: inherit; font-size: 12px; font-weight: 700; color: #00799a; cursor: pointer; }
+      .chat-quick button:hover { border-color: #00aed8; background: #e6f7fc; }
+      .check-card .change-form { padding: 10px 18px 16px; border-top: 0; border-bottom: 1px solid var(--line); }
+      .check-block { padding: 16px 18px 0; }
+      .check-block h3 { margin: 0; font-size: 16px; font-weight: 800; }
+      .check-card .agree, .check-card .back-link { margin-left: 18px; margin-right: 18px; }
+      .check-card .approve-btn { width: calc(100% - 36px); margin-left: 18px; margin-right: 18px; }
       .step-nav .cta:not(:disabled) { background: var(--green); color: #fff; cursor: pointer; }
       .back-link { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 12px; font-size: 14px; font-weight: 700; color: #006ed0; text-decoration: none; }
       .back-link:hover { text-decoration: underline; }
@@ -161,29 +177,34 @@ const body = `
           </div>
         </section>
 
-        <aside class="proof-card check-card" aria-labelledby="checkTitle">
-          <h2 id="checkTitle">Check your proof</h2>
-          <p>Tick each point once you have checked it.</p>
-          <ul class="check-list">
-            <li><label><input type="checkbox" class="check" />Your logo is in the right place</label></li>
-            <li><label><input type="checkbox" class="check" />The print shown is correct</label></li>
-            <li><label><input type="checkbox" class="check" />Spelling and punctuation are correct</label></li>
-          </ul>
+        <aside class="proof-card check-card" aria-labelledby="chatTitle">
+          <!-- Chat with the account manager first; the proof checklist and approval under it -->
+          <div class="chat-head">
+            <span class="chat-avatar" role="img" aria-label="Jildou"></span>
+            <span><h2 id="chatTitle">Chat with Jildou</h2><small><i class="online"></i>Your account manager · replies within 1 hour</small></span>
+          </div>
+          <div class="change-log" id="changeLog" aria-live="polite">
+            <p class="change-msg"><small>Jildou · 10:42</small>Hi Cayna, your mockup design is ready! Please check it on the points below.</p>
+            <p class="change-msg"><small>Jildou · 10:42</small>Would you like something changed, for example the size or position of your logo? Tell me here and I will update your design.</p>
+          </div>
+          <div class="chat-quick" aria-label="Quick replies">
+            <button type="button">Make the logo bigger</button>
+            <button type="button">Move the logo</button>
+            <button type="button">Change the colour</button>
+          </div>
+          <form class="change-form" id="changeForm">
+            <input type="text" placeholder="Type your message…" aria-label="Message to Jildou" />
+            <button type="submit" aria-label="Send"><img src="assets/offer-v3/icon-send.svg" width="18" height="18" alt="" style="filter: brightness(0) invert(1)" /></button>
+          </form>
 
-          <details class="change">
-            <summary>
-              <svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2.5 3.5a1.5 1.5 0 0 1 1.5-1.5h8a1.5 1.5 0 0 1 1.5 1.5v6a1.5 1.5 0 0 1-1.5 1.5H7l-3 2.5V11h0a1.5 1.5 0 0 1-1.5-1.5v-6Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" /></svg>
-              I want to request a change
-              <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 8l5 5 5-5" stroke="#00aed8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" /></svg>
-            </summary>
-            <div class="change-log" id="changeLog" aria-live="polite">
-              <p class="change-msg"><small>Jildou · your account manager</small>Tell me what you would like to change, for example the size or position of your logo.</p>
-            </div>
-            <form class="change-form" id="changeForm">
-              <input type="text" placeholder="Describe your change…" aria-label="Describe your change" />
-              <button type="submit" aria-label="Send"><img src="assets/offer-v3/icon-send.svg" width="18" height="18" alt="" style="filter: brightness(0) invert(1)" /></button>
-            </form>
-          </details>
+          <div class="check-block">
+            <h3 id="checkTitle">Check your proof</h3>
+            <ul class="check-list" aria-labelledby="checkTitle">
+              <li><label><input type="checkbox" class="check" />Your logo is in the right place</label></li>
+              <li><label><input type="checkbox" class="check" />The print shown is correct</label></li>
+              <li><label><input type="checkbox" class="check" />Spelling and punctuation are correct</label></li>
+            </ul>
+          </div>
 
           <label class="agree">
             <input type="checkbox" id="agree" />
@@ -256,6 +277,22 @@ const script = `    <script>
           log.appendChild(p);
           input.value = "";
           log.scrollTop = log.scrollHeight;
+          if (!log.querySelector(".is-reply")) {
+            setTimeout(function () {
+              var r = document.createElement("p");
+              r.className = "change-msg is-reply";
+              r.innerHTML = "<small>Jildou · just now</small>Thanks! I will update your design and let you know when the new version is ready.";
+              log.appendChild(r);
+              log.scrollTop = log.scrollHeight;
+            }, 900);
+          }
+        });
+        document.querySelectorAll(".chat-quick button").forEach(function (b) {
+          b.addEventListener("click", function () {
+            var input = form.querySelector("input");
+            input.value = b.textContent;
+            input.focus();
+          });
         });
         var agree = document.getElementById("agree");
         var approve = document.getElementById("approveBtn"), next = document.getElementById("navNext");
