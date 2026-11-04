@@ -4531,6 +4531,14 @@
         display: flex;
         flex-direction: column;
       }
+      /* prototype: step 3 label links to the approve-design page */
+      .step-link {
+        color: inherit;
+        text-decoration: none;
+      }
+      .step-link:hover {
+        text-decoration: underline;
+      }
     </style>
   </head>
   <body>
@@ -4627,7 +4635,15 @@
           <li class="step step-current" aria-current="step">
             <span class="step-num">2</span>Your offer
           </li>
-          <li class="step"><span class="step-num">3</span>Approve design</li>
+          <li class="step">
+            <span class="step-num">3</span
+            ><a
+              class="step-link"
+              href="online-offer-v6-approve.html"
+              title="Prototype: open step 3"
+              >Approve design</a
+            >
+          </li>
           <li class="step"><span class="step-num">4</span>Your details</li>
           <li class="step"><span class="step-num">5</span>Payment</li>
         </ol>
