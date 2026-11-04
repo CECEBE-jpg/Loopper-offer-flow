@@ -1,0 +1,83 @@
+/* PDP header behaviour, from 04 product-page-prototype-seo/styles.css. */
+.hd .search {
+  position: relative;
+}
+/* --- compact header on scroll ------------------------------------------
+   Scrolling down hides the USP banner and the category bar (desktop) /
+   category chips (mobile); the main bar with logo, search and actions stays.
+   Scrolling up brings them back. script.js toggles .is-compact on .hd.
+   Both ease their height (to / from their measured height, --usp-h /
+   --cat-h set by script.js) and fade, so the header glides instead of
+   snapping. Clipping is only on while collapsed or moving (.hd-anim), so
+   the category bar's shadow and mega menu aren't cut off at rest. */
+.hd .usp,
+.hd .cat {
+  max-height: var(--part-h, none);
+  transition:
+    max-height 0.35s cubic-bezier(0.22, 0.61, 0.36, 1),
+    padding 0.35s cubic-bezier(0.22, 0.61, 0.36, 1),
+    opacity 0.25s ease;
+}
+.hd .usp {
+  --part-h: var(--usp-h, none);
+}
+.hd .cat {
+  --part-h: var(--cat-h, none);
+}
+.hd.is-compact .usp,
+.hd.is-compact .cat {
+  max-height: 0;
+  padding-block: 0; /* .cat has 7/8px padding a zero max-height can't remove */
+  opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.hd.hd-anim .usp,
+.hd.hd-anim .cat {
+  overflow: hidden;
+}
+.hd.is-compact .chips {
+  display: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hd .usp,
+  .hd .cat {
+    transition: none;
+  }
+}
+
+@media (width < 768px) {
+  .hd.hd .bar-in {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    grid-template-areas: "logo actions burger";
+    align-items: center;
+    column-gap: 4px;
+    /* user: 60px bar, every item centred on its middle line (nav.css's
+       vertical margins on logo / actions are dropped below) */
+    height: 60px;
+    padding: 0;
+  }
+  .hd.hd .bar .logo {
+    margin-block: 0;
+  }
+  .hd.hd .actions {
+    margin-block: 0;
+  }
+  .hd.hd .search {
+    display: none;
+  }
+  .hd.hd .burger {
+    margin: 0 8px 0 0;
+  }
+}
+
+/* --- header fixed to the top (see script.js compactHeader) ---------------
+   Fixed instead of sticky, with .hd-spacer holding its full height in the
+   flow, so collapsing the USP banner / category bar on scroll never shifts
+   the page. (Doubled selector: nav.css loads after this file.) */
+.hd.hd {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+}

@@ -12,6 +12,8 @@
       href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="pdp-nav.css" />
+    <link rel="stylesheet" href="pdp-header.css" />
     <style>
       :root {
         --ink: #1c2530;
@@ -51,99 +53,16 @@
       button {
         font: inherit;
       }
-      .wrap {
+      .wrap:where(:not(.hd *):not(.drawer *)) {
         width: 1200px;
         margin: 0 auto;
       }
 
-      /* ---------- site header (as on loopper.com) ---------- */
-      .site-top {
-        background: #fff;
-      }
-      .site-top-inner {
-        display: flex;
-        align-items: center;
-        gap: 32px;
-        height: 64px;
-      }
-      .site-search {
-        display: flex;
-        flex: 1;
-        align-items: center;
-        max-width: 520px;
-        height: 40px;
-        margin-left: 40px;
-        padding: 0 14px;
-        border: 1px solid #c9d1d9;
-        border-radius: 4px;
-        color: #9aa4ae;
-        font-size: 16px;
-      }
-      .site-search svg {
-        margin-left: auto;
-      }
-      .site-tools {
-        display: flex;
-        align-items: center;
-        gap: 22px;
-        margin-left: auto;
-        font-size: 17px;
-      }
-      .site-tools a {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        text-decoration: none;
-      }
-      .site-nav {
-        background: var(--brand);
-      }
-      .site-nav ul {
-        display: flex;
-        justify-content: space-between;
-        margin: 0 auto;
-        padding: 0;
-        list-style: none;
-      }
-      .site-nav a {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        height: 44px;
-        color: #fff;
-        font-size: 17px;
-        font-weight: 600;
-        text-decoration: none;
-      }
-      .usp {
-        background: #fff;
-        border-bottom: 1px solid var(--line);
-      }
-      .usp-inner {
-        display: flex;
-        align-items: center;
-        gap: 110px;
-        height: 40px;
-        font-size: 16px;
-      }
-      .usp-inner span {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-      }
-      .usp-inner img.tp {
-        margin-left: auto;
-      }
-      .usp-check {
-        display: inline-grid;
-        place-items: center;
-        width: 22px;
-        height: 22px;
-        border-radius: 50%;
-        background: var(--green);
-      }
-
       /* ---------- page layout ---------- */
+      /* #offers etc. land below the fixed header */
+      [id] {
+        scroll-margin-top: calc(var(--hd-h, 70px) + 16px);
+      }
       .crumbs {
         padding: 14px 0 12px;
         font-size: 13px;
@@ -168,7 +87,9 @@
       /* ---------- sidebar ---------- */
       .side {
         position: sticky;
-        top: 16px;
+        /* below the fixed PDP header (pdp-header.js publishes its height as --hd-h) */
+        top: calc(var(--hd-h, 70px) + 16px);
+        transition: top 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
         display: flex;
         flex-direction: column;
         gap: 16px;
@@ -615,7 +536,7 @@
         flex-wrap: wrap;
         gap: 16px;
       }
-      .logo {
+      .logo:where(:not(.hd *):not(.drawer *)) {
         width: 150px;
       }
       .logo-thumb {
@@ -711,7 +632,7 @@
         border: 1px solid var(--line);
         border-radius: 12px;
       }
-      .row {
+      .row:where(:not(.hd *):not(.drawer *)) {
         display: grid;
         grid-template-columns: 64px minmax(0, 1.6fr) 1fr 1fr 1fr 120px;
         gap: 16px;
@@ -719,7 +640,8 @@
         padding: 12px 16px;
         font-size: 14px;
       }
-      .row + .row {
+      .row:where(:not(.hd *):not(.drawer *))
+        + .row:where(:not(.hd *):not(.drawer *)) {
         border-top: 1px solid var(--line);
       }
       .row-head {
@@ -731,7 +653,7 @@
         font-weight: 700;
         color: var(--muted);
       }
-      .row .mini {
+      .row:where(:not(.hd *):not(.drawer *)) .mini {
         display: grid;
         place-items: center;
         width: 56px;
@@ -740,22 +662,22 @@
         border-radius: 8px;
         background: #fff;
       }
-      .row .mini img {
+      .row:where(:not(.hd *):not(.drawer *)) .mini img {
         max-width: 70%;
         max-height: 85%;
       }
-      .row b {
+      .row:where(:not(.hd *):not(.drawer *)) b {
         display: block;
         font-size: 15px;
       }
-      .row small {
+      .row:where(:not(.hd *):not(.drawer *)) small {
         font-size: 12px;
         color: var(--muted);
       }
-      .row .btn {
+      .row:where(:not(.hd *):not(.drawer *)) .btn {
         justify-self: end;
       }
-      .row.is-cancelled {
+      .row:where(:not(.hd *):not(.drawer *)).is-cancelled {
         color: var(--muted);
       }
       .empty {
@@ -807,10 +729,10 @@
         clip: rect(0 0 0 0);
         white-space: nowrap;
       }
-      .row .pill-blue {
+      .row:where(:not(.hd *):not(.drawer *)) .pill-blue {
         background: var(--blue-50);
       }
-      .row .btn {
+      .row:where(:not(.hd *):not(.drawer *)) .btn {
         white-space: nowrap;
       }
       /* ---------- states: no logo yet / logo received ---------- */
@@ -913,186 +835,581 @@
     </style>
   </head>
   <body>
-    <!-- Site header -->
-    <header>
-      <div class="site-top">
-        <div class="wrap site-top-inner">
-          <img
-            src="assets/offer-v3/loopper-logo.svg"
-            width="165"
-            height="36"
-            alt="Loopper"
+    <!-- Site header = the PDP navigation (04 product-page-prototype-seo: nav.css / nav.js,
+         here pdp-nav.css / pdp-nav.js + pdp-header.css / pdp-header.js) -->
+    <!-- SVG icon sprite -->
+    <svg width="0" height="0" style="position: absolute" aria-hidden="true">
+      <defs>
+        <symbol id="i-check" viewBox="0 0 24 24">
+          <path d="M4 12.5l5 5L20 6.5" />
+        </symbol>
+        <symbol id="i-x" viewBox="0 0 24 24">
+          <path d="M6 6l12 12M18 6L6 18" />
+        </symbol>
+        <symbol id="i-search" viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="6.5" />
+          <path d="M16 16l4.5 4.5" />
+        </symbol>
+        <symbol id="i-phone" viewBox="0 0 24 24">
+          <path
+            d="M5 4h3.5l1.8 4.5-2.3 1.4a11 11 0 0 0 6.1 6.1l1.4-2.3L20 15.5V19a1.5 1.5 0 0 1-1.6 1.5A16.5 16.5 0 0 1 3.5 5.6 1.5 1.5 0 0 1 5 4z"
           />
-          <div class="site-search" role="search">
-            Search for product…
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
-              fill="none"
-              aria-hidden="true"
+        </symbol>
+        <symbol id="i-user" viewBox="0 0 24 24">
+          <circle cx="12" cy="8" r="4" />
+          <path d="M4.5 20.5a7.5 7.5 0 0 1 15 0" />
+        </symbol>
+        <symbol id="i-cart" viewBox="0 0 24 24">
+          <path d="M3 4h2.5l2.2 11h10.6L20.5 7.5H7" />
+          <circle cx="9.5" cy="19.5" r="1.3" />
+          <circle cx="17" cy="19.5" r="1.3" />
+        </symbol>
+        <symbol id="i-menu" viewBox="0 0 24 24">
+          <path d="M4 6.5h16M4 12h16M4 17.5h16" />
+        </symbol>
+        <symbol id="i-chev-d" viewBox="0 0 24 24">
+          <path d="M6 9l6 6 6-6" />
+        </symbol>
+        <symbol id="i-chev-r" viewBox="0 0 24 24">
+          <path d="M9 6l6 6-6 6" />
+        </symbol>
+        <symbol id="i-chev-l" viewBox="0 0 24 24">
+          <path d="M15 6l-6 6 6 6" />
+        </symbol>
+        <symbol id="i-arrow" viewBox="0 0 24 24">
+          <path d="M5 12h14M13 6l6 6-6 6" />
+        </symbol>
+        <symbol id="i-grid" viewBox="0 0 24 24">
+          <rect x="4" y="4" width="6.5" height="6.5" rx="1.5" />
+          <rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5" />
+          <rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5" />
+          <rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5" />
+        </symbol>
+        <symbol id="i-az" viewBox="0 0 24 24">
+          <path d="M4 18l3.5-10L11 18M5.2 14.5h4.6M14 8h6l-6 10h6" />
+        </symbol>
+        <symbol id="i-bags" viewBox="0 0 24 24">
+          <path d="M5.5 8h13l-1 12.5h-11z" />
+          <path d="M9 10V6.5a3 3 0 0 1 6 0V10" />
+        </symbol>
+        <symbol id="i-brands" viewBox="0 0 24 24">
+          <path
+            d="M12 3.5l2.5 5.3 5.8.7-4.3 4 1.1 5.8L12 16.5l-5.1 2.8L8 13.5l-4.3-4 5.8-.7z"
+          />
+        </symbol>
+        <symbol id="i-clothing" viewBox="0 0 24 24">
+          <path
+            d="M9 4L4 6.5 5.5 11 8 10v10h8V10l2.5 1L20 6.5 15 4a3 3 0 0 1-6 0z"
+          />
+        </symbol>
+        <symbol id="i-food-drinkware" viewBox="0 0 24 24">
+          <path d="M5 9h11v6a4.5 4.5 0 0 1-4.5 4.5h-2A4.5 4.5 0 0 1 5 15z" />
+          <path
+            d="M16 10.5h1.5a2.5 2.5 0 0 1 0 5H16M9 3.5c-.8 1 .8 2 0 3M12.5 3.5c-.8 1 .8 2 0 3"
+          />
+        </symbol>
+        <symbol id="i-gadgets" viewBox="0 0 24 24">
+          <rect x="7" y="3" width="10" height="18" rx="2.5" />
+          <path d="M11 17.5h2" />
+        </symbol>
+        <symbol id="i-giveaways" viewBox="0 0 24 24">
+          <rect x="4" y="10" width="16" height="10.5" rx="1.5" />
+          <path
+            d="M3 7h18v3H3zM12 7v13.5M12 7C10.5 3 6.5 3.5 7.5 6.5M12 7c1.5-4 5.5-3.5 4.5-.5"
+          />
+        </symbol>
+        <symbol id="i-office" viewBox="0 0 24 24">
+          <path d="M4.5 19.5l1-4.5L16 4.5l3.5 3.5L9 18.5z" />
+          <path d="M13.5 7l3.5 3.5" />
+        </symbol>
+        <symbol id="i-outdoor" viewBox="0 0 24 24">
+          <path d="M3 19.5l6.5-10 4 6 2.5-3.5 5 7.5z" />
+          <circle cx="17" cy="6" r="2" />
+        </symbol>
+        <symbol id="i-sustainable" viewBox="0 0 24 24">
+          <path d="M5 19c0-8.5 5.5-14 15-14 0 9.5-5.5 15-14 15" />
+          <path d="M5 19l8.5-8.5" />
+        </symbol>
+        <symbol id="i-themes" viewBox="0 0 24 24">
+          <path
+            d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5L18 18M18 6l-2.5 2.5M8.5 15.5L6 18"
+          />
+        </symbol>
+        <symbol id="i-wellness" viewBox="0 0 24 24">
+          <path
+            d="M12 20s-7.5-4.6-7.5-10.2A4.2 4.2 0 0 1 12 7.3a4.2 4.2 0 0 1 7.5 2.5C19.5 15.4 12 20 12 20z"
+          />
+        </symbol>
+        <symbol id="i-spark" viewBox="0 0 24 24">
+          <path d="M12 3l2 6 6 2-6 2-2 6-2-6-6-2 6-2z" />
+        </symbol>
+        <symbol id="i-pen-tool" viewBox="0 0 24 24">
+          <path d="M12 19l7-7 3 3-7 7zM18 13l-1.5-7.5L2 2l3.5 14.5L13 18z" />
+          <circle cx="11" cy="11" r="2" />
+        </symbol>
+        <symbol id="i-chat" viewBox="0 0 24 24">
+          <path d="M4 5h16v11H9l-5 4z" />
+        </symbol>
+        <symbol id="i-stories" viewBox="0 0 24 24">
+          <path d="M4 5h11a3 3 0 0 1 3 3v11H7a3 3 0 0 1-3-3z" />
+          <path d="M8 9h6M8 12.5h6" />
+        </symbol>
+        <symbol id="i-globe" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="8.5" />
+          <path
+            d="M3.5 12h17M12 3.5c2.5 2.5 3.5 5.5 3.5 8.5s-1 6-3.5 8.5c-2.5-2.5-3.5-5.5-3.5-8.5s1-6 3.5-8.5z"
+          />
+        </symbol>
+      </defs>
+    </svg>
+
+    <header class="hd" id="hd">
+      <div class="usp" id="usp">
+        <div class="wrap">
+          <div class="usp-left">
+            <span class="usp-item"
+              ><span class="usp-ic"
+                ><img
+                  src="assets/nav/v2-usp-check.svg"
+                  width="18.0604"
+                  height="14.0691"
+                  alt="" /></span
+              >23 years of experience</span
             >
-              <circle
-                cx="9"
-                cy="9"
-                r="6.5"
-                stroke="#9aa4ae"
-                stroke-width="1.8"
-              />
-              <path
-                d="M14 14l4 4"
-                stroke="#9aa4ae"
-                stroke-width="1.8"
-                stroke-linecap="round"
-              />
-            </svg>
+            <span class="usp-item"
+              ><span class="usp-ic"
+                ><img
+                  src="assets/nav/v2-usp-check.svg"
+                  width="18.0604"
+                  height="14.0691"
+                  alt="" /></span
+              >Free digital design</span
+            >
+            <span class="usp-item"
+              ><span class="usp-ic"
+                ><img
+                  src="assets/nav/v2-usp-check.svg"
+                  width="18.0604"
+                  height="14.0691"
+                  alt="" /></span
+              >Personal service</span
+            >
           </div>
-          <div class="site-tools">
-            <span>🇪🇺 EN</span>
-            <span>€</span>
-            <a href="tel:+442045765960">+44 20 4576 5960</a>
-            <a href="#" aria-label="My account" aria-current="page">
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                aria-hidden="true"
-              >
-                <circle
-                  cx="12"
-                  cy="8"
-                  r="4"
-                  stroke="#5db12a"
-                  stroke-width="2"
-                />
-                <path
-                  d="M4 20c1.5-4 4.5-6 8-6s6.5 2 8 6"
-                  stroke="#5db12a"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                />
-              </svg>
-            </a>
-            <a href="#" aria-label="Shopping cart">
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                aria-hidden="true"
-              >
-                <path
-                  d="M3 4h2.5l2.2 11h10.6L20.5 7H7"
-                  stroke="#1c2530"
-                  stroke-width="1.9"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <circle cx="9" cy="19.5" r="1.5" fill="#1c2530" />
-                <circle cx="17" cy="19.5" r="1.5" fill="#1c2530" />
-              </svg>
-            </a>
-          </div>
+          <a
+            class="usp-tp"
+            href="https://www.trustpilot.com/review/loopper.com"
+            rel="noopener"
+            ><img
+              src="assets/nav/trustpilot-rating@2x.png"
+              width="315"
+              height="18"
+              alt="Trustpilot 4.7/5 (1,282 reviews)"
+          /></a>
+          <button
+            class="usp-close"
+            id="uspClose"
+            aria-label="Hide these messages"
+          >
+            <img
+              src="assets/nav/v2-usp-close.svg"
+              width="15.4286"
+              height="15.4286"
+              alt=""
+            />
+          </button>
         </div>
       </div>
-      <nav class="site-nav" aria-label="Product categories">
-        <ul class="wrap">
-          <li>
-            <a href="#"
-              ><svg
-                width="20"
-                height="16"
-                viewBox="0 0 20 16"
-                aria-hidden="true"
+
+      <div class="bar">
+        <div class="wrap bar-in">
+          <a class="logo" href="/" aria-label="Loopper home"
+            ><img
+              class="d-only d-logo"
+              src="assets/nav/v2-logo.svg"
+              width="165"
+              height="35.8333"
+              alt="" /><img
+              class="m-only m-logo"
+              src="assets/nav/logo.svg"
+              width="102"
+              height="22"
+              alt=""
+          /></a>
+
+          <form class="search" role="search" onsubmit="return false;">
+            <label for="q" class="vh">Search products</label>
+            <input
+              id="q"
+              type="search"
+              placeholder="What are you looking for?"
+              autocomplete="off"
+            />
+            <button type="submit" aria-label="Search">
+              <img src="assets/nav/search.svg" width="34" height="28" alt="" />
+            </button>
+          </form>
+
+          <div class="actions">
+            <div class="lang">
+              <button
+                class="act act-lang"
+                id="langBtn"
+                type="button"
+                aria-haspopup="true"
+                aria-expanded="false"
+                aria-controls="langMenu"
+                aria-label="Country: United Kingdom. Change country"
               >
-                <path
-                  d="M1 2h18M1 8h18M1 14h18"
-                  stroke="#fff"
-                  stroke-width="2.2"
-                  stroke-linecap="round"
-                /></svg
-              >Products A-Z</a
+                <span
+                  class="lang-flag"
+                  style="
+                    background-image: url(&quot;https://www.loopper.co.uk/storage/flags/gb.svg&quot;);
+                  "
+                ></span
+                ><span class="lang-code">GB</span>
+              </button>
+              <ul class="lang-menu" id="langMenu" hidden>
+                <li>
+                  <a
+                    href="https://www.loopper.co.uk/"
+                    hreflang="en-GB"
+                    aria-current="true"
+                    ><span class="cur-opt"
+                      ><span
+                        class="lang-flag lang-flag-lg"
+                        style="
+                          background-image: url(&quot;https://www.loopper.co.uk/storage/flags/gb.svg&quot;);
+                        "
+                      ></span
+                      ><span class="lang-name">United Kingdom</span></span
+                    ><svg
+                      class="cur-check"
+                      width="14"
+                      height="10"
+                      viewBox="0 0 14 10"
+                      fill="none"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M1.5 5.2L5.2 8.5L12.5 1.5"
+                        stroke="#00AED8"
+                        stroke-width="2.4"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      /></svg
+                  ></a>
+                </li>
+                <li>
+                  <a href="https://www.loopper.nl/" hreflang="nl"
+                    ><span class="cur-opt"
+                      ><span
+                        class="lang-flag lang-flag-lg"
+                        style="
+                          background-image: url(&quot;https://www.loopper.co.uk/storage/flags/nl.svg&quot;);
+                        "
+                      ></span
+                      ><span class="lang-name">Nederlands</span></span
+                    ><svg
+                      class="cur-check"
+                      width="14"
+                      height="10"
+                      viewBox="0 0 14 10"
+                      fill="none"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M1.5 5.2L5.2 8.5L12.5 1.5"
+                        stroke="#00AED8"
+                        stroke-width="2.4"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      /></svg
+                  ></a>
+                </li>
+                <li>
+                  <a href="https://www.loopper.com/" hreflang="en"
+                    ><span class="cur-opt"
+                      ><span
+                        class="lang-flag lang-flag-lg"
+                        style="
+                          background-image: url(&quot;https://www.loopper.co.uk/storage/flags/en.svg&quot;);
+                        "
+                      ></span
+                      ><span class="lang-name">English</span></span
+                    ><svg
+                      class="cur-check"
+                      width="14"
+                      height="10"
+                      viewBox="0 0 14 10"
+                      fill="none"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M1.5 5.2L5.2 8.5L12.5 1.5"
+                        stroke="#00AED8"
+                        stroke-width="2.4"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      /></svg
+                  ></a>
+                </li>
+                <li>
+                  <a href="https://www.loopper.fr/" hreflang="fr"
+                    ><span class="cur-opt"
+                      ><span
+                        class="lang-flag lang-flag-lg"
+                        style="
+                          background-image: url(&quot;https://www.loopper.co.uk/storage/flags/fr.svg&quot;);
+                        "
+                      ></span
+                      ><span class="lang-name">Français</span></span
+                    ><svg
+                      class="cur-check"
+                      width="14"
+                      height="10"
+                      viewBox="0 0 14 10"
+                      fill="none"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M1.5 5.2L5.2 8.5L12.5 1.5"
+                        stroke="#00AED8"
+                        stroke-width="2.4"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      /></svg
+                  ></a>
+                </li>
+                <li>
+                  <a href="https://www.loopper.de/" hreflang="de"
+                    ><span class="cur-opt"
+                      ><span
+                        class="lang-flag lang-flag-lg"
+                        style="
+                          background-image: url(&quot;https://www.loopper.co.uk/storage/flags/de.svg&quot;);
+                        "
+                      ></span
+                      ><span class="lang-name">Deutsch</span></span
+                    ><svg
+                      class="cur-check"
+                      width="14"
+                      height="10"
+                      viewBox="0 0 14 10"
+                      fill="none"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M1.5 5.2L5.2 8.5L12.5 1.5"
+                        stroke="#00AED8"
+                        stroke-width="2.4"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      /></svg
+                  ></a>
+                </li>
+                <li>
+                  <a href="https://www.loopper.com/it/" hreflang="it"
+                    ><span class="cur-opt"
+                      ><span
+                        class="lang-flag lang-flag-lg"
+                        style="
+                          background-image: url(&quot;https://www.loopper.co.uk/storage/flags/it.svg&quot;);
+                        "
+                      ></span
+                      ><span class="lang-name">Italiano</span></span
+                    ><svg
+                      class="cur-check"
+                      width="14"
+                      height="10"
+                      viewBox="0 0 14 10"
+                      fill="none"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M1.5 5.2L5.2 8.5L12.5 1.5"
+                        stroke="#00AED8"
+                        stroke-width="2.4"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      /></svg
+                  ></a>
+                </li>
+                <li>
+                  <a href="https://www.loopper.com/es/" hreflang="es"
+                    ><span class="cur-opt"
+                      ><span
+                        class="lang-flag lang-flag-lg"
+                        style="
+                          background-image: url(&quot;https://www.loopper.co.uk/storage/flags/es.svg&quot;);
+                        "
+                      ></span
+                      ><span class="lang-name">Español</span></span
+                    ><svg
+                      class="cur-check"
+                      width="14"
+                      height="10"
+                      viewBox="0 0 14 10"
+                      fill="none"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M1.5 5.2L5.2 8.5L12.5 1.5"
+                        stroke="#00AED8"
+                        stroke-width="2.4"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      /></svg
+                  ></a>
+                </li>
+              </ul>
+            </div>
+            <div class="lang cur">
+              <button
+                class="act act-cur"
+                id="curBtn"
+                type="button"
+                aria-haspopup="true"
+                aria-expanded="false"
+                aria-controls="curMenu"
+                aria-label="Currency: GBP. Change currency"
+              >
+                <span class="cur-sym" id="curSym" aria-hidden="true">£</span>
+              </button>
+              <ul class="lang-menu" id="curMenu" hidden>
+                <li>
+                  <a href="#" data-cur="GBP" data-sym="£" aria-current="true"
+                    ><span class="cur-opt"
+                      ><span class="cur-badge">£</span>GBP
+                      <span class="cur-name">· British pound</span></span
+                    ><svg
+                      class="cur-check"
+                      width="14"
+                      height="10"
+                      viewBox="0 0 14 10"
+                      fill="none"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M1.5 5.2L5.2 8.5L12.5 1.5"
+                        stroke="#00AED8"
+                        stroke-width="2.4"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      /></svg
+                  ></a>
+                </li>
+                <li>
+                  <a href="#" data-cur="EUR" data-sym="€"
+                    ><span class="cur-opt"
+                      ><span class="cur-badge">€</span>EUR
+                      <span class="cur-name">· Euro</span></span
+                    ><svg
+                      class="cur-check"
+                      width="14"
+                      height="10"
+                      viewBox="0 0 14 10"
+                      fill="none"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M1.5 5.2L5.2 8.5L12.5 1.5"
+                        stroke="#00AED8"
+                        stroke-width="2.4"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      /></svg
+                  ></a>
+                </li>
+              </ul>
+            </div>
+            <a
+              class="act act-phone"
+              href="tel:+442045765960"
+              aria-label="Call us on +44 20 4576 5960"
+              ><span class="m-ic m-phone"
+                ><img
+                  src="assets/nav/phone.svg"
+                  width="27.0611"
+                  height="28"
+                  alt="" /></span
+              ><span class="ph-num d-only">+44 20 4576 5960</span></a
             >
-          </li>
-          <li><a href="#">Bags</a></li>
-          <li><a href="#">Brands</a></li>
-          <li><a href="#">Clothing</a></li>
-          <li><a href="#">Food &amp; Drinkware</a></li>
-          <li><a href="#">Gadgets</a></li>
-          <li><a href="#">Giveaways</a></li>
-          <li><a href="#">Office</a></li>
-          <li><a href="#">Outdoor</a></li>
-          <li><a href="#">Sustainable</a></li>
-          <li><a href="#">Themes</a></li>
-        </ul>
+            <a class="act" href="#" aria-label="My account"
+              ><span class="m-ic m-account"
+                ><img
+                  src="assets/nav/account.svg"
+                  width="34"
+                  height="29.6186"
+                  alt="" /></span
+            ></a>
+            <a class="act" href="#" aria-label="Basket"
+              ><span class="ic-wrap"
+                ><span class="m-ic m-cart"
+                  ><img
+                    src="assets/nav/cart.svg"
+                    width="32.9824"
+                    height="25.6872"
+                    alt="" /></span></span
+            ></a>
+          </div>
+
+          <button
+            class="burger"
+            id="burger"
+            aria-label="Open menu"
+            aria-expanded="false"
+            aria-controls="drawer"
+          >
+            <img
+              src="assets/nav/menu.svg"
+              width="33.8253"
+              height="33.8253"
+              alt=""
+            />
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile: category chips -->
+      <nav class="chips" aria-label="Popular categories">
+        <ul id="chips"></ul>
       </nav>
-      <div class="usp">
-        <div class="wrap usp-inner">
-          <span
-            ><i class="usp-check"
-              ><svg
-                width="12"
-                height="12"
-                viewBox="0 0 12 12"
-                fill="none"
-                aria-hidden="true"
-              >
-                <path
-                  d="M2.2 6.3 4.8 8.8 9.8 3.4"
-                  stroke="#fff"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                /></svg></i
-            >24 years of experience</span
-          >
-          <span
-            ><i class="usp-check"
-              ><svg
-                width="12"
-                height="12"
-                viewBox="0 0 12 12"
-                fill="none"
-                aria-hidden="true"
-              >
-                <path
-                  d="M2.2 6.3 4.8 8.8 9.8 3.4"
-                  stroke="#fff"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                /></svg></i
-            >Free digital design</span
-          >
-          <span
-            ><i class="usp-check"
-              ><svg
-                width="12"
-                height="12"
-                viewBox="0 0 12 12"
-                fill="none"
-                aria-hidden="true"
-              >
-                <path
-                  d="M2.2 6.3 4.8 8.8 9.8 3.4"
-                  stroke="#fff"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                /></svg></i
-            >Personal service</span
-          >
-          <img
-            class="tp"
-            src="assets/offer-v3/trustpilot-rating.png"
-            width="315"
-            height="18"
-            alt="Trustpilot 4.7/5 (1,308 reviews)"
-          />
+
+      <!-- Desktop: category bar + mega menu -->
+      <nav class="cat" id="cat" aria-label="Product categories">
+        <div class="wrap"><ul class="cat-list" id="catList"></ul></div>
+        <div class="mega" id="mega" hidden>
+          <div class="wrap mega-in" id="megaIn"></div>
         </div>
-      </div>
+      </nav>
     </header>
+
+    <div class="scrim" id="scrim" hidden></div>
+
+    <!-- Mobile drawer -->
+    <div
+      class="drawer"
+      id="drawer"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Menu"
+    >
+      <div class="dr-top">
+        <span class="logo" aria-hidden="true"
+          ><img src="assets/nav/logo.svg" width="102" height="22" alt=""
+        /></span>
+        <button class="dr-close" id="drClose" aria-label="Close menu">
+          <!-- same X as the photo viewer and print previews (user) -->
+          <img
+            src="assets/nav/overlay-close.svg"
+            width="29"
+            height="28"
+            alt=""
+          />
+        </button>
+      </div>
+      <div class="dr-stage" id="drStage"></div>
+    </div>
 
     <div class="wrap">
       <p class="crumbs"><a href="#">Home</a> / My account</p>
@@ -1831,5 +2148,7 @@
         });
       })();
     </script>
+    <script src="pdp-nav.js"></script>
+    <script src="pdp-header.js"></script>
   </body>
 </html>
