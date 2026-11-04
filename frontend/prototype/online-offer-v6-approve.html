@@ -5120,6 +5120,50 @@
         width: 560px;
         margin: 0;
       }
+      /* PMS / colour choice (as on the live check-design page) */
+      .pms {
+        margin: 20px 0 0;
+        padding: 0;
+        border: 0;
+      }
+      .pms legend {
+        margin-bottom: 8px;
+        padding: 0;
+        font-size: 15px;
+        font-weight: 800;
+        color: var(--ink);
+      }
+      .pms-opt {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 8px;
+        padding: 10px 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        font-size: 14px;
+        cursor: pointer;
+      }
+      .pms-opt:has(input:checked) {
+        border-color: var(--green);
+        background: #f3faee;
+      }
+      .pms-opt input {
+        accent-color: var(--green);
+      }
+      .pms-code {
+        width: 100%;
+        height: 40px;
+        margin-top: 8px;
+        padding: 0 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        font: inherit;
+        font-size: 14px;
+      }
+      .pms-code[hidden] {
+        display: none;
+      }
     </style>
   </head>
   <body>
@@ -5225,7 +5269,15 @@
           <li class="step step-current" aria-current="step">
             <span class="step-num">3</span>Approve design
           </li>
-          <li class="step"><span class="step-num">4</span>Your details</li>
+          <li class="step">
+            <span class="step-num">4</span
+            ><a
+              class="step-link"
+              href="online-offer-v6-details.html"
+              title="Prototype: open step 4"
+              >Your details</a
+            >
+          </li>
           <li class="step"><span class="step-num">5</span>Payment</li>
         </ol>
       </div>
@@ -5252,14 +5304,21 @@
         <div>
           <h1 id="proofTitle">Your mockup design is ready</h1>
           <p>
-            We made a digital preview based on the file you sent. It is a
-            preview, so it may not be 100% sharp. The dashed line around your
-            logo shows the maximum print area; it will not be printed.
+            We have created a digital preview based on the file you provided.
+            The preview may not be 100% sharp, but don’t worry, it is only a
+            preview! Do you see a line or dotted line around your logo? It shows
+            the maximum print area; the lines will not be printed.
           </p>
           <p>
-            Once you approve the design, you can still send us your logo as a
-            vector file (EPS, AI, SVG or PDF). No vector file? We will make one
-            for you, free of charge.
+            Once you agree with the design, you can submit your logo as a vector
+            file (EPS, AI, SVG, PDF). Don’t have a vector file? No problem! We
+            will gladly create one for you free of charge, based on the file you
+            already sent. A vector file ensures razor-sharp quality on your
+            promotional items.
+          </p>
+          <p>
+            We are ready to help and make sure everything is perfect. Let us
+            know if you have any questions or need extra support!
           </p>
         </div>
       </section>
@@ -5326,9 +5385,29 @@
           <div class="proof-legend">
             <span><b>Print option:</b> Engraving, front (50×90 mm)</span>
             <span class="line"
-              >Maximum print area (this line is not printed)</span
+              >Maximum print area (this line will not be printed)</span
             >
           </div>
+
+          <fieldset class="pms">
+            <legend>PMS / Colour</legend>
+            <label class="pms-opt"
+              ><input type="radio" name="pms" checked />No, let Loopper find a
+              matching colour</label
+            >
+            <label class="pms-opt"
+              ><input type="radio" name="pms" id="pmsYes" />Yes, I have a
+              specific PMS colour</label
+            >
+            <input
+              type="text"
+              class="pms-code"
+              id="pmsCode"
+              placeholder="PMS code, for example PMS 300 C"
+              aria-label="Your PMS colour code"
+              hidden
+            />
+          </fieldset>
 
           <div class="vector">
             <h3>Vector logo</h3>
@@ -5344,7 +5423,7 @@
                   height="16"
                   alt=""
                   style="transform: rotate(180deg)"
-                />Upload vector logo <small>.svg, .ai, .pdf, .eps</small>
+                />Upload your vector logo <small>.svg, .ai, .pdf, .eps</small>
               </button>
               <input
                 type="file"
@@ -5363,9 +5442,10 @@
             </div>
             <p class="vector-file" id="vectorFileName" hidden></p>
             <p class="vector-note" id="vectorNote" hidden>
-              <b>We will vectorise your logo.</b> Our design team redraws your
-              pixel logo by hand as a vector. This is part of our service. We
-              aim for perfection, but with very complex logos small differences
+              <b>We will vectorise your logo.</b> Our design team can hand-draw
+              your pixel logo as a vector. It is part of our service. We aim for
+              perfection, but we want to be honest about the complexity of this
+              process: when redrawing thousands of pixels, tiny imperfections
               can occur.
             </p>
           </div>
@@ -5417,24 +5497,26 @@
           </form>
 
           <div class="check-block">
-            <h3 id="checkTitle">Check your proof</h3>
+            <h3 id="checkTitle">
+              Check the print proof for the following points
+            </h3>
             <ul class="check-list" aria-labelledby="checkTitle">
               <li>
                 <label
-                  ><input type="checkbox" class="check" />Your logo is in the
-                  right place</label
+                  ><input type="checkbox" class="check" />Is your logo in the
+                  right position?</label
                 >
               </li>
               <li>
                 <label
-                  ><input type="checkbox" class="check" />The print shown is
-                  correct</label
+                  ><input type="checkbox" class="check" />Is the displayed print
+                  correct?</label
                 >
               </li>
               <li>
                 <label
-                  ><input type="checkbox" class="check" />Spelling and
-                  punctuation are correct</label
+                  ><input type="checkbox" class="check" />Are the spelling and
+                  punctuation correct?</label
                 >
               </li>
             </ul>
@@ -5444,12 +5526,13 @@
             <input type="checkbox" id="agree" />
             <span
               >I agree with this design<small
-                >After your approval we turn it into a final print proof.</small
+                >Upon approval, the design will be converted into a final
+                proof.</small
               ></span
             >
           </label>
           <button type="button" class="approve-btn" id="approveBtn" disabled>
-            Continue to your details
+            Go to my details / finalise order
             <img
               src="assets/offer-v3/icon-chevron.svg"
               width="18"
@@ -5474,9 +5557,10 @@
             <p class="eyebrow">Your account manager</p>
           </div>
           <p class="am-feature-quote">
-            “This is where the fun starts! Pick the design you love. Once you
-            approve it, we turn it into a final print proof. Have a vector logo?
-            Upload it here to speed up your order.”
+            “On this page, the real fun begins! Choose the design that makes
+            your heart beat faster. Once you accept it, we turn it into a final
+            proof. Have a vector logo (AI, EPS, SVG, PDF)? Upload it here to
+            speed up your order.”
           </p>
           <p class="am-feature-contact">
             <a href="tel:+442045765960">+44 20 4576 5960</a>
@@ -5712,6 +5796,25 @@
             .classList.toggle("is-ok", agree.checked);
         });
       })();
+    </script>
+    <script>
+      // Prototype: approved design continues to step 4 (Your details)
+      ["approveBtn", "approveBtn2", "navNext"].forEach(function (id) {
+        var b = document.getElementById(id);
+        if (b)
+          b.addEventListener("click", function () {
+            if (!b.disabled) location.href = "online-offer-v6-details.html";
+          });
+      });
+    </script>
+    <script>
+      // PMS: show the code field only for "Yes, I have a specific PMS colour"
+      document.querySelectorAll('input[name="pms"]').forEach(function (r) {
+        r.addEventListener("change", function () {
+          document.getElementById("pmsCode").hidden =
+            !document.getElementById("pmsYes").checked;
+        });
+      });
     </script>
   </body>
 </html>
