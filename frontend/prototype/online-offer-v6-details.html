@@ -5912,6 +5912,289 @@
       .det-terms.is-invalid {
         color: #c4141b;
       }
+
+      /* Narrower windows: fixed desktop widths give way to the window */
+      @media (width < 1440px) {
+        .site-header-inner {
+          width: auto;
+          max-width: 1200px;
+          padding-left: 16px;
+          padding-right: 16px;
+        }
+        .top .stepper {
+          width: auto;
+          max-width: 1212px;
+          padding-left: 16px;
+          padding-right: 16px;
+        }
+        .brands {
+          width: auto;
+          margin-left: 16px;
+          margin-right: 16px;
+        }
+        .brands-logos {
+          flex: 1 1 0;
+          width: auto;
+          min-width: 0;
+          justify-content: flex-start;
+        }
+        .bottom-bar {
+          width: auto;
+          padding: 16px;
+          gap: 16px;
+        }
+        .pay-logos {
+          flex: 0 1 auto;
+          min-width: 0;
+          height: auto;
+        }
+        .tp-rating {
+          flex: none;
+        }
+        .step-nav-inner {
+          width: auto;
+          max-width: 1200px;
+          padding-left: 16px;
+          padding-right: 16px;
+        }
+      }
+
+      /* Small tablets and phones: header on two rows, order as cards */
+      @media (width < 992px) {
+        .usp-bar {
+          padding: 8px 16px;
+        }
+        .usp-list {
+          justify-content: center;
+        }
+        .usp-list li {
+          width: auto;
+        }
+        .usp-bar > img {
+          display: none;
+        }
+        .top .site-header-inner,
+        .top.is-condensed .site-header-inner {
+          flex-wrap: wrap;
+          height: auto;
+          gap: 8px 16px;
+          padding-top: 10px;
+          padding-bottom: 10px;
+        }
+        .site-header-inner > img,
+        .top.is-condensed .site-header-inner > img {
+          width: 120px;
+          height: auto;
+        }
+        .header-client {
+          flex: 1 1 0;
+          width: auto;
+          min-width: 0;
+          justify-content: flex-end;
+        }
+        .header-client {
+          border-left: 0;
+          padding-left: 0;
+        }
+        .header-title {
+          display: none;
+        }
+        .header-facts {
+          flex: 1 0 100%;
+          width: auto;
+        }
+      }
+      @media (width <= 900px) {
+        .det-grid,
+        .det-bottom {
+          grid-template-columns: minmax(0, 1fr);
+        }
+        /* the column headings move into each value */
+        .det-table,
+        .det-table tbody {
+          display: block;
+        }
+        .det-table tr {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 12px;
+          padding: 16px 0;
+          border-bottom: 1px solid var(--line);
+        }
+        .det-table td {
+          display: block;
+          padding: 0;
+          border: 0;
+          text-align: left;
+        }
+        .det-table td:first-child {
+          grid-column: 1 / -1;
+        }
+        .det-table td:last-child {
+          text-align: right;
+        }
+        .det-table td:not(:first-child)::before {
+          display: block;
+          margin-bottom: 2px;
+          font-size: 12px;
+          font-weight: 700;
+          color: var(--muted);
+        }
+        .det-table td:nth-child(2)::before {
+          content: "Quantity";
+        }
+        .det-table td:nth-child(3)::before {
+          content: "Per piece";
+        }
+        .det-table td:nth-child(4)::before {
+          content: "Subtotal";
+        }
+      }
+
+      /* Phones */
+      @media (width < 768px) {
+        .usp-bar {
+          justify-content: center;
+          padding: 8px 16px;
+        }
+        .usp-list {
+          flex: none;
+          justify-content: center;
+        }
+        .usp-list li {
+          width: auto;
+        }
+        .usp-list li:not(:first-child),
+        .usp-bar > img {
+          display: none;
+        }
+
+        .header-facts dt {
+          font-size: 12px;
+          line-height: 15px;
+        }
+        .header-facts dd {
+          font-size: 14px;
+          line-height: 19px;
+        }
+
+        /* four equal step boxes: icon above the label */
+        .top .stepper {
+          display: grid;
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          gap: 6px;
+          height: auto;
+          padding: 8px 12px;
+        }
+        .step {
+          flex-direction: column;
+          justify-content: center;
+          gap: 4px;
+          min-width: 0;
+          height: auto;
+          min-height: 58px;
+          padding: 6px 3px;
+          font-size: 11.5px;
+          line-height: 14px;
+          text-align: center;
+          white-space: normal;
+        }
+        .top .step,
+        .step .step-link {
+          white-space: normal;
+        }
+        .step > img {
+          width: 20px;
+          height: 20px;
+        }
+        .step-num {
+          width: 20px;
+          height: 20px;
+          font-size: 11.5px;
+        }
+
+        .det-prod-img {
+          width: 72px;
+          height: 72px;
+        }
+        .det-prod-thumbs {
+          display: none;
+        }
+
+        .det-bottom .am-feature {
+          flex-direction: column;
+          align-items: stretch;
+        }
+        .det-bottom .am-feature-photo {
+          align-self: center;
+          width: 150px;
+          margin: 0;
+        }
+        .det-bottom .am-feature-card {
+          max-width: none;
+        }
+        .det-secondary {
+          grid-template-columns: minmax(0, 1fr);
+        }
+
+        .brands {
+          flex-direction: column;
+          gap: 10px;
+          height: auto;
+          padding: 14px 16px;
+        }
+        .brands-title {
+          font-size: 18px;
+        }
+        .brands-logos {
+          flex: none;
+          width: 100%;
+        }
+
+        .bottom-bar {
+          flex-direction: column;
+          gap: 12px;
+        }
+        .pay-logos {
+          width: 100%;
+        }
+        .tp-rating {
+          width: 220px;
+          height: auto;
+        }
+
+        .step-nav-inner {
+          gap: 10px;
+          padding: 10px 16px;
+        }
+        .step-nav-back {
+          flex: 0 1 42%;
+          min-width: 0;
+          padding: 0 10px;
+          gap: 6px;
+        }
+        .step-nav-back span {
+          min-width: 0;
+          font-size: 13px;
+          line-height: 16px;
+          white-space: normal;
+        }
+        .step-nav-next-wrap {
+          flex: 1 1 0;
+          min-width: 0;
+        }
+        .step-nav-hint {
+          display: none;
+        }
+        .step-nav .step-nav-next {
+          flex: 1 1 auto;
+          width: auto;
+          min-width: 0;
+          padding: 0 12px;
+          font-size: 15px;
+          white-space: nowrap;
+        }
+      }
     </style>
   </head>
   <body>
