@@ -5214,6 +5214,18 @@
           transition: none;
         }
       }
+      /* Proof points: numbered list above the chat */
+      .check-block {
+        padding: 18px 18px 16px;
+        border-bottom: 1px solid var(--line);
+      }
+      .check-points {
+        margin: 10px 0 0;
+        padding-left: 20px;
+        font-size: 15px;
+        line-height: 24px;
+        color: var(--ink);
+      }
     </style>
   </head>
   <body>
@@ -5494,7 +5506,17 @@
         </section>
 
         <aside class="proof-card check-card" aria-labelledby="chatTitle">
-          <!-- Chat with the account manager first; the proof checklist and approval under it -->
+          <!-- Proof points first, then the chat with the account manager, then the approval -->
+          <div class="check-block">
+            <h3 id="checkTitle">
+              Check the print proof for the following points
+            </h3>
+            <ol class="check-points" aria-labelledby="checkTitle">
+              <li>Is your logo in the right position?</li>
+              <li>Is the displayed print correct?</li>
+              <li>Are the spelling and punctuation correct?</li>
+            </ol>
+          </div>
           <div class="chat-head">
             <span class="chat-avatar" role="img" aria-label="Jildou"></span>
             <span
@@ -5508,7 +5530,7 @@
           <div class="change-log" id="changeLog" aria-live="polite">
             <p class="change-msg">
               <small>Jildou · 10:42</small>Hi Cayna, your mockup design is
-              ready! Please check it on the points below.
+              ready! Please check it on the points above.
             </p>
             <p class="change-msg">
               <small>Jildou · 10:42</small>Would you like something changed, for
@@ -5537,32 +5559,6 @@
               />
             </button>
           </form>
-
-          <div class="check-block">
-            <h3 id="checkTitle">
-              Check the print proof for the following points
-            </h3>
-            <ul class="check-list" aria-labelledby="checkTitle">
-              <li>
-                <label
-                  ><input type="checkbox" class="check" />Is your logo in the
-                  right position?</label
-                >
-              </li>
-              <li>
-                <label
-                  ><input type="checkbox" class="check" />Is the displayed print
-                  correct?</label
-                >
-              </li>
-              <li>
-                <label
-                  ><input type="checkbox" class="check" />Are the spelling and
-                  punctuation correct?</label
-                >
-              </li>
-            </ul>
-          </div>
 
           <label class="agree">
             <input type="checkbox" id="agree" />
