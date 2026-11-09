@@ -2,7 +2,8 @@
    (form-phone-search.js, form-phone.css). Add data-fsel to a <select>.
    - the <select> stays in the page: it holds the value, the required check,
      the label and the field's look; only its native list is replaced
-   - a transparent button over the field opens the list, with a search box
+   - a transparent button over the field opens the list; a search box and
+     scrollbar appear only when the options don't fit in one view
    - on phones the list opens as a full-screen sheet
    - flags: add data-flag="gb" to an <option>
    - keyboard: the search box is a combobox; arrows move, Enter chooses, Esc
@@ -56,6 +57,7 @@
     panel.querySelector(".fcc-sheet-title").textContent = title;
     var search = panel.querySelector(".fcc-search");
     var list = panel.querySelector(".fcc-list");
+    list.tabIndex = -1;
     var status = panel.querySelector(".fcc-status");
     var searchText = "Search " + title.toLowerCase();
     search.placeholder = searchText;
@@ -153,6 +155,15 @@
       status.textContent = q ? items.length + (items.length === 1 ? " result" : " results") : "";
     }
 
+    function fit() {
+      panel.classList.remove("is-long");
+      var long = isSheet
+        ? list.scrollHeight > list.clientHeight + 1
+        : panel.getBoundingClientRect().height > window.innerHeight - 24;
+      panel.classList.toggle("is-long", long);
+      return long;
+    }
+
     function open() {
       isSheet = PHONE.matches;
       panel.classList.toggle("is-sheet", isSheet);
@@ -174,13 +185,14 @@
       field.classList.add("fsel-open");
       search.value = "";
       render();
+      var long = fit();
       if (isSheet) {
         // no keyboard until the search box is tapped: the list stays in view
         document.body.classList.add("fcc-lock");
         panel.focus({ preventScroll: true });
         return;
       }
-      search.focus({ preventScroll: true });
+      (long ? search : list).focus({ preventScroll: true });
       panel.scrollIntoView({ block: "nearest" });
     }
     function close(focusTo) {
@@ -214,7 +226,8 @@
     });
     select.addEventListener("change", syncButton);
     search.addEventListener("input", render);
-    search.addEventListener("keydown", function (e) {
+    panel.addEventListener("keydown", function (e) {
+      if (e.target.closest(".fcc-sheet-x")) return;
       if (e.key === "ArrowDown" || e.key === "ArrowUp") {
         e.preventDefault();
         if (!items.length) return;

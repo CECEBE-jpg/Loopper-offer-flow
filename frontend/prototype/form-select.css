@@ -31,3 +31,15 @@
 .fsel-panel:not(.is-sheet) .fcc-sheet-head {
   display: none;
 }
+/* search and scrollbar only when the options don't fit in one view */
+.fsel-panel:not(.is-long) .fcc-search-wrap {
+  display: none;
+}
+.fsel-panel:not(.is-long):not(.is-sheet) .fcc-list {
+  max-height: none;
+  margin-top: 11px;
+  overflow: visible;
+}
+.fsel-panel .fcc-list:focus {
+  outline: none;
+}
