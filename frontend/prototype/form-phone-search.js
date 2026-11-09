@@ -79,6 +79,7 @@
       search: plain(p[0] + " " + (ALIASES[p[1]] || "")),
     };
   });
+  window.loopperCountries = ALL; // also used by form-select.js (data-all-countries)
   var BY_ISO = {};
   ALL.forEach(function (x) {
     BY_ISO[x.c] = x;

@@ -6,6 +6,8 @@
      scrollbar appear only when the options don't fit in one view
    - on phones the list opens as a full-screen sheet
    - flags: add data-flag="gb" to an <option>
+   - data-all-countries on the <select>: its own options become "Popular",
+     followed by "All countries" A-Z from form-phone-search.js
    - keyboard: the search box is a combobox; arrows move, Enter chooses, Esc
      closes; screen readers hear how many results there are */
 (function () {
@@ -69,6 +71,25 @@
     var options = Array.prototype.filter.call(select.options, function (o) {
       return !o.disabled;
     });
+    var popular = null;
+    if (select.hasAttribute("data-all-countries") && window.loopperCountries) {
+      popular = options;
+      var byName = {};
+      popular.forEach(function (o) {
+        byName[o.textContent] = o;
+      });
+      options = window.loopperCountries.map(function (c) {
+        var o = byName[c.name];
+        if (!o) {
+          o = document.createElement("option");
+          o.textContent = c.name;
+          o.dataset.flag = c.c;
+          select.appendChild(o);
+        }
+        o.dataset.search = c.search;
+        return o;
+      });
+    }
 
     function syncButton() {
       var chosen = select.selectedOptions[0];
@@ -109,6 +130,7 @@
         flag.className = "fcc-flag";
         flag.width = flag.height = 18;
         flag.alt = "";
+        flag.loading = "lazy";
         flag.src = FLAGS + opt.dataset.flag + ".svg";
         el.appendChild(flag);
       }
@@ -129,18 +151,44 @@
       return el;
     }
 
+    function heading(text) {
+      var el = document.createElement("div");
+      el.className = "fcc-group";
+      el.setAttribute("role", "presentation");
+      el.textContent = text;
+      return el;
+    }
+
     function render() {
       var q = plain(search.value.trim());
       list.textContent = "";
       items = [];
       active = -1;
-      options
-        .filter(function (o) {
-          return !q || plain(o.textContent).indexOf(q) >= 0;
-        })
-        .forEach(function (o) {
+      function haystack(o) {
+        return o.dataset.search || plain(o.textContent);
+      }
+      if (popular && !q) {
+        list.appendChild(heading("Popular"));
+        popular.forEach(function (o) {
           list.appendChild(row(o));
         });
+        list.appendChild(heading("All countries"));
+        options.forEach(function (o) {
+          list.appendChild(row(o));
+        });
+      } else {
+        options
+          .filter(function (o) {
+            return !q || haystack(o).indexOf(q) >= 0;
+          })
+          .sort(function (a, b) {
+            if (!q || !popular) return 0;
+            return (haystack(a).indexOf(q) === 0 ? 0 : 1) - (haystack(b).indexOf(q) === 0 ? 0 : 1);
+          })
+          .forEach(function (o) {
+            list.appendChild(row(o));
+          });
+      }
       if (!items.length) {
         var none = document.createElement("p");
         none.className = "fcc-none";

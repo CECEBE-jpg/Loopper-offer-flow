@@ -5012,27 +5012,6 @@
         padding: 14px 18px;
         background: #f7f8fa;
       }
-      .chat-quick {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 6px;
-        padding: 10px 18px 0;
-      }
-      .chat-quick button {
-        padding: 5px 10px;
-        border: 1px solid #c9e6f2;
-        border-radius: 14px;
-        background: #fff;
-        font: inherit;
-        font-size: 12px;
-        font-weight: 700;
-        color: #00799a;
-        cursor: pointer;
-      }
-      .chat-quick button:hover {
-        border-color: #00aed8;
-        background: #e6f7fc;
-      }
       .check-card .change-form {
         padding: 10px 18px 16px;
         border-top: 0;
@@ -5538,11 +5517,6 @@
               update your design.
             </p>
           </div>
-          <div class="chat-quick" aria-label="Quick replies">
-            <button type="button">Make the logo bigger</button>
-            <button type="button">Move the logo</button>
-            <button type="button">Change the colour</button>
-          </div>
           <form class="change-form" id="changeForm">
             <input
               type="text"
@@ -5808,13 +5782,6 @@
               log.scrollTop = log.scrollHeight;
             }, 900);
           }
-        });
-        document.querySelectorAll(".chat-quick button").forEach(function (b) {
-          b.addEventListener("click", function () {
-            var input = form.querySelector("input");
-            input.value = b.textContent;
-            input.focus();
-          });
         });
         var agree = document.getElementById("agree");
         var approve = document.getElementById("approveBtn"),
