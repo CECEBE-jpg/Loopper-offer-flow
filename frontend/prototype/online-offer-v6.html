@@ -2868,6 +2868,92 @@
       .tlm-save:hover {
         background: #0098bd;
       }
+      /* Text-logo modal: own font upload row under "Font" */
+      .tlm-fontfile {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .tlm-fontfile-btn {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        min-height: 42px;
+        padding: 6px 14px;
+        border: 1px dashed #b6c2d2;
+        border-radius: 10px;
+        background: #fff;
+        font: inherit;
+        font-size: 14px;
+        font-weight: 700;
+        color: #333;
+        text-align: left;
+        cursor: pointer;
+      }
+      .tlm-fontfile-btn:hover {
+        border-color: #00aed8;
+        background: #f2fbfe;
+      }
+      .tlm-fontfile-btn:focus-visible,
+      .tlm-fontfile-remove:focus-visible {
+        outline: 2px solid #1c1c1e;
+        outline-offset: 2px;
+      }
+      .tlm-fontfile-btn small {
+        display: block;
+        font-size: 12px;
+        font-weight: 400;
+        color: #757575;
+      }
+      .tlm-fontfile-plus {
+        font-size: 20px;
+        font-weight: 400;
+        line-height: 1;
+        color: #00aed8;
+      }
+      .tlm-fontfile-file {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 0;
+        padding: 8px 12px;
+        border-radius: 8px;
+        background: #effae6;
+        font-size: 13px;
+        color: #333;
+      }
+      .tlm-fontfile-file[hidden] {
+        display: none;
+      }
+      .tlm-fontfile-name {
+        flex: 1;
+        min-width: 0;
+        overflow: hidden;
+        font-weight: 700;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .tlm-fontfile-remove {
+        min-height: 24px;
+        border: 0;
+        background: none;
+        font: inherit;
+        font-size: 13px;
+        font-weight: 700;
+        color: #00799a;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+      .tlm-fontfile-hint {
+        margin: 0;
+        font-size: 12px;
+        line-height: 16px;
+        color: #757575;
+      }
+      .tlm-fontfile:has(.tlm-fontfile-file:not([hidden])) .tlm-fontfile-btn {
+        display: none;
+      }
       body.tlm-lock {
         overflow: hidden;
       }
@@ -6194,6 +6280,39 @@
             </div>
           </div>
           <div class="tlm-row">
+            <span class="tlm-label" id="tlm-fontfile-l">Own font:</span>
+            <div
+              class="tlm-fontfile"
+              role="group"
+              aria-labelledby="tlm-fontfile-l"
+            >
+              <input
+                type="file"
+                id="tlm-fontfile"
+                accept=".ttf,.otf,.woff,.woff2"
+                hidden
+              />
+              <button type="button" class="tlm-fontfile-btn">
+                <span class="tlm-fontfile-plus" aria-hidden="true">+</span>
+                <span
+                  >Upload your font file<small
+                    >TTF, OTF, WOFF or WOFF2</small
+                  ></span
+                >
+              </button>
+              <p class="tlm-fontfile-file" hidden>
+                <span class="tlm-fontfile-name"></span>
+                <button type="button" class="tlm-fontfile-remove">
+                  Remove
+                </button>
+              </p>
+              <p class="tlm-fontfile-hint">
+                Have your own brand font? Upload it and we use it for your text
+                logo.
+              </p>
+            </div>
+          </div>
+          <div class="tlm-row">
             <span class="tlm-label" id="tlm-pms-l">PMS/Color:</span>
             <div class="tlm-stack">
               <div class="tlm-dd" data-kind="pms">
@@ -6620,6 +6739,11 @@
         var uploadTile = document.getElementById("logoUpload");
         var count = document.querySelector(".logos-dd-count");
         var state = { family: "", font: "", color: "", pms: "" };
+        var fontFile = modal.querySelector("#tlm-fontfile");
+        var fontFileBtn = modal.querySelector(".tlm-fontfile-btn");
+        var fontFileChip = modal.querySelector(".tlm-fontfile-file");
+        var fontFileName = modal.querySelector(".tlm-fontfile-name");
+        var ownFontCount = 0;
         var editing = null,
           opener = null,
           closeTimer = null;
@@ -6664,8 +6788,61 @@
             },
           );
         });
+        // Own font upload: load the file as a web font so the preview and the
+        // Font field use it
+        function clearOwnFont() {
+          fontFile.value = "";
+          fontFileChip.hidden = true;
+          fontFileName.textContent = "";
+        }
+        function setOwnFont(fileLabel, font, family) {
+          fontFileName.textContent = fileLabel;
+          fontFileChip.hidden = false;
+          state.font = font;
+          state.family = family;
+          var val = fontDd.querySelector(".tlm-dd-val");
+          val.textContent = font;
+          val.style.fontFamily = family;
+          fontDd.classList.add("has-value");
+          fontDd.classList.remove("is-invalid");
+          fontDd.querySelectorAll(".tlm-font").forEach(function (o) {
+            o.classList.remove("is-active");
+            o.setAttribute("aria-selected", "false");
+          });
+          render();
+        }
+        fontFileBtn.addEventListener("click", function () {
+          fontFile.click();
+        });
+        fontFile.addEventListener("change", function () {
+          var f = fontFile.files[0];
+          if (!f) return;
+          var font = "Your font: " + f.name.replace(/\.[^.]+$/, "");
+          var family = "TlmOwnFont" + ++ownFontCount;
+          f.arrayBuffer()
+            .then(function (buf) {
+              return new FontFace(family, buf).load();
+            })
+            .then(function (face) {
+              document.fonts.add(face);
+              setOwnFont(f.name, font, "'" + family + "'");
+            })
+            .catch(function () {
+              // not readable in the browser: keep the file for our designers,
+              // the preview stays in the default font
+              setOwnFont(f.name + " (we'll check this file)", font, "inherit");
+            });
+        });
+        modal
+          .querySelector(".tlm-fontfile-remove")
+          .addEventListener("click", function () {
+            clearOwnFont();
+            fontDd.querySelector('.tlm-font[data-value=""]').click();
+            fontFileBtn.focus();
+          });
         fontDd.querySelectorAll(".tlm-font").forEach(function (opt) {
           opt.addEventListener("click", function () {
+            clearOwnFont(); // picking a font from the list replaces the uploaded one
             fontDd.querySelectorAll(".tlm-font").forEach(function (o) {
               o.classList.toggle("is-active", o === opt);
               o.setAttribute("aria-selected", String(o === opt));
@@ -6728,9 +6905,10 @@
           own.value = d.own || "";
           var fontOpt =
             fontDd.querySelector(
-              '.tlm-font[data-value="' + (d.font || "") + '"]',
+              '.tlm-font[data-value="' + (d.ownFile ? "" : d.font || "") + '"]',
             ) || fontDd.querySelector('.tlm-font[data-value=""]');
           fontOpt.click();
+          if (d.ownFile) setOwnFont(d.ownFile, d.font, d.family);
           var sw =
             d.pmsSwatch &&
             pmsDd.querySelector('.tlm-sw[data-value="' + d.pmsSwatch + '"]');
@@ -6802,6 +6980,10 @@
           var tile = editing || newTile();
           var sel = pmsDd.querySelector(".tlm-sw.is-selected");
           tile.dataset.font = state.font;
+          tile.dataset.family = state.family;
+          tile.dataset.ownFile = fontFileChip.hidden
+            ? ""
+            : fontFileName.textContent;
           tile.dataset.pmsSwatch = sel ? sel.dataset.value : "";
           tile.dataset.own = own.value.trim();
           tile.dataset.remarks = remarks.value;
