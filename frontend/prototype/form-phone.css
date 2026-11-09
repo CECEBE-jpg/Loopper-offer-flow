@@ -1,0 +1,274 @@
+/* Phone number with a country code dropdown (form-phone.js).
+   .f-phone draws the field's border; the country box and the input sit
+   inside it, split by a thin line. The transparent <select> covers the
+   country box, so a click anywhere on it opens the list. */
+.f-phone {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  border: 1px solid #8f8f8f;
+  border-radius: 10px;
+  background: #fff;
+  overflow: hidden;
+}
+.f-cc {
+  position: relative;
+  flex: none;
+  width: 84px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  border-right: 1px solid #d9d9d9;
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+}
+.f-cc:hover {
+  background: #f6f6f6;
+}
+.f-cc-flag {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+/* the PDP chevron, pointing down */
+.f-cc-chev {
+  flex: none;
+  width: 5px;
+  height: 9px;
+  transform: rotate(90deg);
+}
+.f-cc select {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  border: 0;
+  opacity: 0;
+  font-size: 14px;
+  cursor: pointer;
+}
+.f-phone:focus-within {
+  border-color: #1f8ceb;
+  box-shadow: 0 0 0 3px rgba(31, 140, 235, 0.15);
+}
+.f-phone .f-input,
+.f-phone .mf-input {
+  flex: 1 1 0;
+  min-width: 0;
+  border: 0 !important;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none !important;
+}
+
+/* main form: same height and corners as the other fields */
+@media (min-width: 768px) {
+  .req .f-phone {
+    height: 30.209px;
+    border-width: 0.795px;
+    border-radius: 7.95px;
+  }
+  .req .f-phone .f-input {
+    height: 100%;
+    border-radius: 0;
+  }
+}
+
+/* Searchable country code list (form-phone-search.js): same look as the
+   request summary dropdowns, on the desktop and the phone form */
+@media all {
+  .req .f-field:has(.f-phone) {
+    position: relative;
+  }
+  .f-cc-flag[hidden] {
+    display: none;
+  }
+  .f-cc-btn {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+  }
+  .f-cc-btn:focus-visible {
+    outline: 2px solid #1c1c1e;
+    outline-offset: -3px;
+    border-radius: 8px;
+  }
+  .f-cc-chev {
+    transition: transform 0.2s ease-out;
+  }
+  .f-cc.is-open .f-cc-chev {
+    transform: rotate(-90deg);
+  }
+  .fcc-panel {
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 0;
+    z-index: 30;
+    width: 320px;
+    padding: 0 11px 12px;
+    border: 1px solid var(--field-line);
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+  .fcc-panel[hidden] {
+    display: none;
+  }
+  .fcc-search-wrap {
+    padding: 11px 0 10px;
+    border-bottom: 1px solid var(--field-line);
+  }
+  .fcc-search {
+    width: 100%;
+    height: 38px;
+    padding: 0 12px;
+    border: 1px solid #8f8f8f;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #1c1c1e;
+    outline: none;
+  }
+  .fcc-search::placeholder {
+    color: #757575;
+  }
+  .fcc-search:focus {
+    border-color: #1c1c1e;
+    box-shadow: inset 0 0 0 1px #1c1c1e;
+  }
+  .fcc-list {
+    max-height: 242px;
+    margin-top: 8px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+  }
+  .fcc-group {
+    padding: 8px 8px 4px;
+    font-size: 12px;
+    color: #5f6368;
+  }
+  .fcc-opt {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 36px;
+    padding: 6px 8px;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #1c1c1e;
+    cursor: pointer;
+  }
+  .fcc-flag {
+    flex: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .fcc-flag.is-empty {
+    display: grid;
+    place-items: center;
+    background: #eee;
+    font-weight: 600;
+  }
+  .fcc-name {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .fcc-code {
+    flex: none;
+    font-weight: 600;
+  }
+  .fcc-opt.is-selected {
+    font-weight: 600;
+  }
+  .fcc-opt.is-active {
+    background: var(--cyan);
+    color: #fff;
+  }
+  .fcc-none {
+    padding: 10px 8px 2px;
+    font-size: 13px;
+    color: #5f6368;
+  }
+}
+
+/* Phone form: the same list as a full-screen sheet with 48px rows.
+   16px search text stops iPhones zooming in. */
+body.fcc-lock {
+  overflow: hidden;
+}
+.fcc-panel.is-sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  width: auto;
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  outline: none;
+}
+.fcc-panel.is-sheet[hidden] {
+  display: none;
+}
+.fcc-sheet-head {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 56px;
+}
+.fcc-sheet-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #1c1c1e;
+}
+.fcc-sheet-x {
+  width: 44px;
+  height: 44px;
+  margin-right: -10px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: 28px;
+  line-height: 1;
+  color: #1c1c1e;
+  cursor: pointer;
+}
+.fcc-panel.is-sheet .fcc-search-wrap {
+  flex: none;
+  padding: 0 0 10px;
+}
+.fcc-panel.is-sheet .fcc-search {
+  height: 48px;
+  font-size: 16px;
+}
+.fcc-panel.is-sheet .fcc-list {
+  flex: 1 1 0;
+  min-height: 0;
+  max-height: none;
+  padding-bottom: 16px;
+}
+.fcc-panel.is-sheet .fcc-opt {
+  min-height: 48px;
+  font-size: 15px;
+}
