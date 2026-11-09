@@ -4707,6 +4707,27 @@
           transition: none;
         }
       }
+      /* Logo section: same blue as the product status pill (.p6-status) */
+      .chip-status {
+        background: #e7f4ff;
+        color: #006ed0;
+      }
+      .chip-status::before {
+        content: "";
+        flex-shrink: 0;
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: #0086ff;
+      }
+      .logos-aside .design-note {
+        border-color: #006ed0;
+        background: #e7f4ff;
+        color: #006ed0;
+      }
+      .logos-aside .design-note b {
+        color: #006ed0;
+      }
     </style>
   </head>
   <body>
@@ -4847,9 +4868,7 @@
                   /></svg
                 >Upload logo
               </button>
-              <span class="chip chip-amber"
-                >Mockup design requested - ready within 30 min</span
-              >
+              <span class="chip chip-status">Mockup design requested</span>
               <svg
                 class="logos-dd-chev"
                 width="20"
