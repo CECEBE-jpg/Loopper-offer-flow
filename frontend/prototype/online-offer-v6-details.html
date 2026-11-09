@@ -12,6 +12,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="form-phone.css" />
+    <link rel="stylesheet" href="form-select.css" />
     <style>
       :root {
         --ink: #1c2530;
@@ -6208,22 +6209,23 @@
             <div class="fld c-6">
               <label class="fld-label" for="f-country">Country*</label
               ><select
+                data-fsel
                 id="f-country"
                 name="country"
                 required
                 autocomplete="country-name"
               >
                 <option value="" selected disabled>Choose a country</option>
-                <option>United Kingdom</option>
-                <option>Ireland</option>
-                <option>Netherlands</option>
-                <option>Belgium</option>
-                <option>Germany</option>
-                <option>France</option>
-                <option>Spain</option>
-                <option>Italy</option>
-                <option>Switzerland</option>
-                <option>Austria</option>
+                <option data-flag="gb">United Kingdom</option>
+                <option data-flag="ie">Ireland</option>
+                <option data-flag="nl">Netherlands</option>
+                <option data-flag="be">Belgium</option>
+                <option data-flag="de">Germany</option>
+                <option data-flag="fr">France</option>
+                <option data-flag="es">Spain</option>
+                <option data-flag="it">Italy</option>
+                <option data-flag="ch">Switzerland</option>
+                <option data-flag="at">Austria</option>
               </select>
             </div>
             <div class="fld c-6">
@@ -6330,18 +6332,18 @@
             </div>
             <div class="fld c-6">
               <label class="fld-label" for="f-dCountry">Country*</label
-              ><select id="f-dCountry" name="dCountry" required>
+              ><select data-fsel id="f-dCountry" name="dCountry" required>
                 <option value="" selected disabled>Choose a country</option>
-                <option>United Kingdom</option>
-                <option>Ireland</option>
-                <option>Netherlands</option>
-                <option>Belgium</option>
-                <option>Germany</option>
-                <option>France</option>
-                <option>Spain</option>
-                <option>Italy</option>
-                <option>Switzerland</option>
-                <option>Austria</option>
+                <option data-flag="gb">United Kingdom</option>
+                <option data-flag="ie">Ireland</option>
+                <option data-flag="nl">Netherlands</option>
+                <option data-flag="be">Belgium</option>
+                <option data-flag="de">Germany</option>
+                <option data-flag="fr">France</option>
+                <option data-flag="es">Spain</option>
+                <option data-flag="it">Italy</option>
+                <option data-flag="ch">Switzerland</option>
+                <option data-flag="at">Austria</option>
               </select>
             </div>
             <div class="c-6">
@@ -6829,5 +6831,6 @@
     </script>
     <script src="form-phone.js"></script>
     <script src="form-phone-search.js"></script>
+    <script src="form-select.js"></script>
   </body>
 </html>

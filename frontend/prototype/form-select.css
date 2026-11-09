@@ -1,0 +1,33 @@
+/* Form dropdowns (form-select.js): the list itself uses the phone country
+   code styles from form-phone.css. Load after form-phone.css. */
+.fsel-btn {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  width: 100%;
+  height: 50px;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  background: none;
+  cursor: pointer;
+}
+.fsel-btn:focus {
+  outline: none;
+}
+.fld:has(> .fsel-btn:focus-visible) > select,
+.fsel-open > select {
+  border-color: #1c1c1e;
+  box-shadow: inset 0 0 0 1px #1c1c1e;
+}
+.fsel-open > select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='5' viewBox='0 0 9 5' fill='none'%3E%3Cpath d='M.75 4.25 4.5.75l3.75 3.5' stroke='%231c1c1e' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+.fsel-panel:not(.is-sheet) {
+  width: 100%;
+  min-width: 280px;
+}
+.fsel-panel:not(.is-sheet) .fcc-sheet-head {
+  display: none;
+}

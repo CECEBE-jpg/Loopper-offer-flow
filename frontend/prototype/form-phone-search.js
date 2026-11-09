@@ -267,6 +267,9 @@
       list.scrollTop = 0;
       if (items[active]) items[active].el.scrollIntoView({ block: "nearest" });
       if (isSheet) {
+        // the screen width, also when the page itself runs wider than the phone
+        panel.style.right = "auto";
+        panel.style.width = document.documentElement.clientWidth + "px";
         // no keyboard until the search box is tapped: the list stays in view
         document.body.classList.add("fcc-lock");
         panel.focus({ preventScroll: true });
