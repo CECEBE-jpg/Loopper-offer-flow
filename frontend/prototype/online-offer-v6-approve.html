@@ -5076,22 +5076,11 @@
       .back-link:hover {
         text-decoration: underline;
       }
+      /* Account manager under the grid, right-aligned, step 1 style (Figma 13:20) */
       .proof-page .am-feature {
-        flex-direction: row;
-        align-items: flex-end;
-        gap: 0;
-        width: auto;
-        margin-top: 28px;
-        padding: 0;
-      }
-      .proof-page .am-feature-photo {
-        width: 220px;
-        height: auto;
-        margin: 0 -20px 0 0;
-      }
-      .proof-page .am-feature-card {
-        width: 560px;
-        margin: 0;
+        width: 448px;
+        margin: 0 0 0 auto;
+        padding: 8px 0 0;
       }
       /* PMS / colour choice (as on the live check-design page) */
       .pms {
@@ -5136,6 +5125,29 @@
       }
       .pms-code[hidden] {
         display: none;
+      }
+      /* PMS options and vector buttons side by side (Figma 13:281) */
+      .pms {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 15px;
+      }
+      .pms-code {
+        grid-column: 1 / -1;
+      }
+      .vector-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+      }
+      @media (width < 768px) {
+        .pms,
+        .vector-actions {
+          grid-template-columns: minmax(0, 1fr);
+        }
+        .proof-page .am-feature {
+          width: 100%;
+        }
       }
       /* Clickable step cards (2026-11-04): the whole card is the link (the link's
          ::after covers the card). Hover = drop shadow; press = no shadow + solid
@@ -5311,45 +5323,6 @@
     </div>
 
     <div class="proof-page">
-      <section class="proof-intro" aria-labelledby="proofTitle">
-        <span class="proof-intro-icon"
-          ><svg
-            width="18"
-            height="18"
-            viewBox="0 0 12 12"
-            fill="none"
-            aria-hidden="true"
-          >
-            <path
-              d="M2.2 6.3 4.8 8.8 9.8 3.4"
-              stroke="#fff"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            /></svg
-        ></span>
-        <div>
-          <h1 id="proofTitle">Your mockup design is ready</h1>
-          <p>
-            We have created a digital preview based on the file you provided.
-            The preview may not be 100% sharp, but don’t worry, it is only a
-            preview! Do you see a line or dotted line around your logo? It shows
-            the maximum print area; the lines will not be printed.
-          </p>
-          <p>
-            Once you agree with the design, you can submit your logo as a vector
-            file (EPS, AI, SVG, PDF). Don’t have a vector file? No problem! We
-            will gladly create one for you free of charge, based on the file you
-            already sent. A vector file ensures razor-sharp quality on your
-            promotional items.
-          </p>
-          <p>
-            We are ready to help and make sure everything is perfect. Let us
-            know if you have any questions or need extra support!
-          </p>
-        </div>
-      </section>
-
       <div class="proof-grid">
         <section class="proof-card" aria-labelledby="proofProduct">
           <div class="proof-head">
