@@ -762,17 +762,6 @@
         border-radius: 50%;
         background: var(--blue-50);
       }
-      .am-bubble {
-        display: flex;
-        flex: 1;
-        align-items: center;
-        padding: 9px 15px;
-        border-radius: 7px;
-        background: #dedede;
-        font-size: 13px;
-        line-height: 23.2px;
-        color: #000;
-      }
       .rule {
         height: 1px;
         margin-top: 22px;
@@ -4746,6 +4735,116 @@
       .cmt[data-empty] .cmt-thread > .cmt-sep:first-child {
         display: none;
       }
+      /* (i) info icons: instruction bubble on hover / keyboard focus */
+      .tip {
+        position: relative;
+        display: inline-flex;
+        vertical-align: middle;
+        margin-left: 4px;
+      }
+      .tip-btn {
+        display: grid;
+        place-items: center;
+        width: 15px;
+        height: 15px;
+        padding: 0;
+        border: 1.5px solid currentColor;
+        border-radius: 50%;
+        background: none;
+        font: inherit;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 10px;
+        line-height: 1;
+        font-weight: 700;
+        font-style: italic;
+        color: #6e7e96;
+        cursor: help;
+      }
+      .tip-btn:hover,
+      .tip-btn:focus-visible {
+        color: #324a67;
+        outline: none;
+      }
+      .tip-btn:focus-visible {
+        box-shadow:
+          0 0 0 2px #fff,
+          0 0 0 4px #006ed0;
+      }
+      .tip-bubble {
+        position: absolute;
+        left: -14px;
+        bottom: calc(100% + 12px);
+        z-index: 30;
+        width: 260px;
+        padding: 11px 14px;
+        border-radius: 14px 14px 14px 4px;
+        background: #324a67;
+        box-shadow: 0 10px 28px rgba(20, 30, 40, 0.28);
+        font-family: "Nunito", sans-serif;
+        font-size: 14px;
+        line-height: 20px;
+        font-weight: 400;
+        font-style: normal;
+        text-align: left;
+        text-transform: none;
+        letter-spacing: 0;
+        white-space: normal;
+        color: #fff;
+        visibility: hidden;
+        opacity: 0;
+        transform: translateY(4px);
+        transition:
+          opacity 0.15s ease,
+          transform 0.15s ease,
+          visibility 0s linear 0.15s;
+        pointer-events: none;
+      }
+      .tip-bubble::after {
+        content: "";
+        position: absolute;
+        left: 16px;
+        bottom: -6px;
+        width: 12px;
+        height: 12px;
+        background: #324a67;
+        transform: rotate(45deg);
+      }
+      .tip-bubble b {
+        font-weight: 800;
+      }
+      .tip:hover .tip-bubble,
+      .tip:focus-within .tip-bubble {
+        visibility: visible;
+        opacity: 1;
+        transform: translateY(0);
+        transition-delay: 0s;
+      }
+      .p6-offer .tip,
+      .alt-switch .tip {
+        margin-left: 3px;
+      }
+      /* label + (i) on one row, switch underneath */
+      .p6-offer {
+        display: grid;
+        grid-template-columns: max-content max-content;
+        justify-content: start;
+        align-items: center;
+        column-gap: 0;
+        white-space: nowrap;
+      }
+      .p6-offer-on,
+      .p6-offer-off {
+        grid-column: 1;
+        grid-row: 1;
+      }
+      .p6-offer > .tip {
+        grid-column: 2;
+        grid-row: 1;
+      }
+      .p6-offer > .switch {
+        grid-column: 1 / -1;
+        grid-row: 2;
+      }
       /* Comments side panel (from v11), opened by "Read all comments" on a product comment */
       .cm-dialog {
         position: fixed;
@@ -5332,92 +5431,8 @@
       .logos-aside .design-note b {
         color: #006ed0;
       }
-      /* account manager speech bubble above the sticky bar, text follows the section in view */
       .step-nav-am {
         position: relative;
-      }
-      .am-bubble {
-        position: absolute;
-        left: 0;
-        bottom: calc(100% + 26px);
-        width: 300px;
-        padding: 12px 34px 12px 14px;
-        border: 1px solid var(--line);
-        border-radius: 14px 14px 14px 4px;
-        background: #fff;
-        box-shadow: 0 10px 28px rgba(20, 30, 40, 0.16);
-        font-size: 14px;
-        line-height: 20px;
-        color: var(--ink);
-        opacity: 1;
-        transform: translateY(0);
-        transition:
-          opacity 0.25s ease,
-          transform 0.25s ease;
-      }
-      .am-bubble::after {
-        content: "";
-        position: absolute;
-        left: 16px;
-        bottom: -7px;
-        width: 12px;
-        height: 12px;
-        border-right: 1px solid var(--line);
-        border-bottom: 1px solid var(--line);
-        background: #fff;
-        transform: rotate(45deg);
-      }
-      .am-bubble[hidden] {
-        display: block;
-        visibility: hidden;
-        opacity: 0;
-        transform: translateY(8px);
-      }
-      .am-bubble.is-swapping {
-        opacity: 0;
-        transform: translateY(4px);
-      }
-      .am-bubble b {
-        font-weight: 800;
-      }
-      .am-bubble-close {
-        position: absolute;
-        top: 6px;
-        right: 6px;
-        width: 24px;
-        height: 24px;
-        border: 0;
-        border-radius: 50%;
-        background: none;
-        color: #7b8794;
-        font-size: 18px;
-        line-height: 1;
-        cursor: pointer;
-      }
-      .am-bubble-close:hover {
-        background: #f1f4f7;
-      }
-      .step-nav-am.is-hidden .am-bubble {
-        visibility: hidden;
-        opacity: 0;
-      }
-      /* Sticky-bar bubble in navy with white text */
-      .am-bubble {
-        border-color: #324a67;
-        background: #324a67;
-        color: #fff;
-        box-shadow: 0 10px 28px rgba(20, 30, 40, 0.28);
-      }
-      .am-bubble::after {
-        border-color: #324a67;
-        background: #324a67;
-      }
-      .am-bubble-close {
-        color: rgba(255, 255, 255, 0.75);
-      }
-      .am-bubble-close:hover {
-        background: rgba(255, 255, 255, 0.14);
-        color: #fff;
       }
     </style>
   </head>
@@ -5727,6 +5742,18 @@
           <article class="product p6">
             <label class="p6-offer">
               <span class="p6-offer-on">In offer</span
+              ><span class="tip"
+                ><button
+                  type="button"
+                  class="tip-btn"
+                  aria-label="More information"
+                  aria-describedby="tip1"
+                >
+                  i</button
+                ><span class="tip-bubble" role="tooltip" id="tip1"
+                  >Use this switch to take the product out of your offer or put
+                  it back in. Your <b>summary</b> updates straight away.</span
+                ></span
               ><span class="p6-offer-off">Add to offer</span>
               <span class="switch"
                 ><input type="checkbox" checked aria-label="In offer"
@@ -5735,7 +5762,19 @@
             <div class="p6-gallery">
               <span class="p6-status"
                 ><span class="p6-status-dot" aria-hidden="true"></span>Mockup in
-                progress</span
+                progress<span class="tip"
+                  ><button
+                    type="button"
+                    class="tip-btn"
+                    aria-label="More information"
+                    aria-describedby="tip5"
+                  >
+                    i</button
+                  ><span class="tip-bubble" role="tooltip" id="tip5"
+                    >Your <b>mockup design</b> is being made. I will email you
+                    when it is ready.</span
+                  ></span
+                ></span
               >
               <div class="p6-images">
                 <div class="p6-photo">
@@ -5993,6 +6032,18 @@
           <article class="product p6">
             <label class="p6-offer">
               <span class="p6-offer-on">In offer</span
+              ><span class="tip"
+                ><button
+                  type="button"
+                  class="tip-btn"
+                  aria-label="More information"
+                  aria-describedby="tip2"
+                >
+                  i</button
+                ><span class="tip-bubble" role="tooltip" id="tip2"
+                  >Use this switch to take the product out of your offer or put
+                  it back in. Your <b>summary</b> updates straight away.</span
+                ></span
               ><span class="p6-offer-off">Add to offer</span>
               <span class="switch"
                 ><input type="checkbox" checked aria-label="In offer"
@@ -6001,7 +6052,19 @@
             <div class="p6-gallery">
               <span class="p6-status is-queued"
                 ><span class="p6-status-dot" aria-hidden="true"></span>Mockup
-                requested</span
+                requested<span class="tip"
+                  ><button
+                    type="button"
+                    class="tip-btn"
+                    aria-label="More information"
+                    aria-describedby="tip6"
+                  >
+                    i</button
+                  ><span class="tip-bubble" role="tooltip" id="tip6"
+                    >We have your request: your <b>mockup design</b> is next in
+                    line. I will email you when it is ready.</span
+                  ></span
+                ></span
               >
               <div class="p6-images">
                 <div class="p6-photo">
@@ -6038,7 +6101,24 @@
                 <span class="chip chip-grey">Engraving: front (50×90 mm)</span>
               </div>
               <dl class="p6-stock">
-                <div><dt>Not in stock</dt></div>
+                <div>
+                  <dt>
+                    Not in stock<span class="tip"
+                      ><button
+                        type="button"
+                        class="tip-btn"
+                        aria-label="More information"
+                        aria-describedby="tip4"
+                      >
+                        i</button
+                      ><span class="tip-bubble" role="tooltip" id="tip4"
+                        >Need it fast? Check the
+                        <b>stock and delivery date</b> before you choose a
+                        quantity.</span
+                      ></span
+                    >
+                  </dt>
+                </div>
                 <div>
                   <dt>Incoming stock:</dt>
                   <dd>1,409</dd>
@@ -6236,7 +6316,21 @@
                   id="altToggle"
                   aria-describedby="altTitle"
                 />
-                <span class="alt-switch-label">Add to offer</span>
+                <span class="alt-switch-label"
+                  >Add to offer<span class="tip"
+                    ><button
+                      type="button"
+                      class="tip-btn"
+                      aria-label="More information"
+                      aria-describedby="tip3"
+                    >
+                      i</button
+                    ><span class="tip-bubble" role="tooltip" id="tip3"
+                      >This <b>water bottle</b> pairs well with your thermos.
+                      Switch it on to add it to your offer.</span
+                    ></span
+                  ></span
+                >
               </label>
               <div class="alt-photo">
                 <img
@@ -8081,22 +8175,6 @@
     <nav class="step-nav" aria-label="Offer steps navigation">
       <div class="step-nav-inner">
         <div class="step-nav-am" aria-label="Your account manager">
-          <p
-            class="am-bubble"
-            id="amBubble"
-            role="status"
-            aria-live="polite"
-            hidden
-          >
-            <span class="am-bubble-text"></span>
-            <button
-              type="button"
-              class="am-bubble-close"
-              aria-label="Hide message"
-            >
-              ×
-            </button>
-          </p>
           <span
             class="avatar avatar-photo am-chat-avatar step-nav-am-photo"
             role="img"
@@ -8422,78 +8500,14 @@
       })();
     </script>
     <script>
-      // Account manager bubble: message changes with the section in view
-      (function () {
-        var bubble = document.getElementById("amBubble");
-        if (!bubble) return;
-        var text = bubble.querySelector(".am-bubble-text");
-        var products = document.querySelectorAll(
-          ".products-card .product.p6:not([hidden])",
-        );
-        var steps = [
-          {
-            el: document.querySelector(".logos-card"),
-            msg: "Hi Cayna! Your <b>mockup design</b> is being made. I will email you when it is ready.",
-          },
-          {
-            el: products[0],
-            msg: "Tip: a higher quantity lowers the <b>price per piece</b>. Pick the row that suits you best.",
-          },
-          {
-            el: products[1],
-            msg: "Need it fast? Check the <b>stock and delivery date</b> before you choose a quantity.",
-          },
-          {
-            el: document.getElementById("alt"),
-            msg: "This <b>water bottle</b> pairs well with your thermos. Switch it on to add it to your offer.",
-          },
-          {
-            el: document.querySelector(".side .summary"),
-            msg: "All set? <b>Download the PDF</b> or share the offer with a colleague for approval.",
-          },
-        ].filter(function (st) {
-          return st.el;
+      // (i) icons inside a switch label: show the tip, don't toggle the switch
+      document.querySelectorAll(".tip-btn").forEach(function (b) {
+        b.addEventListener("click", function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          b.focus();
         });
-        var current = -1,
-          dismissed = {};
-        function pick() {
-          var line = window.innerHeight * 0.7,
-            idx = -1;
-          steps.forEach(function (st, i) {
-            var r = st.el.getBoundingClientRect();
-            if (r.top < line && r.bottom > 0) idx = i;
-          });
-          return window.scrollY < 120 ? 0 : idx; // near the top: greeting about the mockup
-        }
-        function update() {
-          var idx = pick();
-          if (idx === current) return;
-          current = idx;
-          if (idx < 0 || dismissed[idx]) {
-            bubble.hidden = true;
-            return;
-          }
-          if (bubble.hidden) {
-            text.innerHTML = steps[idx].msg;
-            bubble.hidden = false;
-            return;
-          }
-          bubble.classList.add("is-swapping");
-          setTimeout(function () {
-            text.innerHTML = steps[idx].msg;
-            bubble.classList.remove("is-swapping");
-          }, 200);
-        }
-        bubble
-          .querySelector(".am-bubble-close")
-          .addEventListener("click", function () {
-            dismissed[current] = true;
-            bubble.hidden = true;
-          });
-        window.addEventListener("scroll", update, { passive: true });
-        window.addEventListener("resize", update);
-        update();
-      })();
+      });
     </script>
   </body>
 </html>
