@@ -4503,6 +4503,9 @@
       .cmt[data-state="idle"] .cmt-avatar {
         width: 36px;
         height: 36px;
+        border: 2px solid #fff;
+        background: #e6f7fc;
+        box-shadow: 0 0 0 1px #e1e7ed;
       }
       .cmt-body {
         flex: 1;
@@ -4524,14 +4527,41 @@
         line-height: 22.1px;
         color: #37414b;
       }
-      .cmt[data-state="idle"] .cmt-from {
-        font-size: 13px;
-        line-height: 16px;
+      .cmt[data-state="idle"] .cmt-from,
+      .cmt[data-state="card"] .cmt-from {
+        font-size: 14px;
+        line-height: 18px;
+        color: #8593a3;
+      }
+      .cmt[data-state="idle"] .cmt-from b,
+      .cmt[data-state="card"] .cmt-from b {
+        color: #303940;
+      }
+      .cmt[data-state="idle"] .cmt-dot,
+      .cmt[data-state="card"] .cmt-dot {
+        display: none;
       }
       .cmt[data-state="idle"] .cmt-text {
-        margin-top: 2px;
-        font-size: 15px;
+        margin-top: 0;
+        padding-top: 2px;
+        font-size: 14px;
         line-height: 20px;
+        color: #1c2530;
+      }
+      /* card (02): 43px photo, 16px message */
+      .cmt[data-state="card"] .cmt-avatar {
+        width: 43px;
+        height: 43px;
+      }
+      .cmt[data-state="card"] .cmt-text {
+        margin-top: 4px;
+        font-size: 16px;
+        line-height: 20px;
+        color: #35414b;
+      }
+      /* collapsed (07): no gap between the message and the button */
+      .cmt[data-state="collapsed"] .cmt-box {
+        gap: 0;
       }
       .cmt-thread {
         display: contents;
@@ -4579,7 +4609,7 @@
         border: 0;
         background: none;
         font: inherit;
-        font-size: 15px;
+        font-size: 14px;
         line-height: 19.5px;
         font-weight: 700;
         color: #00aed8;
@@ -4639,15 +4669,20 @@
       .cmt-more {
         position: relative;
         align-self: flex-end;
-        padding: 17px 12px 0 0;
+        padding: 19px 12px 0 0;
       }
       .cmt-more-btn {
-        padding: 9px 22px;
-        border: 3px solid #00aed8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 170px;
+        height: 34px;
+        padding: 0;
+        border: 2px solid #00aed8;
         border-radius: 14px;
         background: none;
         font: inherit;
-        font-size: 16px;
+        font-size: 14px;
         line-height: 19.5px;
         font-weight: 700;
         color: #00aed8;
@@ -4658,18 +4693,28 @@
       }
       .cmt-count {
         position: absolute;
-        top: 0;
-        right: 0;
+        top: 3px;
+        right: 2px;
         display: grid;
         place-items: center;
-        width: 34px;
-        height: 34px;
+        width: 27px;
+        height: 27px;
         border-radius: 50%;
         background: #cc6600;
-        font-size: 15px;
+        font-size: 14px;
         font-weight: 700;
         color: #fff;
         pointer-events: none;
+      }
+      /* "This is not a chat" note under the comment box (Figma 17:305) */
+      .product .am-note.am-chat.p6-pin.cmt {
+        gap: 13px;
+      }
+      .cmt-notice.pin-notice {
+        padding-left: 0;
+        font-size: 15px;
+        line-height: 19.5px;
+        color: #8996a7;
       }
       /* Comments side panel (from v11), opened by "Read all comments" on a product comment */
       .cm-dialog {
@@ -5120,9 +5165,6 @@
       .cmt[data-state="collapsed"] .cmt-sep,
       .cmt[data-state="collapsed"] .cmt-msg {
         display: none;
-      }
-      .cmt[data-state="collapsed"] .cmt-more {
-        margin-top: -8px;
       }
       /* Collapsed logo section: previews right of the title, small Upload CTA before the status pill */
       .logos-dd:not([open]) .logos-dd-title {
@@ -5858,7 +5900,10 @@
                     alt=""
                   />
                   <div class="cmt-body">
-                    <p class="cmt-from"><b>Jildou</b> · your account manager</p>
+                    <p class="cmt-from">
+                      <b>Jildou</b><span class="cmt-dot"> ·</span> your account
+                      manager
+                    </p>
                     <p class="cmt-text">I think.. so and so and so</p>
                   </div>
                   <button type="button" class="cmt-reply cmt-reply-head">
