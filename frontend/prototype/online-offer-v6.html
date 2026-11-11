@@ -4738,7 +4738,7 @@
       }
       /* Empty comment box: no account manager comment yet, only "Reply" (right) */
       .cmt[data-empty] .cmt-head {
-        justify-content: flex-end;
+        justify-content: flex-start;
       }
       .cmt[data-empty]:not([data-state="idle"]) .cmt-head {
         display: none;
@@ -8204,10 +8204,10 @@
     <script>
       // Product comments (Figma 17:8 → 17:273):
       // idle: Reply next to the message → card: reply field → thread: your replies listed,
-      // Reply at the bottom, e-mail notice → more than 2 replies: the box collapses to the
+      // Reply at the bottom (opens the side panel), e-mail notice → 2+ replies: the box collapses to the
       // account manager's message + "Read all comments", which opens the side panel (v11 dialog).
       (function () {
-        var SHOW = 2;
+        var SHOW = 1; // one reply in the box; everything after that goes through the side panel
         var dlg = document.querySelector(".cm-dialog");
         var log = dlg.querySelector(".cm-log");
         var dTitle = dlg.querySelector(".cm-title");
@@ -8295,7 +8295,9 @@
           }
           cmt._cmt = { thread: thread, addReply: addReply, opener: moreBtn };
           replyHead.addEventListener("click", open);
-          replyFoot.addEventListener("click", open);
+          replyFoot.addEventListener("click", function () {
+            openPanel(cmt);
+          });
           moreBtn.addEventListener("click", function () {
             openPanel(cmt);
           });
