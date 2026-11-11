@@ -4736,6 +4736,19 @@
       .alt > .alt-row {
         padding-left: 23px;
       }
+      /* Empty comment box: no account manager comment yet, only "Reply" (right) */
+      .cmt[data-empty] .cmt-head {
+        justify-content: flex-end;
+      }
+      .cmt[data-empty]:not([data-state="idle"]) .cmt-head {
+        display: none;
+      }
+      .cmt[data-empty] .cmt-thread > .cmt-sep:first-child {
+        display: none;
+      }
+      .cmt[data-empty][data-state="collapsed"] .cmt-more {
+        padding-top: 0;
+      }
       /* Comments side panel (from v11), opened by "Read all comments" on a product comment */
       .cm-dialog {
         position: fixed;
@@ -6160,24 +6173,10 @@
             <div
               class="am-note am-chat p6-pin cmt"
               data-state="idle"
-              data-time="10:12"
+              data-empty="true"
             >
               <div class="cmt-box">
                 <div class="cmt-head">
-                  <img
-                    class="cmt-avatar"
-                    src="assets/offer-v3/comments/jildou-portrait.png"
-                    width="44"
-                    height="44"
-                    alt=""
-                  />
-                  <div class="cmt-body">
-                    <p class="cmt-from">
-                      <b>Jildou</b><span class="cmt-dot"> ·</span> your account
-                      manager
-                    </p>
-                    <p class="cmt-text">I think.. so and so and so</p>
-                  </div>
                   <button type="button" class="cmt-reply cmt-reply-head">
                     <img
                       src="assets/offer-v3/comments/reply-arrow.svg"
@@ -6192,7 +6191,7 @@
                   <input
                     type="text"
                     class="cmt-input"
-                    placeholder="Write a reply to Jildou..."
+                    placeholder="Ask Jildou a question or leave a comment..."
                     aria-label="Reply to Jildou"
                   />
                   <button
@@ -8264,10 +8263,11 @@
             replyHead.hidden = n > 0 || writing;
             replyFoot.hidden = !n || writing || collapsed;
             more.hidden = !collapsed;
-            count.textContent = n + 1;
+            var total = n + (cmt.dataset.empty ? 0 : 1);
+            count.textContent = total;
             moreBtn.setAttribute(
               "aria-label",
-              "Read all comments (" + (n + 1) + ")",
+              "Read all comments (" + total + ")",
             );
             notice.hidden = !n || writing || collapsed;
           }
@@ -8340,14 +8340,15 @@
             .textContent.trim();
           dImg.src = product.querySelector(".p6-photo img").getAttribute("src");
           log.innerHTML = "";
-          log.appendChild(
-            msgEl(
-              false,
-              "Jildou",
-              cmt.dataset.time || "10:12",
-              cmt.querySelector(".cmt-text").textContent.trim(),
-            ),
-          );
+          if (!cmt.dataset.empty)
+            log.appendChild(
+              msgEl(
+                false,
+                "Jildou",
+                cmt.dataset.time || "10:12",
+                cmt.querySelector(".cmt-text").textContent.trim(),
+              ),
+            );
           cmt._cmt.thread.querySelectorAll(".cmt-msg").forEach(function (p) {
             log.appendChild(
               msgEl(
