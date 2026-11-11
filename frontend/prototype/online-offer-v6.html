@@ -4972,6 +4972,150 @@
         background-size: cover;
         background-position: center;
       }
+      /* Comments side panel styled like the step 2 "Chat with Jildou" card */
+      .cm-dialog .cm-head {
+        gap: 12px;
+        padding: 14px 18px;
+        border: 0;
+        background: #324a67;
+        color: #fff;
+      }
+      .cm-chat-title {
+        margin: 0;
+        font-size: 17px;
+        line-height: 22px;
+        font-weight: 800;
+        color: #fff;
+      }
+      .cm-chat-sub {
+        display: block;
+        font-size: 12px;
+        line-height: 16px;
+        opacity: 0.85;
+      }
+      .cm-dialog .cm-close {
+        margin-left: auto;
+        background: transparent;
+        color: #fff;
+      }
+      .cm-dialog .cm-close:hover {
+        background: rgba(255, 255, 255, 0.12);
+      }
+      .cm-dialog .cm-close:focus-visible {
+        outline-color: #fff;
+      }
+      .cm-dialog .cm-log {
+        gap: 12px;
+        padding: 16px 18px;
+        background: #f7f8fa;
+      }
+      .cm-dialog .cm-msg {
+        display: flex;
+      }
+      .cm-dialog .cm-msg-you {
+        justify-content: flex-end;
+      }
+      .cm-dialog .cm-bubble {
+        max-width: 85%;
+        padding: 9px 14px 11px;
+        border-radius: 4px 12px 12px 12px;
+        background: #fff;
+      }
+      .cm-dialog .cm-msg-you .cm-bubble {
+        border-radius: 12px 4px 12px 12px;
+        background: #f2f2f2;
+      }
+      .cm-dialog .cm-from {
+        font-size: 12px;
+        line-height: 18px;
+        color: var(--muted);
+      }
+      .cm-dialog .cm-from b {
+        font-weight: 400;
+        color: inherit;
+      }
+      .cm-dialog .cm-msg-you .cm-from {
+        text-align: right;
+      }
+      .cm-dialog .cm-msg-you .cm-from b {
+        font-weight: 800;
+        color: #4b5563;
+      }
+      .cm-dialog .cm-from time {
+        margin: 0;
+        font-size: inherit;
+        color: inherit;
+      }
+      .cm-dialog .cm-text {
+        padding-top: 2px;
+        font-size: 15px;
+        line-height: 22px;
+        color: var(--ink);
+      }
+      .cm-dialog .cm-system {
+        align-self: center;
+        margin: 0;
+        font-size: 12px;
+        color: var(--muted);
+        background: none;
+      }
+      .cm-dialog .cm-form {
+        align-items: flex-end;
+        gap: 8px;
+        padding: 12px 18px 16px;
+        border-top: 1px solid var(--line);
+        background: #fff;
+      }
+      .cm-dialog .cm-input {
+        min-height: 44px;
+        padding: 11px 13px;
+        border: 1px solid #d5dbe1;
+        border-radius: 8px;
+        font-size: 15px;
+        line-height: 20px;
+      }
+      .cm-dialog .cm-input:focus {
+        outline: none;
+        border-color: #00aed8;
+        box-shadow: none;
+      }
+      .cm-dialog .cm-send {
+        width: 48px;
+        height: 44px;
+        border-radius: 8px;
+        background: #00aed8;
+      }
+      .cm-dialog .cm-send img {
+        margin: 0;
+        transform: none;
+      }
+      .cm-dialog .cm-send:disabled {
+        background: #00aed8;
+        opacity: 0.45;
+      }
+      .cm-dialog .cm-head .cm-head-img {
+        flex: none;
+        width: 44px;
+        height: 44px;
+        border: 2px solid #fff;
+        border-radius: 8px;
+        background: #fff;
+        object-fit: contain;
+      }
+      .cm-dialog .cm-chat-sub {
+        margin: 0;
+        text-transform: none;
+        letter-spacing: 0;
+      }
+      .cm-dialog .cm-msg {
+        align-items: flex-end;
+        gap: 8px;
+      }
+      .cm-dialog .cm-avatar {
+        width: 32px;
+        height: 32px;
+        box-shadow: 0 0 0 1px #e1e7ed;
+      }
       /* collapsed comment box: only the account manager's message + "Read all comments" */
       .cmt[data-state="collapsed"] .cmt-sep,
       .cmt[data-state="collapsed"] .cmt-msg {
@@ -5699,7 +5843,11 @@
               </div>
             </div>
             <!-- Account manager comment + your replies (Figma 17:8, 19:3, 20:3, 17:89, 17:230, 17:273) -->
-            <div class="am-note am-chat p6-pin cmt" data-state="idle">
+            <div
+              class="am-note am-chat p6-pin cmt"
+              data-state="idle"
+              data-time="10:12"
+            >
               <div class="cmt-box">
                 <div class="cmt-head">
                   <img
@@ -7835,8 +7983,8 @@
             alt=""
           />
           <div class="cm-head-text">
-            <p class="cm-head-kicker">Comments on</p>
-            <h2 class="cm-title" id="cmTitle">Product</h2>
+            <p class="cm-chat-sub">Comments on</p>
+            <h2 class="cm-chat-title cm-title" id="cmTitle">Product</h2>
           </div>
           <button type="button" class="cm-close" aria-label="Close comments">
             <svg
@@ -7855,9 +8003,6 @@
             </svg>
           </button>
         </header>
-        <p class="cm-note">
-          Only you and Jildou, your account manager, can see these comments.
-        </p>
         <div class="cm-log" aria-live="polite"></div>
         <form class="cm-form">
           <label class="sr-only" for="cmInput">Your comment</label>
@@ -7865,23 +8010,22 @@
             id="cmInput"
             class="cm-input"
             rows="1"
-            placeholder="Write a reply to Jildou..."
+            placeholder="Type your message…"
           ></textarea>
           <button
             type="submit"
             class="cm-send"
-            aria-label="Send comment"
+            aria-label="Send message"
             disabled
           >
             <img
-              src="assets/offer-v3/icon-send.svg"
-              width="18.2836"
-              height="18.2836"
+              src="assets/offer-v3/comments/send.png"
+              width="18"
+              height="18"
               alt=""
             />
           </button>
         </form>
-        <p class="cm-hint">Enter to send · Shift + Enter for a new line</p>
       </div>
     </dialog>
     <script>
@@ -8005,11 +8149,8 @@
           m.className = "cm-msg" + (you ? " cm-msg-you" : "");
           m.innerHTML =
             (you ? "" : '<span class="cm-avatar" aria-hidden="true"></span>') +
-            '<div class="cm-bubble"><p class="cm-from"><b></b><span></span> <time></time></p><p class="cm-text"></p></div>';
+            '<div class="cm-bubble"><p class="cm-from"><b></b> · <time></time></p><p class="cm-text"></p></div>';
           m.querySelector(".cm-from b").textContent = from;
-          if (!you)
-            m.querySelector(".cm-from span").textContent =
-              " · your account manager";
           m.querySelector("time").textContent = time;
           m.querySelector(".cm-text").textContent = text;
           return m;
@@ -8026,7 +8167,7 @@
             msgEl(
               false,
               "Jildou",
-              "",
+              cmt.dataset.time || "10:12",
               cmt.querySelector(".cmt-text").textContent.trim(),
             ),
           );
