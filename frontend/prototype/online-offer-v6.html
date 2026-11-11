@@ -4494,16 +4494,14 @@
       .cmt[data-state="idle"] .cmt-head {
         gap: 12px;
       }
+      /* same 36px photo with white ring in every state (Figma 17:307 variant 01) */
       .cmt-avatar {
         flex-shrink: 0;
-        width: 44px;
-        height: 44px;
-        border-radius: 50%;
-      }
-      .cmt[data-state="idle"] .cmt-avatar {
+        box-sizing: border-box;
         width: 36px;
         height: 36px;
         border: 2px solid #fff;
+        border-radius: 50%;
         background: #e6f7fc;
         box-shadow: 0 0 0 1px #e1e7ed;
       }
@@ -4549,10 +4547,6 @@
         color: #1c2530;
       }
       /* card (02): 43px photo, 16px message */
-      .cmt[data-state="card"] .cmt-avatar {
-        width: 43px;
-        height: 43px;
-      }
       .cmt[data-state="card"] .cmt-text {
         margin-top: 4px;
         font-size: 16px;
