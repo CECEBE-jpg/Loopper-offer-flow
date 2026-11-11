@@ -4671,6 +4671,315 @@
         color: #fff;
         pointer-events: none;
       }
+      /* Comments side panel (from v11), opened by "Read all comments" on a product comment */
+      .cm-dialog {
+        position: fixed;
+        inset: 0 0 0 auto;
+        width: min(440px, 100vw);
+        max-width: 100vw;
+        height: 100dvh;
+        max-height: 100dvh;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        background: #fff;
+        box-shadow: -12px 0 40px rgba(20, 30, 40, 0.18);
+      }
+      .cm-dialog[open] {
+        animation: cm-in 0.25s ease-out;
+      }
+      .cm-dialog::backdrop {
+        background: rgba(20, 34, 53, 0.35);
+      }
+      @keyframes cm-in {
+        from {
+          transform: translateX(40px);
+          opacity: 0;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .cm-dialog[open] {
+          animation: none;
+        }
+      }
+      .cm-panel {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+      .cm-head {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 18px 18px 14px;
+        border-bottom: 1px solid #e5e9ef;
+      }
+      .cm-head-img {
+        flex-shrink: 0;
+        border: 1px solid #dfe5ed;
+        border-radius: 7px;
+        object-fit: contain;
+      }
+      .cm-head-text {
+        flex: 1;
+        min-width: 0;
+      }
+      .cm-head-kicker {
+        margin: 0;
+        font-size: 11px;
+        font-weight: 700;
+        color: #6e7e96;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .cm-title {
+        margin: 2px 0 0;
+        font-size: 14px;
+        line-height: 19px;
+        font-weight: 800;
+        color: #142235;
+      }
+      .cm-close {
+        display: grid;
+        place-items: center;
+        width: 36px;
+        height: 36px;
+        border: 0;
+        border-radius: 8px;
+        background: #f2f4f7;
+        color: #1c2530;
+        cursor: pointer;
+      }
+      .cm-note {
+        margin: 0;
+        padding: 8px 18px;
+        background: #f5faff;
+        font-size: 12px;
+        line-height: 16px;
+        color: #53627a;
+      }
+      .cm-log {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        gap: 12px;
+        min-height: 0;
+        padding: 16px 18px;
+        overflow-y: auto;
+      }
+      .cm-dialog.is-empty .cm-log {
+        display: none;
+      }
+      .cm-empty {
+        display: none;
+      }
+      .cm-dialog.is-empty .cm-empty {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        padding: 24px 40px;
+        text-align: center;
+      }
+      .cm-empty p {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        margin: 0;
+        font-size: 13px;
+        line-height: 19px;
+        color: #53627a;
+      }
+      .cm-empty b {
+        font-size: 15px;
+        color: #142235;
+      }
+      .cm-day,
+      .cm-system {
+        align-self: center;
+        margin: 0;
+        font-size: 11px;
+        line-height: 15px;
+        color: #6e7e96;
+        text-align: center;
+      }
+      .cm-system {
+        max-width: 300px;
+        padding: 6px 10px;
+        border-radius: 8px;
+        background: #f2f4f7;
+      }
+      .cm-new-line {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0;
+        font-size: 11px;
+        font-weight: 800;
+        color: #43be10;
+      }
+      .cm-new-line::before,
+      .cm-new-line::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: #bfe8a8;
+      }
+      .cm-msg {
+        display: flex;
+        align-items: flex-end;
+        gap: 8px;
+      }
+      .cm-msg-you {
+        justify-content: flex-end;
+      }
+      .cm-avatar {
+        flex-shrink: 0;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        box-shadow: 0 0 0 1px #e1e7ed;
+        background: #e6f7fc url("assets/offer-v3/account-manager-model.png")
+          no-repeat;
+        background-size: 191.82% 157.12%;
+        background-position: 49% 10%;
+      }
+      .cm-avatar-lg {
+        width: 64px;
+        height: 64px;
+      }
+      .cm-bubble {
+        max-width: 80%;
+        padding: 9px 13px 10px;
+        border-radius: 16px 16px 16px 4px;
+        background: #f4f4f4;
+      }
+      .cm-msg-you .cm-bubble {
+        border-radius: 16px 16px 4px 16px;
+        background: #effae6;
+      }
+      .cm-from {
+        margin: 0;
+        font-size: 12px;
+        line-height: 16px;
+        color: #7b8794;
+      }
+      .cm-from b {
+        font-weight: 800;
+        color: #1c2530;
+      }
+      .cm-from time {
+        margin-left: 4px;
+        font-size: 11px;
+        color: #9aa5b1;
+      }
+      .cm-text {
+        margin: 0;
+        padding-top: 2px;
+        font-size: 14px;
+        line-height: 20px;
+        color: #1c2530;
+        white-space: pre-wrap;
+      }
+      .cm-suggest {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        padding: 0 18px 10px;
+      }
+      .cm-dialog.has-own .cm-suggest {
+        display: none;
+      }
+      .cm-suggest button {
+        height: 28px;
+        padding: 0 11px;
+        border: 1px solid #dfe5ed;
+        border-radius: 14px;
+        background: #fff;
+        font: inherit;
+        font-size: 12px;
+        font-weight: 700;
+        color: #53627a;
+        cursor: pointer;
+      }
+      .cm-suggest button:hover {
+        border-color: #006ed0;
+        color: #006ed0;
+      }
+      .cm-form {
+        display: flex;
+        align-items: flex-end;
+        gap: 8px;
+        margin: 0;
+        padding: 12px 18px 4px;
+        border-top: 1px solid #e5e9ef;
+      }
+      .cm-input {
+        flex: 1;
+        min-width: 0;
+        min-height: 44px;
+        max-height: 120px;
+        padding: 11px 13px;
+        border: 1px solid #949494;
+        border-radius: 8px;
+        font: inherit;
+        font-size: 14px;
+        line-height: 20px;
+        color: #1c2530;
+        resize: none;
+      }
+      .cm-input::placeholder {
+        color: #767676;
+      }
+      .cm-input:focus {
+        outline: none;
+        border-color: #43be10;
+        box-shadow: 0 0 0 3px #e3f5d6;
+      }
+      .cm-send {
+        display: grid;
+        flex-shrink: 0;
+        place-items: center;
+        width: 50px;
+        height: 44px;
+        border: 0;
+        border-radius: 10px;
+        background: #43be10;
+        cursor: pointer;
+      }
+      .cm-send img {
+        margin: 0 0 5px 3px;
+        transform: rotate(-41.2deg);
+      }
+      .cm-send:disabled {
+        background: #c7d0da;
+        cursor: not-allowed;
+      }
+      .cm-hint {
+        margin: 0;
+        padding: 0 18px 14px;
+        font-size: 11px;
+        color: #9aa5b1;
+      }
+      .cm-close:focus-visible {
+        outline: 2px solid #006ed0;
+        outline-offset: 2px;
+      }
+      .cm-dialog .cm-avatar {
+        background-image: url("assets/offer-v3/comments/jildou-portrait.png");
+        background-size: cover;
+        background-position: center;
+      }
+      /* collapsed comment box: only the account manager's message + "Read all comments" */
+      .cmt[data-state="collapsed"] .cmt-sep,
+      .cmt[data-state="collapsed"] .cmt-msg {
+        display: none;
+      }
+      .cmt[data-state="collapsed"] .cmt-more {
+        margin-top: -8px;
+      }
       /* Collapsed logo section: previews right of the title, small Upload CTA before the status pill */
       .logos-dd:not([open]) .logos-dd-title {
         flex-direction: row;
@@ -7515,98 +7824,271 @@
         check();
       })();
     </script>
+    <dialog class="cm-dialog" aria-labelledby="cmTitle">
+      <div class="cm-panel">
+        <header class="cm-head">
+          <img
+            class="cm-head-img"
+            src="assets/offer-v3/thermos-silver.jpg"
+            width="44"
+            height="44"
+            alt=""
+          />
+          <div class="cm-head-text">
+            <p class="cm-head-kicker">Comments on</p>
+            <h2 class="cm-title" id="cmTitle">Product</h2>
+          </div>
+          <button type="button" class="cm-close" aria-label="Close comments">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M5 5l10 10M15 5L5 15"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+            </svg>
+          </button>
+        </header>
+        <p class="cm-note">
+          Only you and Jildou, your account manager, can see these comments.
+        </p>
+        <div class="cm-log" aria-live="polite"></div>
+        <form class="cm-form">
+          <label class="sr-only" for="cmInput">Your comment</label>
+          <textarea
+            id="cmInput"
+            class="cm-input"
+            rows="1"
+            placeholder="Write a reply to Jildou..."
+          ></textarea>
+          <button
+            type="submit"
+            class="cm-send"
+            aria-label="Send comment"
+            disabled
+          >
+            <img
+              src="assets/offer-v3/icon-send.svg"
+              width="18.2836"
+              height="18.2836"
+              alt=""
+            />
+          </button>
+        </form>
+        <p class="cm-hint">Enter to send · Shift + Enter for a new line</p>
+      </div>
+    </dialog>
     <script>
       // Product comments (Figma 17:8 → 17:273):
       // idle: Reply next to the message → card: reply field → thread: your replies listed,
-      // Reply at the bottom, e-mail notice → more than 2 replies: only the last 2 + "Read all comments".
-      document.querySelectorAll(".cmt").forEach(function (cmt) {
-        var thread = cmt.querySelector(".cmt-thread");
-        var form = cmt.querySelector(".cmt-form");
-        var input = cmt.querySelector(".cmt-input");
-        var replyHead = cmt.querySelector(".cmt-reply-head");
-        var replyFoot = cmt.querySelector(".cmt-reply-foot");
-        var more = cmt.querySelector(".cmt-more");
-        var count = cmt.querySelector(".cmt-count");
-        var notice = cmt.querySelector(".cmt-notice");
-        var expanded = false;
+      // Reply at the bottom, e-mail notice → more than 2 replies: the box collapses to the
+      // account manager's message + "Read all comments", which opens the side panel (v11 dialog).
+      (function () {
         var SHOW = 2;
+        var dlg = document.querySelector(".cm-dialog");
+        var log = dlg.querySelector(".cm-log");
+        var dTitle = dlg.querySelector(".cm-title");
+        var dImg = dlg.querySelector(".cm-head-img");
+        var dForm = dlg.querySelector(".cm-form");
+        var dInput = dlg.querySelector(".cm-input");
+        var dSend = dlg.querySelector(".cm-send");
+        var current = null;
+
+        function now() {
+          var d = new Date();
+          return (
+            String(d.getHours()).padStart(2, "0") +
+            ":" +
+            String(d.getMinutes()).padStart(2, "0")
+          );
+        }
         function sep(cls) {
           var d = document.createElement("div");
           d.className = "cmt-sep" + (cls ? " " + cls : "");
           return d;
         }
-        function render() {
-          var msgs = thread.querySelectorAll(".cmt-msg");
-          var n = msgs.length;
-          var writing = !form.hidden;
-          var collapsed = !expanded && n > SHOW;
-          msgs.forEach(function (m, i) {
-            var hide = collapsed && i < n - SHOW;
-            m.hidden = hide;
-            m.previousElementSibling.hidden = hide;
-          });
-          cmt.dataset.state = n ? "thread" : writing ? "card" : "idle";
-          replyHead.hidden = n > 0 || writing;
-          replyFoot.hidden = !n || writing || collapsed;
-          more.hidden = !collapsed || writing;
-          count.textContent = n + 1;
-          more
-            .querySelector(".cmt-more-btn")
-            .setAttribute("aria-label", "Read all comments (" + (n + 1) + ")");
-          notice.hidden = !n || writing;
-        }
-        function open() {
-          form.hidden = false;
-          render();
-          input.focus();
-        }
-        function close() {
-          form.hidden = true;
-          render();
-        }
-        replyHead.addEventListener("click", open);
-        replyFoot.addEventListener("click", open);
-        more
-          .querySelector(".cmt-more-btn")
-          .addEventListener("click", function () {
-            expanded = true;
+
+        document.querySelectorAll(".cmt").forEach(function (cmt) {
+          var thread = cmt.querySelector(".cmt-thread");
+          var form = cmt.querySelector(".cmt-form");
+          var input = cmt.querySelector(".cmt-input");
+          var replyHead = cmt.querySelector(".cmt-reply-head");
+          var replyFoot = cmt.querySelector(".cmt-reply-foot");
+          var more = cmt.querySelector(".cmt-more");
+          var moreBtn = more.querySelector(".cmt-more-btn");
+          var count = cmt.querySelector(".cmt-count");
+          var notice = cmt.querySelector(".cmt-notice");
+
+          function render() {
+            var n = thread.querySelectorAll(".cmt-msg").length;
+            var writing = !form.hidden;
+            var collapsed = n > SHOW;
+            if (collapsed) {
+              form.hidden = true;
+              writing = false;
+            }
+            cmt.dataset.state = collapsed
+              ? "collapsed"
+              : n
+                ? "thread"
+                : writing
+                  ? "card"
+                  : "idle";
+            replyHead.hidden = n > 0 || writing;
+            replyFoot.hidden = !n || writing || collapsed;
+            more.hidden = !collapsed;
+            count.textContent = n + 1;
+            moreBtn.setAttribute(
+              "aria-label",
+              "Read all comments (" + (n + 1) + ")",
+            );
+            notice.hidden = !n || writing || collapsed;
+          }
+          function addReply(text, time) {
+            var end = thread.querySelector(".cmt-sep-end");
+            if (!end) {
+              end = sep("cmt-sep-end");
+              thread.appendChild(end);
+            }
+            var p = document.createElement("p");
+            p.className = "cmt-msg";
+            p.innerHTML =
+              '<span class="cmt-msg-meta"><b>You</b> · <time></time></span><span class="cmt-msg-text"></span>';
+            p.querySelector("time").textContent = time;
+            p.lastChild.textContent = text;
+            thread.insertBefore(sep(), end);
+            thread.insertBefore(p, end);
             render();
-            replyFoot.focus();
+          }
+          function open() {
+            form.hidden = false;
+            render();
+            input.focus();
+          }
+          function close() {
+            form.hidden = true;
+            render();
+          }
+          cmt._cmt = { thread: thread, addReply: addReply, opener: moreBtn };
+          replyHead.addEventListener("click", open);
+          replyFoot.addEventListener("click", open);
+          moreBtn.addEventListener("click", function () {
+            openPanel(cmt);
           });
-        form.addEventListener("submit", function (e) {
+          form.addEventListener("submit", function (e) {
+            e.preventDefault();
+            var text = input.value.trim();
+            if (!text) return;
+            input.value = "";
+            form.hidden = true;
+            addReply(text, now());
+            if (cmt.dataset.state === "collapsed") moreBtn.focus();
+          });
+          input.addEventListener("keydown", function (e) {
+            if (e.key === "Escape") {
+              close();
+              (replyHead.hidden ? replyFoot : replyHead).focus();
+            }
+          });
+          render();
+        });
+
+        // ---- side panel
+        function msgEl(you, from, time, text) {
+          var m = document.createElement("div");
+          m.className = "cm-msg" + (you ? " cm-msg-you" : "");
+          m.innerHTML =
+            (you ? "" : '<span class="cm-avatar" aria-hidden="true"></span>') +
+            '<div class="cm-bubble"><p class="cm-from"><b></b><span></span> <time></time></p><p class="cm-text"></p></div>';
+          m.querySelector(".cm-from b").textContent = from;
+          if (!you)
+            m.querySelector(".cm-from span").textContent =
+              " · your account manager";
+          m.querySelector("time").textContent = time;
+          m.querySelector(".cm-text").textContent = text;
+          return m;
+        }
+        function openPanel(cmt) {
+          current = cmt;
+          var product = cmt.closest(".product");
+          dTitle.textContent = product
+            .querySelector(".p6-title")
+            .textContent.trim();
+          dImg.src = product.querySelector(".p6-photo img").getAttribute("src");
+          log.innerHTML = "";
+          log.appendChild(
+            msgEl(
+              false,
+              "Jildou",
+              "",
+              cmt.querySelector(".cmt-text").textContent.trim(),
+            ),
+          );
+          cmt._cmt.thread.querySelectorAll(".cmt-msg").forEach(function (p) {
+            log.appendChild(
+              msgEl(
+                true,
+                "You",
+                p.querySelector("time").textContent,
+                p.querySelector(".cmt-msg-text").textContent,
+              ),
+            );
+          });
+          var note = document.createElement("p");
+          note.className = "cm-system";
+          note.textContent =
+            "Jildou has been notified. You'll get an email when she replies.";
+          log.appendChild(note);
+          dSend.disabled = true;
+          dlg.showModal();
+          log.scrollTop = log.scrollHeight;
+          dInput.focus();
+        }
+        dlg.addEventListener("close", function () {
+          if (current) current._cmt.opener.focus();
+        });
+        dlg.addEventListener("click", function (e) {
+          if (e.target === dlg) dlg.close();
+        });
+        dlg.querySelector(".cm-close").addEventListener("click", function () {
+          dlg.close();
+        });
+        function grow() {
+          dInput.style.height = "auto";
+          dInput.style.height = Math.min(dInput.scrollHeight, 120) + "px";
+        }
+        dInput.addEventListener("input", function () {
+          grow();
+          dSend.disabled = !dInput.value.trim();
+        });
+        dInput.addEventListener("keydown", function (e) {
+          if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            dForm.requestSubmit();
+          }
+        });
+        dForm.addEventListener("submit", function (e) {
           e.preventDefault();
-          var text = input.value.trim();
-          if (!text) return;
-          var now = new Date();
-          var time =
-            String(now.getHours()).padStart(2, "0") +
-            ":" +
-            String(now.getMinutes()).padStart(2, "0");
-          var end = thread.querySelector(".cmt-sep-end");
-          if (!end) {
-            end = sep("cmt-sep-end");
-            thread.appendChild(end);
-          }
-          var p = document.createElement("p");
-          p.className = "cmt-msg";
-          p.innerHTML =
-            '<span class="cmt-msg-meta"><b>You</b> · ' +
-            time +
-            '</span><span class="cmt-msg-text"></span>';
-          p.lastChild.textContent = text;
-          thread.insertBefore(sep(), end);
-          thread.insertBefore(p, end);
-          input.value = "";
-          close();
+          var text = dInput.value.trim();
+          if (!text || !current) return;
+          var time = now();
+          log.insertBefore(
+            msgEl(true, "You", time, text),
+            log.querySelector(".cm-system"),
+          );
+          current._cmt.addReply(text, time);
+          dInput.value = "";
+          grow();
+          dSend.disabled = true;
+          log.scrollTop = log.scrollHeight;
         });
-        input.addEventListener("keydown", function (e) {
-          if (e.key === "Escape") {
-            close();
-            (replyHead.hidden ? replyFoot : replyHead).focus();
-          }
-        });
-        render();
-      });
+      })();
     </script>
     <script>
       // Upload CTA in the collapsed logo header: opens the file picker without toggling the section
