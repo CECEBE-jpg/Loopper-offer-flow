@@ -4457,10 +4457,6 @@
       .p6-off-sub {
         display: none;
       }
-      /* grey comment bubble, as in the design */
-      .p6-pin .am-chat-bubble {
-        background: #f2f2f2;
-      }
       /* pricing spans both rows, so the comment sits right under gallery + details */
       .product.p6 > .p6-tiers {
         grid-column: 4;
@@ -4473,98 +4469,207 @@
       .q-custom .q-custom-input {
         width: 132px;
       }
-      /* Reply on the pinned comment: inline field inside the bubble, replies listed under the message */
-      .pin-reply {
-        display: inline-flex;
+      /* Product comments (Figma 17:8 idle, 19:3 card, 20:3 / 17:89 / 17:230 thread, 17:273 collapsed) */
+      .p6-pin .cmt-box {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        padding: 14px 17px;
+        border-radius: 20px;
+        background: #f2f2f2;
+      }
+      .cmt[data-state="idle"] .cmt-box {
+        padding: 10px 14px;
+        border-radius: 16px;
+      }
+      .cmt[data-state="card"] .cmt-box {
+        gap: 12px;
+        padding: 15px 18px 14px;
+      }
+      .cmt-head {
+        display: flex;
         align-items: center;
-        gap: 4px;
-        margin-top: 6px;
+        gap: 16px;
+      }
+      .cmt[data-state="idle"] .cmt-head {
+        gap: 12px;
+      }
+      .cmt-avatar {
+        flex-shrink: 0;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+      }
+      .cmt[data-state="idle"] .cmt-avatar {
+        width: 36px;
+        height: 36px;
+      }
+      .cmt-body {
+        flex: 1;
+        min-width: 0;
+      }
+      .cmt-from {
+        margin: 0;
+        font-size: 15px;
+        line-height: 19.5px;
+        color: #8996a7;
+      }
+      .cmt-from b {
+        font-weight: 700;
+        color: #37414b;
+      }
+      .cmt-text {
+        margin: 5px 0 0;
+        font-size: 17px;
+        line-height: 22.1px;
+        color: #37414b;
+      }
+      .cmt[data-state="idle"] .cmt-from {
+        font-size: 13px;
+        line-height: 16px;
+      }
+      .cmt[data-state="idle"] .cmt-text {
+        margin-top: 2px;
+        font-size: 15px;
+        line-height: 20px;
+      }
+      .cmt-thread {
+        display: contents;
+      }
+      .cmt-sep {
+        height: 1px;
+        background: #e1e3e5;
+      }
+      .cmt-sep[hidden],
+      .cmt-msg[hidden],
+      .cmt-reply[hidden],
+      .cmt-form[hidden],
+      .cmt-more[hidden],
+      .cmt-notice[hidden] {
+        display: none;
+      }
+      .cmt-msg {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 5px;
+        margin: 0;
+        text-align: right;
+      }
+      .cmt-msg-meta {
+        font-size: 14px;
+        line-height: 20px;
+        color: #636f7c;
+      }
+      .cmt-msg-meta b {
+        font-weight: 700;
+      }
+      .cmt-msg-text {
+        font-size: 14px;
+        line-height: 20px;
+        color: #1c2530;
+        overflow-wrap: anywhere;
+      }
+      .cmt-reply {
+        display: inline-flex;
+        flex-shrink: 0;
+        align-items: center;
+        gap: 3px;
         padding: 0;
         border: 0;
         background: none;
         font: inherit;
-        font-size: 12px;
-        font-weight: 800;
-        color: #006ed0;
+        font-size: 15px;
+        line-height: 19.5px;
+        font-weight: 700;
+        color: #00aed8;
         cursor: pointer;
       }
-      .pin-reply[hidden] {
-        display: none;
-      }
-      .pin-reply::before {
-        content: "↩";
-        font-size: 13px;
-      }
-      .pin-reply:hover {
+      .cmt-reply:hover {
         text-decoration: underline;
       }
-      .pin-reply:focus-visible,
-      .pin-send:focus-visible {
+      .cmt-reply-foot {
+        align-self: flex-end;
+      }
+      .cmt-form {
+        display: flex;
+        gap: 8px;
+        margin: 0;
+      }
+      .cmt-input {
+        flex: 1;
+        min-width: 0;
+        height: 40px;
+        padding: 0 14px;
+        border: 1px solid #d4dae0;
+        border-radius: 10px;
+        background: #fff;
+        font: inherit;
+        font-size: 16px;
+        color: #1c2530;
+      }
+      .cmt-input::placeholder {
+        color: #929292;
+      }
+      .cmt-input:focus {
+        outline: none;
+        border-color: #00aed8;
+      }
+      .cmt-send {
+        display: grid;
+        place-items: center;
+        flex-shrink: 0;
+        width: 44px;
+        height: 40px;
+        padding: 0;
+        border: 0;
+        border-radius: 8px;
+        background: #00aed8;
+        cursor: pointer;
+      }
+      .cmt-send:hover {
+        background: #0098bd;
+      }
+      .cmt-reply:focus-visible,
+      .cmt-send:focus-visible,
+      .cmt-more-btn:focus-visible {
         outline: 2px solid #006ed0;
         outline-offset: 2px;
       }
-      .pin-thread {
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-        margin-top: 8px;
-        padding-top: 8px;
-        border-top: 1px solid #e3e3e3;
+      .cmt-more {
+        position: relative;
+        align-self: flex-end;
+        padding: 17px 12px 0 0;
       }
-      .pin-thread:empty {
-        display: none;
-      }
-      .pin-msg {
-        margin: 0;
-        font-size: 13px;
-        line-height: 18px;
-        color: var(--ink);
-      }
-      .pin-msg b {
-        font-weight: 800;
-      }
-      .pin-msg small {
-        margin-left: 6px;
-        font-size: 11px;
-        color: #7b8794;
-      }
-      .pin-form {
-        display: flex;
-        gap: 6px;
-        margin-top: 8px;
-      }
-      .pin-form[hidden] {
-        display: none;
-      }
-      .pin-input {
-        flex: 1;
-        min-width: 0;
-        height: 32px;
-        padding: 0 10px;
-        border: 1px solid #d5dbe1;
-        border-radius: 8px;
-        background: #fff;
+      .cmt-more-btn {
+        padding: 9px 22px;
+        border: 3px solid #00aed8;
+        border-radius: 14px;
+        background: none;
         font: inherit;
-        font-size: 13px;
-      }
-      .pin-input:focus {
-        outline: none;
-        border-color: #006ed0;
-      }
-      .pin-send {
-        height: 32px;
-        padding: 0 14px;
-        border: 0;
-        border-radius: 8px;
-        background: var(--green);
-        color: #fff;
-        font: inherit;
-        font-size: 12px;
-        font-weight: 800;
+        font-size: 16px;
+        line-height: 19.5px;
+        font-weight: 700;
+        color: #00aed8;
         cursor: pointer;
       }
-      .pin-send:hover {
-        background: var(--green-text);
+      .cmt-more-btn:hover {
+        background: #e6f7fc;
+      }
+      .cmt-count {
+        position: absolute;
+        top: 0;
+        right: 0;
+        display: grid;
+        place-items: center;
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background: #cc6600;
+        font-size: 15px;
+        font-weight: 700;
+        color: #fff;
+        pointer-events: none;
       }
       /* Collapsed logo section: previews right of the title, small Upload CTA before the status pill */
       .logos-dd:not([open]) .logos-dd-title {
@@ -4608,39 +4713,10 @@
         font-size: 9.75px;
         line-height: 11.25px;
       }
-      /* Reply CTA on the right of the bubble */
-      .pin-reply {
-        display: flex;
-        margin-left: auto;
-      }
-      .p6-pin .am-chat-bubble {
-        display: flex;
-        flex-direction: column;
-      }
-      /* 2026-11-04: avatar inside the grey box, left of name + title; Reply on the same row */
       .product .am-note.am-chat.p6-pin {
         flex-direction: column;
         align-items: stretch;
         gap: 6px;
-      }
-      .p6-pin .am-chat-bubble {
-        border-radius: 16px;
-      }
-      .p6-pin .am-chat-bubble::before {
-        display: none;
-      }
-      .pin-row {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-      }
-      .pin-body {
-        flex: 1;
-        min-width: 0;
-      }
-      .pin-row .pin-reply {
-        flex-shrink: 0;
-        margin-top: 0;
       }
       .pin-notice {
         margin: 0;
@@ -5313,33 +5389,67 @@
                 </div>
               </div>
             </div>
-            <div class="am-note am-chat p6-pin">
-              <div class="am-chat-bubble">
-                <div class="pin-row">
-                  <span
-                    class="avatar avatar-photo am-chat-avatar"
-                    aria-hidden="true"
-                  ></span>
-                  <div class="pin-body">
-                    <p class="am-chat-from">
-                      <b>Jildou</b> · your account manager
-                    </p>
-                    <p class="am-chat-text">I think.. so and so and so</p>
+            <!-- Account manager comment + your replies (Figma 17:8, 19:3, 20:3, 17:89, 17:230, 17:273) -->
+            <div class="am-note am-chat p6-pin cmt" data-state="idle">
+              <div class="cmt-box">
+                <div class="cmt-head">
+                  <img
+                    class="cmt-avatar"
+                    src="assets/offer-v3/comments/jildou-portrait.png"
+                    width="44"
+                    height="44"
+                    alt=""
+                  />
+                  <div class="cmt-body">
+                    <p class="cmt-from"><b>Jildou</b> · your account manager</p>
+                    <p class="cmt-text">I think.. so and so and so</p>
                   </div>
-                  <button type="button" class="pin-reply">Reply</button>
+                  <button type="button" class="cmt-reply cmt-reply-head">
+                    <img
+                      src="assets/offer-v3/comments/reply-arrow.svg"
+                      width="16"
+                      height="16"
+                      alt=""
+                    />Reply
+                  </button>
                 </div>
-                <div class="pin-thread"></div>
-                <form class="pin-form" hidden>
+                <div class="cmt-thread"></div>
+                <form class="cmt-form" hidden>
                   <input
                     type="text"
-                    class="pin-input"
-                    placeholder="Write a reply to Jildou…"
+                    class="cmt-input"
+                    placeholder="Write a reply to Jildou..."
                     aria-label="Reply to Jildou"
                   />
-                  <button type="submit" class="pin-send">Send</button>
+                  <button
+                    type="submit"
+                    class="cmt-send"
+                    aria-label="Send reply"
+                  >
+                    <img
+                      src="assets/offer-v3/comments/send.png"
+                      width="18"
+                      height="18"
+                      alt=""
+                    />
+                  </button>
                 </form>
+                <button type="button" class="cmt-reply cmt-reply-foot" hidden>
+                  <img
+                    src="assets/offer-v3/comments/reply-arrow.svg"
+                    width="16"
+                    height="16"
+                    alt=""
+                  />Reply
+                </button>
+                <span class="cmt-more" hidden>
+                  <button type="button" class="cmt-more-btn">
+                    Read all comments
+                  </button>
+                  <span class="cmt-count"></span>
+                </span>
               </div>
-              <p class="pin-notice">
+              <p class="pin-notice cmt-notice" hidden>
                 This is not a chat. Your account manager will send you an email
                 when they reply.
               </p>
@@ -7406,39 +7516,96 @@
       })();
     </script>
     <script>
-      // Pinned comment: Reply opens an inline field; sent replies show under the account manager's message
-      document.querySelectorAll(".p6-pin").forEach(function (pin) {
-        var btn = pin.querySelector(".pin-reply");
-        var form = pin.querySelector(".pin-form");
-        var input = pin.querySelector(".pin-input");
-        var thread = pin.querySelector(".pin-thread");
-        function closeForm() {
-          form.hidden = true;
-          btn.hidden = false;
+      // Product comments (Figma 17:8 → 17:273):
+      // idle: Reply next to the message → card: reply field → thread: your replies listed,
+      // Reply at the bottom, e-mail notice → more than 2 replies: only the last 2 + "Read all comments".
+      document.querySelectorAll(".cmt").forEach(function (cmt) {
+        var thread = cmt.querySelector(".cmt-thread");
+        var form = cmt.querySelector(".cmt-form");
+        var input = cmt.querySelector(".cmt-input");
+        var replyHead = cmt.querySelector(".cmt-reply-head");
+        var replyFoot = cmt.querySelector(".cmt-reply-foot");
+        var more = cmt.querySelector(".cmt-more");
+        var count = cmt.querySelector(".cmt-count");
+        var notice = cmt.querySelector(".cmt-notice");
+        var expanded = false;
+        var SHOW = 2;
+        function sep(cls) {
+          var d = document.createElement("div");
+          d.className = "cmt-sep" + (cls ? " " + cls : "");
+          return d;
         }
-        btn.addEventListener("click", function () {
+        function render() {
+          var msgs = thread.querySelectorAll(".cmt-msg");
+          var n = msgs.length;
+          var writing = !form.hidden;
+          var collapsed = !expanded && n > SHOW;
+          msgs.forEach(function (m, i) {
+            var hide = collapsed && i < n - SHOW;
+            m.hidden = hide;
+            m.previousElementSibling.hidden = hide;
+          });
+          cmt.dataset.state = n ? "thread" : writing ? "card" : "idle";
+          replyHead.hidden = n > 0 || writing;
+          replyFoot.hidden = !n || writing || collapsed;
+          more.hidden = !collapsed || writing;
+          count.textContent = n + 1;
+          more
+            .querySelector(".cmt-more-btn")
+            .setAttribute("aria-label", "Read all comments (" + (n + 1) + ")");
+          notice.hidden = !n || writing;
+        }
+        function open() {
           form.hidden = false;
-          btn.hidden = true;
+          render();
           input.focus();
-        });
+        }
+        function close() {
+          form.hidden = true;
+          render();
+        }
+        replyHead.addEventListener("click", open);
+        replyFoot.addEventListener("click", open);
+        more
+          .querySelector(".cmt-more-btn")
+          .addEventListener("click", function () {
+            expanded = true;
+            render();
+            replyFoot.focus();
+          });
         form.addEventListener("submit", function (e) {
           e.preventDefault();
           var text = input.value.trim();
           if (!text) return;
+          var now = new Date();
+          var time =
+            String(now.getHours()).padStart(2, "0") +
+            ":" +
+            String(now.getMinutes()).padStart(2, "0");
+          var end = thread.querySelector(".cmt-sep-end");
+          if (!end) {
+            end = sep("cmt-sep-end");
+            thread.appendChild(end);
+          }
           var p = document.createElement("p");
-          p.className = "pin-msg";
-          p.innerHTML = "<b>You</b><small>Just now</small><br />";
-          p.appendChild(document.createTextNode(text));
-          thread.appendChild(p);
+          p.className = "cmt-msg";
+          p.innerHTML =
+            '<span class="cmt-msg-meta"><b>You</b> · ' +
+            time +
+            '</span><span class="cmt-msg-text"></span>';
+          p.lastChild.textContent = text;
+          thread.insertBefore(sep(), end);
+          thread.insertBefore(p, end);
           input.value = "";
-          closeForm();
+          close();
         });
         input.addEventListener("keydown", function (e) {
           if (e.key === "Escape") {
-            closeForm();
-            btn.focus();
+            close();
+            (replyHead.hidden ? replyFoot : replyHead).focus();
           }
         });
+        render();
       });
     </script>
     <script>
