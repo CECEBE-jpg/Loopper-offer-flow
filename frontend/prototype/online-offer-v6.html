@@ -4710,6 +4710,32 @@
         line-height: 19.5px;
         color: #8996a7;
       }
+      /* "In offer" / "Add to offer" switches: label and switch left-aligned in the first column */
+      .p6-offer {
+        align-items: flex-start;
+        text-align: left;
+      }
+      .product.p6.is-off .p6-offer-on {
+        display: none;
+      }
+      .product.p6.is-off .p6-offer-off {
+        display: inline;
+      }
+      .product.p6.is-off > :not(.p6-offer) {
+        opacity: 0.45;
+        transition: opacity 0.2s;
+      }
+      .product.p6.is-off > .p6-tiers {
+        pointer-events: none;
+      }
+      .alt-switch {
+        align-items: flex-start;
+        text-align: left;
+      }
+      /* same left edge as the "In offer" column of the product cards */
+      .alt > .alt-row {
+        padding-left: 23px;
+      }
       /* Comments side panel (from v11), opened by "Read all comments" on a product comment */
       .cm-dialog {
         position: fixed;
@@ -6573,15 +6599,21 @@
       />
     </footer>
     <script>
-      // Prototype: add the requested alternative to the offer and update the summary.
+      // Prototype: "In offer" switches take a product out of / back into the offer, the requested
+      // alternative's "Add to offer" swaps its row for a full card, and the summary adds up the
+      // chosen quantity of every product that is in the offer.
       (function () {
-        var BASE = 246.5; // subtotal of the offer as designed
-        var VAT = 49.3 / 246.5; // same ratio as the design's VAT line
+        var VAT = 0.21;
         var $ = function (id) {
           return document.getElementById(id);
         };
         var row = $("alt"),
           card = $("altProduct");
+        var products = Array.prototype.slice.call(
+          document.querySelectorAll(
+            ".products-card .product.p6:not(#altProduct)",
+          ),
+        );
         var eur = function (n) {
           return (
             "€ " +
@@ -6591,35 +6623,67 @@
             })
           );
         };
-        function update(on) {
-          // custom quantity has no fixed price yet: keep the last tier price in the summary
-          var pick =
-            $("altQty").querySelector("input[data-price]:checked") ||
-            $("altQty").querySelector("input[data-price]");
-          var qty = +pick.value,
-            line = qty * +pick.dataset.price;
-          var sub = BASE + (on ? line : 0),
-            vat = sub * VAT;
-          row.hidden = on;
-          card.hidden = !on;
-          $("altToggle").checked = on;
-          $("altInOffer").checked = on;
-          $("sumAlt").hidden = !on;
-          $("sumAltQty").textContent = qty.toLocaleString("en-GB");
-          $("sumAltPrice").textContent = eur(line);
-          $("sumExcl").textContent = eur(sub);
+        // chosen quantity × price; a custom quantity without a valid price counts as 0
+        function line(list) {
+          var pick = list.querySelector('.q-row > input[type="radio"]:checked');
+          if (!pick || !pick.dataset.price) return { qty: 0, sum: 0 };
+          return { qty: +pick.value, sum: +pick.value * +pick.dataset.price };
+        }
+        function update() {
+          var sub = 0;
+          products.forEach(function (p) {
+            var on = p.querySelector(".p6-offer input").checked;
+            p.classList.toggle("is-off", !on);
+            if (on) sub += line(p.querySelector(".q-list")).sum;
+          });
+          var altOn = $("altInOffer").checked;
+          var alt = line($("altQty"));
+          if (!alt.qty) {
+            // nothing valid chosen yet: show the first tier
+            var first = $("altQty").querySelector("input[data-price]");
+            alt = {
+              qty: +first.value,
+              sum: +first.value * +first.dataset.price,
+            };
+          }
+          var excl = sub + (altOn ? alt.sum : 0),
+            vat = excl * VAT;
+          row.hidden = altOn;
+          card.hidden = !altOn;
+          $("altToggle").checked = altOn;
+          $("sumSub").textContent = eur(sub);
+          $("sumAlt").hidden = !altOn;
+          $("sumAltQty").textContent = alt.qty.toLocaleString("en-GB");
+          $("sumAltPrice").textContent = eur(alt.sum);
+          $("sumExcl").textContent = eur(excl);
           $("sumVat").textContent = eur(vat);
-          $("sumTotal").textContent = eur(sub + vat);
+          $("sumTotal").textContent = eur(excl + vat);
+        }
+        // run after the custom-quantity script has priced the input
+        function later() {
+          setTimeout(update, 0);
         }
         $("altToggle").addEventListener("change", function () {
-          update(true);
+          $("altInOffer").checked = true;
+          update();
+          $("altInOffer").focus();
         });
         $("altInOffer").addEventListener("change", function () {
-          update(false);
+          update();
+          if (!$("altInOffer").checked) $("altToggle").focus();
         });
-        $("altQty").addEventListener("change", function () {
-          update(true);
+        $("altInOffer").checked = false; // the alternative starts outside the offer
+        products.forEach(function (p) {
+          p.querySelector(".p6-offer input").addEventListener("change", update);
         });
+        document
+          .querySelectorAll(".products-card .q-list")
+          .forEach(function (list) {
+            list.addEventListener("change", later);
+            list.addEventListener("input", later);
+            list.addEventListener("click", later);
+          });
+        update();
       })();
     </script>
 
