@@ -5277,6 +5277,9 @@
         background: #e7f4ff;
         color: #006ed0;
       }
+      .logos-dd .chip-status {
+        font-size: 14px;
+      }
       .chip-status::before {
         content: "";
         flex-shrink: 0;
@@ -6127,7 +6130,78 @@
                 </button>
               </div>
             </fieldset>
-            <div class="cm-thread" hidden></div>
+            <!-- Account manager comment + your replies (Figma 17:8, 19:3, 20:3, 17:89, 17:230, 17:273) -->
+            <div
+              class="am-note am-chat p6-pin cmt"
+              data-state="idle"
+              data-time="10:12"
+            >
+              <div class="cmt-box">
+                <div class="cmt-head">
+                  <img
+                    class="cmt-avatar"
+                    src="assets/offer-v3/comments/jildou-portrait.png"
+                    width="44"
+                    height="44"
+                    alt=""
+                  />
+                  <div class="cmt-body">
+                    <p class="cmt-from">
+                      <b>Jildou</b><span class="cmt-dot"> ·</span> your account
+                      manager
+                    </p>
+                    <p class="cmt-text">I think.. so and so and so</p>
+                  </div>
+                  <button type="button" class="cmt-reply cmt-reply-head">
+                    <img
+                      src="assets/offer-v3/comments/reply-arrow.svg"
+                      width="16"
+                      height="16"
+                      alt=""
+                    />Reply
+                  </button>
+                </div>
+                <div class="cmt-thread"></div>
+                <form class="cmt-form" hidden>
+                  <input
+                    type="text"
+                    class="cmt-input"
+                    placeholder="Write a reply to Jildou..."
+                    aria-label="Reply to Jildou"
+                  />
+                  <button
+                    type="submit"
+                    class="cmt-send"
+                    aria-label="Send reply"
+                  >
+                    <img
+                      src="assets/offer-v3/comments/send.png"
+                      width="18"
+                      height="18"
+                      alt=""
+                    />
+                  </button>
+                </form>
+                <button type="button" class="cmt-reply cmt-reply-foot" hidden>
+                  <img
+                    src="assets/offer-v3/comments/reply-arrow.svg"
+                    width="16"
+                    height="16"
+                    alt=""
+                  />Reply
+                </button>
+                <span class="cmt-more" hidden>
+                  <button type="button" class="cmt-more-btn">
+                    Read all comments
+                  </button>
+                  <span class="cmt-count"></span>
+                </span>
+              </div>
+              <p class="pin-notice cmt-notice" hidden>
+                This is not a chat. Your account manager will send you an email
+                when they reply.
+              </p>
+            </div>
           </article>
 
           <!-- Requested alternative, not in the offer yet: small row with the toggle on the left (same column as "In offer").
