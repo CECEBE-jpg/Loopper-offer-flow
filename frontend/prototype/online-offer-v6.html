@@ -8323,7 +8323,8 @@
           function render() {
             var n = thread.querySelectorAll(".cmt-msg").length;
             var writing = !form.hidden;
-            var collapsed = n > SHOW;
+            // no account manager comment yet: straight to "Read all comments" after your first one
+            var collapsed = n > (cmt.dataset.empty ? 0 : SHOW);
             if (collapsed) {
               form.hidden = true;
               writing = false;
