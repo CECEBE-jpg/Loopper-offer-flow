@@ -4984,6 +4984,134 @@
         line-height: 21px;
         font-weight: 800;
       }
+      /* Mockup not started yet: light layer with dark text, photo stays visible */
+      .p6-overlay-mockup.is-requested {
+        background: rgba(255, 255, 255, 0.72);
+        color: #324a67;
+      }
+      /* Mockup ready: your logo on the bottle + green "Review" bar; the whole photo links to step 2 */
+      .p6-photo.is-ready {
+        border-color: var(--green);
+        box-shadow: 0 0 0 1px var(--green);
+      }
+      .p6-mock-logo {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        display: grid;
+        place-items: center;
+        width: 26px;
+        height: 46px;
+        transform: translate(-50%, -42%);
+        pointer-events: none;
+      }
+      .p6-mock-logo img {
+        width: 34px;
+        transform: rotate(-90deg);
+        opacity: 0.75;
+        filter: grayscale(1) brightness(0.55);
+        mix-blend-mode: multiply;
+      }
+      .p6-ready {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        color: #fff;
+        text-decoration: none;
+      }
+      .p6-ready-flag {
+        position: absolute;
+        top: 6px;
+        left: 6px;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 2px 8px 2px 6px;
+        border-radius: 20px;
+        background: var(--green);
+        font-size: 11px;
+        line-height: 16px;
+        font-weight: 800;
+      }
+      .p6-ready-bar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        height: 30px;
+        background: var(--green);
+        font-size: 13px;
+        font-weight: 800;
+        transition: background 0.15s;
+      }
+      .p6-ready:hover .p6-ready-bar,
+      .p6-ready:focus-visible .p6-ready-bar {
+        background: #4a9a1f;
+      }
+      .p6-ready:focus-visible {
+        outline: 2px solid #006ed0;
+        outline-offset: 2px;
+        border-radius: inherit;
+      }
+      /* Logo section status chip follows the product mockups (requested / in progress / ready) */
+      .logos-dd .chip-status.is-progress {
+        background: #ececec;
+        color: #4b5866;
+      }
+      .logos-dd .chip-status.is-progress::before {
+        background: #8a8a8a;
+      }
+      .logos-dd .chip-status.is-ready {
+        background: #eaf6e2;
+        color: #3d7f15;
+      }
+      .logos-dd .chip-status.is-ready::before {
+        background: var(--green);
+      }
+      /* Prototype demo bar (not part of the design) */
+      .demo-bar {
+        position: fixed;
+        top: 10px;
+        left: 50%;
+        z-index: 200;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 8px 6px 14px;
+        border-radius: 999px;
+        background: rgba(124, 58, 237, 0.94);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        color: #fff;
+        font-size: 12px;
+        line-height: 16px;
+        transform: translateX(-50%);
+        white-space: nowrap;
+      }
+      .demo-bar b {
+        font-weight: 800;
+      }
+      .demo-bar button {
+        height: 24px;
+        min-width: 24px;
+        padding: 0 10px;
+        border: 0;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.18);
+        color: #fff;
+        font: inherit;
+        font-weight: 800;
+        cursor: pointer;
+      }
+      .demo-bar button:hover {
+        background: rgba(255, 255, 255, 0.3);
+      }
+      .demo-bar .demo-prev,
+      .demo-bar .demo-next {
+        padding: 0;
+        font-size: 16px;
+      }
       /* Comments side panel (from v11), opened by "Read all comments" on a product comment */
       .cm-dialog {
         position: fixed;
@@ -5576,6 +5704,23 @@
     </style>
   </head>
   <body>
+    <!-- Prototype only: runs the mockup states as a demo -->
+    <div
+      class="demo-bar"
+      id="demoBar"
+      role="region"
+      aria-label="Prototype demo controls"
+    >
+      <b>Prototype demo</b>
+      <span class="demo-step" aria-live="polite"></span>
+      <button type="button" class="demo-prev" aria-label="Previous state">
+        ‹
+      </button>
+      <button type="button" class="demo-toggle" aria-pressed="false">
+        Pause
+      </button>
+      <button type="button" class="demo-next" aria-label="Next state">›</button>
+    </div>
     <div class="usp-bar">
       <ul class="usp-list">
         <li>
@@ -6173,28 +6318,15 @@
               /></span>
             </label>
             <div class="p6-gallery">
-              <span class="p6-status is-queued"
-                ><span class="p6-status-dot" aria-hidden="true"></span>Mockup
-                requested<span class="tip"
-                  ><button
-                    type="button"
-                    class="tip-btn"
-                    aria-label="More information"
-                    aria-describedby="tip6"
-                  >
-                    i</button
-                  ><span class="tip-bubble" role="tooltip" id="tip6"
-                    >We have your request: your <b>mockup design</b> is next in
-                    line. I will email you when it is ready.</span
-                  ></span
-                ></span
-              >
               <div class="p6-images">
                 <div class="p6-photo">
                   <img
                     src="assets/offer-v3/thermos-silver.jpg"
                     alt="Thermos bottle, silver"
                   />
+                  <span class="p6-overlay p6-overlay-mockup is-requested"
+                    >Mockup requested</span
+                  >
                 </div>
                 <div class="p6-thumbs">
                   <span class="p6-thumb"
@@ -8676,6 +8808,137 @@
           b.focus();
         });
       });
+    </script>
+    <script>
+      // Prototype demo: the mockups move through their states every 10 seconds so you can see
+      // what the customer sees: requested → in progress → ready to review (then it starts over).
+      // The logo-section chip follows. ?mockup=ready opens on the "ready" step, paused.
+      (function () {
+        var LOGO = "assets/offer-v3/sample-logo-black.svg";
+        var STEPS = [
+          ["requested", "requested"],
+          ["progress", "requested"],
+          ["progress", "progress"],
+          ["ready", "progress"],
+          ["ready", "ready"],
+        ];
+        var photos = Array.prototype.slice.call(
+          document.querySelectorAll(
+            ".products-card .product.p6:not(#altProduct) .p6-photo",
+          ),
+        );
+        var chip = document.querySelector(".logos-dd .chip-status");
+        var bar = document.getElementById("demoBar");
+        var label = bar.querySelector(".demo-step");
+        var toggle = bar.querySelector(".demo-toggle");
+
+        function setPhoto(photo, state) {
+          photo
+            .querySelectorAll(".p6-overlay-mockup, .p6-mock-logo, .p6-ready")
+            .forEach(function (el) {
+              el.remove();
+            });
+          photo.classList.toggle("is-ready", state === "ready");
+          photo.dataset.mockup = state;
+          if (state === "ready") {
+            photo.insertAdjacentHTML(
+              "beforeend",
+              '<span class="p6-mock-logo" aria-hidden="true"><img src="' +
+                LOGO +
+                '" alt="" /></span>' +
+                '<a class="p6-ready" href="online-offer-v6-approve.html" aria-label="Mockup ready: review your design">' +
+                '<span class="p6-ready-flag">✓ Mockup ready</span>' +
+                '<span class="p6-ready-bar">Review mockup ›</span></a>',
+            );
+          } else {
+            photo.insertAdjacentHTML(
+              "beforeend",
+              state === "requested"
+                ? '<span class="p6-overlay p6-overlay-mockup is-requested">Mockup requested</span>'
+                : '<span class="p6-overlay p6-overlay-mockup">Mockup in progress</span>',
+            );
+          }
+        }
+        function setChip(states) {
+          if (!chip) return;
+          var ready = states.filter(function (x) {
+            return x === "ready";
+          }).length;
+          var progress = states.filter(function (x) {
+            return x === "progress";
+          }).length;
+          chip.classList.remove("is-progress", "is-ready");
+          if (ready) {
+            chip.classList.add("is-ready");
+            chip.textContent =
+              ready === states.length
+                ? "Mockups ready to review"
+                : ready + " of " + states.length + " mockups ready to review";
+          } else if (progress) {
+            chip.classList.add("is-progress");
+            chip.textContent = "Mockup in progress";
+          } else {
+            chip.textContent = "Mockup design requested";
+          }
+        }
+        var NAMES = {
+          requested: "requested",
+          progress: "in progress",
+          ready: "ready",
+        };
+        var step = 0,
+          timer = null;
+        function show(i) {
+          step = (i + STEPS.length) % STEPS.length;
+          STEPS[step].forEach(function (st, k) {
+            if (photos[k]) setPhoto(photos[k], st);
+          });
+          setChip(STEPS[step].slice(0, photos.length));
+          label.textContent =
+            "Step " +
+            (step + 1) +
+            "/" +
+            STEPS.length +
+            " · " +
+            STEPS[step]
+              .map(function (st, k) {
+                return "Product " + (k + 1) + " " + NAMES[st];
+              })
+              .join(", ");
+        }
+        function play() {
+          clearInterval(timer);
+          timer = setInterval(function () {
+            show(step + 1);
+          }, 10000);
+          toggle.textContent = "Pause";
+          toggle.setAttribute("aria-pressed", "false");
+        }
+        function pause() {
+          clearInterval(timer);
+          timer = null;
+          toggle.textContent = "Play";
+          toggle.setAttribute("aria-pressed", "true");
+        }
+        toggle.addEventListener("click", function () {
+          timer ? pause() : play();
+        });
+        bar.querySelector(".demo-prev").addEventListener("click", function () {
+          show(step - 1);
+          if (timer) play();
+        });
+        bar.querySelector(".demo-next").addEventListener("click", function () {
+          show(step + 1);
+          if (timer) play();
+        });
+        if (new URLSearchParams(location.search).get("mockup") === "ready") {
+          show(STEPS.length - 1);
+          pause();
+        } else {
+          show(0);
+          play();
+        }
+      })();
     </script>
   </body>
 </html>
