@@ -5056,12 +5056,13 @@
         border-radius: inherit;
       }
       /* Logo section status chip follows the product mockups (requested / in progress / ready) */
-      .logos-dd .chip-status.is-progress {
-        background: #ececec;
-        color: #4b5866;
+      /* requested = purple, in progress = blue (the default chip colours), ready = green */
+      .logos-dd .chip-status.is-requested {
+        background: #f1eafd;
+        color: #6d28d9;
       }
-      .logos-dd .chip-status.is-progress::before {
-        background: #8a8a8a;
+      .logos-dd .chip-status.is-requested::before {
+        background: #7c3aed;
       }
       .logos-dd .chip-status.is-ready {
         background: #eaf6e2;
@@ -8867,7 +8868,7 @@
           var progress = states.filter(function (x) {
             return x === "progress";
           }).length;
-          chip.classList.remove("is-progress", "is-ready");
+          chip.classList.remove("is-requested", "is-progress", "is-ready");
           if (ready) {
             chip.classList.add("is-ready");
             chip.textContent =
@@ -8876,8 +8877,12 @@
                 : ready + " of " + states.length + " mockups ready to review";
           } else if (progress) {
             chip.classList.add("is-progress");
-            chip.textContent = "Mockup in progress";
+            chip.textContent =
+              progress > 1
+                ? progress + " of " + states.length + " mockups in progress"
+                : "Mockup in progress";
           } else {
+            chip.classList.add("is-requested");
             chip.textContent = "Mockup design requested";
           }
         }
