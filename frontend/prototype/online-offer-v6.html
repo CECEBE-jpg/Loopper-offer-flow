@@ -4986,8 +4986,8 @@
       }
       /* Mockup not started yet: light layer with dark text, photo stays visible */
       .p6-overlay-mockup.is-requested {
-        background: rgba(255, 255, 255, 0.72);
-        color: #324a67;
+        background: rgba(241, 234, 253, 0.86);
+        color: #6d28d9;
       }
       /* Mockup ready: your logo on the bottle + green "Review" bar; the whole photo links to step 2 */
       .p6-photo.is-ready {
@@ -5023,8 +5023,10 @@
       }
       .p6-ready-flag {
         position: absolute;
-        top: 6px;
-        left: 6px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        white-space: nowrap;
         display: inline-flex;
         align-items: center;
         gap: 4px;
@@ -5034,21 +5036,6 @@
         font-size: 11px;
         line-height: 16px;
         font-weight: 800;
-      }
-      .p6-ready-bar {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 4px;
-        height: 30px;
-        background: var(--green);
-        font-size: 13px;
-        font-weight: 800;
-        transition: background 0.15s;
-      }
-      .p6-ready:hover .p6-ready-bar,
-      .p6-ready:focus-visible .p6-ready-bar {
-        background: #4a9a1f;
       }
       .p6-ready:focus-visible {
         outline: 2px solid #006ed0;
@@ -8849,7 +8836,7 @@
                 '" alt="" /></span>' +
                 '<a class="p6-ready" href="online-offer-v6-approve.html" aria-label="Mockup ready: review your design">' +
                 '<span class="p6-ready-flag">✓ Mockup ready</span>' +
-                '<span class="p6-ready-bar">Review mockup ›</span></a>',
+                "</a>",
             );
           } else {
             photo.insertAdjacentHTML(
@@ -8878,7 +8865,7 @@
           } else if (progress) {
             chip.classList.add("is-progress");
             chip.textContent =
-              progress > 1
+              states.length > 1
                 ? progress + " of " + states.length + " mockups in progress"
                 : "Mockup in progress";
           } else {
