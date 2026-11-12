@@ -4743,26 +4743,21 @@
         margin-left: 4px;
       }
       .tip-btn {
-        display: grid;
-        place-items: center;
-        width: 15px;
-        height: 15px;
+        display: block;
+        width: 16px;
+        height: 16px;
         padding: 0;
-        border: 1.5px solid currentColor;
+        border: 0;
         border-radius: 50%;
-        background: none;
-        font: inherit;
-        font-family: Georgia, "Times New Roman", serif;
-        font-size: 10px;
-        line-height: 1;
-        font-weight: 700;
-        font-style: italic;
-        color: #6e7e96;
+        background: url("assets/offer-v3/icon-info.svg") center / 16px 16px
+          no-repeat;
+        font-size: 0;
+        color: transparent;
         cursor: help;
       }
       .tip-btn:hover,
       .tip-btn:focus-visible {
-        color: #324a67;
+        opacity: 0.75;
         outline: none;
       }
       .tip-btn:focus-visible {
@@ -4844,6 +4839,150 @@
       .p6-offer > .switch {
         grid-column: 1 / -1;
         grid-row: 2;
+      }
+      /* ---------- Comment box, Figma 35:1174 ---------- */
+      .p6-pin .cmt-box,
+      .cmt[data-state] .cmt-box {
+        gap: 6px;
+        padding: 13px 17px;
+        border-radius: 20px;
+      }
+      .cmt[data-state="idle"] .cmt-box {
+        padding: 11px 13px;
+      }
+      .cmt[data-empty][data-state="idle"] .cmt-box {
+        padding: 10px 15px;
+      }
+      .cmt[data-state="card"] .cmt-box {
+        gap: 12px;
+        padding: 15px 18px 14px;
+      }
+      .cmt .cmt-head,
+      .cmt[data-state] .cmt-head,
+      .cmt-msg-am {
+        gap: 23px;
+      }
+      .cmt .cmt-avatar,
+      .cmt[data-state] .cmt-avatar {
+        width: 33px;
+        height: 33px;
+        border: 0;
+        border-radius: 50%;
+        background: none;
+        box-shadow: none;
+      }
+      .cmt .cmt-from,
+      .cmt[data-state] .cmt-from {
+        margin: 0;
+        font-size: 14px;
+        line-height: 19px;
+        color: #8595a6;
+      }
+      .cmt .cmt-from b,
+      .cmt[data-state] .cmt-from b {
+        margin-right: 3px;
+        font-weight: 700;
+        color: #444d56;
+      }
+      .cmt .cmt-text,
+      .cmt[data-state] .cmt-text {
+        margin: 0;
+        padding: 0;
+        font-size: 14px;
+        line-height: 19px;
+        color: #444d56;
+      }
+      /* earlier messages are a little lighter once the thread has started */
+      .cmt[data-state="thread"] .cmt-head,
+      .cmt-msg-am {
+        opacity: 0.8;
+      }
+      .cmt-msg-am {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        text-align: left;
+      }
+      .cmt-msg-am[hidden] {
+        display: none;
+      }
+      .cmt-msg-meta {
+        font-size: 14px;
+        line-height: 19px;
+        color: #707e8d;
+      }
+      .cmt-msg-meta b {
+        margin-right: 3px;
+      }
+      .cmt-msg {
+        gap: 0;
+      }
+      /* Jildou's answer: same photo–text spacing as her comment at the top */
+      .cmt .cmt-msg-am {
+        gap: 23px;
+      }
+      .cmt-msg-text {
+        font-size: 14px;
+        line-height: 19px;
+        color: #444d56;
+      }
+      .cmt .cmt-sep {
+        background: #e1e4e7;
+      }
+      .cmt .cmt-reply {
+        gap: 4px;
+        font-size: 14px;
+        line-height: 19px;
+        color: #00b5d8;
+      }
+      .cmt .cmt-reply img {
+        width: 14px;
+        height: 14px;
+      }
+      .cmt .cmt-ask {
+        margin: 0;
+      }
+      .cmt[data-empty] .cmt-head {
+        justify-content: flex-start;
+      }
+      /* "Read all comments": left, 32px high, count inside the button */
+      .cmt .cmt-more {
+        align-self: flex-start;
+        padding: 0;
+      }
+      .cmt .cmt-more-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        width: auto;
+        height: 32px;
+        padding: 0 17px;
+        border: 1.75px solid #00b5d8;
+        border-radius: 14px;
+        font-size: 14px;
+        line-height: 19px;
+        color: #00b5d8;
+      }
+      .cmt .cmt-count {
+        position: static;
+        width: 20px;
+        height: 20px;
+        background: #00b5d8;
+        font-size: 10.5px;
+        line-height: 1;
+        font-weight: 800;
+      }
+      .cmt .cmt-count[hidden] {
+        display: none;
+      }
+      /* Mockup in progress: grey layer with white text over the main photo (replaces the status pill) */
+      .p6-overlay-mockup {
+        padding: 0 8px;
+        border-radius: inherit;
+        background: rgba(120, 120, 120, 0.62);
+        font-size: 18px;
+        line-height: 21px;
+        font-weight: 800;
       }
       /* Comments side panel (from v11), opened by "Read all comments" on a product comment */
       .cm-dialog {
@@ -5760,28 +5899,15 @@
               /></span>
             </label>
             <div class="p6-gallery">
-              <span class="p6-status"
-                ><span class="p6-status-dot" aria-hidden="true"></span>Mockup in
-                progress<span class="tip"
-                  ><button
-                    type="button"
-                    class="tip-btn"
-                    aria-label="More information"
-                    aria-describedby="tip5"
-                  >
-                    i</button
-                  ><span class="tip-bubble" role="tooltip" id="tip5"
-                    >Your <b>mockup design</b> is being made. I will email you
-                    when it is ready.</span
-                  ></span
-                ></span
-              >
               <div class="p6-images">
                 <div class="p6-photo">
                   <img
                     src="assets/offer-v3/thermos-silver.jpg"
                     alt="Thermos bottle, silver"
                   />
+                  <span class="p6-overlay p6-overlay-mockup"
+                    >Mockup in progress</span
+                  >
                 </div>
                 <div class="p6-thumbs">
                   <span class="p6-thumb"
@@ -5966,16 +6092,13 @@
                 <div class="cmt-head">
                   <img
                     class="cmt-avatar"
-                    src="assets/offer-v3/comments/jildou-portrait.png"
-                    width="44"
-                    height="44"
+                    src="assets/offer-v3/comments/jildou-portrait-33.png"
+                    width="33"
+                    height="33"
                     alt=""
                   />
                   <div class="cmt-body">
-                    <p class="cmt-from">
-                      <b>Jildou</b><span class="cmt-dot"> ·</span> your account
-                      manager
-                    </p>
+                    <p class="cmt-from"><b>Jildou</b> your account manager</p>
                     <p class="cmt-text">I think.. so and so and so</p>
                   </div>
                   <button type="button" class="cmt-reply cmt-reply-head">
@@ -6254,13 +6377,11 @@
             >
               <div class="cmt-box">
                 <div class="cmt-head">
-                  <button type="button" class="cmt-reply cmt-reply-head">
-                    <img
-                      src="assets/offer-v3/comments/reply-arrow.svg"
-                      width="16"
-                      height="16"
-                      alt=""
-                    />Question? Leave a comment.
+                  <button
+                    type="button"
+                    class="cmt-reply cmt-reply-head cmt-ask"
+                  >
+                    Question? Ask your account manager
                   </button>
                 </div>
                 <div class="cmt-thread"></div>
@@ -6268,7 +6389,7 @@
                   <input
                     type="text"
                     class="cmt-input"
-                    placeholder="Ask Jildou a question or leave a comment..."
+                    placeholder="What would you like to ask or specify?"
                     aria-label="Reply to Jildou"
                   />
                   <button
@@ -8280,12 +8401,14 @@
       </div>
     </dialog>
     <script>
-      // Product comments (Figma 17:8 → 17:273):
-      // idle: Reply next to the message → card: reply field → thread: your replies listed,
-      // Reply at the bottom (opens the side panel), e-mail notice → 2+ replies: the box collapses to the
-      // account manager's message + "Read all comments", which opens the side panel (v11 dialog).
+      // Product comments (Figma 35:1174 "Component 1"):
+      // Jildou commented first ("AC first" 01–04): Reply → reply field → Jildou's comment + your reply +
+      // "Read all comments" (count badge once there are comments the box doesn't show).
+      // No comment yet ("User first" 01–04): "Question? Ask your account manager" → field →
+      // your comment + "Read all comments" → Jildou's answer appears under it (simulated in the prototype).
+      // Everything after your first comment goes through the side panel (v11 dialog).
       (function () {
-        var SHOW = 1; // one reply in the box; everything after that goes through the side panel
+        var PORTRAIT = "assets/offer-v3/comments/jildou-portrait-33.png";
         var dlg = document.querySelector(".cm-dialog");
         var log = dlg.querySelector(".cm-log");
         var dTitle = dlg.querySelector(".cm-title");
@@ -8319,49 +8442,88 @@
           var moreBtn = more.querySelector(".cmt-more-btn");
           var count = cmt.querySelector(".cmt-count");
           var notice = cmt.querySelector(".cmt-notice");
+          var empty = !!cmt.dataset.empty;
+          var answered = false;
+          moreBtn.appendChild(count); // the count sits inside the button
 
           function render() {
-            var n = thread.querySelectorAll(".cmt-msg").length;
+            var msgs = thread.querySelectorAll(".cmt-msg");
+            var n = msgs.length;
+            if (n) form.hidden = true; // after your first comment, more goes through the side panel
             var writing = !form.hidden;
-            // no account manager comment yet: straight to "Read all comments" after your first one
-            var collapsed = n > (cmt.dataset.empty ? 0 : SHOW);
-            if (collapsed) {
-              form.hidden = true;
-              writing = false;
-            }
-            cmt.dataset.state = collapsed
-              ? "collapsed"
-              : n
-                ? "thread"
-                : writing
-                  ? "card"
-                  : "idle";
+            // the box shows your first comment and Jildou's first answer; the rest is in the panel
+            var seenYou = false,
+              seenAm = false,
+              shown = 0;
+            msgs.forEach(function (m) {
+              var am = m.classList.contains("cmt-msg-am");
+              var show = am ? !seenAm : !seenYou;
+              if (am) seenAm = true;
+              else seenYou = true;
+              m.hidden = !show;
+              m.previousElementSibling.hidden = !show;
+              if (show) shown++;
+            });
+            cmt.dataset.state = n ? "thread" : writing ? "card" : "idle";
             replyHead.hidden = n > 0 || writing;
-            replyFoot.hidden = !n || writing || collapsed;
-            more.hidden = !collapsed;
-            var total = n + (cmt.dataset.empty ? 0 : 1);
+            replyFoot.hidden = true;
+            notice.hidden = true;
+            more.hidden = !n;
+            var total = n + (empty ? 0 : 1);
+            var hidden = n - shown;
             count.textContent = total;
+            count.hidden = hidden < 1;
             moreBtn.setAttribute(
               "aria-label",
               "Read all comments (" + total + ")",
             );
-            notice.hidden = !n || writing || collapsed;
           }
-          function addReply(text, time) {
+          function add(el) {
             var end = thread.querySelector(".cmt-sep-end");
             if (!end) {
               end = sep("cmt-sep-end");
               thread.appendChild(end);
             }
+            thread.insertBefore(sep(), end);
+            thread.insertBefore(el, end);
+            render();
+          }
+          function addReply(text, time) {
             var p = document.createElement("p");
             p.className = "cmt-msg";
             p.innerHTML =
-              '<span class="cmt-msg-meta"><b>You</b> · <time></time></span><span class="cmt-msg-text"></span>';
+              '<span class="cmt-msg-meta"><b>You</b> <time></time></span><span class="cmt-msg-text"></span>';
             p.querySelector("time").textContent = time;
             p.lastChild.textContent = text;
-            thread.insertBefore(sep(), end);
-            thread.insertBefore(p, end);
-            render();
+            add(p);
+            // prototype: when nobody had commented yet, Jildou answers the first question
+            if (empty && !answered) {
+              answered = true;
+              setTimeout(function () {
+                addAm(
+                  "Thanks for your question! I'll look into it and get back to you today.",
+                  now(),
+                );
+              }, 2500);
+            }
+          }
+          function addAm(text, time) {
+            var m = document.createElement("div");
+            m.className = "cmt-msg cmt-msg-am";
+            m.dataset.time = time;
+            m.innerHTML =
+              '<img class="cmt-avatar" src="' +
+              PORTRAIT +
+              '" width="33" height="33" alt="" /><div class="cmt-body"><p class="cmt-from"><b>Jildou</b> your account manager</p><p class="cmt-text"></p></div>';
+            m.querySelector(".cmt-text").textContent = text;
+            add(m);
+            if (current === cmt && dlg.open) {
+              log.insertBefore(
+                msgEl(false, "Jildou", time, text),
+                log.querySelector(".cm-system"),
+              );
+              log.scrollTop = log.scrollHeight;
+            }
           }
           function open() {
             form.hidden = false;
@@ -8374,9 +8536,6 @@
           }
           cmt._cmt = { thread: thread, addReply: addReply, opener: moreBtn };
           replyHead.addEventListener("click", open);
-          replyFoot.addEventListener("click", function () {
-            openPanel(cmt);
-          });
           moreBtn.addEventListener("click", function () {
             openPanel(cmt);
           });
@@ -8387,12 +8546,12 @@
             input.value = "";
             form.hidden = true;
             addReply(text, now());
-            if (cmt.dataset.state === "collapsed") moreBtn.focus();
+            moreBtn.focus();
           });
           input.addEventListener("keydown", function (e) {
             if (e.key === "Escape") {
               close();
-              (replyHead.hidden ? replyFoot : replyHead).focus();
+              replyHead.focus();
             }
           });
           render();
@@ -8424,17 +8583,25 @@
                 false,
                 "Jildou",
                 cmt.dataset.time || "10:12",
-                cmt.querySelector(".cmt-text").textContent.trim(),
+                cmt.querySelector(".cmt-head .cmt-text").textContent.trim(),
               ),
             );
           cmt._cmt.thread.querySelectorAll(".cmt-msg").forEach(function (p) {
+            var am = p.classList.contains("cmt-msg-am");
             log.appendChild(
-              msgEl(
-                true,
-                "You",
-                p.querySelector("time").textContent,
-                p.querySelector(".cmt-msg-text").textContent,
-              ),
+              am
+                ? msgEl(
+                    false,
+                    "Jildou",
+                    p.dataset.time,
+                    p.querySelector(".cmt-text").textContent,
+                  )
+                : msgEl(
+                    true,
+                    "You",
+                    p.querySelector("time").textContent,
+                    p.querySelector(".cmt-msg-text").textContent,
+                  ),
             );
           });
           var note = document.createElement("p");
