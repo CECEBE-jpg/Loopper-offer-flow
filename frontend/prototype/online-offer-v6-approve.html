@@ -5994,16 +5994,6 @@
             </button>
           </form>
 
-          <label class="agree">
-            <input type="checkbox" id="agree" />
-            <span
-              ><span id="prAgreeText">I agree with this design</span
-              ><small id="prAgreeSub"
-                >Upon approval, the design will be converted into a final
-                proof.</small
-              ></span
-            >
-          </label>
           <p class="pr-progress" id="prProgress"></p>
           <button type="button" class="approve-btn" id="approveBtn" disabled>
             Go to my details / finalise order
@@ -6324,9 +6314,6 @@
           stamp = $("prStamp"),
           pick = $("prPick"),
           pickSub = $("prPickSub"),
-          agree = $("agree"),
-          agreeText = $("prAgreeText"),
-          agreeSub = $("prAgreeSub"),
           progress = $("prProgress"),
           approveBtn = $("approveBtn"),
           next = $("navNext"),
@@ -6423,6 +6410,8 @@
           // tickbox under the mockup (and its twin under the chat): ticked = this design is approved for this bottle
           var isChosen = st.chosen === st.view;
           pick.checked = isChosen;
+          $("prPickText").textContent =
+            "I agree with this design " + (st.view + 1);
           pick.disabled = false;
           pickSub.textContent =
             st.chosen !== null && !isChosen
@@ -6431,52 +6420,12 @@
                 " for this bottle. Tick to use this design instead."
               : "Upon approval, the design will be converted into a final proof.";
         }
-        var ready = false;
-        function goToMissing() {
-          var todo = state.findIndex(function (x) {
-            return x.chosen === null;
-          });
-          if (todo > -1) {
-            cur = todo;
-            render();
-            var box = $("prPickLabel");
-            box.scrollIntoView({ behavior: "smooth", block: "center" });
-            box.classList.remove("is-nudge");
-            void box.offsetWidth;
-            box.classList.add("is-nudge");
-            pick.focus({ preventScroll: true });
-          } else {
-            var lab = agree.closest(".agree");
-            lab.scrollIntoView({ behavior: "smooth", block: "center" });
-            lab.classList.remove("is-nudge");
-            void lab.offsetWidth;
-            lab.classList.add("is-nudge");
-            agree.focus({ preventScroll: true });
-          }
-        }
-        [approveBtn, next].forEach(function (b) {
-          // capture phase: runs before the "go to step 3" handler and stops it
-          b.addEventListener(
-            "click",
-            function (e) {
-              if (ready) return;
-              e.preventDefault();
-              e.stopImmediatePropagation();
-              goToMissing();
-            },
-            true,
-          );
-        });
+        var ready = true;
         function renderApproval() {
           var st = state[cur];
           var done = state.filter(function (x) {
             return x.chosen !== null;
           }).length;
-          // same state as the tickbox under the mockup, for the bottle on screen
-          agree.checked = st.chosen !== null && st.chosen === st.view;
-          agree.disabled = false;
-          agreeText.textContent = "I agree with this design";
-          agreeSub.textContent = pickSub.textContent;
           // always active: the client can fill in step 3 before every design is approved
           ready = true;
           approveBtn.disabled = next.disabled = false;
@@ -6552,9 +6501,6 @@
         }
         pick.addEventListener("change", function () {
           setApproved(pick.checked);
-        });
-        agree.addEventListener("change", function () {
-          setApproved(agree.checked);
         });
         render();
       })();
