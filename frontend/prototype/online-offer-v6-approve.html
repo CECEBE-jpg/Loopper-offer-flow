@@ -6337,7 +6337,7 @@
           if (st.chosen !== null)
             return {
               cls: "is-chosen",
-              text: "Design " + (st.chosen + 1) + " agreed",
+              text: "Design " + (st.chosen + 1) + " approved",
             };
           return { cls: "is-todo", text: "To review" };
         }
@@ -6420,14 +6420,13 @@
           $("prPrint").textContent = p.print;
           stamp.hidden = !(st.approved && st.chosen === st.view);
           $("prStage").classList.toggle("is-approved", !stamp.hidden);
-          // per-bottle tickbox: ticked = this design is the one for this bottle
+          // tickbox under the mockup (and its twin under the chat): ticked = this design is approved for this bottle
           var isChosen = st.chosen === st.view;
           pick.checked = isChosen;
-          pick.disabled = st.approved;
-          pickSub.textContent = st.approved
-            ? "Approved. Untick “I agree with the chosen designs” on the right to change it."
-            : st.chosen !== null && !isChosen
-              ? "You agreed with design " +
+          pick.disabled = false;
+          pickSub.textContent =
+            st.chosen !== null && !isChosen
+              ? "You approved design " +
                 (st.chosen + 1) +
                 " for this bottle. Tick to use this design instead."
               : "Upon approval, the design will be converted into a final proof.";
@@ -6469,40 +6468,25 @@
           );
         });
         function renderApproval() {
-          var chosen = state.filter(function (x) {
+          var st = state[cur];
+          var done = state.filter(function (x) {
             return x.chosen !== null;
           }).length;
-          var allChosen = chosen === PRODUCTS.length;
-          var all = state.every(function (x) {
-            return x.approved;
-          });
-          agree.checked = all;
-          agree.disabled = !allChosen;
-          agreeText.textContent = allChosen
-            ? "I agree with the chosen designs"
-            : "Choose a design for every product first (" +
-              chosen +
-              " of " +
-              PRODUCTS.length +
-              " chosen)";
-          agreeSub.textContent = allChosen
-            ? PRODUCTS.map(function (p, i) {
-                return p.short + ": design " + (state[i].chosen + 1);
-              }).join(" · ") +
-              ". Upon approval, the designs will be converted into final proofs."
-            : "Upon approval, the designs will be converted into final proofs.";
-          // always shown as active (Figma 53:30); a click before everything is approved
-          // takes the client to what is still missing (see goToMissing)
-          ready = all;
+          // same state as the tickbox under the mockup, for the bottle on screen
+          agree.checked = st.chosen !== null && st.chosen === st.view;
+          agree.disabled = false;
+          agreeText.textContent = "I agree with this design";
+          agreeSub.textContent = pickSub.textContent;
+          // always active: the client can fill in step 3 before every design is approved
+          ready = true;
           approveBtn.disabled = next.disabled = false;
-          hint.innerHTML = all
-            ? "All designs approved. Next: fill in your details."
-            : allChosen
-              ? "Tick <b>“I agree with the chosen designs”</b> to continue."
-              : chosen +
+          hint.innerHTML =
+            done === PRODUCTS.length
+              ? "All designs approved. Next: fill in your details."
+              : done +
                 " of " +
                 PRODUCTS.length +
-                " designs chosen. Choose a design for every product to continue.";
+                " designs approved. You can already fill in your details.";
         }
         // arrows beside the mockup: previous / next product
         var viewer = document.querySelector(".pr-viewer");
@@ -6549,13 +6533,13 @@
           renderApproval();
           renderArrows();
         }
-        pick.addEventListener("change", function () {
+        function setApproved(checked) {
           var st = state[cur];
-          if (st.approved) return;
-          st.chosen = pick.checked ? st.view : null;
+          st.chosen = checked ? st.view : null;
+          st.approved = st.chosen !== null;
           render();
-          if (!pick.checked) return;
-          // move on to the next bottle that has no design yet
+          if (!checked) return;
+          // move on to the next bottle that has no approved design yet
           var todo = state.findIndex(function (x) {
             return x.chosen === null;
           });
@@ -6565,20 +6549,12 @@
               render();
             }, 900);
           }
+        }
+        pick.addEventListener("change", function () {
+          setApproved(pick.checked);
         });
         agree.addEventListener("change", function () {
-          var allChosen = state.every(function (x) {
-            return x.chosen !== null;
-          });
-          if (!allChosen) {
-            agree.checked = false;
-            return;
-          }
-          state.forEach(function (x) {
-            x.approved = agree.checked;
-            if (x.approved) x.view = x.chosen;
-          });
-          render();
+          setApproved(agree.checked);
         });
         render();
       })();
