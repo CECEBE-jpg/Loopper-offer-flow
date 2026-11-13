@@ -5211,6 +5211,227 @@
         line-height: 24px;
         color: var(--ink);
       }
+      /* ---------- Step 2: several products, a design choice per product ---------- */
+      .pr-products {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+        gap: 10px;
+        margin: 0 0 18px;
+      }
+      .pr-product {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 0;
+        padding: 8px 12px 8px 8px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: #fff;
+        font: inherit;
+        text-align: left;
+        color: var(--ink);
+        cursor: pointer;
+      }
+      .pr-product:hover {
+        border-color: #b7c2cd;
+      }
+      .pr-product[aria-selected="true"] {
+        border-color: #00aed8;
+        background: #e6f7fc;
+        box-shadow: 0 0 0 1px #00aed8;
+      }
+      .pr-product:focus-visible {
+        outline: 2px solid #006ed0;
+        outline-offset: 2px;
+      }
+      .pr-product img {
+        flex: none;
+        width: 44px;
+        height: 44px;
+        border-radius: 8px;
+        background: #fff;
+        object-fit: contain;
+      }
+      .pr-product-text {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        min-width: 0;
+        font-size: 13px;
+        line-height: 17px;
+        color: var(--muted);
+      }
+      .pr-product-text small {
+        font-size: 11px;
+        line-height: 14px;
+      }
+      .pr-product-text b {
+        font-size: 14px;
+        font-weight: 800;
+        color: var(--ink);
+      }
+      .pr-status {
+        flex: none;
+        padding: 3px 9px;
+        border-radius: 20px;
+        font-size: 12px;
+        line-height: 16px;
+        font-weight: 800;
+        white-space: nowrap;
+      }
+      .pr-status.is-todo {
+        background: #f1eafd;
+        color: #6d28d9;
+      }
+      .pr-status.is-chosen {
+        background: #e7f4ff;
+        color: #006ed0;
+      }
+      .pr-status.is-approved {
+        background: #eaf6e2;
+        color: #3d7f15;
+      }
+      /* design tabs: "Chosen" / "Approved" tag inside the tab */
+      .pr-tag {
+        margin-left: 2px;
+        padding: 1px 8px;
+        border-radius: 20px;
+        background: #e7f4ff;
+        font-size: 11px;
+        line-height: 16px;
+        font-weight: 800;
+        color: #006ed0;
+      }
+      .pr-tag.is-approved {
+        background: #eaf6e2;
+        color: #3d7f15;
+      }
+      .proof-tab:has(.pr-tag.is-approved) .dot {
+        background: var(--green);
+      }
+      /* stage: approved stamp + print area per product */
+      .proof-stage.is-approved {
+        box-shadow: inset 0 0 0 2px var(--green);
+      }
+      .pr-stamp {
+        position: absolute;
+        top: 14px;
+        left: 14px;
+        padding: 6px 14px;
+        border-radius: 8px;
+        background: #eaf6e2;
+        box-shadow: inset 0 0 0 1px #b9e2a0;
+        font-size: 14px;
+        font-weight: 800;
+        color: #3d7f15;
+      }
+      .pr-stamp[hidden] {
+        display: none;
+      }
+      .proof-area.pr-area-print {
+        width: 92px;
+        height: 190px;
+        transform: translate(-50%, -22%);
+      }
+      .proof-area.pr-dir-horizontal img,
+      .proof-area .pr-textlogo {
+        transform: none;
+      }
+      .proof-area.pr-area-engrave.pr-dir-horizontal img {
+        width: 84px;
+      }
+      .proof-area.pr-area-print img {
+        width: 150px;
+        opacity: 1;
+        filter: none;
+        mix-blend-mode: normal;
+      }
+      .proof-area.pr-area-print.pr-dir-horizontal img {
+        width: 80px;
+      }
+      .pr-textlogo {
+        width: 80px;
+        font-family: "Times New Roman", serif;
+        font-size: 13px;
+        line-height: 15px;
+        text-align: center;
+        color: #4a4a4a;
+        opacity: 0.75;
+        mix-blend-mode: multiply;
+      }
+      /* choose row under the mockup */
+      .pr-choose {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-top: 16px;
+        padding: 12px 14px;
+        border-radius: 10px;
+        background: #f6f8fa;
+      }
+      .pr-choose-text {
+        flex: 1;
+        margin: 0;
+        font-size: 14px;
+        line-height: 20px;
+      }
+      .pr-choose-text b {
+        font-weight: 800;
+      }
+      .pr-choose-btn {
+        flex: none;
+        height: 40px;
+        padding: 0 18px;
+        border: 2px solid #00aed8;
+        border-radius: 10px;
+        background: #fff;
+        font: inherit;
+        font-size: 14px;
+        font-weight: 800;
+        color: #00799a;
+        cursor: pointer;
+      }
+      .pr-choose-btn:hover:not(:disabled) {
+        background: #e6f7fc;
+      }
+      .pr-choose-btn.is-chosen {
+        border-color: #00aed8;
+        background: #00aed8;
+        color: #fff;
+      }
+      .pr-choose-btn:disabled {
+        cursor: default;
+        opacity: 0.7;
+      }
+      /* approval in the right column */
+      .agree:has(input:disabled) {
+        cursor: not-allowed;
+        opacity: 0.65;
+      }
+      .check-card .pr-progress {
+        margin: 14px 18px 0;
+        font-size: 14px;
+        color: var(--muted);
+      }
+      .pr-progress b {
+        color: var(--ink);
+      }
+      .pr-progress.is-done {
+        font-weight: 800;
+        color: #3d7f15;
+      }
+      .check-card .pr-progress + .approve-btn {
+        margin-top: 8px;
+      }
+      @media (width < 768px) {
+        .pr-products {
+          grid-template-columns: minmax(0, 1fr);
+        }
+        .pr-choose {
+          flex-direction: column;
+          align-items: stretch;
+        }
+      }
     </style>
   </head>
   <body>
@@ -5325,6 +5546,13 @@
     <div class="proof-page">
       <div class="proof-grid">
         <section class="proof-card" aria-labelledby="proofProduct">
+          <!-- Products in this offer: each one gets its own design approval -->
+          <div
+            class="pr-products"
+            role="tablist"
+            aria-label="Products to review"
+            id="prProducts"
+          ></div>
           <div class="proof-head">
             <div>
               <h2 id="proofProduct">
@@ -5348,45 +5576,35 @@
           <div
             class="proof-tabs"
             role="tablist"
-            aria-label="Designs in this offer"
-          >
-            <button
-              type="button"
-              class="proof-tab"
-              role="tab"
-              aria-selected="true"
-              data-title="Thermos bottle | Stainless steel | 500 ml | Silver"
-              data-sub="Article number 6383162 · 25 pieces"
-            >
-              <span class="dot"></span>Design 1 of 2
-            </button>
-            <button
-              type="button"
-              class="proof-tab"
-              role="tab"
-              aria-selected="false"
-              data-title="Thermos bottle | Stainless steel | 500 ml | Silver"
-              data-sub="Article number 6383162 · 25 pieces · text logo"
-            >
-              <span class="dot"></span>Design 2 of 2
-            </button>
-          </div>
-          <div class="proof-stage">
+            aria-label="Designs for this product"
+            id="prDesigns"
+          ></div>
+          <div class="proof-stage" id="prStage">
             <img
+              id="prImg"
               src="assets/offer-v3/thermos-silver.jpg"
               width="500"
               height="500"
-              alt="Mockup: your logo engraved on the front of the silver thermos bottle"
+              alt=""
             />
-            <span class="proof-area" aria-hidden="true"
-              ><img src="assets/offer-v3/sample-logo-black.svg" alt=""
-            /></span>
+            <span class="proof-area" id="prArea" aria-hidden="true"></span>
+            <span class="pr-stamp" id="prStamp" hidden>✓ Approved</span>
           </div>
           <div class="proof-legend">
-            <span><b>Print option:</b> Engraving, front (50×90 mm)</span>
+            <span><b>Print option:</b> <span id="prPrint"></span></span>
             <span class="line"
               >Maximum print area (this line will not be printed)</span
             >
+          </div>
+
+          <!-- Pick the design you want for this product -->
+          <div class="pr-choose" id="prChoose">
+            <p class="pr-choose-text" id="prChooseText"></p>
+            <button
+              type="button"
+              class="pr-choose-btn"
+              id="prChooseBtn"
+            ></button>
           </div>
 
           <fieldset class="pms">
@@ -5503,12 +5721,14 @@
           <label class="agree">
             <input type="checkbox" id="agree" />
             <span
-              >I agree with this design<small
+              ><span id="prAgreeText">I agree with this design</span
+              ><small id="prAgreeSub"
                 >Upon approval, the design will be converted into a final
                 proof.</small
               ></span
             >
           </label>
+          <p class="pr-progress" id="prProgress"></p>
           <button type="button" class="approve-btn" id="approveBtn" disabled>
             Go to my details / finalise order
             <img
@@ -5688,18 +5908,6 @@
     <script>
       // Step 3 prototype: design tabs, vector logo choice, change requests, approval gate
       (function () {
-        var tabs = document.querySelectorAll(".proof-tab");
-        tabs.forEach(function (t) {
-          t.addEventListener("click", function () {
-            tabs.forEach(function (o) {
-              o.setAttribute("aria-selected", o === t ? "true" : "false");
-            });
-            document.getElementById("proofProduct").textContent =
-              t.dataset.title;
-            document.querySelector(".proof-head small").textContent =
-              t.dataset.sub;
-          });
-        });
         var up = document.getElementById("vectorUpload"),
           file = document.getElementById("vectorFile");
         var fileName = document.getElementById("vectorFileName");
@@ -5749,19 +5957,6 @@
             }, 900);
           }
         });
-        var agree = document.getElementById("agree");
-        var approve = document.getElementById("approveBtn"),
-          next = document.getElementById("navNext");
-        var hint = document.getElementById("navHint");
-        agree.addEventListener("change", function () {
-          approve.disabled = next.disabled = !agree.checked;
-          hint.innerHTML = agree.checked
-            ? "Design approved. Next: fill in your details."
-            : "Tick <b>“I agree with this design”</b> to continue to your details.";
-          document
-            .querySelector(".proof-tab[aria-selected=true]")
-            .classList.toggle("is-ok", agree.checked);
-        });
       })();
     </script>
     <script>
@@ -5782,6 +5977,277 @@
             !document.getElementById("pmsYes").checked;
         });
       });
+    </script>
+    <script>
+      // Step 2 prototype: one approval per product. Switch product at the top, flip through its
+      // designs, pick one ("Choose this design"), tick "I agree" to approve it. The next product
+      // to review opens by itself; the CTA unlocks when every product is approved.
+      (function () {
+        var PRODUCTS = [
+          {
+            name: "Thermos bottle | Stainless steel | 500 ml | Silver",
+            short: "Thermos bottle",
+            meta: "500 ml · Silver",
+            sub: "Article number 6383162 · 25 pieces",
+            img: "assets/offer-v3/thermos-silver.jpg",
+            print: "Engraving, front (50×90 mm)",
+            area: "engrave",
+            designs: [
+              {
+                label: "Logo lengthwise",
+                kind: "logo",
+                logo: "assets/offer-v3/sample-logo-black.svg",
+                dir: "vertical",
+              },
+              {
+                label: "Text logo across",
+                kind: "text",
+                text: "FAKE OFFER BY MARKETING",
+              },
+            ],
+          },
+          {
+            name: "Water bottle | Recycled stainless steel | 750 ml | Black",
+            short: "Water bottle",
+            meta: "750 ml · Black",
+            sub: "Article number 6457285 · 250 pieces",
+            img: "assets/offer-v3/water-bottle-black.png",
+            print: "Full-colour print, wrap-around (230×160 mm)",
+            area: "print",
+            designs: [
+              {
+                label: "Logo lengthwise",
+                kind: "logo",
+                logo: "assets/offer-v3/sample-logo-white.svg",
+                dir: "vertical",
+              },
+              {
+                label: "Logo across",
+                kind: "logo",
+                logo: "assets/offer-v3/sample-logo-white.svg",
+                dir: "horizontal",
+              },
+            ],
+          },
+        ];
+        var state = PRODUCTS.map(function () {
+          return { view: 0, chosen: null, approved: false };
+        });
+        var cur = 0;
+        var $ = function (id) {
+          return document.getElementById(id);
+        };
+        var productsEl = $("prProducts"),
+          designsEl = $("prDesigns"),
+          img = $("prImg"),
+          area = $("prArea"),
+          stamp = $("prStamp"),
+          chooseText = $("prChooseText"),
+          chooseBtn = $("prChooseBtn"),
+          agree = $("agree"),
+          agreeText = $("prAgreeText"),
+          agreeSub = $("prAgreeSub"),
+          progress = $("prProgress"),
+          approveBtn = $("approveBtn"),
+          next = $("navNext"),
+          hint = $("navHint");
+
+        function statusOf(st) {
+          if (st.approved) return { cls: "is-approved", text: "✓ Approved" };
+          if (st.chosen !== null)
+            return {
+              cls: "is-chosen",
+              text: "Design " + (st.chosen + 1) + " chosen",
+            };
+          return { cls: "is-todo", text: "To review" };
+        }
+        function renderProducts() {
+          productsEl.innerHTML = "";
+          PRODUCTS.forEach(function (p, i) {
+            var st = statusOf(state[i]);
+            var b = document.createElement("button");
+            b.type = "button";
+            b.className = "pr-product";
+            b.setAttribute("role", "tab");
+            b.setAttribute("aria-selected", i === cur ? "true" : "false");
+            b.innerHTML =
+              '<img src="' +
+              p.img +
+              '" alt="" />' +
+              '<span class="pr-product-text"><small>Product ' +
+              (i + 1) +
+              " of " +
+              PRODUCTS.length +
+              "</small><b></b><span></span></span>" +
+              '<span class="pr-status ' +
+              st.cls +
+              '">' +
+              st.text +
+              "</span>";
+            b.querySelector("b").textContent = p.short;
+            b.querySelector(".pr-product-text > span").textContent = p.meta;
+            b.addEventListener("click", function () {
+              cur = i;
+              render();
+            });
+            productsEl.appendChild(b);
+          });
+        }
+        function renderDesigns() {
+          var p = PRODUCTS[cur],
+            st = state[cur];
+          designsEl.innerHTML = "";
+          p.designs.forEach(function (d, i) {
+            var b = document.createElement("button");
+            b.type = "button";
+            b.className = "proof-tab";
+            b.setAttribute("role", "tab");
+            b.setAttribute("aria-selected", i === st.view ? "true" : "false");
+            var tag = "";
+            if (st.chosen === i)
+              tag = st.approved
+                ? '<span class="pr-tag is-approved">Approved</span>'
+                : '<span class="pr-tag">Chosen</span>';
+            b.innerHTML =
+              '<span class="dot"></span>Design ' +
+              (i + 1) +
+              " of " +
+              p.designs.length +
+              tag;
+            b.title = d.label;
+            b.addEventListener("click", function () {
+              st.view = i;
+              render();
+            });
+            designsEl.appendChild(b);
+          });
+        }
+        function renderStage() {
+          var p = PRODUCTS[cur],
+            st = state[cur],
+            d = p.designs[st.view];
+          img.src = p.img;
+          img.alt =
+            "Mockup, design " +
+            (st.view + 1) +
+            " (" +
+            d.label.toLowerCase() +
+            ") on the " +
+            p.short.toLowerCase();
+          area.className =
+            "proof-area pr-area-" +
+            p.area +
+            " pr-dir-" +
+            (d.dir || "horizontal");
+          area.innerHTML =
+            d.kind === "text"
+              ? '<span class="pr-textlogo">' + d.text + "</span>"
+              : '<img src="' + d.logo + '" alt="" />';
+          document.getElementById("proofProduct").textContent = p.name;
+          document.querySelector(".proof-head small").textContent =
+            p.sub + " · design " + (st.view + 1) + ": " + d.label.toLowerCase();
+          $("prPrint").textContent = p.print;
+          stamp.hidden = !(st.approved && st.chosen === st.view);
+          $("prStage").classList.toggle("is-approved", !stamp.hidden);
+          // choose row
+          var isChosen = st.chosen === st.view;
+          chooseBtn.disabled = st.approved;
+          chooseBtn.classList.toggle("is-chosen", isChosen);
+          chooseBtn.setAttribute("aria-pressed", isChosen ? "true" : "false");
+          chooseBtn.textContent = isChosen
+            ? "✓ Chosen for this " + p.short.toLowerCase()
+            : "Choose this design";
+          chooseText.innerHTML = st.approved
+            ? "You approved <b>design " +
+              (st.chosen + 1) +
+              "</b> for the " +
+              p.short.toLowerCase() +
+              ". Untick “I agree” to change it."
+            : st.chosen === null
+              ? "Which design do you want on the " +
+                p.short.toLowerCase() +
+                "? Pick one, then tick “I agree”."
+              : isChosen
+                ? "<b>Design " +
+                  (st.view + 1) +
+                  "</b> is your choice for the " +
+                  p.short.toLowerCase() +
+                  "."
+                : "You chose <b>design " +
+                  (st.chosen + 1) +
+                  "</b>. Prefer this one instead?";
+        }
+        function renderApproval() {
+          var p = PRODUCTS[cur],
+            st = state[cur];
+          agree.checked = st.approved;
+          agree.disabled = st.chosen === null;
+          agreeText.textContent =
+            st.chosen === null
+              ? "Choose a design for the " + p.short.toLowerCase() + " first"
+              : "I agree with design " +
+                (st.chosen + 1) +
+                " for the " +
+                p.short.toLowerCase();
+          var done = state.filter(function (x) {
+            return x.approved;
+          }).length;
+          var all = done === PRODUCTS.length;
+          progress.innerHTML = all
+            ? PRODUCTS.length === 2
+              ? "✓ Both products approved"
+              : "✓ All " + PRODUCTS.length + " products approved"
+            : "<b>" +
+              done +
+              " of " +
+              PRODUCTS.length +
+              "</b> products approved";
+          progress.classList.toggle("is-done", all);
+          approveBtn.disabled = next.disabled = !all;
+          hint.innerHTML = all
+            ? "All designs approved. Next: fill in your details."
+            : done +
+              " of " +
+              PRODUCTS.length +
+              " designs approved. Approve every product to continue.";
+        }
+        function render() {
+          renderProducts();
+          renderDesigns();
+          renderStage();
+          renderApproval();
+        }
+        chooseBtn.addEventListener("click", function () {
+          var st = state[cur];
+          if (st.approved) return;
+          st.chosen = st.view;
+          render();
+        });
+        agree.addEventListener("change", function () {
+          var st = state[cur];
+          if (st.chosen === null) {
+            agree.checked = false;
+            return;
+          }
+          st.approved = agree.checked;
+          if (st.approved) st.view = st.chosen;
+          render();
+          // move on to the next product that still needs a review
+          if (st.approved) {
+            var todo = state.findIndex(function (x) {
+              return !x.approved;
+            });
+            if (todo > -1) {
+              setTimeout(function () {
+                cur = todo;
+                render();
+                productsEl.children[cur].focus();
+              }, 900);
+            }
+          }
+        });
+        render();
+      })();
     </script>
   </body>
 </html>
