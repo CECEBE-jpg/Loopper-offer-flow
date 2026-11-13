@@ -5432,6 +5432,136 @@
           align-items: stretch;
         }
       }
+      /* ---------- Step 2 layout from Figma 53:30 ---------- */
+      .proof-page > .pr-products {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin: 24px 0 12px;
+      }
+      .proof-page > .pr-products .pr-product {
+        width: 270px;
+      }
+      .proof-page > .pr-products + .proof-grid {
+        margin-top: 0;
+      }
+      .proof-head + .proof-legend {
+        margin-top: 14px;
+      }
+      .pr-viewer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 18px;
+        padding: 20px 15px;
+        border-radius: 12px;
+        background: #fff;
+      }
+      .pr-viewer .proof-stage {
+        width: 348px;
+        height: 348px;
+        margin: 0;
+        border-radius: 12px;
+        background: #fff;
+      }
+      .pr-viewer .proof-stage > img {
+        width: 348px;
+        height: 348px;
+      }
+      .pr-viewer .proof-stage.is-approved {
+        box-shadow: 0 0 0 2px var(--green);
+      }
+      .pr-viewer .pr-stamp {
+        top: 8px;
+        left: 8px;
+      }
+      .pr-viewer .proof-area.pr-area-engrave {
+        top: 138px;
+        left: 136px;
+        width: 76px;
+        height: 115px;
+        transform: none;
+      }
+      .pr-viewer .proof-area.pr-area-engrave img {
+        width: 96px;
+      }
+      .pr-viewer .proof-area.pr-area-engrave.pr-dir-horizontal img {
+        width: 66px;
+      }
+      .pr-viewer .proof-area.pr-area-print {
+        top: 150px;
+        left: 137px;
+        width: 74px;
+        height: 150px;
+        transform: none;
+      }
+      .pr-viewer .proof-area.pr-area-print img {
+        width: 120px;
+      }
+      .pr-viewer .proof-area.pr-area-print.pr-dir-horizontal img {
+        width: 64px;
+      }
+      .pr-viewer .pr-textlogo {
+        width: 64px;
+        font-size: 11px;
+        line-height: 13px;
+      }
+      .pr-viewer .proof-tabs {
+        justify-content: center;
+        margin: 0;
+      }
+      .pr-viewer .proof-tab:not([aria-selected="true"]) {
+        color: #4a5866;
+      }
+      .pr-viewer .pr-choose {
+        align-self: stretch;
+        margin: 0;
+        background: #f4f4f4;
+        color: #000;
+      }
+      .pr-viewer .pr-choose-btn {
+        border: 0;
+        background: var(--green);
+        color: #fff;
+      }
+      .pr-viewer .pr-choose-btn:hover:not(:disabled) {
+        background: #4a9a1f;
+      }
+      .pr-viewer .pr-choose-btn.is-chosen {
+        background: #fff;
+        box-shadow: inset 0 0 0 2px var(--green);
+        color: #3d7f15;
+      }
+      .pr-viewer + .pms {
+        margin-top: 20px;
+      }
+      /* chat header: grey with the question as title (Figma 70:50) */
+      .check-card .chat-head {
+        background: #dbdbdb;
+        color: #324a67;
+      }
+      .check-card .chat-head h2 {
+        color: #324a67;
+      }
+      /* "I agree" as a navy block (Figma 70:70) */
+      .check-card .agree {
+        align-items: center;
+        min-height: 73px;
+        padding: 12px 14px;
+        border-radius: 10px;
+        background: #324a67;
+        color: #fff;
+      }
+      .check-card .agree small {
+        color: #fff;
+        font-weight: 500;
+      }
+      .check-card .agree:has(input:disabled) {
+        opacity: 0.85;
+      }
+      .check-card .pr-progress {
+        display: none;
+      }
     </style>
   </head>
   <body>
@@ -5544,15 +5674,15 @@
     </div>
 
     <div class="proof-page">
+      <!-- Products in this offer: each one gets its own design approval (Figma 53:106) -->
+      <div
+        class="pr-products"
+        role="tablist"
+        aria-label="Products to review"
+        id="prProducts"
+      ></div>
       <div class="proof-grid">
         <section class="proof-card" aria-labelledby="proofProduct">
-          <!-- Products in this offer: each one gets its own design approval -->
-          <div
-            class="pr-products"
-            role="tablist"
-            aria-label="Products to review"
-            id="prProducts"
-          ></div>
           <div class="proof-head">
             <div>
               <h2 id="proofProduct">
@@ -5573,38 +5703,40 @@
               />Download proof
             </a>
           </div>
-          <div
-            class="proof-tabs"
-            role="tablist"
-            aria-label="Designs for this product"
-            id="prDesigns"
-          ></div>
-          <div class="proof-stage" id="prStage">
-            <img
-              id="prImg"
-              src="assets/offer-v3/thermos-silver.jpg"
-              width="500"
-              height="500"
-              alt=""
-            />
-            <span class="proof-area" id="prArea" aria-hidden="true"></span>
-            <span class="pr-stamp" id="prStamp" hidden>✓ Approved</span>
-          </div>
           <div class="proof-legend">
             <span><b>Print option:</b> <span id="prPrint"></span></span>
             <span class="line"
               >Maximum print area (this line will not be printed)</span
             >
           </div>
-
-          <!-- Pick the design you want for this product -->
-          <div class="pr-choose" id="prChoose">
-            <p class="pr-choose-text" id="prChooseText"></p>
-            <button
-              type="button"
-              class="pr-choose-btn"
-              id="prChooseBtn"
-            ></button>
+          <!-- Mockup with its design tabs and the choice underneath (Figma 69:702) -->
+          <div class="pr-viewer">
+            <div class="proof-stage" id="prStage">
+              <img
+                id="prImg"
+                src="assets/offer-v3/thermos-silver.jpg"
+                width="500"
+                height="500"
+                alt=""
+              />
+              <span class="proof-area" id="prArea" aria-hidden="true"></span>
+              <span class="pr-stamp" id="prStamp" hidden>✓ Approved</span>
+            </div>
+            <div
+              class="proof-tabs"
+              role="tablist"
+              aria-label="Designs for this product"
+              id="prDesigns"
+            ></div>
+            <!-- Pick the design you want for this product -->
+            <div class="pr-choose" id="prChoose">
+              <p class="pr-choose-text" id="prChooseText"></p>
+              <button
+                type="button"
+                class="pr-choose-btn"
+                id="prChooseBtn"
+              ></button>
+            </div>
           </div>
 
           <fieldset class="pms">
@@ -5683,12 +5815,7 @@
           </div>
           <div class="chat-head">
             <span class="chat-avatar" role="img" aria-label="Jildou"></span>
-            <span
-              ><h2 id="chatTitle">Chat with Jildou</h2>
-              <small
-                >Your account manager will reply as soon as possible</small
-              ></span
-            >
+            <h2 id="chatTitle">Ask Jildou about your mockup</h2>
           </div>
           <div class="change-log" id="changeLog" aria-live="polite">
             <p class="change-msg">
@@ -6108,12 +6235,7 @@
               tag = st.approved
                 ? '<span class="pr-tag is-approved">Approved</span>'
                 : '<span class="pr-tag">Chosen</span>';
-            b.innerHTML =
-              '<span class="dot"></span>Design ' +
-              (i + 1) +
-              " of " +
-              p.designs.length +
-              tag;
+            b.innerHTML = '<span class="dot"></span>Design ' + (i + 1) + tag;
             b.title = d.label;
             b.addEventListener("click", function () {
               st.view = i;
@@ -6166,7 +6288,7 @@
             : st.chosen === null
               ? "Which design do you want on the " +
                 p.short.toLowerCase() +
-                "? Pick one, then tick “I agree”."
+                "?<br />Pick one, then click “Choose this design”."
               : isChosen
                 ? "<b>Design " +
                   (st.view + 1) +
