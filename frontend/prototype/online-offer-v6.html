@@ -4710,12 +4710,33 @@
       .product.p6.is-off .p6-offer-off {
         display: inline;
       }
-      .product.p6.is-off > :not(.p6-offer) {
-        opacity: 0.45;
-        transition: opacity 0.2s;
+      /* Out of the offer: only the switch + a compact row (same look as the requested alternative) */
+      .p6-offrow {
+        display: none;
       }
-      .product.p6.is-off > .p6-tiers {
-        pointer-events: none;
+      .product.p6.is-off > :not(.p6-offer):not(.p6-offrow) {
+        display: none;
+      }
+      .product.p6.is-off > .p6-offrow {
+        display: flex;
+        grid-column: 2 / -1;
+        grid-row: 1;
+        align-items: center;
+        gap: 20px;
+        margin-left: 14px; /* photo lines up with the alternative row below */
+      }
+      .product.p6.is-off > .p6-offer {
+        grid-row: 1;
+        align-self: center;
+        padding-top: 0;
+      }
+      .p6-offrow .alt-photo {
+        background: #fff;
+      }
+      .p6-offrow .alt-photo img {
+        width: 80px;
+        height: 80px;
+        object-fit: contain;
       }
       .alt-switch {
         align-items: flex-start;
@@ -6961,11 +6982,49 @@
           if (!pick || !pick.dataset.price) return { qty: 0, sum: 0 };
           return { qty: +pick.value, sum: +pick.value * +pick.dataset.price };
         }
+        // compact row shown when a product is out of the offer
+        function offRow(p) {
+          var row = p.querySelector(".p6-offrow");
+          if (!row) {
+            row = document.createElement("div");
+            row.className = "p6-offrow";
+            row.innerHTML =
+              '<div class="alt-photo"><img alt="" /></div>' +
+              '<div class="alt-body"><div class="alt-tags"><span class="chip chip-grey">Not in your offer</span><span>Switch it on to add it back</span></div>' +
+              '<h3 class="alt-title"></h3><p class="alt-sub"></p></div>';
+            row.querySelector("img").src = p
+              .querySelector(".p6-photo img")
+              .getAttribute("src");
+            row.querySelector(".alt-title").textContent = p
+              .querySelector(".p6-title")
+              .textContent.trim();
+            p.appendChild(row);
+          }
+          // the print technique (engraving / full-colour print), not "Printing in: 1 colour"
+          var chips = p.querySelectorAll(".p6-chips .chip");
+          var find = function (re) {
+            return Array.prototype.find.call(chips, function (c) {
+              return re.test(c.textContent);
+            });
+          };
+          var chip = find(/engraving|full-colour/i) || find(/print/i);
+          var l = line(p.querySelector(".q-list"));
+          var pick = p.querySelector('.q-row > input[type="radio"]:checked');
+          row.querySelector(".alt-sub").textContent =
+            (chip ? chip.textContent.trim() + " · " : "") +
+            (l.qty
+              ? eur(+pick.dataset.price) +
+                " per piece at " +
+                l.qty.toLocaleString("en-GB") +
+                " pcs"
+              : "no quantity chosen yet");
+        }
         function update() {
           var sub = 0;
           products.forEach(function (p) {
             var on = p.querySelector(".p6-offer input").checked;
             p.classList.toggle("is-off", !on);
+            offRow(p);
             if (on) sub += line(p.querySelector(".q-list")).sum;
           });
           var altOn = $("altInOffer").checked;
