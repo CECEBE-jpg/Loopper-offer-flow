@@ -5562,6 +5562,43 @@
       .check-card .pr-progress {
         display: none;
       }
+      /* previous / next product arrows beside the mockup */
+      .pr-viewer {
+        position: relative;
+      }
+      .pr-arrow {
+        position: absolute;
+        top: 194px;
+        display: grid;
+        place-items: center;
+        width: 44px;
+        height: 44px;
+        padding: 0;
+        border: 1px solid var(--line);
+        border-radius: 50%;
+        background: #fff;
+        box-shadow: 0 4px 12px rgba(20, 30, 40, 0.12);
+        color: #324a67;
+        cursor: pointer;
+        transform: translateY(-50%);
+      }
+      .pr-arrow:hover {
+        border-color: #00aed8;
+        color: #00799a;
+      }
+      .pr-arrow:focus-visible {
+        outline: 2px solid #006ed0;
+        outline-offset: 2px;
+      }
+      .pr-arrow[hidden] {
+        display: none;
+      }
+      .pr-arrow-prev {
+        left: 16px;
+      }
+      .pr-arrow-next {
+        right: 16px;
+      }
     </style>
   </head>
   <body>
@@ -6284,7 +6321,7 @@
               (st.chosen + 1) +
               "</b> for the " +
               p.short.toLowerCase() +
-              ". Untick “I agree” to change it."
+              ". Untick “I agree” to change your choices."
             : st.chosen === null
               ? "Which design do you want on the " +
                 p.short.toLowerCase() +
@@ -6300,73 +6337,111 @@
                   "</b>. Prefer this one instead?";
         }
         function renderApproval() {
-          var p = PRODUCTS[cur],
-            st = state[cur];
-          agree.checked = st.approved;
-          agree.disabled = st.chosen === null;
-          agreeText.textContent =
-            st.chosen === null
-              ? "Choose a design for the " + p.short.toLowerCase() + " first"
-              : "I agree with design " +
-                (st.chosen + 1) +
-                " for the " +
-                p.short.toLowerCase();
-          var done = state.filter(function (x) {
-            return x.approved;
+          var chosen = state.filter(function (x) {
+            return x.chosen !== null;
           }).length;
-          var all = done === PRODUCTS.length;
-          progress.innerHTML = all
-            ? PRODUCTS.length === 2
-              ? "✓ Both products approved"
-              : "✓ All " + PRODUCTS.length + " products approved"
-            : "<b>" +
-              done +
+          var allChosen = chosen === PRODUCTS.length;
+          var all = state.every(function (x) {
+            return x.approved;
+          });
+          agree.checked = all;
+          agree.disabled = !allChosen;
+          agreeText.textContent = allChosen
+            ? "I agree with the chosen designs"
+            : "Choose a design for every product first (" +
+              chosen +
               " of " +
               PRODUCTS.length +
-              "</b> products approved";
-          progress.classList.toggle("is-done", all);
+              " chosen)";
+          agreeSub.textContent = allChosen
+            ? PRODUCTS.map(function (p, i) {
+                return p.short + ": design " + (state[i].chosen + 1);
+              }).join(" · ") +
+              ". Upon approval, the designs will be converted into final proofs."
+            : "Upon approval, the designs will be converted into final proofs.";
           approveBtn.disabled = next.disabled = !all;
           hint.innerHTML = all
             ? "All designs approved. Next: fill in your details."
-            : done +
-              " of " +
-              PRODUCTS.length +
-              " designs approved. Approve every product to continue.";
+            : allChosen
+              ? "Tick <b>“I agree with the chosen designs”</b> to continue."
+              : chosen +
+                " of " +
+                PRODUCTS.length +
+                " designs chosen. Choose a design for every product to continue.";
         }
+        // arrows beside the mockup: previous / next product
+        var viewer = document.querySelector(".pr-viewer");
+        viewer.insertAdjacentHTML(
+          "afterbegin",
+          '<button type="button" class="pr-arrow pr-arrow-prev" id="prPrev"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M12 4l-6 6 6 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>' +
+            '<button type="button" class="pr-arrow pr-arrow-next" id="prNext"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M8 4l6 6-6 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>',
+        );
+        var prevBtn = $("prPrev"),
+          nextBtn = $("prNext");
+        function renderArrows() {
+          var prev = PRODUCTS[cur - 1],
+            nxt = PRODUCTS[cur + 1];
+          prevBtn.hidden = !prev;
+          nextBtn.hidden = !nxt;
+          if (prev) {
+            prevBtn.setAttribute(
+              "aria-label",
+              "Previous product: " + prev.short,
+            );
+            prevBtn.title = "Previous: " + prev.short;
+          }
+          if (nxt) {
+            nextBtn.setAttribute("aria-label", "Next product: " + nxt.short);
+            nextBtn.title = "Next: " + nxt.short;
+          }
+        }
+        prevBtn.addEventListener("click", function () {
+          if (cur > 0) {
+            cur--;
+            render();
+          }
+        });
+        nextBtn.addEventListener("click", function () {
+          if (cur < PRODUCTS.length - 1) {
+            cur++;
+            render();
+          }
+        });
         function render() {
           renderProducts();
           renderDesigns();
           renderStage();
           renderApproval();
+          renderArrows();
         }
         chooseBtn.addEventListener("click", function () {
           var st = state[cur];
           if (st.approved) return;
           st.chosen = st.view;
           render();
+          var todo = state.findIndex(function (x) {
+            return x.chosen === null;
+          });
+          if (todo > -1) {
+            setTimeout(function () {
+              cur = todo;
+              render();
+            }, 900);
+          }
         });
         agree.addEventListener("change", function () {
-          var st = state[cur];
-          if (st.chosen === null) {
+          var allChosen = state.every(function (x) {
+            return x.chosen !== null;
+          });
+          if (!allChosen) {
             agree.checked = false;
             return;
           }
-          st.approved = agree.checked;
-          if (st.approved) st.view = st.chosen;
+          state.forEach(function (x) {
+            x.approved = agree.checked;
+            if (x.approved) x.view = x.chosen;
+          });
           render();
-          // move on to the next product that still needs a review
-          if (st.approved) {
-            var todo = state.findIndex(function (x) {
-              return !x.approved;
-            });
-            if (todo > -1) {
-              setTimeout(function () {
-                cur = todo;
-                render();
-                productsEl.children[cur].focus();
-              }, 900);
-            }
-          }
         });
         render();
       })();
