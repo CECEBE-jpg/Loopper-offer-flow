@@ -5599,6 +5599,116 @@
       .pr-arrow-next {
         right: 16px;
       }
+      /* ---------- Figma 53:30, second edit ---------- */
+      .proof-page > .pr-products .pr-product {
+        width: auto;
+        min-height: 62px;
+        padding: 9px 12px 9px 9px;
+      }
+      .pr-product-text b {
+        font-size: 14px;
+        line-height: 17px;
+        white-space: nowrap;
+      }
+      .pr-product-text > span {
+        margin-top: 4px;
+        font-size: 12px;
+        line-height: 17.4px;
+        font-weight: 700;
+        color: #53627a;
+        white-space: nowrap;
+      }
+      .pr-product-text > span:empty {
+        display: none;
+      }
+      .pr-pick {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        align-self: stretch;
+        min-height: 73px;
+        padding: 12px 14px;
+        border-radius: 10px;
+        background: #f0ffe6;
+        color: #0a0a0a;
+        cursor: pointer;
+      }
+      .pr-pick input {
+        flex: none;
+        width: 18px;
+        height: 18px;
+        margin: 0 3px 0 4px;
+        accent-color: var(--green);
+        cursor: inherit;
+      }
+      .pr-pick b {
+        display: block;
+        font-size: 15px;
+        font-weight: 800;
+      }
+      .pr-pick small {
+        display: block;
+        font-size: 12px;
+        font-weight: 500;
+      }
+      .pr-pick:has(input:checked) {
+        box-shadow: inset 0 0 0 1.5px var(--green);
+      }
+      .pr-pick:has(input:disabled) {
+        cursor: default;
+      }
+      /* final agree in the right column: plain again (Figma 77:101) */
+      .check-card .agree {
+        min-height: 0;
+        margin: 0;
+        padding: 15px 18px 12px 36px;
+        border-radius: 0;
+        background: none;
+        color: var(--ink);
+      }
+      .check-card .agree small {
+        color: var(--ink);
+      }
+      .check-card .agree:has(input:disabled) {
+        opacity: 0.55;
+      }
+      /* ---------- Figma 53:30, third edit: bottom bar + CTAs ---------- */
+      .step-nav .step-nav-back {
+        border: 1px solid #fff;
+        background: #00aed8;
+        color: #fff;
+      }
+      .step-nav .step-nav-back:hover {
+        border-color: #fff;
+        background: #0098bd;
+      }
+      .step-nav .step-nav-back span,
+      .step-nav .step-nav-back small {
+        color: #fff;
+      }
+      .step-nav .cta.step-nav-next {
+        border-radius: 14px;
+        background: var(--green);
+        color: #fff;
+        cursor: pointer;
+      }
+      .check-card .approve-btn {
+        background: var(--green);
+        cursor: pointer;
+      }
+      /* attention pulse when the client tries to continue too early */
+      @keyframes pr-nudge {
+        0%,
+        100% {
+          box-shadow: 0 0 0 0 rgba(0, 174, 216, 0);
+        }
+        30% {
+          box-shadow: 0 0 0 4px rgba(0, 174, 216, 0.45);
+        }
+      }
+      .is-nudge {
+        animation: pr-nudge 0.9s ease-out 2;
+      }
     </style>
   </head>
   <body>
@@ -5765,15 +5875,17 @@
               aria-label="Designs for this product"
               id="prDesigns"
             ></div>
-            <!-- Pick the design you want for this product -->
-            <div class="pr-choose" id="prChoose">
-              <p class="pr-choose-text" id="prChooseText"></p>
-              <button
-                type="button"
-                class="pr-choose-btn"
-                id="prChooseBtn"
-              ></button>
-            </div>
+            <!-- Agree with the design you want for this bottle (Figma 70:70) -->
+            <label class="pr-pick" id="prPickLabel">
+              <input type="checkbox" id="prPick" />
+              <span
+                ><b id="prPickText">I agree with this design</b
+                ><small id="prPickSub"
+                  >Upon approval, the design will be converted into a final
+                  proof.</small
+                ></span
+              >
+            </label>
           </div>
 
           <fieldset class="pms">
@@ -6152,6 +6264,8 @@
             name: "Thermos bottle | Stainless steel | 500 ml | Silver",
             short: "Thermos bottle",
             meta: "500 ml · Silver",
+            card: "Thermos bottle 500 ml",
+            cardSub: "Engraving: front (50×90 mm)",
             sub: "Article number 6383162 · 25 pieces",
             img: "assets/offer-v3/thermos-silver.jpg",
             print: "Engraving, front (50×90 mm)",
@@ -6174,6 +6288,8 @@
             name: "Water bottle | Recycled stainless steel | 750 ml | Black",
             short: "Water bottle",
             meta: "750 ml · Black",
+            card: "Water bottle 750 ml",
+            cardSub: "Full-colour print: wrap-around",
             sub: "Article number 6457285 · 250 pieces",
             img: "assets/offer-v3/water-bottle-black.png",
             print: "Full-colour print, wrap-around (230×160 mm)",
@@ -6206,8 +6322,8 @@
           img = $("prImg"),
           area = $("prArea"),
           stamp = $("prStamp"),
-          chooseText = $("prChooseText"),
-          chooseBtn = $("prChooseBtn"),
+          pick = $("prPick"),
+          pickSub = $("prPickSub"),
           agree = $("agree"),
           agreeText = $("prAgreeText"),
           agreeSub = $("prAgreeSub"),
@@ -6221,7 +6337,7 @@
           if (st.chosen !== null)
             return {
               cls: "is-chosen",
-              text: "Design " + (st.chosen + 1) + " chosen",
+              text: "Design " + (st.chosen + 1) + " agreed",
             };
           return { cls: "is-todo", text: "To review" };
         }
@@ -6238,18 +6354,14 @@
               '<img src="' +
               p.img +
               '" alt="" />' +
-              '<span class="pr-product-text"><small>Product ' +
-              (i + 1) +
-              " of " +
-              PRODUCTS.length +
-              "</small><b></b><span></span></span>" +
+              '<span class="pr-product-text"><b></b><span></span></span>' +
               '<span class="pr-status ' +
               st.cls +
               '">' +
               st.text +
               "</span>";
-            b.querySelector("b").textContent = p.short;
-            b.querySelector(".pr-product-text > span").textContent = p.meta;
+            b.querySelector("b").textContent = p.card;
+            b.querySelector(".pr-product-text > span").textContent = p.cardSub;
             b.addEventListener("click", function () {
               cur = i;
               render();
@@ -6308,34 +6420,54 @@
           $("prPrint").textContent = p.print;
           stamp.hidden = !(st.approved && st.chosen === st.view);
           $("prStage").classList.toggle("is-approved", !stamp.hidden);
-          // choose row
+          // per-bottle tickbox: ticked = this design is the one for this bottle
           var isChosen = st.chosen === st.view;
-          chooseBtn.disabled = st.approved;
-          chooseBtn.classList.toggle("is-chosen", isChosen);
-          chooseBtn.setAttribute("aria-pressed", isChosen ? "true" : "false");
-          chooseBtn.textContent = isChosen
-            ? "✓ Chosen for this " + p.short.toLowerCase()
-            : "Choose this design";
-          chooseText.innerHTML = st.approved
-            ? "You approved <b>design " +
-              (st.chosen + 1) +
-              "</b> for the " +
-              p.short.toLowerCase() +
-              ". Untick “I agree” to change your choices."
-            : st.chosen === null
-              ? "Which design do you want on the " +
-                p.short.toLowerCase() +
-                "?<br />Pick one, then click “Choose this design”."
-              : isChosen
-                ? "<b>Design " +
-                  (st.view + 1) +
-                  "</b> is your choice for the " +
-                  p.short.toLowerCase() +
-                  "."
-                : "You chose <b>design " +
-                  (st.chosen + 1) +
-                  "</b>. Prefer this one instead?";
+          pick.checked = isChosen;
+          pick.disabled = st.approved;
+          pickSub.textContent = st.approved
+            ? "Approved. Untick “I agree with the chosen designs” on the right to change it."
+            : st.chosen !== null && !isChosen
+              ? "You agreed with design " +
+                (st.chosen + 1) +
+                " for this bottle. Tick to use this design instead."
+              : "Upon approval, the design will be converted into a final proof.";
         }
+        var ready = false;
+        function goToMissing() {
+          var todo = state.findIndex(function (x) {
+            return x.chosen === null;
+          });
+          if (todo > -1) {
+            cur = todo;
+            render();
+            var box = $("prPickLabel");
+            box.scrollIntoView({ behavior: "smooth", block: "center" });
+            box.classList.remove("is-nudge");
+            void box.offsetWidth;
+            box.classList.add("is-nudge");
+            pick.focus({ preventScroll: true });
+          } else {
+            var lab = agree.closest(".agree");
+            lab.scrollIntoView({ behavior: "smooth", block: "center" });
+            lab.classList.remove("is-nudge");
+            void lab.offsetWidth;
+            lab.classList.add("is-nudge");
+            agree.focus({ preventScroll: true });
+          }
+        }
+        [approveBtn, next].forEach(function (b) {
+          // capture phase: runs before the "go to step 3" handler and stops it
+          b.addEventListener(
+            "click",
+            function (e) {
+              if (ready) return;
+              e.preventDefault();
+              e.stopImmediatePropagation();
+              goToMissing();
+            },
+            true,
+          );
+        });
         function renderApproval() {
           var chosen = state.filter(function (x) {
             return x.chosen !== null;
@@ -6359,7 +6491,10 @@
               }).join(" · ") +
               ". Upon approval, the designs will be converted into final proofs."
             : "Upon approval, the designs will be converted into final proofs.";
-          approveBtn.disabled = next.disabled = !all;
+          // always shown as active (Figma 53:30); a click before everything is approved
+          // takes the client to what is still missing (see goToMissing)
+          ready = all;
+          approveBtn.disabled = next.disabled = false;
           hint.innerHTML = all
             ? "All designs approved. Next: fill in your details."
             : allChosen
@@ -6414,11 +6549,13 @@
           renderApproval();
           renderArrows();
         }
-        chooseBtn.addEventListener("click", function () {
+        pick.addEventListener("change", function () {
           var st = state[cur];
           if (st.approved) return;
-          st.chosen = st.view;
+          st.chosen = pick.checked ? st.view : null;
           render();
+          if (!pick.checked) return;
+          // move on to the next bottle that has no design yet
           var todo = state.findIndex(function (x) {
             return x.chosen === null;
           });
