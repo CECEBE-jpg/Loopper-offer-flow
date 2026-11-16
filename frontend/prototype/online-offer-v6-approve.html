@@ -5897,7 +5897,9 @@
       /* ---------- Figma 83:208: step 2 content ---------- */
       .proof-card:not(.check-card) {
         padding: 18px 24px 42px;
-        box-shadow: 1px 6px 19px rgba(0, 0, 0, 0.17);
+        /* same shadow as the products card in step 1 */
+        box-shadow: none;
+        filter: drop-shadow(1px 6px 9.5px rgba(0, 0, 0, 0.1));
       }
       /* product tabs now sit inside the card, above the mockup */
       .proof-card > .pr-products {
