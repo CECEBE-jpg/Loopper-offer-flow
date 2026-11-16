@@ -6057,6 +6057,14 @@
       .products-card .q-saved {
         color: #00799a;
       }
+      /* bottom bar: mockup count in green */
+      .step-nav-hint.is-count {
+        color: var(--green-text);
+      }
+      .step-nav-hint.is-count b {
+        color: var(--green-text);
+        font-weight: 800;
+      }
     </style>
   </head>
   <body>
@@ -9262,22 +9270,41 @@
           note.className = "design-note is-" + st;
           note.querySelector("span").innerHTML = html;
         }
+        // bottom bar: green count of the mockups; Next becomes active once ALL mockups are ready.
+        // Other scripts can add mockups (window.extraMockups) and ask for a refresh (window.refreshNav).
+        var lastStates = [];
+        window.refreshNav = function () {
+          setNav(lastStates);
+        };
         function setNav(states) {
+          lastStates = states;
           setNote(states);
           if (!navNext) return;
-          var ready = states.filter(function (x) {
+          var all = states.concat(
+            window.extraMockups ? window.extraMockups() : [],
+          );
+          var n = all.length;
+          var ready = all.filter(function (x) {
             return x === "ready";
           }).length;
-          navNext.disabled = !ready;
-          navHint.innerHTML = !ready
-            ? HINT_WAIT
-            : ready === states.length
-              ? "Your <b>mockups are ready</b>. Review and approve your designs."
-              : "<b>" +
-                ready +
-                " of " +
-                states.length +
-                " mockups ready</b>. You can already review it.";
+          var progress = all.filter(function (x) {
+            return x === "progress";
+          }).length;
+          var requested = n - ready - progress;
+          navNext.disabled = ready < n;
+          navHint.classList.add("is-count");
+          var rest = [];
+          if (progress) rest.push(progress + " in progress");
+          if (requested) rest.push(requested + " requested");
+          navHint.innerHTML =
+            "<b>" +
+            ready +
+            " of " +
+            n +
+            " mockups ready</b><br />" +
+            (ready === n
+              ? "Review and approve your designs."
+              : rest.join(" · ") + ". Next unlocks when all are ready.");
         }
         function setChip(states) {
           setNav(states);
@@ -9682,6 +9709,7 @@
               "<b>Upload your logo</b> and we\u2019ll make a <b>free digital mockup</b> of your products.<br />You can approve it or ask for changes before you order.";
           }
           if (next) next.disabled = true;
+          if (hint) hint.classList.remove("is-count");
           if (hint)
             hint.innerHTML =
               "Available when your <b>Mockup design</b> is ready. Upload your logo to get started.";
@@ -9796,6 +9824,18 @@
         note.hidden = true;
         card.querySelector(".p6-info").appendChild(note);
         var timer = null;
+        // the beach bag counts in the bottom-bar mockup count while it is in the offer
+        window.extraMockups = function () {
+          if (!inOffer.checked) return [];
+          var m = photo.dataset.mockup;
+          return [
+            m === "ready"
+              ? "ready"
+              : m === "progress"
+                ? "progress"
+                : "requested",
+          ];
+        };
         function hasLogo() {
           return !!document.querySelector(".logos-dd .logos [data-logo]");
         }
@@ -9851,6 +9891,7 @@
                 ? "A mockup has been requested. We’ll notify you once it’s ready for you to review."
                 : "Upload your logo and we\u2019ll make a free mockup of the beach bag too.";
           store();
+          if (window.refreshNav) window.refreshNav();
         }
         function start() {
           clearTimeout(timer);
@@ -9874,6 +9915,7 @@
             note.hidden = true;
           }
           store();
+          if (window.refreshNav) window.refreshNav();
         }
         inOffer.addEventListener("change", function () {
           setTimeout(sync, 0);

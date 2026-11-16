@@ -115,6 +115,7 @@ s = beforeBodyEnd(
               "<b>Upload your logo</b> and we\\u2019ll make a <b>free digital mockup</b> of your products.<br />You can approve it or ask for changes before you order.";
           }
           if (next) next.disabled = true;
+          if (hint) hint.classList.remove("is-count");
           if (hint) hint.innerHTML = "Available when your <b>Mockup design</b> is ready. Upload your logo to get started.";
         }
         function remember(src) {
@@ -244,6 +245,12 @@ s = beforeBodyEnd(
         note.hidden = true;
         card.querySelector(".p6-info").appendChild(note);
         var timer = null;
+        // the beach bag counts in the bottom-bar mockup count while it is in the offer
+        window.extraMockups = function () {
+          if (!inOffer.checked) return [];
+          var m = photo.dataset.mockup;
+          return [m === "ready" ? "ready" : m === "progress" ? "progress" : "requested"];
+        };
         function hasLogo() {
           return !!document.querySelector(".logos-dd .logos [data-logo]");
         }
@@ -275,6 +282,7 @@ s = beforeBodyEnd(
                 ? "A mockup has been requested. We’ll notify you once it’s ready for you to review."
                 : "Upload your logo and we\\u2019ll make a free mockup of the beach bag too.";
           store();
+          if (window.refreshNav) window.refreshNav();
         }
         function start() {
           clearTimeout(timer);
@@ -294,6 +302,7 @@ s = beforeBodyEnd(
             note.hidden = true;
           }
           store();
+          if (window.refreshNav) window.refreshNav();
         }
         inOffer.addEventListener("change", function () {
           setTimeout(sync, 0);
