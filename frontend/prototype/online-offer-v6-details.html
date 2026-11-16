@@ -6271,6 +6271,64 @@
       .step-nav .cta.step-nav-next {
         font-size: 16px;
       }
+      /* ---------- Figma 88:2: details saved ---------- */
+      .det-confirm {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 16px 0 0;
+        padding: 12px 14px;
+        border-radius: 10px;
+        background: #eef7e6;
+        font-size: 15px;
+        font-weight: 600;
+        color: #1c2530;
+      }
+      #invForm[hidden],
+      .det-save[hidden],
+      .det-confirm[hidden],
+      .det-summary[hidden],
+      .det-del-saved[hidden] {
+        display: none;
+      }
+      .det-summary-text {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .det-summary-text p,
+      .det-del-saved p {
+        margin: 0;
+        font-size: 15px;
+        line-height: 24px;
+        color: #1c2530;
+      }
+      .det-summary-text .det-summary-company {
+        font-size: 17px;
+        font-weight: 800;
+      }
+      .det-summary-group + .det-summary-group {
+        padding-top: 8px;
+      }
+      .det-summary-group:empty {
+        display: none;
+      }
+      .det-summary-text .det-summary-small p {
+        font-size: 14px;
+      }
+      .det-del-saved {
+        padding-bottom: 16px;
+      }
+      .det-btn.det-btn-edit {
+        border-color: #1e7e34;
+        border-radius: 14px;
+        background: #1e7e34;
+        color: #fff;
+      }
+      .det-btn.det-btn-edit:hover {
+        border-color: #186a2b;
+        background: #186a2b;
+      }
     </style>
   </head>
   <body>
@@ -6386,11 +6444,20 @@
     <div class="det-page">
       <section class="det-hello">
         <h1>Hi Cayna,</h1>
-        <p>
+        <p id="helloText">
           Here is the overview of your order. Please check your contact
           information before paying.
         </p>
       </section>
+      <p class="det-confirm" id="detConfirm" role="status" hidden>
+        <img
+          src="assets/offer-v3/icon-check.svg"
+          width="18"
+          height="18"
+          alt=""
+        />Your details have been saved. Review your order and accept the terms
+        to continue to payment.
+      </p>
 
       <div class="det-grid">
         <section class="det-card" aria-labelledby="invTitle">
@@ -6614,6 +6681,14 @@
               Save
             </button>
           </div>
+          <div class="det-summary" id="invSummary" hidden>
+            <div class="det-summary-text" id="invSummaryText"></div>
+            <div class="det-save">
+              <button type="button" class="det-btn det-btn-edit" id="invEdit">
+                Edit details
+              </button>
+            </div>
+          </div>
         </section>
 
         <section class="det-card" aria-labelledby="delTitle">
@@ -6626,6 +6701,7 @@
               alt=""
             />We deliver to your invoicing address
           </p>
+          <div class="det-del-saved" id="delSaved" hidden></div>
           <button
             type="button"
             class="det-btn det-btn-blue det-btn-tall"
@@ -7202,8 +7278,114 @@
         $("invSave").addEventListener("click", function () {
           var bad = check($("invForm"));
           if (bad) goTo(bad);
-          else flash($("invSaved"));
+          else showSaved(true);
         });
+        $("addDelivery").addEventListener("click", function () {
+          $("delSaved").hidden = true;
+        });
+        $("useInvoice").addEventListener("click", function () {
+          $("delSaved").hidden = $("invSummary").hidden;
+        });
+        $("invEdit").addEventListener("click", function () {
+          showSaved(false);
+          $("f-company").focus();
+        });
+        // Saved state (Figma 88:2): the form becomes a summary, a green confirmation shows at the top
+        var HELLO_EDIT = $("helloText").textContent.replace(/\s+/g, " ").trim(),
+          HELLO_SAVED =
+            "Your details are saved. Review your order and accept the terms before continuing to payment.",
+          ADD_DELIVERY = $("addDelivery").textContent.trim();
+        function val(id) {
+          var el = $(id);
+          return el ? el.value.trim() : "";
+        }
+        function line(text, cls) {
+          var p = document.createElement("p");
+          if (cls) p.className = cls;
+          p.textContent = text;
+          return p;
+        }
+        function group(lines, cls) {
+          var d = document.createElement("div");
+          d.className = cls;
+          lines.filter(Boolean).forEach(function (t) {
+            d.appendChild(line(t));
+          });
+          return d;
+        }
+        function showSaved(on) {
+          var form = $("invForm");
+          form.hidden = on;
+          form.nextElementSibling.hidden = on; // the Save row
+          $("invSummary").hidden = !on;
+          $("detConfirm").hidden = !on;
+          $("helloText").textContent = on ? HELLO_SAVED : HELLO_EDIT;
+          $("addDelivery").textContent = on
+            ? "+ Use a different delivery address"
+            : ADD_DELIVERY;
+          if (!on) {
+            $("delSaved").hidden = true;
+            return;
+          }
+          var sal = form.querySelector('input[name="sal"]:checked'),
+            name = [sal ? sal.value : "", val("f-first"), val("f-last")]
+              .filter(Boolean)
+              .join(" "),
+            street = [val("f-street"), val("f-house")]
+              .filter(Boolean)
+              .join(" "),
+            city = [val("f-city"), val("f-postcode")]
+              .filter(Boolean)
+              .join(", "),
+            country = $("f-country").value,
+            phone = val("f-phone");
+          if (phone && phone.charAt(0) !== "+") phone = "+44 " + phone;
+          var box = $("invSummaryText");
+          box.innerHTML = "";
+          box.appendChild(line(val("f-company"), "det-summary-company"));
+          box.appendChild(
+            group([name, street, city, country], "det-summary-group"),
+          );
+          box.appendChild(
+            group(
+              [val("f-email"), val("f-cc") && "CC: " + val("f-cc"), phone],
+              "det-summary-group",
+            ),
+          );
+          box.appendChild(
+            group(
+              [
+                val("f-invoiceEmail") &&
+                  "Invoice email: " + val("f-invoiceEmail"),
+                val("f-vat") && "VAT number: " + val("f-vat"),
+                val("f-ref") && "Internal reference: " + val("f-ref"),
+              ],
+              "det-summary-group det-summary-small",
+            ),
+          );
+          var del = $("delSaved");
+          del.innerHTML = "";
+          del.appendChild(
+            group(
+              [
+                [val("f-company"), [val("f-first"), val("f-last")].join(" ")]
+                  .filter(Boolean)
+                  .join(" · "),
+                [street, city].filter(Boolean).join(", "),
+                country,
+              ],
+              "det-summary-group",
+            ),
+          );
+          del.hidden = !$("delForm").hidden;
+          var c = $("detConfirm").getBoundingClientRect();
+          if (c.top < 0 || c.bottom > window.innerHeight) {
+            $("detConfirm").scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          }
+        }
         $("terms").addEventListener("change", function () {
           $("termsLabel").classList.remove("is-invalid");
           $("termsError").hidden = true;
