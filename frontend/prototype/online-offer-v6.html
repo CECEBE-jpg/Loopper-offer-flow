@@ -5732,6 +5732,14 @@
       .step-nav .cta.step-nav-next {
         font-size: 16px;
       }
+      /* bottom bar Next: active (green) once a mockup is ready */
+      .step-nav .cta.step-nav-next:not(:disabled) {
+        background: var(--green);
+        cursor: pointer;
+      }
+      .step-nav .cta.step-nav-next:not(:disabled):hover {
+        background: var(--green-text);
+      }
     </style>
   </head>
   <body>
@@ -8508,11 +8516,11 @@
           </span>
         </div>
         <div class="step-nav-next-wrap">
-          <span class="step-nav-hint"
+          <span class="step-nav-hint" id="navHint" aria-live="polite"
             >Available when your <b>Mockup design</b> is ready. We will notify
             you via email when it is ready.</span
           >
-          <button type="button" class="cta step-nav-next" disabled>
+          <button type="button" class="cta step-nav-next" id="navNext" disabled>
             <span>Next: Approve design</span>
             <img
               src="assets/offer-v3/icon-chevron.svg"
@@ -8914,7 +8922,34 @@
             );
           }
         }
+        // bottom bar: Next becomes active (green) as soon as a mockup is ready to review
+        var navHint = document.getElementById("navHint"),
+          navNext = document.getElementById("navNext"),
+          HINT_WAIT = navHint ? navHint.innerHTML : "";
+        if (navNext) {
+          navNext.addEventListener("click", function () {
+            if (!navNext.disabled)
+              location.href = "online-offer-v6-approve.html";
+          });
+        }
+        function setNav(states) {
+          if (!navNext) return;
+          var ready = states.filter(function (x) {
+            return x === "ready";
+          }).length;
+          navNext.disabled = !ready;
+          navHint.innerHTML = !ready
+            ? HINT_WAIT
+            : ready === states.length
+              ? "Your <b>mockups are ready</b>. Review and approve your designs."
+              : "<b>" +
+                ready +
+                " of " +
+                states.length +
+                " mockups ready</b>. You can already review it.";
+        }
         function setChip(states) {
+          setNav(states);
           if (!chip) return;
           var ready = states.filter(function (x) {
             return x === "ready";
