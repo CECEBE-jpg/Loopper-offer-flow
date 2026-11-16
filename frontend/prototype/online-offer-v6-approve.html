@@ -5840,8 +5840,13 @@
       .pr-gal-frame {
         cursor: zoom-in;
       }
+      /* zoomed in: open hand while moving around (as on the live proof page); click zooms out */
       .pr-gal-frame.is-zoomed {
-        cursor: zoom-out;
+        cursor: grab;
+      }
+      /* the mockup copy inside must not override the frame cursor */
+      .pr-gal-frame * {
+        cursor: inherit !important;
       }
       .pr-gal-zoom {
         width: 100%;
@@ -5853,6 +5858,20 @@
         .pr-gal-zoom {
           transition: none;
         }
+      }
+      /* gallery: drag to pan while zoomed (no transition while dragging) */
+      .pr-gal-zoom {
+        transform-origin: 0 0;
+      }
+      .pr-gal-frame {
+        touch-action: none;
+        user-select: none;
+      }
+      .pr-gal-frame.is-zoomed.is-dragging {
+        cursor: grabbing;
+      }
+      .pr-gal-frame.is-dragging .pr-gal-zoom {
+        transition: none;
       }
     </style>
   </head>
@@ -6769,24 +6788,73 @@
         }
         var zoomEl = dlg.querySelector(".pr-gal-zoom");
         var ZOOM = 2.5;
+        var tx = 0,
+          ty = 0,
+          zoomed = false,
+          drag = null;
+        function clamp() {
+          var w = frame.clientWidth,
+            h = frame.clientHeight;
+          tx = Math.min(0, Math.max(w * (1 - ZOOM), tx));
+          ty = Math.min(0, Math.max(h * (1 - ZOOM), ty));
+        }
+        function apply() {
+          zoomEl.style.transform = zoomed
+            ? "translate(" + tx + "px, " + ty + "px) scale(" + ZOOM + ")"
+            : "";
+        }
+        // zoom in around the clicked point (it stays under the cursor), or back out
         function setZoom(on, e) {
+          zoomed = on;
           frame.classList.toggle("is-zoomed", on);
-          frame.title = on ? "Click to zoom out" : "Click to zoom in";
-          zoomEl.style.transform = on ? "scale(" + ZOOM + ")" : "";
-          if (on && e) follow(e);
-          if (!on) zoomEl.style.transformOrigin = "50% 50%";
+          frame.title = on
+            ? "Drag to look around, click to zoom out"
+            : "Click to zoom in";
+          if (on && e) {
+            var r = frame.getBoundingClientRect();
+            var cx = e.clientX - r.left,
+              cy = e.clientY - r.top;
+            tx = cx * (1 - ZOOM);
+            ty = cy * (1 - ZOOM);
+          } else if (on) {
+            tx = (frame.clientWidth * (1 - ZOOM)) / 2;
+            ty = (frame.clientHeight * (1 - ZOOM)) / 2;
+          }
+          clamp();
+          apply();
         }
-        function follow(e) {
-          var r = frame.getBoundingClientRect();
-          var x = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width));
-          var y = Math.min(1, Math.max(0, (e.clientY - r.top) / r.height));
-          zoomEl.style.transformOrigin = x * 100 + "% " + y * 100 + "%";
-        }
-        frame.addEventListener("click", function (e) {
-          setZoom(!frame.classList.contains("is-zoomed"), e);
+        // a press without movement toggles the zoom; pressing and moving while zoomed drags the image
+        frame.addEventListener("pointerdown", function (e) {
+          if (e.button !== 0) return;
+          drag = { x: e.clientX, y: e.clientY, tx: tx, ty: ty, moved: false };
+          frame.setPointerCapture(e.pointerId);
         });
-        frame.addEventListener("mousemove", function (e) {
-          if (frame.classList.contains("is-zoomed")) follow(e);
+        frame.addEventListener("pointermove", function (e) {
+          if (!drag) return;
+          var dx = e.clientX - drag.x,
+            dy = e.clientY - drag.y;
+          if (!drag.moved && Math.abs(dx) + Math.abs(dy) > 4) {
+            drag.moved = true;
+            frame.classList.add("is-dragging");
+          }
+          if (drag.moved && zoomed) {
+            tx = drag.tx + dx;
+            ty = drag.ty + dy;
+            clamp();
+            apply();
+          }
+        });
+        function endDrag(e) {
+          if (!drag) return;
+          var wasMove = drag.moved;
+          drag = null;
+          frame.classList.remove("is-dragging");
+          if (e.type === "pointerup" && !wasMove) setZoom(!zoomed, e);
+        }
+        frame.addEventListener("pointerup", endDrag);
+        frame.addEventListener("pointercancel", endDrag);
+        frame.addEventListener("dragstart", function (e) {
+          e.preventDefault();
         });
         function step(d) {
           var btns = tabs.querySelectorAll(".proof-tab");
