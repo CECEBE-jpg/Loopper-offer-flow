@@ -366,7 +366,7 @@
         font-size: 14px;
         line-height: 16.8px;
         text-align: center;
-        color: #7a3fa0;
+        color: #890037;
       }
       .logo-name {
         display: flex;
@@ -472,7 +472,7 @@
         font-size: 6.5px;
         line-height: 7.5px;
         text-align: center;
-        color: #7a3fa0;
+        color: #890037;
       }
       .logos-dd[open] .logos-dd-hint {
         display: none;
@@ -5904,6 +5904,45 @@
         font-weight: 800;
         color: #fff;
       }
+      /* Bloom Agency scenario: logo thumbs and mockup logo per product */
+      .logo-thumb-file .bloom-logo-thumb,
+      .logos-dd .bloom-logo-thumb {
+        position: static;
+        width: 86%;
+        height: auto;
+        object-fit: contain;
+      }
+      .p1-gal-frame[data-mock="tote"] .p1-gal-logo {
+        top: 66%;
+        width: 30%;
+        height: auto;
+        transform: translate(-50%, -50%);
+      }
+      .p1-gal-frame[data-mock="tote"] .p1-gal-logo img {
+        width: 100%;
+        transform: none;
+        opacity: 0.92;
+        filter: none;
+      }
+      .p1-gal-frame[data-mock="noma"] .p1-gal-logo {
+        top: 44%;
+        left: 50%;
+        width: 20%;
+        height: auto;
+        transform: translate(-50%, -50%);
+      }
+      .p1-gal-frame[data-mock="noma"] .p1-gal-logo img {
+        width: 100%;
+        transform: none;
+        opacity: 0.7;
+        filter: grayscale(1) brightness(0.45);
+      }
+      .logo-mini-file:has(.bloom-logo-thumb),
+      .logo-thumb-file:has(.bloom-logo-thumb) {
+        display: grid;
+        place-items: center;
+        background: #fff;
+      }
     </style>
   </head>
   <body>
@@ -5974,12 +6013,12 @@
             <div
               class="client-logo"
               role="img"
-              aria-label="Your uploaded logo: ydh_white.png"
+              aria-label="Your uploaded logo: bloom-agency-logo.png"
             >
               <img
                 class="client-logo-img"
                 data-auto-bg
-                src="assets/offer-v3/sample-logo-white.svg"
+                src="assets/offer-bloom/bloom-logo.png"
                 alt=""
               />
             </div>
@@ -5994,7 +6033,7 @@
             </div>
             <div>
               <dt>Company name</dt>
-              <dd>Bloom agency</dd>
+              <dd>Bloom Agency</dd>
             </div>
             <div>
               <dt>Project date</dt>
@@ -6034,12 +6073,13 @@
               <h2 id="logosTitle">Your logo &amp; design</h2>
               <span class="logos-dd-hint">
                 <span class="logo-mini logo-mini-file">
-                  <img src="assets/offer-v3/logo-placeholder-bg.png" alt="" />
-                  <span>YOUR DESIGN<br />HERE</span>
+                  <img
+                    class="bloom-logo-thumb"
+                    src="assets/offer-bloom/bloom-logo.png"
+                    alt=""
+                  />
                 </span>
-                <span class="logo-mini logo-mini-text"
-                  >FAKE OFFER BY MARKETING</span
-                >
+                <span class="logo-mini logo-mini-text">Bloom Agency</span>
                 <span class="logos-dd-count">2 logos</span>
               </span>
             </span>
@@ -6087,10 +6127,10 @@
                   <div class="logo-top">
                     <div class="logo-thumb logo-thumb-file">
                       <img
-                        src="assets/offer-v3/logo-placeholder-bg.png"
+                        class="bloom-logo-thumb"
+                        src="assets/offer-bloom/bloom-logo.png"
                         alt=""
                       />
-                      <span>YOUR DESIGN<br />HERE</span>
                     </div>
                     <p class="logo-name">
                       <img
@@ -6098,7 +6138,7 @@
                         width="14"
                         height="14"
                         alt=""
-                      />ydh_white.png
+                      />bloom-agency-logo.png
                     </p>
                     <p class="logo-sub">Received 13 Oct, 18:00</p>
                     <p class="logo-bg-note">Transparent background</p>
@@ -6127,10 +6167,10 @@
                       class="logo-thumb logo-thumb-text"
                       style="
                         font-family: &quot;Times New Roman&quot;, serif;
-                        color: #7a3fa0;
+                        color: #890037;
                       "
                     >
-                      FAKE OFFER BY MARKETING
+                      Bloom Agency
                     </div>
                     <p class="logo-name">Text logo</p>
                     <p class="logo-sub">Times New Roman · purple</p>
@@ -6230,7 +6270,7 @@
             <span class="p6-h-pp">Price per piece</span>
             <span class="p6-h-sub">Subtotal</span>
           </div>
-          <article class="product p6">
+          <article class="product p6" data-mock="tote">
             <label class="p6-offer">
               <span class="p6-offer-on">In offer</span
               ><span class="tip"
@@ -6254,8 +6294,8 @@
               <div class="p6-images">
                 <div class="p6-photo">
                   <img
-                    src="assets/offer-v3/thermos-silver.jpg"
-                    alt="Thermos bottle, silver"
+                    src="assets/offer-bloom/tote-natural-2.jpg"
+                    alt="Tote bag, natural cotton"
                   />
                   <span class="p6-overlay p6-overlay-mockup"
                     >Mockup in progress</span
@@ -6263,36 +6303,38 @@
                 </div>
                 <div class="p6-thumbs">
                   <span class="p6-thumb"
-                    ><img src="assets/offer-v3/thermos-silver.jpg" alt=""
+                    ><img src="assets/offer-bloom/tote-natural-3.jpg" alt=""
                   /></span>
                   <span class="p6-thumb"
-                    ><img src="assets/offer-v3/thermos-silver.jpg" alt=""
+                    ><img src="assets/offer-bloom/tote-natural-2.jpg" alt=""
                   /></span>
                   <span class="p6-thumb"
-                    ><img src="assets/offer-v3/thermos-silver.jpg" alt=""
+                    ><img src="assets/offer-bloom/tote-natural-3.jpg" alt=""
                   /></span>
                 </div>
               </div>
             </div>
             <div class="p6-info">
               <h3 class="p6-title">
-                Thermos bottle | Stainless steel | 500 ml | Silver
+                Tote bag | Cotton 100 g/m² | 38x42 cm | Natural
               </h3>
               <p class="p6-off-sub">
-                Item colour: Silver · Printing in 1 colour · from € 5,77 per
-                piece at 250 pcs
+                Item colour: Natural · Screen print · from € 1,36 per piece at
+                2,500 pcs
               </p>
-              <p class="p6-meta">Article number: 6383162</p>
+              <p class="p6-meta">Article number: 1144549</p>
               <div class="chips p6-chips">
-                <span class="chip chip-grey">Item colour: Silver</span>
+                <span class="chip chip-grey">Item colour: Natural</span>
                 <span class="chip chip-grey">Printing in: 1 colour</span>
-                <span class="chip chip-grey">Engraving: front (50×90 mm)</span>
-                <span class="chip chip-grey">Fast delivery: 28 Oct</span>
+                <span class="chip chip-grey"
+                  >Screen print: front (25×30 cm)</span
+                >
+                <span class="chip chip-grey">Fast delivery: 27 Nov</span>
               </div>
             </div>
             <fieldset
               class="p6-tiers q-list"
-              data-tiers='[{"q":25,"p":9.86},{"q":50,"p":7.72},{"q":100,"p":6.39},{"q":250,"p":5.77}]'
+              data-tiers='[{"q":250,"p":1.88},{"q":500,"p":1.64},{"q":1000,"p":1.49},{"q":2500,"p":1.36}]'
             >
               <legend class="sr-only">Choose quantity</legend>
               <div class="q-head" aria-hidden="true">
@@ -6303,64 +6345,74 @@
                 <input
                   type="radio"
                   name="qty1"
-                  value="25"
-                  data-price="9.86"
+                  value="250"
+                  data-price="1.88"
                   checked
                 />
-                <span class="q-main">
-                  <span class="q-top"
-                    ><b class="q-qty">25</b
-                    ><span class="q-unit">pieces</span></span
-                  >
-                  <span class="q-tag q-tag-none"></span>
-                  <span class="q-pp"><b>€ 9,86</b></span>
-                </span>
-                <span class="q-total"
-                  ><b>€ 246,50</b><small>excl. VAT</small></span
-                >
-              </label>
-              <label class="q-row">
-                <input type="radio" name="qty1" value="50" data-price="7.72" />
-                <span class="q-main">
-                  <span class="q-top"
-                    ><b class="q-qty">50</b
-                    ><span class="q-unit">pieces</span></span
-                  >
-                  <span class="q-tag">22% discount</span>
-                  <span class="q-pp"><s>€ 9,86</s> / <b>€ 7,72</b></span>
-                </span>
-                <span class="q-total"
-                  ><s class="q-was">€ 493,00</s><b>€ 386,00</b
-                  ><small>excl. VAT</small></span
-                >
-              </label>
-              <label class="q-row">
-                <input type="radio" name="qty1" value="100" data-price="6.39" />
-                <span class="q-main">
-                  <span class="q-top"
-                    ><b class="q-qty">100</b
-                    ><span class="q-unit">pieces</span></span
-                  >
-                  <span class="q-tag">35% discount</span>
-                  <span class="q-pp"><s>€ 9,86</s> / <b>€ 6,39</b></span>
-                </span>
-                <span class="q-total"
-                  ><s class="q-was">€ 986,00</s><b>€ 639,00</b
-                  ><small>excl. VAT</small></span
-                >
-              </label>
-              <label class="q-row">
-                <input type="radio" name="qty1" value="250" data-price="5.77" />
                 <span class="q-main">
                   <span class="q-top"
                     ><b class="q-qty">250</b
                     ><span class="q-unit">pieces</span></span
                   >
-                  <span class="q-tag">41% discount</span>
-                  <span class="q-pp"><s>€ 9,86</s> / <b>€ 5,77</b></span>
+                  <span class="q-tag q-tag-none"></span>
+                  <span class="q-pp"><b>€ 1,88</b></span>
                 </span>
                 <span class="q-total"
-                  ><s class="q-was">€ 2.465,00</s><b>€ 1.442,50</b
+                  ><b>€ 470,00</b><small>excl. VAT</small></span
+                >
+              </label>
+              <label class="q-row">
+                <input type="radio" name="qty1" value="500" data-price="1.64" />
+                <span class="q-main">
+                  <span class="q-top"
+                    ><b class="q-qty">500</b
+                    ><span class="q-unit">pieces</span></span
+                  >
+                  <span class="q-tag">13% discount</span>
+                  <span class="q-pp"><s>€ 1,88</s> / <b>€ 1,64</b></span>
+                </span>
+                <span class="q-total"
+                  ><s class="q-was">€ 940,00</s><b>€ 820,00</b
+                  ><small>excl. VAT</small></span
+                >
+              </label>
+              <label class="q-row">
+                <input
+                  type="radio"
+                  name="qty1"
+                  value="1000"
+                  data-price="1.49"
+                />
+                <span class="q-main">
+                  <span class="q-top"
+                    ><b class="q-qty">1,000</b
+                    ><span class="q-unit">pieces</span></span
+                  >
+                  <span class="q-tag">21% discount</span>
+                  <span class="q-pp"><s>€ 1,88</s> / <b>€ 1,49</b></span>
+                </span>
+                <span class="q-total"
+                  ><s class="q-was">€ 1.880,00</s><b>€ 1.490,00</b
+                  ><small>excl. VAT</small></span
+                >
+              </label>
+              <label class="q-row">
+                <input
+                  type="radio"
+                  name="qty1"
+                  value="2500"
+                  data-price="1.36"
+                />
+                <span class="q-main">
+                  <span class="q-top"
+                    ><b class="q-qty">2,500</b
+                    ><span class="q-unit">pieces</span></span
+                  >
+                  <span class="q-tag">28% discount</span>
+                  <span class="q-pp"><s>€ 1,88</s> / <b>€ 1,36</b></span>
+                </span>
+                <span class="q-total"
+                  ><s class="q-was">€ 4.700,00</s><b>€ 3.400,00</b
                   ><small>excl. VAT</small></span
                 >
               </label>
@@ -6415,7 +6467,10 @@
                   <p class="cm-from">
                     <b>Jildou</b> · Your account manager <time>10:12</time>
                   </p>
-                  <p class="cm-text">I think.. so and so and so</p>
+                  <p class="cm-text">
+                    I would print your logo in one colour on the natural cotton.
+                    It looks great and keeps the price low.
+                  </p>
                 </div>
               </div>
               <div class="cm-msg cm-msg-you">
@@ -6451,7 +6506,10 @@
                   />
                   <div class="cmt-body">
                     <p class="cmt-from"><b>Jildou</b> your account manager</p>
-                    <p class="cmt-text">I think.. so and so and so</p>
+                    <p class="cmt-text">
+                      I would print your logo in one colour on the natural
+                      cotton. It looks great and keeps the price low.
+                    </p>
                   </div>
                   <button type="button" class="cmt-reply cmt-reply-head">
                     <img
@@ -6504,7 +6562,7 @@
               </p>
             </div>
           </article>
-          <article class="product p6">
+          <article class="product p6" data-mock="noma">
             <label class="p6-offer">
               <span class="p6-offer-on">In offer</span
               ><span class="tip"
@@ -6528,36 +6586,37 @@
               <div class="p6-images">
                 <div class="p6-photo">
                   <img
-                    src="assets/offer-v3/thermos-silver.jpg"
-                    alt="Thermos bottle, silver"
+                    src="assets/offer-bloom/thermos-1.png"
+                    alt="noma noma thermos bottle, black"
                   />
                 </div>
                 <div class="p6-thumbs">
                   <span class="p6-thumb"
-                    ><img src="assets/offer-v3/thermos-silver.jpg" alt=""
+                    ><img src="assets/offer-bloom/thermos-2.png" alt=""
                   /></span>
                   <span class="p6-thumb"
-                    ><img src="assets/offer-v3/thermos-silver.jpg" alt=""
+                    ><img src="assets/offer-bloom/thermos-3.png" alt=""
                   /></span>
                   <span class="p6-thumb"
-                    ><img src="assets/offer-v3/thermos-silver.jpg" alt=""
+                    ><img src="assets/offer-bloom/thermos-4.png" alt=""
                   /></span>
                 </div>
               </div>
             </div>
             <div class="p6-info">
               <h3 class="p6-title">
-                Thermos bottle | Stainless steel | 500 ml | Silver
+                noma noma thermos bottle | Recycled stainless steel | 750 ml |
+                Black
               </h3>
               <p class="p6-off-sub">
-                Item colour: Silver · Printing in 1 colour · from € 5,77 per
-                piece at 250 pcs
+                Item colour: Black · Engraving · from € 18,75 per piece at 500
+                pcs
               </p>
-              <p class="p6-meta">Article number: 6383162</p>
+              <p class="p6-meta">Article number: 6453806</p>
               <div class="chips p6-chips">
-                <span class="chip chip-grey">Item colour: Silver</span>
+                <span class="chip chip-grey">Item colour: Black</span>
                 <span class="chip chip-grey">Printing in: 1 colour</span>
-                <span class="chip chip-grey">Engraving: front (50×90 mm)</span>
+                <span class="chip chip-grey">Engraving: front (40×60 mm)</span>
               </div>
               <dl class="p6-stock">
                 <div>
@@ -6584,13 +6643,13 @@
                 </div>
                 <div>
                   <dt>Date incoming stock:</dt>
-                  <dd>26-10-2026</dd>
+                  <dd>08-12-2026</dd>
                 </div>
               </dl>
             </div>
             <fieldset
               class="p6-tiers q-list"
-              data-tiers='[{"q":25,"p":9.86},{"q":50,"p":7.72},{"q":100,"p":6.39},{"q":250,"p":5.77}]'
+              data-tiers='[{"q":50,"p":21.95},{"q":100,"p":20.85},{"q":250,"p":19.5},{"q":500,"p":18.75}]'
             >
               <legend class="sr-only">Choose quantity</legend>
               <div class="q-head" aria-hidden="true">
@@ -6601,64 +6660,74 @@
                 <input
                   type="radio"
                   name="qty2"
-                  value="25"
-                  data-price="9.86"
+                  value="50"
+                  data-price="21.95"
                   checked
                 />
-                <span class="q-main">
-                  <span class="q-top"
-                    ><b class="q-qty">25</b
-                    ><span class="q-unit">pieces</span></span
-                  >
-                  <span class="q-tag q-tag-none"></span>
-                  <span class="q-pp"><b>€ 9,86</b></span>
-                </span>
-                <span class="q-total"
-                  ><b>€ 246,50</b><small>excl. VAT</small></span
-                >
-              </label>
-              <label class="q-row">
-                <input type="radio" name="qty2" value="50" data-price="7.72" />
                 <span class="q-main">
                   <span class="q-top"
                     ><b class="q-qty">50</b
                     ><span class="q-unit">pieces</span></span
                   >
-                  <span class="q-tag">22% discount</span>
-                  <span class="q-pp"><s>€ 9,86</s> / <b>€ 7,72</b></span>
+                  <span class="q-tag q-tag-none"></span>
+                  <span class="q-pp"><b>€ 21,95</b></span>
                 </span>
                 <span class="q-total"
-                  ><s class="q-was">€ 493,00</s><b>€ 386,00</b
-                  ><small>excl. VAT</small></span
+                  ><b>€ 1.097,50</b><small>excl. VAT</small></span
                 >
               </label>
               <label class="q-row">
-                <input type="radio" name="qty2" value="100" data-price="6.39" />
+                <input
+                  type="radio"
+                  name="qty2"
+                  value="100"
+                  data-price="20.85"
+                />
                 <span class="q-main">
                   <span class="q-top"
                     ><b class="q-qty">100</b
                     ><span class="q-unit">pieces</span></span
                   >
-                  <span class="q-tag">35% discount</span>
-                  <span class="q-pp"><s>€ 9,86</s> / <b>€ 6,39</b></span>
+                  <span class="q-tag">5% discount</span>
+                  <span class="q-pp"><s>€ 21,95</s> / <b>€ 20,85</b></span>
                 </span>
                 <span class="q-total"
-                  ><s class="q-was">€ 986,00</s><b>€ 639,00</b
+                  ><s class="q-was">€ 2.195,00</s><b>€ 2.085,00</b
                   ><small>excl. VAT</small></span
                 >
               </label>
               <label class="q-row">
-                <input type="radio" name="qty2" value="250" data-price="5.77" />
+                <input type="radio" name="qty2" value="250" data-price="19.5" />
                 <span class="q-main">
                   <span class="q-top"
                     ><b class="q-qty">250</b
                     ><span class="q-unit">pieces</span></span
                   >
-                  <span class="q-tag">41% discount</span>
-                  <span class="q-pp"><s>€ 9,86</s> / <b>€ 5,77</b></span>
+                  <span class="q-tag">11% discount</span>
+                  <span class="q-pp"><s>€ 21,95</s> / <b>€ 19,50</b></span>
                 </span>
                 <span class="q-total"
-                  ><s class="q-was">€ 2.465,00</s><b>€ 1.442,50</b
+                  ><s class="q-was">€ 5.487,50</s><b>€ 4.875,00</b
+                  ><small>excl. VAT</small></span
+                >
+              </label>
+              <label class="q-row">
+                <input
+                  type="radio"
+                  name="qty2"
+                  value="500"
+                  data-price="18.75"
+                />
+                <span class="q-main">
+                  <span class="q-top"
+                    ><b class="q-qty">500</b
+                    ><span class="q-unit">pieces</span></span
+                  >
+                  <span class="q-tag">15% discount</span>
+                  <span class="q-pp"><s>€ 21,95</s> / <b>€ 18,75</b></span>
+                </span>
+                <span class="q-total"
+                  ><s class="q-was">€ 10.975,00</s><b>€ 9.375,00</b
                   ><small>excl. VAT</small></span
                 >
               </label>
@@ -6783,7 +6852,7 @@
                     >
                       i</button
                     ><span class="tip-bubble" role="tooltip" id="tip3"
-                      >This <b>water bottle</b> pairs well with your thermos.
+                      >This <b>beach bag</b> pairs well with your tote bags.
                       Switch it on to add it to your offer.</span
                     ></span
                   ></span
@@ -6791,8 +6860,8 @@
               </label>
               <div class="alt-photo">
                 <img
-                  src="assets/offer-v3/water-bottle-black.png"
-                  alt="Water bottle, black"
+                  src="assets/offer-bloom/beach-13.jpg"
+                  alt="Beach bag with cord handle, beige"
                 />
               </div>
               <div class="alt-body">
@@ -6801,10 +6870,10 @@
                   ><span>You asked for this</span>
                 </div>
                 <h3 class="alt-title" id="altTitle">
-                  Water bottle · Recycled stainless steel · 750 ml
+                  Beach bag · Cotton 220 g/m² · Cord handle
                 </h3>
                 <p class="alt-sub">
-                  Full-colour print · from € 3,03 per piece at 250 pcs
+                  Screen print · from € 4,08 per piece at 250 pcs
                 </p>
               </div>
             </div>
@@ -6825,39 +6894,40 @@
             <div class="p6-media">
               <div class="p6-photo">
                 <img
-                  src="assets/offer-v3/water-bottle-black.png"
-                  alt="Water bottle, black"
+                  src="assets/offer-bloom/beach-13.jpg"
+                  alt="Beach bag with cord handle, beige"
                 />
               </div>
               <div class="p6-thumbs">
                 <span class="p6-thumb"
-                  ><img src="assets/offer-v3/water-bottle-black.png" alt=""
+                  ><img src="assets/offer-bloom/beach-12.jpg" alt=""
                 /></span>
                 <span class="p6-thumb"
-                  ><img src="assets/offer-v3/water-bottle-black.png" alt=""
+                  ><img src="assets/offer-bloom/beach-04.jpg" alt=""
                 /></span>
                 <span class="p6-thumb"
-                  ><img src="assets/offer-v3/water-bottle-black.png" alt=""
+                  ><img src="assets/offer-bloom/beach-05.jpg" alt=""
                 /></span>
               </div>
             </div>
             <div class="p6-info">
               <h3 class="p6-title">
-                Water bottle | Recycled stainless steel | 750 ml | Black
+                Beach bag | Cotton 220 g/m² | 55x39 cm | Cord handle | Beige
               </h3>
-              <p class="p6-meta">Article number: 6457285</p>
+              <p class="p6-meta">Article number: 6377143</p>
               <div class="chips p6-chips">
-                <span class="chip chip-grey">Colour: Black</span>
+                <span class="chip chip-grey">Item colour: Beige</span>
+                <span class="chip chip-grey">Printing in: 1 colour</span>
                 <span class="chip chip-grey"
-                  >Full-colour print: wrap-around (230×160 mm)</span
+                  >Screen print: front (30×20 cm)</span
                 >
-                <span class="chip chip-grey">Fast delivery: 28 Oct</span>
+                <span class="chip chip-grey">Fast delivery: 1 Dec</span>
               </div>
             </div>
             <fieldset
               class="p6-tiers q-list"
               id="altQty"
-              data-tiers='[{"q":250,"p":3.03},{"q":500,"p":2.86},{"q":1000,"p":2.74},{"q":2500,"p":2.63}]'
+              data-tiers='[{"q":250,"p":4.08},{"q":500,"p":3.79},{"q":1000,"p":3.55},{"q":2500,"p":3.32}]'
             >
               <legend class="sr-only">Choose quantity</legend>
               <div class="q-head" aria-hidden="true">
@@ -6869,7 +6939,7 @@
                   type="radio"
                   name="qtyAlt"
                   value="250"
-                  data-price="3.03"
+                  data-price="4.08"
                   checked
                 />
                 <span class="q-main">
@@ -6878,10 +6948,10 @@
                     ><span class="q-unit">pieces</span></span
                   >
                   <span class="q-tag q-tag-none"></span>
-                  <span class="q-pp"><b>€ 3,03</b></span>
+                  <span class="q-pp"><b>€ 4,08</b></span>
                 </span>
                 <span class="q-total"
-                  ><b>€ 757,50</b><small>excl. VAT</small></span
+                  ><b>€ 1.020,00</b><small>excl. VAT</small></span
                 >
               </label>
               <label class="q-row">
@@ -6889,18 +6959,18 @@
                   type="radio"
                   name="qtyAlt"
                   value="500"
-                  data-price="2.86"
+                  data-price="3.79"
                 />
                 <span class="q-main">
                   <span class="q-top"
                     ><b class="q-qty">500</b
                     ><span class="q-unit">pieces</span></span
                   >
-                  <span class="q-tag">6% discount</span>
-                  <span class="q-pp"><s>€ 3,03</s> / <b>€ 2,86</b></span>
+                  <span class="q-tag">7% discount</span>
+                  <span class="q-pp"><s>€ 4,08</s> / <b>€ 3,79</b></span>
                 </span>
                 <span class="q-total"
-                  ><s class="q-was">€ 1.515,00</s><b>€ 1.430,00</b
+                  ><s class="q-was">€ 2.040,00</s><b>€ 1.895,00</b
                   ><small>excl. VAT</small></span
                 >
               </label>
@@ -6909,18 +6979,18 @@
                   type="radio"
                   name="qtyAlt"
                   value="1000"
-                  data-price="2.74"
+                  data-price="3.55"
                 />
                 <span class="q-main">
                   <span class="q-top"
-                    ><b class="q-qty">1000</b
+                    ><b class="q-qty">1,000</b
                     ><span class="q-unit">pieces</span></span
                   >
-                  <span class="q-tag">10% discount</span>
-                  <span class="q-pp"><s>€ 3,03</s> / <b>€ 2,74</b></span>
+                  <span class="q-tag">13% discount</span>
+                  <span class="q-pp"><s>€ 4,08</s> / <b>€ 3,55</b></span>
                 </span>
                 <span class="q-total"
-                  ><s class="q-was">€ 3.030,00</s><b>€ 2.740,00</b
+                  ><s class="q-was">€ 4.080,00</s><b>€ 3.550,00</b
                   ><small>excl. VAT</small></span
                 >
               </label>
@@ -6929,18 +6999,18 @@
                   type="radio"
                   name="qtyAlt"
                   value="2500"
-                  data-price="2.63"
+                  data-price="3.32"
                 />
                 <span class="q-main">
                   <span class="q-top"
-                    ><b class="q-qty">2500</b
+                    ><b class="q-qty">2,500</b
                     ><span class="q-unit">pieces</span></span
                   >
-                  <span class="q-tag">13% discount</span>
-                  <span class="q-pp"><s>€ 3,03</s> / <b>€ 2,63</b></span>
+                  <span class="q-tag">19% discount</span>
+                  <span class="q-pp"><s>€ 4,08</s> / <b>€ 3,32</b></span>
                 </span>
                 <span class="q-total"
-                  ><s class="q-was">€ 7.575,00</s><b>€ 6.575,00</b
+                  ><s class="q-was">€ 10.200,00</s><b>€ 8.300,00</b
                   ><small>excl. VAT</small></span
                 >
               </label>
@@ -7010,7 +7080,7 @@
                 <dd id="sumSub">€ 246,50</dd>
               </div>
               <div class="sum-row sum-added" id="sumAlt" hidden>
-                <dt>+ Water bottle <span id="sumAltQty">250</span> pcs</dt>
+                <dt>+ Beach bag <span id="sumAltQty">250</span> pcs</dt>
                 <dd id="sumAltPrice">€ 757,50</dd>
               </div>
               <div class="sum-row">
@@ -8723,7 +8793,7 @@
         <header class="cm-head">
           <img
             class="cm-head-img"
-            src="assets/offer-v3/thermos-silver.jpg"
+            src="assets/offer-bloom/tote-natural-2.jpg"
             width="44"
             height="44"
             alt=""
@@ -9056,7 +9126,7 @@
       // what the customer sees: requested → in progress → ready to review (then it starts over).
       // The logo-section chip follows. ?mockup=ready opens on the "ready" step, paused.
       (function () {
-        var LOGO = "assets/offer-v3/sample-logo-black.svg";
+        var LOGO = "assets/offer-bloom/bloom-logo.png";
         var STEPS = [
           ["requested", "requested"],
           ["progress", "requested"],
@@ -9323,7 +9393,7 @@
           title = document.getElementById("p1GalTitle"),
           prev = dlg.querySelector(".p1-gal-prev"),
           next = dlg.querySelector(".p1-gal-next"),
-          LOGO = "assets/offer-v3/sample-logo-black.svg",
+          LOGO = "assets/offer-bloom/bloom-logo.png",
           slides = [],
           at = 0,
           opener = null;
@@ -9381,6 +9451,7 @@
               : Math.min(start + (slides[0].mockup ? 1 : 0), slides.length - 1);
           var t = product.querySelector(".p6-title");
           title.textContent = t ? t.textContent.trim() : "";
+          frame.dataset.mock = product.dataset.mock || ""; // where the logo sits on this product
           render();
           dlg.showModal();
           dlg.querySelector(".p1-gal-close").focus();

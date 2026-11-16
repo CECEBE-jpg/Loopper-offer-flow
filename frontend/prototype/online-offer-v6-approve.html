@@ -6411,6 +6411,46 @@
       .check-card .approve-btn {
         border-radius: 14px;
       }
+      /* Bloom Agency scenario: print areas on the tote bag and the noma noma thermos */
+      .pr-viewer .proof-area.pr-area-tote {
+        top: 186px;
+        left: 119px;
+        width: 110px;
+        height: 130px;
+        transform: none;
+      }
+      .pr-viewer .proof-area.pr-area-tote img {
+        width: 96px;
+        transform: none;
+        opacity: 0.95;
+        filter: none;
+        mix-blend-mode: multiply;
+      }
+      .pr-viewer .proof-area.pr-area-tote .pr-textlogo {
+        width: 100px;
+        font-size: 18px;
+        line-height: 20px;
+        font-weight: 700;
+        color: #890037;
+        opacity: 0.95;
+      }
+      .pr-viewer .proof-area.pr-area-noma {
+        top: 150px;
+        left: 137px;
+        width: 56px;
+        height: 84px;
+        transform: none;
+      }
+      .pr-viewer .proof-area.pr-area-noma img {
+        width: 50px;
+        opacity: 0.75;
+        filter: grayscale(1) brightness(0.2);
+        mix-blend-mode: multiply;
+      }
+      .pr-viewer .proof-area.pr-area-noma.pr-dir-vertical img {
+        width: 80px;
+        transform: rotate(-90deg);
+      }
     </style>
   </head>
   <body>
@@ -6463,14 +6503,14 @@
             <!-- Client's uploaded logo (the file from "Your logo & design") -->
             <div
               class="client-logo"
-              data-logo-bg="dark"
+              data-logo-bg="light"
               role="img"
-              aria-label="Your uploaded logo: ydh_white.png"
+              aria-label="Your uploaded logo: bloom-agency-logo.png"
             >
               <img
                 class="client-logo-img"
                 data-auto-bg
-                src="assets/offer-v3/sample-logo-white.svg"
+                src="assets/offer-bloom/bloom-logo.png"
                 alt=""
               />
             </div>
@@ -6485,7 +6525,7 @@
             </div>
             <div>
               <dt>Company name</dt>
-              <dd>Bloom agency</dd>
+              <dd>Bloom Agency</dd>
             </div>
             <div>
               <dt>Project date</dt>
@@ -6536,9 +6576,9 @@
           <div class="proof-head">
             <div>
               <h2 id="proofProduct">
-                Thermos bottle | Stainless steel | 500 ml | Silver
+                Tote bag | Cotton 100 g/m² | 38x42 cm | Natural
               </h2>
-              <small>Article number 6383162 · 25 pieces</small>
+              <small>Article number 1144549 · 250 pieces</small>
             </div>
           </div>
           <!-- Mockup with its design tabs and the choice underneath (Figma 69:702) -->
@@ -6555,7 +6595,7 @@
             <div class="proof-stage" id="prStage">
               <img
                 id="prImg"
-                src="assets/offer-v3/thermos-silver.jpg"
+                src="assets/offer-bloom/tote-natural-2.jpg"
                 width="500"
                 height="500"
                 alt=""
@@ -6583,7 +6623,7 @@
               </label>
               <a
                 class="proof-dl"
-                href="assets/offer-v3/thermos-silver.jpg"
+                href="assets/offer-bloom/tote-natural-2.jpg"
                 download
               >
                 <img
@@ -6994,51 +7034,51 @@
       (function () {
         var PRODUCTS = [
           {
-            name: "Thermos bottle | Stainless steel | 500 ml | Silver",
-            short: "Thermos bottle",
-            meta: "500 ml · Silver",
-            card: "Thermos bottle 500 ml",
-            cardSub: "Engraving: front (50×90 mm)",
-            sub: "Article number 6383162 · 25 pieces",
-            img: "assets/offer-v3/thermos-silver.jpg",
-            print: "Engraving, front (50×90 mm)",
-            area: "engrave",
+            name: "Tote bag | Cotton 100 g/m² | 38x42 cm | Natural",
+            short: "Tote bag",
+            meta: "Cotton · Natural",
+            card: "Tote bag, natural cotton",
+            cardSub: "Screen print: front (25×30 cm)",
+            sub: "Article number 1144549 · 250 pieces",
+            img: "assets/offer-bloom/tote-natural-2.jpg",
+            print: "Screen print in 1 colour, front (25×30 cm)",
+            area: "tote",
             designs: [
               {
-                label: "Logo lengthwise",
+                label: "Logo centred",
                 kind: "logo",
-                logo: "assets/offer-v3/sample-logo-black.svg",
-                dir: "vertical",
+                logo: "assets/offer-bloom/bloom-logo.png",
+                dir: "horizontal",
               },
               {
-                label: "Text logo across",
+                label: "Text logo",
                 kind: "text",
-                text: "FAKE OFFER BY MARKETING",
+                text: "Bloom Agency",
               },
             ],
           },
           {
-            name: "Water bottle | Recycled stainless steel | 750 ml | Black",
-            short: "Water bottle",
+            name: "noma noma thermos bottle | Recycled stainless steel | 750 ml | Black",
+            short: "Thermos bottle",
             meta: "750 ml · Black",
-            card: "Water bottle 750 ml",
-            cardSub: "Full-colour print: wrap-around",
-            sub: "Article number 6457285 · 250 pieces",
-            img: "assets/offer-v3/water-bottle-black.png",
-            print: "Full-colour print, wrap-around (230×160 mm)",
-            area: "print",
+            card: "noma noma thermos 750 ml",
+            cardSub: "Engraving: front (40×60 mm)",
+            sub: "Article number 6453806 · 50 pieces",
+            img: "assets/offer-bloom/thermos-1.png",
+            print: "Engraving, front (40×60 mm)",
+            area: "noma",
             designs: [
-              {
-                label: "Logo lengthwise",
-                kind: "logo",
-                logo: "assets/offer-v3/sample-logo-white.svg",
-                dir: "vertical",
-              },
               {
                 label: "Logo across",
                 kind: "logo",
-                logo: "assets/offer-v3/sample-logo-white.svg",
+                logo: "assets/offer-bloom/bloom-logo.png",
                 dir: "horizontal",
+              },
+              {
+                label: "Logo lengthwise",
+                kind: "logo",
+                logo: "assets/offer-bloom/bloom-logo.png",
+                dir: "vertical",
               },
             ],
           },
@@ -7164,7 +7204,7 @@
             st.chosen !== null && !isChosen
               ? "You approved design " +
                 (st.chosen + 1) +
-                " for this bottle. Tick to use this design instead."
+                " for this product. Tick to use this design instead."
               : "Upon approval, the design will be converted into a final proof.";
         }
         var ready = true;
