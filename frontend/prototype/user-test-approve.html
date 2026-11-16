@@ -6466,6 +6466,42 @@
       .top.is-stuck .stepper-bar {
         box-shadow: 0 7px 6px rgba(20, 30, 40, 0.06);
       }
+      /* more than two products: product tabs slide in one row, with a rounded scrollbar under them */
+      .proof-card > .pr-products.is-slider {
+        position: relative;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overflow-y: hidden;
+        margin: 0 0 14px;
+        padding: 2px 2px 14px; /* room for the selected ring and the scrollbar */
+        scroll-snap-type: x proximity;
+      }
+      /* Firefox has no ::-webkit-scrollbar: use its own colour settings there */
+      @supports not selector(::-webkit-scrollbar) {
+        .proof-card > .pr-products.is-slider {
+          scrollbar-color: #00aed8 #e9edf1;
+        }
+      }
+      .proof-card > .pr-products.is-slider::-webkit-scrollbar-button {
+        display: none;
+      }
+      .proof-card > .pr-products.is-slider .pr-product {
+        scroll-snap-align: start;
+      }
+      .proof-card > .pr-products.is-slider::-webkit-scrollbar {
+        height: 10px;
+      }
+      .proof-card > .pr-products.is-slider::-webkit-scrollbar-track {
+        border-radius: 14px;
+        background: #e9edf1;
+      }
+      .proof-card > .pr-products.is-slider::-webkit-scrollbar-thumb {
+        border-radius: 14px;
+        background: #00aed8;
+      }
+      .proof-card > .pr-products.is-slider::-webkit-scrollbar-thumb:hover {
+        background: #0098bd;
+      }
     </style>
   </head>
   <body>
@@ -7197,6 +7233,22 @@
             });
             productsEl.appendChild(b);
           });
+          // more than two products: one sliding row with a scrollbar; keep the open product in view
+          var keep = productsEl.scrollLeft;
+          productsEl.classList.toggle("is-slider", PRODUCTS.length > 2);
+          productsEl.scrollLeft = keep;
+          if (PRODUCTS.length > 2) {
+            var on = productsEl.children[cur];
+            var l = on.offsetLeft - productsEl.offsetLeft,
+              r = l + on.offsetWidth;
+            if (l < productsEl.scrollLeft)
+              productsEl.scrollTo({ left: l - 2, behavior: "smooth" });
+            else if (r > productsEl.scrollLeft + productsEl.clientWidth)
+              productsEl.scrollTo({
+                left: r - productsEl.clientWidth + 2,
+                behavior: "smooth",
+              });
+          }
         }
         function renderDesigns() {
           var p = PRODUCTS[cur],
