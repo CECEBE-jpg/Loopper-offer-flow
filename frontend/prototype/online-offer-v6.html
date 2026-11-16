@@ -5740,6 +5740,170 @@
       .step-nav .cta.step-nav-next:not(:disabled):hover {
         background: var(--green-text);
       }
+      /* logo section note follows the mockup status */
+      .logos-aside .design-note.is-requested {
+        border-color: #6d28d9;
+        background: #f1eafd;
+        color: #6d28d9;
+      }
+      .logos-aside .design-note.is-requested b {
+        color: #6d28d9;
+      }
+      .logos-aside .design-note.is-ready {
+        border-color: #3d7f15;
+        background: #eaf6e2;
+        color: #3d7f15;
+      }
+      .logos-aside .design-note.is-ready b {
+        color: #3d7f15;
+      }
+      /* step 1 product image gallery */
+      .products-card .p6-photo,
+      .products-card .p6-thumb {
+        cursor: zoom-in;
+      }
+      .products-card .p6-photo:focus-visible {
+        outline: 2px solid #1f8ceb;
+        outline-offset: 2px;
+      }
+      .p1-gallery {
+        width: 100vw;
+        max-width: 100vw;
+        height: 100dvh;
+        max-height: 100dvh;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        background: rgba(15, 22, 32, 0.92);
+        color: #fff;
+      }
+      .p1-gallery::backdrop {
+        background: transparent;
+      }
+      .p1-gallery[open] {
+        display: flex;
+        flex-direction: column;
+      }
+      .p1-gal-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 18px 24px;
+      }
+      .p1-gal-title {
+        margin: 0;
+        font-size: 17px;
+        font-weight: 800;
+      }
+      .p1-gal-close {
+        display: grid;
+        place-items: center;
+        width: 44px;
+        height: 44px;
+        border: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.12);
+        color: #fff;
+        cursor: pointer;
+      }
+      .p1-gal-close:hover {
+        background: rgba(255, 255, 255, 0.22);
+      }
+      .p1-gal-body {
+        display: flex;
+        flex: 1;
+        align-items: center;
+        justify-content: center;
+        gap: 28px;
+        min-height: 0;
+      }
+      .p1-gal-frame {
+        position: relative;
+        width: min(70vh, calc(100vw - 220px), 760px);
+        aspect-ratio: 1;
+        overflow: hidden;
+        border-radius: 14px;
+        background: #fff;
+      }
+      .p1-gal-frame > img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+      .p1-gal-frame.is-mockup {
+        outline: 3px solid var(--green);
+        outline-offset: 0;
+      }
+      .p1-gal-logo {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        display: grid;
+        place-items: center;
+        width: 18%;
+        height: 32%;
+        transform: translate(-50%, -42%);
+        pointer-events: none;
+      }
+      .p1-gal-logo img {
+        width: 160%;
+        transform: rotate(-90deg);
+        opacity: 0.75;
+        filter: grayscale(1) brightness(0.55);
+        mix-blend-mode: multiply;
+      }
+      .p1-gal-flag {
+        position: absolute;
+        top: 14px;
+        left: 14px;
+        padding: 4px 12px;
+        border-radius: 20px;
+        background: var(--green);
+        font-size: 14px;
+        font-weight: 800;
+        color: #fff;
+      }
+      .p1-gal-arrow {
+        display: grid;
+        flex: none;
+        place-items: center;
+        width: 44px;
+        height: 44px;
+        padding: 0;
+        border: 0;
+        border-radius: 50%;
+        background: #fff;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.16);
+        color: #324a67;
+        cursor: pointer;
+      }
+      .p1-gal-arrow:disabled {
+        opacity: 0.25;
+        cursor: default;
+      }
+      .p1-gal-next .arrow-chev {
+        margin-left: 2px;
+      }
+      .p1-gal-prev .arrow-chev {
+        margin-right: 2px;
+        transform: scaleX(-1);
+      }
+      .p1-gal-close:focus-visible,
+      .p1-gal-arrow:focus-visible {
+        outline: 2px solid #00aed8;
+        outline-offset: 3px;
+      }
+      .p1-gal-foot {
+        margin: 0;
+        padding: 16px 24px 24px;
+        font-size: 14px;
+        text-align: center;
+        color: rgba(255, 255, 255, 0.85);
+      }
+      .p1-gal-foot a {
+        font-weight: 800;
+        color: #fff;
+      }
     </style>
   </head>
   <body>
@@ -6036,7 +6200,11 @@
                 </div>
               </div>
               <div class="logos-aside">
-                <p class="design-note">
+                <p
+                  class="design-note is-requested"
+                  id="designNote"
+                  aria-live="polite"
+                >
                   <span
                     >We'll
                     <b>email you as soon as your free digital mockup is ready</b
@@ -8932,7 +9100,49 @@
               location.href = "online-offer-v6-approve.html";
           });
         }
+        // logo section note: text and colour follow the mockup status (purple requested, blue in progress, green ready)
+        var note = document.getElementById("designNote");
+        function setNote(states) {
+          if (!note) return;
+          var ready = states.filter(function (x) {
+            return x === "ready";
+          }).length;
+          var progress = states.filter(function (x) {
+            return x === "progress";
+          }).length;
+          var n = states.length,
+            st = ready ? "ready" : progress ? "progress" : "requested",
+            html;
+          if (st === "ready")
+            html =
+              ready === n
+                ? "<b>Your free digital mockup" +
+                  (n > 1 ? "s are" : " is") +
+                  " ready.</b><br />Click a product image to view " +
+                  (n > 1 ? "them" : "it") +
+                  ", then approve or ask for changes in the next step."
+                : "<b>" +
+                  ready +
+                  " of " +
+                  n +
+                  " mockups " +
+                  (ready > 1 ? "are" : "is") +
+                  " ready.</b><br />Click the product image to view it. We’ll email you when the other is ready.";
+          else if (st === "progress")
+            html =
+              "<b>Our designers are working on your free digital mockup" +
+              (n > 1 ? "s" : "") +
+              ".</b><br />We’ll email you as soon as " +
+              (n > 1 ? "they are" : "it is") +
+              " ready.";
+          else
+            html =
+              "We’ll <b>email you as soon as your free digital mockup is ready</b>.<br />You can approve it or ask for changes before you order.";
+          note.className = "design-note is-" + st;
+          note.querySelector("span").innerHTML = html;
+        }
         function setNav(states) {
+          setNote(states);
           if (!navNext) return;
           var ready = states.filter(function (x) {
             return x === "ready";
@@ -9032,6 +9242,207 @@
           show(0);
           play();
         }
+      })();
+    </script>
+    <!-- Product image gallery (step 1): mockup first when it is ready, then the product photos -->
+    <dialog class="p1-gallery" id="p1Gallery" aria-labelledby="p1GalTitle">
+      <div class="p1-gal-head">
+        <p class="p1-gal-title" id="p1GalTitle"></p>
+        <button type="button" class="p1-gal-close" aria-label="Close gallery">
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 20 20"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M5 5l10 10M15 5L5 15"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+          </svg>
+        </button>
+      </div>
+      <div class="p1-gal-body">
+        <button
+          type="button"
+          class="p1-gal-arrow p1-gal-prev"
+          aria-label="Previous image"
+        >
+          <svg
+            class="arrow-chev"
+            width="9"
+            height="18"
+            viewBox="0 0 12.6827 25.0001"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M2.00006 2.00006L10.456 12.3137C10.769 12.6955 10.7565 13.2485 10.4267 13.6158L2.00006 23.0001"
+              stroke="currentColor"
+              stroke-width="4"
+              stroke-linecap="round"
+            />
+          </svg>
+        </button>
+        <div class="p1-gal-frame"></div>
+        <button
+          type="button"
+          class="p1-gal-arrow p1-gal-next"
+          aria-label="Next image"
+        >
+          <svg
+            class="arrow-chev"
+            width="9"
+            height="18"
+            viewBox="0 0 12.6827 25.0001"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M2.00006 2.00006L10.456 12.3137C10.769 12.6955 10.7565 13.2485 10.4267 13.6158L2.00006 23.0001"
+              stroke="currentColor"
+              stroke-width="4"
+              stroke-linecap="round"
+            />
+          </svg>
+        </button>
+      </div>
+      <p class="p1-gal-foot" id="p1GalFoot"></p>
+    </dialog>
+    <script>
+      // Click a product photo (or thumbnail): gallery to flip through the product images.
+      // A finished mockup comes first; while a mockup is requested or in progress only the product photos show.
+      (function () {
+        var dlg = document.getElementById("p1Gallery");
+        if (!dlg) return;
+        var frame = dlg.querySelector(".p1-gal-frame"),
+          foot = document.getElementById("p1GalFoot"),
+          title = document.getElementById("p1GalTitle"),
+          prev = dlg.querySelector(".p1-gal-prev"),
+          next = dlg.querySelector(".p1-gal-next"),
+          LOGO = "assets/offer-v3/sample-logo-black.svg",
+          slides = [],
+          at = 0,
+          opener = null;
+        function photoCount() {
+          return slides.filter(function (x) {
+            return !x.mockup;
+          }).length;
+        }
+        function render() {
+          var sl = slides[at];
+          frame.innerHTML = "";
+          var img = document.createElement("img");
+          img.src = sl.src;
+          img.alt = sl.alt;
+          frame.appendChild(img);
+          if (sl.mockup) {
+            frame.insertAdjacentHTML(
+              "beforeend",
+              '<span class="p1-gal-logo" aria-hidden="true"><img src="' +
+                LOGO +
+                '" alt="" /></span><span class="p1-gal-flag">✓ Your mockup</span>',
+            );
+          }
+          frame.classList.toggle("is-mockup", !!sl.mockup);
+          foot.innerHTML = sl.mockup
+            ? "Your mockup · ready to review · You can approve or request changes in the next step"
+            : "Photo " +
+              (at - (slides[0].mockup ? 1 : 0) + 1) +
+              " of " +
+              photoCount();
+          prev.disabled = at === 0;
+          next.disabled = at === slides.length - 1;
+        }
+        function open(product, start) {
+          var photo = product.querySelector(".p6-photo"),
+            main = photo.querySelector("img");
+          slides = [{ src: main.src, alt: main.alt }];
+          product.querySelectorAll(".p6-thumb img").forEach(function (t, i) {
+            slides.push({
+              src: t.src,
+              alt: (main.alt || "Product") + ", photo " + (i + 2),
+            });
+          });
+          if (photo.dataset.mockup === "ready") {
+            slides.unshift({
+              src: main.src,
+              alt: "Your mockup: your logo on the product",
+              mockup: true,
+            });
+          }
+          // the photo itself opens on the mockup (if any); a thumbnail opens on that photo
+          at =
+            start === 0
+              ? 0
+              : Math.min(start + (slides[0].mockup ? 1 : 0), slides.length - 1);
+          var t = product.querySelector(".p6-title");
+          title.textContent = t ? t.textContent.trim() : "";
+          render();
+          dlg.showModal();
+          dlg.querySelector(".p1-gal-close").focus();
+        }
+        function step(d) {
+          var to = at + d;
+          if (to < 0 || to >= slides.length) return;
+          at = to;
+          render();
+        }
+        document
+          .querySelectorAll(".products-card .product.p6")
+          .forEach(function (product) {
+            var photo = product.querySelector(".p6-photo");
+            if (!photo) return;
+            photo.setAttribute("role", "button");
+            photo.setAttribute("tabindex", "0");
+            photo.setAttribute("aria-label", "Open the product images");
+            photo.addEventListener("click", function (e) {
+              if (e.target.closest("a")) return;
+              opener = photo;
+              open(product, 0);
+            });
+            photo.addEventListener("keydown", function (e) {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                opener = photo;
+                open(product, 0);
+              }
+            });
+            product.querySelectorAll(".p6-thumb").forEach(function (th, i) {
+              th.addEventListener("click", function () {
+                opener = th;
+                open(product, i + 1);
+              });
+            });
+          });
+        prev.addEventListener("click", function () {
+          step(-1);
+        });
+        next.addEventListener("click", function () {
+          step(1);
+        });
+        dlg
+          .querySelector(".p1-gal-close")
+          .addEventListener("click", function () {
+            dlg.close();
+          });
+        dlg.addEventListener("click", function (e) {
+          if (
+            e.target === dlg ||
+            e.target === dlg.querySelector(".p1-gal-body")
+          )
+            dlg.close();
+        });
+        dlg.addEventListener("keydown", function (e) {
+          if (e.key === "ArrowLeft") step(-1);
+          if (e.key === "ArrowRight") step(1);
+        });
+        dlg.addEventListener("close", function () {
+          if (opener) opener.focus();
+        });
       })();
     </script>
   </body>

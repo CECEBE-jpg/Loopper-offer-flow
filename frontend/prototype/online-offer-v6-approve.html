@@ -6221,10 +6221,10 @@
         overflow: hidden;
         border-radius: 14px;
       }
+      /* approved design: no frame around the mockup (the tab ✓ and the ticked box already show it) */
       .pr-viewer .proof-stage.is-approved {
         box-shadow: none;
-        outline: calc(2px * 348 / 302) solid var(--green);
-        outline-offset: 0;
+        outline: 0;
       }
       /* product tabs: never clip the ring of the selected tab */
       .proof-card > .pr-products {
@@ -7063,7 +7063,12 @@
           hint = $("navHint");
 
         function statusOf(st) {
-          if (st.approved) return { cls: "is-approved", text: "✓ Approved" };
+          // approved: only the checkmark shows; "Approved" stays for screen readers
+          if (st.approved)
+            return {
+              cls: "is-approved",
+              text: '✓<span class="sr-only"> Approved</span>',
+            };
           if (st.chosen !== null)
             return {
               cls: "is-chosen",
