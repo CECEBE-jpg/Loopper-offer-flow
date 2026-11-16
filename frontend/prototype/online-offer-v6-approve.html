@@ -6316,6 +6316,96 @@
           margin-left: 0;
         }
       }
+      /* selected options: only the circle and border turn green, the text stays dark */
+      .pms-opt:has(input:checked),
+      .vector-btn-alt[aria-pressed="true"] {
+        color: var(--ink);
+      }
+      /* gallery: print legend in the top-left corner (same box as next to the mockup) */
+      .pr-gallery[open] {
+        position: fixed;
+      }
+      .pr-gal-legend {
+        position: absolute;
+        top: 100px;
+        left: 40px;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 220px;
+        padding: 14px;
+        border: 1px solid #8c8c8c;
+        border-radius: 14px;
+        background: #fff;
+        font-size: 14px;
+        line-height: 20px;
+        color: #656565;
+      }
+      .pr-gal-legend b {
+        font-weight: 800;
+      }
+      .pr-gal-legend .line {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+      }
+      .pr-gal-legend .line b {
+        font-weight: 700;
+      }
+      .pr-gal-legend .line::after {
+        content: "";
+        width: 44px;
+        border-top: 2px dashed #e3262b;
+      }
+      @media (width < 1100px) {
+        .pr-gal-legend {
+          position: static;
+          width: auto;
+          margin: 0 24px 12px;
+        }
+      }
+      /* circle arrows: same shape, size, chevron and shadow as the PDP arrows (DESIGN.md > Circle arrow buttons); colours unchanged */
+      .pr-viewer .pr-arrow,
+      .pr-gal-arrow {
+        width: 44px;
+        height: 44px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.16);
+      }
+      .pr-arrow .arrow-chev,
+      .pr-gal-arrow .arrow-chev {
+        width: 9px;
+        height: 18px;
+      }
+      .pr-arrow-next .arrow-chev,
+      .pr-gal-next .arrow-chev {
+        margin-left: 2px;
+      }
+      .pr-arrow-prev .arrow-chev,
+      .pr-gal-prev .arrow-chev {
+        margin-right: 2px;
+        transform: scaleX(-1);
+      }
+      /* agree tickbox: PDP checkbox shape (rounded white tick, 2.5px corners), kept green */
+      .pr-pick input[type="checkbox"] {
+        appearance: none;
+        display: grid;
+        place-items: center;
+        border: 1px solid #767676;
+        border-radius: 2.5px;
+        background: #fff;
+      }
+      .pr-pick input[type="checkbox"]:checked {
+        border-color: var(--green);
+        background: var(--green)
+          url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 21 21'%3E%3Cpath d='M4 10.5L7.66952 15.3927C8.07849 15.938 8.90119 15.9233 9.29043 15.3638L16.5 5' fill='none' stroke='white' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E")
+          center / 100% 100% no-repeat;
+      }
+      .pr-pick input[type="checkbox"]:focus-visible {
+        outline: 2px solid #1f8ceb;
+        outline-offset: 2px;
+      }
     </style>
   </head>
   <body>
@@ -7088,8 +7178,8 @@
         var viewer = document.querySelector(".pr-viewer");
         viewer.insertAdjacentHTML(
           "afterbegin",
-          '<button type="button" class="pr-arrow pr-arrow-prev" id="prPrev"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M12 4l-6 6 6 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>' +
-            '<button type="button" class="pr-arrow pr-arrow-next" id="prNext"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M8 4l6 6-6 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>',
+          '<button type="button" class="pr-arrow pr-arrow-prev" id="prPrev"><svg class="arrow-chev" width="9" height="18" viewBox="0 0 12.6827 25.0001" fill="none" aria-hidden="true"><path d="M2.00006 2.00006L10.456 12.3137C10.769 12.6955 10.7565 13.2485 10.4267 13.6158L2.00006 23.0001" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg></button>' +
+            '<button type="button" class="pr-arrow pr-arrow-next" id="prNext"><svg class="arrow-chev" width="9" height="18" viewBox="0 0 12.6827 25.0001" fill="none" aria-hidden="true"><path d="M2.00006 2.00006L10.456 12.3137C10.769 12.6955 10.7565 13.2485 10.4267 13.6158L2.00006 23.0001" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg></button>',
         );
         var prevBtn = $("prPrev"),
           nextBtn = $("prNext");
@@ -7243,18 +7333,18 @@
           aria-label="Previous design"
         >
           <svg
-            width="22"
-            height="22"
-            viewBox="0 0 20 20"
+            class="arrow-chev"
+            width="9"
+            height="18"
+            viewBox="0 0 12.6827 25.0001"
             fill="none"
             aria-hidden="true"
           >
             <path
-              d="M12 4l-6 6 6 6"
+              d="M2.00006 2.00006L10.456 12.3137C10.769 12.6955 10.7565 13.2485 10.4267 13.6158L2.00006 23.0001"
               stroke="currentColor"
-              stroke-width="2.4"
+              stroke-width="4"
               stroke-linecap="round"
-              stroke-linejoin="round"
             />
           </svg>
         </button>
@@ -7267,21 +7357,31 @@
           aria-label="Next design"
         >
           <svg
-            width="22"
-            height="22"
-            viewBox="0 0 20 20"
+            class="arrow-chev"
+            width="9"
+            height="18"
+            viewBox="0 0 12.6827 25.0001"
             fill="none"
             aria-hidden="true"
           >
             <path
-              d="M8 4l6 6-6 6"
+              d="M2.00006 2.00006L10.456 12.3137C10.769 12.6955 10.7565 13.2485 10.4267 13.6158L2.00006 23.0001"
               stroke="currentColor"
-              stroke-width="2.4"
+              stroke-width="4"
               stroke-linecap="round"
-              stroke-linejoin="round"
             />
           </svg>
         </button>
+      </div>
+      <div class="pr-gal-legend">
+        <span
+          ><b>Print option:</b> <span class="pr-gal-legend-print"></span
+        ></span>
+        <span class="line"
+          ><span
+            >Maximum print area <b>(this line will not be printed)</b></span
+          ></span
+        >
       </div>
       <p class="pr-gal-foot" id="prGalFoot"></p>
     </dialog>
@@ -7326,8 +7426,9 @@
             " of " +
             btns.length +
             " · " +
-            (btns[sel] ? btns[sel].title : "") +
-            " · " +
+            (btns[sel] ? btns[sel].title : "");
+          // print legend, top-left, same text as next to the mockup
+          dlg.querySelector(".pr-gal-legend-print").textContent =
             document.getElementById("prPrint").textContent;
           dlg.querySelector(".pr-gal-prev").disabled = sel <= 0;
           dlg.querySelector(".pr-gal-next").disabled = sel >= btns.length - 1;
