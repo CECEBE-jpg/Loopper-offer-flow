@@ -270,9 +270,9 @@ s = beforeBodyEnd(
           overlay(state === "progress");
           note.textContent =
             state === "ready"
-              ? "✓ The mockup of the beach bag is ready. You can review and approve it in step 2."
+              ? "Your mockup is ready, review it in the next step."
               : state === "progress"
-                ? "Jildou is making a free mockup of the beach bag with your logo. You can review it in step 2."
+                ? "A mockup has been requested. We’ll notify you once it’s ready for you to review."
                 : "Upload your logo and we\\u2019ll make a free mockup of the beach bag too.";
           store();
         }
