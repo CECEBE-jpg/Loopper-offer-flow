@@ -6024,6 +6024,38 @@
       .products-card #altProduct {
         border-bottom: 0;
       }
+      /* quantity choice in Loopper blue, like the interactive elements in step 2 (product tabs, design buttons) */
+      .products-card .q-row:hover {
+        border-color: #00aed8;
+      }
+      .products-card .q-row:has(> input:checked) {
+        border: 1px solid #00aed8;
+        background: #e6f7fc;
+        box-shadow: 0 0 0 1px #00aed8;
+      }
+      .products-card .q-row > input[type="radio"]:checked {
+        border-color: #00aed8;
+      }
+      .products-card .q-row > input[type="radio"]:checked::after {
+        background: #00aed8;
+      }
+      .products-card .q-tag:not(.q-tag-none),
+      .products-card .q-row:has(> input:checked) .q-tag:not(.q-tag-none) {
+        background: #e6f7fc;
+        color: #00799a;
+      }
+      .products-card .q-row:has(> input:checked) .q-total b {
+        color: #00799a;
+      }
+      .products-card .q-save-btn:not(.is-edit) {
+        background: #00aed8;
+      }
+      .products-card .q-save-btn:not(.is-edit):hover {
+        background: #0098bd;
+      }
+      .products-card .q-saved {
+        color: #00799a;
+      }
     </style>
   </head>
   <body>
