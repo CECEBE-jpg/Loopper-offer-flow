@@ -6235,6 +6235,87 @@
       .proof-card.is-sliding {
         overflow: clip;
       }
+      /* radio circle as in the request form (DESIGN.md > Radio button): 18px, grey ring; checked = green ring + green dot.
+         Only the circle; the option borders stay as they are. */
+      .pms-opt input[type="radio"] {
+        appearance: none;
+        flex: none;
+        width: 18px;
+        height: 18px;
+        margin: 0;
+        border-radius: 50%;
+        background: #fff;
+        box-shadow: inset 0 0 0 1px #8f8f8f;
+        cursor: inherit;
+      }
+      .pms-opt input[type="radio"]:checked {
+        background: radial-gradient(circle, #8dc63f 0 5px, #fff 5.5px);
+        box-shadow: inset 0 0 0 1px #8dc63f;
+      }
+      .pms-opt input[type="radio"]:focus-visible {
+        outline: 2px solid #1f8ceb;
+        outline-offset: 2px;
+      }
+      .vector-btn-alt::before {
+        width: 18px;
+        height: 18px;
+        margin-left: 0;
+        border: 0;
+        box-shadow: inset 0 0 0 1px #8f8f8f;
+      }
+      .vector-btn-alt[aria-pressed="true"]::before {
+        background: radial-gradient(circle, #8dc63f 0 5px, #fff 5.5px);
+        box-shadow: inset 0 0 0 1px #8dc63f;
+      }
+      /* PMS code: same width as "Yes, I have a specific PMS colour", right under it */
+      .pms .pms-code-wrap {
+        flex: none;
+        width: calc((100% - 119px) / 2);
+        margin-left: calc(100% - (100% - 119px) / 2);
+      }
+      .pms .pms-code-wrap .pms-code {
+        display: block;
+        width: 100%;
+        margin: 0;
+      }
+      .pms .pms-code-wrap .pms-code[hidden] {
+        display: none;
+      }
+      .pms-code[aria-invalid="true"] {
+        border-color: #c4141b;
+        box-shadow: inset 0 0 0 1px #c4141b;
+      }
+      .pms-error {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin: 6px 0 0;
+        font-size: 12px;
+        line-height: 16px;
+        font-weight: 700;
+        color: #c4141b;
+      }
+      .pms-error[hidden] {
+        display: none;
+      }
+      .pms-error-icon {
+        display: grid;
+        flex: none;
+        place-items: center;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: #c4141b;
+        font-size: 11px;
+        font-weight: 800;
+        color: #fff;
+      }
+      @media (width < 768px) {
+        .pms .pms-code-wrap {
+          width: 100%;
+          margin-left: 0;
+        }
+      }
     </style>
   </head>
   <body>
@@ -6430,14 +6511,21 @@
               ><input type="radio" name="pms" id="pmsYes" />Yes, I have a
               specific PMS colour</label
             >
-            <input
-              type="text"
-              class="pms-code"
-              id="pmsCode"
-              placeholder="PMS code, for example PMS 300 C"
-              aria-label="Your PMS colour code"
-              hidden
-            />
+            <div class="pms-code-wrap">
+              <input
+                type="text"
+                class="pms-code"
+                id="pmsCode"
+                placeholder="PMS code, for example PMS 300 C"
+                aria-label="Your PMS colour code"
+                aria-describedby="pmsError"
+                hidden
+              />
+              <p class="pms-error" id="pmsError" hidden>
+                <span class="pms-error-icon" aria-hidden="true">!</span>Please
+                enter your PMS colour code
+              </p>
+            </div>
           </fieldset>
 
           <div class="vector">
@@ -6722,15 +6810,12 @@
           fileName.textContent = "✓ " + file.files[0].name + " uploaded";
           fileName.hidden = false;
           vec.setAttribute("aria-pressed", "false");
-          vec.textContent = "I don’t have a vector logo, vectorise it for me";
+
           note.hidden = true;
         });
         vec.addEventListener("click", function () {
           var on = vec.getAttribute("aria-pressed") !== "true";
           vec.setAttribute("aria-pressed", on ? "true" : "false");
-          vec.textContent = on
-            ? "✓ We will vectorise your logo"
-            : "I don’t have a vector logo, vectorise it for me";
           note.hidden = !on;
         });
         var log = document.getElementById("changeLog"),
@@ -6766,18 +6851,46 @@
         var b = document.getElementById(id);
         if (b)
           b.addEventListener("click", function () {
-            if (!b.disabled) location.href = "online-offer-v6-details.html";
+            if (b.disabled) return;
+            if (window.pmsCheck && !window.pmsCheck()) return;
+            location.href = "online-offer-v6-details.html";
           });
       });
     </script>
     <script>
       // PMS: show the code field only for "Yes, I have a specific PMS colour"
-      document.querySelectorAll('input[name="pms"]').forEach(function (r) {
-        r.addEventListener("change", function () {
-          document.getElementById("pmsCode").hidden =
-            !document.getElementById("pmsYes").checked;
+      (function () {
+        var yes = document.getElementById("pmsYes"),
+          code = document.getElementById("pmsCode"),
+          err = document.getElementById("pmsError");
+        function setError(on) {
+          err.hidden = !on;
+          if (on) code.setAttribute("aria-invalid", "true");
+          else code.removeAttribute("aria-invalid");
+        }
+        document.querySelectorAll('input[name="pms"]').forEach(function (r) {
+          r.addEventListener("change", function () {
+            code.hidden = !yes.checked;
+            if (!yes.checked) setError(false);
+          });
         });
-      });
+        code.addEventListener("input", function () {
+          if (code.value.trim()) setError(false);
+        });
+        // called by the Next buttons: "Yes" needs a code, otherwise show the error and bring it into view
+        window.pmsCheck = function () {
+          if (!yes.checked || code.value.trim()) return true;
+          setError(true);
+          var r = code.getBoundingClientRect(),
+            bar = document.querySelector(".step-nav"),
+            bottom = window.innerHeight - (bar ? bar.offsetHeight : 0);
+          if (r.top < 0 || r.bottom + 30 > bottom) {
+            code.scrollIntoView({ behavior: "smooth", block: "center" });
+          }
+          code.focus({ preventScroll: true });
+          return false;
+        };
+      })();
     </script>
     <script>
       // Step 2 prototype: one approval per product. Switch product at the top, flip through its
