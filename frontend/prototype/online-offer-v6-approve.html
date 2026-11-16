@@ -6216,10 +6216,24 @@
       .pr-stamp {
         display: none !important;
       }
-      /* square mockup frame so the green "approved" border keeps its corners */
-      .pr-viewer .proof-stage,
-      .pr-viewer .proof-stage > img {
-        border-radius: 0;
+      /* mockup frame: 14px corners; image clipped to them, approved ring drawn as an outline so nothing cuts it off */
+      .pr-viewer .proof-stage {
+        overflow: hidden;
+        border-radius: 14px;
+      }
+      .pr-viewer .proof-stage.is-approved {
+        box-shadow: none;
+        outline: calc(2px * 348 / 302) solid var(--green);
+        outline-offset: 0;
+      }
+      /* product tabs: never clip the ring of the selected tab */
+      .proof-card > .pr-products {
+        flex-wrap: wrap;
+        overflow: visible;
+      }
+      /* product switch: moving content is clipped at the card border (only while it slides) */
+      .proof-card.is-sliding {
+        overflow: clip;
       }
     </style>
   </head>
@@ -6871,8 +6885,7 @@
             b.querySelector("b").textContent = p.card;
             b.querySelector(".pr-product-text > span").textContent = p.cardSub;
             b.addEventListener("click", function () {
-              cur = i;
-              render();
+              slideTo(i);
             });
             productsEl.appendChild(b);
           });
@@ -6986,14 +6999,12 @@
         }
         prevBtn.addEventListener("click", function () {
           if (cur > 0) {
-            cur--;
-            render();
+            slideTo(cur - 1);
           }
         });
         nextBtn.addEventListener("click", function () {
           if (cur < PRODUCTS.length - 1) {
-            cur++;
-            render();
+            slideTo(cur + 1);
           }
         });
         function render() {
@@ -7015,10 +7026,75 @@
           });
           if (todo > -1) {
             setTimeout(function () {
-              cur = todo;
-              render();
+              slideTo(todo);
             }, 900);
           }
+        }
+        // auto-advance: the current bottle slides out to the left, the next one slides in from the right
+        // (animista slide-left, easeOutQuad)
+        function slideTo(i) {
+          if (i === cur) return;
+          // next product to the right: content leaves to the left and enters from the right; a product to the left mirrors it
+          var dir = i > cur ? 1 : -1;
+          // legend, mockup, design buttons and agree box move; arrows and download stay put
+          var els = [document.querySelector(".pr-viewer .proof-legend")]
+            .concat(
+              ["prStage", "prDesigns", "prPickLabel"].map(function (id) {
+                return document.getElementById(id);
+              }),
+            )
+            .filter(Boolean);
+          var reduce = window.matchMedia(
+            "(prefers-reduced-motion: reduce)",
+          ).matches;
+          if (!els.length || reduce || !els[0].animate) {
+            cur = i;
+            render();
+            return;
+          }
+          // clip the moving content at the card border while it slides
+          var card = els[0].closest(".proof-card");
+          card.classList.add("is-sliding");
+          var ease = "cubic-bezier(0.25, 0.46, 0.45, 0.94)";
+          var outs = els.map(function (el) {
+            return el.animate(
+              [
+                { transform: "translateX(0)", opacity: 1 },
+                { transform: "translateX(" + -100 * dir + "px)", opacity: 0 },
+              ],
+              {
+                duration: 250,
+                easing: "cubic-bezier(0.55, 0.085, 0.68, 0.53)",
+                fill: "forwards",
+              },
+            );
+          });
+          var done = false;
+          function swap() {
+            if (done) return;
+            done = true;
+            cur = i;
+            render();
+            var ins = els.map(function (el) {
+              return el.animate(
+                [
+                  { transform: "translateX(" + 100 * dir + "px)", opacity: 0 },
+                  { transform: "translateX(0)", opacity: 1 },
+                ],
+                { duration: 500, easing: ease },
+              );
+            });
+            outs.forEach(function (o) {
+              o.cancel();
+            });
+            var unclip = function () {
+              card.classList.remove("is-sliding");
+            };
+            ins[0].onfinish = unclip;
+            setTimeout(unclip, 600);
+          }
+          outs[0].onfinish = swap;
+          setTimeout(swap, 300); // fallback if the tab is in the background
         }
         pick.addEventListener("change", function () {
           setApproved(pick.checked);
