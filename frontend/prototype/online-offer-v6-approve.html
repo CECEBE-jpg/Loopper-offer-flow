@@ -6459,10 +6459,14 @@
       }
       /* stepper bar: no shadow at the top of the page, only once content scrolls under it */
       .top .stepper-bar {
+        border-bottom-color: transparent;
         box-shadow: none;
-        transition: box-shadow 0.2s ease;
+        transition:
+          box-shadow 0.2s ease,
+          border-color 0.2s ease;
       }
       .top.is-stuck .stepper-bar {
+        border-bottom-color: var(--line);
         box-shadow: 0 7px 6px rgba(20, 30, 40, 0.06);
       }
       /* more than two products: product tabs slide in one row, with a rounded scrollbar under them */
