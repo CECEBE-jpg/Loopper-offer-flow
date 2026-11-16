@@ -6505,6 +6505,28 @@
       .proof-card > .pr-products.is-slider::-webkit-scrollbar-thumb:hover {
         background: #0098bd;
       }
+      /* design approval: heading, larger tickbox, green bordered box */
+      .pr-viewer .pr-approval-title {
+        align-self: stretch;
+        margin: 6px 0 -5px;
+        font-size: 13px;
+        font-weight: 800;
+        color: var(--ink);
+      }
+      .pr-pick-row .pr-pick {
+        border: 1px solid var(--green);
+        border-radius: 10px;
+      }
+      .pr-pick input[type="checkbox"] {
+        width: 28px;
+        height: 28px;
+        margin: 0 6px 0 2px;
+        border-color: #767676;
+        border-radius: 3px;
+      }
+      .pr-pick b {
+        font-size: 15px;
+      }
     </style>
   </head>
   <body>
@@ -6664,11 +6686,12 @@
               id="prDesigns"
             ></div>
             <!-- Agree with the design you want for this bottle (Figma 70:70) -->
+            <h3 class="pr-approval-title">Design approval</h3>
             <div class="pr-pick-row">
               <label class="pr-pick" id="prPickLabel">
                 <input type="checkbox" id="prPick" />
                 <span
-                  ><b id="prPickText">I agree with this design</b
+                  ><b id="prPickText">I choose design 1</b
                   ><small id="prPickSub"
                     >Upon approval, the design will be converted into a final
                     proof.</small
@@ -6944,8 +6967,7 @@
         </a>
         <div class="step-nav-next-wrap">
           <span class="step-nav-hint" id="navHint"
-            >Tick <b>“I agree with this design”</b> to continue to your
-            details.</span
+            >Tick <b>“I choose design”</b> to continue to your details.</span
           >
           <button type="button" class="cta step-nav-next" id="navNext" disabled>
             <span>Next: Your details</span>
@@ -7270,8 +7292,7 @@
           // tickbox under the mockup (and its twin under the chat): ticked = this design is approved for this bottle
           var isChosen = st.chosen === st.view;
           pick.checked = isChosen;
-          $("prPickText").textContent =
-            "I agree with this design " + (st.view + 1);
+          $("prPickText").textContent = "I choose design " + (st.view + 1);
           pick.disabled = false;
           pickSub.textContent =
             st.chosen !== null && !isChosen
