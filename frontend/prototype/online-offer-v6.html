@@ -5711,6 +5711,27 @@
       .step-nav-am {
         position: relative;
       }
+      /* ---------- Figma 83:208 (16 Nov): progress bar + sticky bar sizing, same on every step ---------- */
+      .stepper-bar .stepper {
+        height: auto;
+      }
+      .stepper .step {
+        height: 37px;
+        min-height: 0;
+        padding-block: 0;
+      }
+      .stepper .step-num,
+      .stepper .step > img {
+        width: 19px;
+        height: 19px;
+        border-radius: 50%;
+        font-size: 12px;
+        line-height: 1;
+      }
+      .step-nav .cta,
+      .step-nav .cta.step-nav-next {
+        font-size: 16px;
+      }
     </style>
   </head>
   <body>

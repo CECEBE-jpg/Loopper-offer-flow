@@ -5873,6 +5873,342 @@
       .pr-gal-frame.is-dragging .pr-gal-zoom {
         transition: none;
       }
+      /* ---------- Figma 83:208 (16 Nov): progress bar + sticky bar sizing, same on every step ---------- */
+      .stepper-bar .stepper {
+        height: auto;
+      }
+      .stepper .step {
+        height: 37px;
+        min-height: 0;
+        padding-block: 0;
+      }
+      .stepper .step-num,
+      .stepper .step > img {
+        width: 19px;
+        height: 19px;
+        border-radius: 50%;
+        font-size: 12px;
+        line-height: 1;
+      }
+      .step-nav .cta,
+      .step-nav .cta.step-nav-next {
+        font-size: 16px;
+      }
+      /* ---------- Figma 83:208: step 2 content ---------- */
+      .proof-card:not(.check-card) {
+        padding: 18px 24px 42px;
+        box-shadow: 1px 6px 19px rgba(0, 0, 0, 0.17);
+      }
+      /* product tabs now sit inside the card, above the mockup */
+      .proof-card > .pr-products {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 12px;
+        margin: 0 0 20px;
+        overflow: hidden;
+      }
+      .proof-card > .pr-products .pr-product {
+        flex: none;
+        width: auto;
+        min-height: 55px;
+        padding: 8px 12px 8px 8px;
+      }
+      .proof-card > .pr-products .pr-product img {
+        width: 37px;
+        height: 37px;
+        border-radius: 6.7px;
+      }
+      .proof-card > .pr-products .pr-product-text b {
+        font-size: 12px;
+        line-height: 17px;
+      }
+      .proof-card > .pr-products .pr-product-text > span {
+        margin-top: 0;
+        font-size: 12px;
+        line-height: 18px;
+        font-weight: 700;
+        color: #53627a;
+      }
+      /* product name stays for screen readers and the gallery title only */
+      .proof-head {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
+      }
+      .pr-viewer {
+        gap: 15px;
+        padding: 0;
+      }
+      .pr-viewer .proof-stage {
+        zoom: calc(302 / 348);
+      }
+      .pr-gal-clone .proof-stage {
+        zoom: 1;
+      }
+      /* print legend: small box in the top-left corner of the mockup */
+      .pr-viewer .proof-legend {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        gap: 10px;
+        width: 162px;
+        margin: 0;
+        padding: 10px;
+        border: 1px solid #8c8c8c;
+        border-radius: 10px;
+        font-size: 12px;
+        line-height: 16px;
+        color: #656565;
+      }
+      .pr-viewer .proof-legend .line {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+      }
+      .pr-viewer .proof-legend .line::before {
+        order: 1;
+        margin: 0;
+      }
+      .pr-viewer .proof-legend .line b {
+        font-weight: 700;
+      }
+      .pr-viewer .proof-tab {
+        height: 26px;
+        font-size: 12px;
+      }
+      .pr-viewer .pr-arrow {
+        top: 160px;
+        width: 42px;
+        height: 42px;
+      }
+      .pr-viewer .pr-arrow-prev {
+        left: 47px;
+      }
+      .pr-viewer .pr-arrow-next {
+        right: 47px;
+      }
+      /* agree row with the download link beside it */
+      .pr-pick-row {
+        display: flex;
+        align-self: stretch;
+        align-items: stretch;
+        gap: 20px;
+      }
+      .pr-pick-row .pr-pick {
+        flex: 1;
+        min-height: 66px;
+      }
+      .pr-pick b {
+        font-size: 14px;
+      }
+      .pr-pick-row .proof-dl {
+        display: flex;
+        flex: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+        width: 87px;
+        height: 66px;
+        padding: 6px 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 1.04;
+        text-align: center;
+        color: var(--ink);
+        text-decoration: none;
+      }
+      .pr-pick-row .proof-dl img {
+        width: 22px;
+        height: 22px;
+      }
+      .pr-pick-row .proof-dl:hover {
+        border-color: #00aed8;
+        background: #e6f7fc;
+      }
+      /* PMS: label and both options on one row */
+      .pr-viewer + .pms,
+      .pms {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px 20px;
+        margin: 30px 0 0;
+      }
+      .pms legend {
+        float: left;
+        width: 81px;
+        margin: 0;
+        font-size: 13px;
+      }
+      .pms-opt {
+        flex: 1;
+        height: 38px;
+        margin: 0;
+        padding: 0 12px;
+        border-radius: 10px;
+        font-size: 12px;
+      }
+      .pms-opt:has(input:checked) {
+        border: 2px solid var(--green);
+        background: #fff;
+      }
+      .pms .pms-code {
+        width: calc(100% - 101px);
+        height: 38px;
+        margin: 0 0 0 101px;
+        border-radius: 10px;
+        font-size: 12px;
+      }
+      /* vector logo: title + text on one row, buttons underneath */
+      .vector {
+        display: grid;
+        grid-template-columns: 88px minmax(0, 1fr);
+        gap: 10px 20px;
+        margin-top: 20px;
+        padding-top: 0;
+        border-top: 0;
+      }
+      .vector h3 {
+        font-size: 13px;
+      }
+      .vector > p {
+        margin: 0;
+        font-size: 12px;
+        line-height: 21px;
+      }
+      .vector > .vector-actions,
+      .vector > .vector-file,
+      .vector > .vector-note {
+        grid-column: 1 / -1;
+        margin: 0 0 0 100px;
+      }
+      .vector-actions {
+        grid-template-columns: minmax(0, 1fr) 289px;
+        gap: 20px;
+      }
+      .vector-btn {
+        height: 50px;
+        font-size: 12px;
+        font-weight: 500;
+        text-align: left;
+      }
+      #vectorUpload {
+        gap: 10px;
+        border: 2px dashed #454e58;
+      }
+      .vector-btn-text {
+        display: flex;
+        flex-direction: column;
+      }
+      .vector-btn-text small {
+        font-weight: 600;
+      }
+      .vector-btn-alt {
+        gap: 10px;
+        border: 1px solid var(--line);
+        background: #fff;
+      }
+      .vector-btn-alt::before {
+        content: "";
+        flex: none;
+        width: 13px;
+        height: 13px;
+        margin-left: 5px;
+        border: 1px solid #767676;
+        border-radius: 50%;
+        background: #fff;
+      }
+      .vector-btn-alt[aria-pressed="true"]::before {
+        border-color: var(--green);
+        box-shadow: inset 0 0 0 2.5px #fff;
+        background: var(--green);
+      }
+      .vector-btn-alt:hover {
+        border-color: #00aed8;
+        background: #e6f7fc;
+      }
+      .vector-btn-alt[aria-pressed="true"] {
+        border: 2px solid var(--green);
+        background: #fff;
+      }
+      .vector-note,
+      .vector-file {
+        font-size: 12px;
+      }
+      /* sidebar */
+      .check-block {
+        padding: 14px 18px 12px;
+      }
+      .check-block h3 {
+        font-size: 14px;
+      }
+      .check-points {
+        margin-top: 6px;
+        font-size: 12px;
+      }
+      .check-card .chat-head {
+        height: 46px;
+        padding: 0 18px;
+      }
+      .check-card .chat-head h2 {
+        font-size: 14px;
+        color: #505255;
+      }
+      .check-card .chat-avatar {
+        width: 26px;
+        height: 26px;
+        border-width: 1.3px;
+      }
+      .check-card .change-log {
+        height: 208px;
+      }
+      .check-card .change-msg {
+        font-size: 12px;
+        line-height: 20px;
+      }
+      .check-card .change-msg small {
+        font-size: 11px;
+      }
+      .check-card .change-form {
+        padding: 7px 18px;
+        border-bottom: 1px solid var(--line);
+      }
+      @media (width < 768px) {
+        .pms legend {
+          width: 100%;
+        }
+        .pms .pms-code {
+          width: 100%;
+          margin-left: 0;
+        }
+        .vector {
+          grid-template-columns: minmax(0, 1fr);
+        }
+        .vector > .vector-actions,
+        .vector > .vector-file,
+        .vector > .vector-note {
+          margin-left: 0;
+        }
+        .vector-actions {
+          grid-template-columns: minmax(0, 1fr);
+        }
+        .pr-viewer .proof-legend {
+          position: static;
+          width: auto;
+        }
+      }
     </style>
   </head>
   <body>
@@ -5986,14 +6322,15 @@
 
     <div class="proof-page">
       <!-- Products in this offer: each one gets its own design approval (Figma 53:106) -->
-      <div
-        class="pr-products"
-        role="tablist"
-        aria-label="Products to review"
-        id="prProducts"
-      ></div>
       <div class="proof-grid">
         <section class="proof-card" aria-labelledby="proofProduct">
+          <!-- Products in this offer: each one gets its own design approval (Figma 83:454) -->
+          <div
+            class="pr-products"
+            role="tablist"
+            aria-label="Products to review"
+            id="prProducts"
+          ></div>
           <div class="proof-head">
             <div>
               <h2 id="proofProduct">
@@ -6001,27 +6338,18 @@
               </h2>
               <small>Article number 6383162 · 25 pieces</small>
             </div>
-            <a
-              class="proof-dl"
-              href="assets/offer-v3/thermos-silver.jpg"
-              download
-            >
-              <img
-                src="assets/offer-v3/icon-download.svg"
-                width="16"
-                height="16"
-                alt=""
-              />Download proof
-            </a>
-          </div>
-          <div class="proof-legend">
-            <span><b>Print option:</b> <span id="prPrint"></span></span>
-            <span class="line"
-              >Maximum print area (this line will not be printed)</span
-            >
           </div>
           <!-- Mockup with its design tabs and the choice underneath (Figma 69:702) -->
           <div class="pr-viewer">
+            <div class="proof-legend">
+              <span><b>Print option:</b> <span id="prPrint"></span></span>
+              <span class="line"
+                ><span
+                  >Maximum print area
+                  <b>(this line will not be printed)</b></span
+                ></span
+              >
+            </div>
             <div class="proof-stage" id="prStage">
               <img
                 id="prImg"
@@ -6040,16 +6368,30 @@
               id="prDesigns"
             ></div>
             <!-- Agree with the design you want for this bottle (Figma 70:70) -->
-            <label class="pr-pick" id="prPickLabel">
-              <input type="checkbox" id="prPick" />
-              <span
-                ><b id="prPickText">I agree with this design</b
-                ><small id="prPickSub"
-                  >Upon approval, the design will be converted into a final
-                  proof.</small
-                ></span
+            <div class="pr-pick-row">
+              <label class="pr-pick" id="prPickLabel">
+                <input type="checkbox" id="prPick" />
+                <span
+                  ><b id="prPickText">I agree with this design</b
+                  ><small id="prPickSub"
+                    >Upon approval, the design will be converted into a final
+                    proof.</small
+                  ></span
+                >
+              </label>
+              <a
+                class="proof-dl"
+                href="assets/offer-v3/thermos-silver.jpg"
+                download
               >
-            </label>
+                <img
+                  src="assets/offer-v3/icon-download.svg"
+                  width="22"
+                  height="22"
+                  alt=""
+                />Download proof
+              </a>
+            </div>
           </div>
 
           <fieldset class="pms">
@@ -6086,7 +6428,10 @@
                   height="16"
                   alt=""
                   style="transform: rotate(180deg)"
-                />Upload your vector logo <small>.svg, .ai, .pdf, .eps</small>
+                /><span class="vector-btn-text"
+                  >Upload your vector logo
+                  <small>.svg, .ai, .pdf, .eps</small></span
+                >
               </button>
               <input
                 type="file"
@@ -6160,7 +6505,7 @@
 
           <p class="pr-progress" id="prProgress"></p>
           <button type="button" class="approve-btn" id="approveBtn" disabled>
-            Go to my details / finalise order
+            Go to my details
             <img
               src="assets/offer-v3/icon-chevron.svg"
               width="18"
