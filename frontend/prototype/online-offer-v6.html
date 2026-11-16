@@ -5943,6 +5943,18 @@
         place-items: center;
         background: #fff;
       }
+      /* Bloom logo in the logo tiles: whole logo, centred, no placeholder styling */
+      .logos-dd .logo-thumb.logo-thumb-file img.bloom-logo-thumb,
+      .logo-thumb.logo-thumb-file img.bloom-logo-thumb,
+      .logo-mini.logo-mini-file img.bloom-logo-thumb {
+        position: static;
+        inset: auto;
+        width: 82%;
+        height: auto;
+        object-fit: contain;
+        opacity: 1;
+        transform: none;
+      }
     </style>
   </head>
   <body>
@@ -6079,8 +6091,7 @@
                     alt=""
                   />
                 </span>
-                <span class="logo-mini logo-mini-text">Bloom Agency</span>
-                <span class="logos-dd-count">2 logos</span>
+                <span class="logos-dd-count">1 logo</span>
               </span>
             </span>
             <span class="logos-dd-right">
@@ -6155,52 +6166,6 @@
                       alt=""
                     />Remove
                   </button>
-                </div>
-                <div
-                  class="logo"
-                  data-logo="text"
-                  data-font="Times New Roman"
-                  data-pms-swatch="Purple"
-                >
-                  <div class="logo-top">
-                    <div
-                      class="logo-thumb logo-thumb-text"
-                      style="
-                        font-family: &quot;Times New Roman&quot;, serif;
-                        color: #890037;
-                      "
-                    >
-                      Bloom Agency
-                    </div>
-                    <p class="logo-name">Text logo</p>
-                    <p class="logo-sub">Times New Roman · purple</p>
-                  </div>
-                  <div class="logo-actions">
-                    <button
-                      type="button"
-                      class="logo-btn"
-                      data-logo-action="edit"
-                    >
-                      <img
-                        src="assets/offer-v3/icon-edit.svg"
-                        width="14.9621"
-                        height="14.3636"
-                        alt=""
-                      />Edit
-                    </button>
-                    <button
-                      type="button"
-                      class="logo-btn"
-                      data-logo-action="delete"
-                    >
-                      <img
-                        src="assets/offer-v3/icon-remove.svg"
-                        width="12.2142"
-                        height="12.6353"
-                        alt=""
-                      />Remove
-                    </button>
-                  </div>
                 </div>
                 <!-- Add tiles, stacked: upload a logo file (top) / add a text logo -->
                 <div class="logo-adds">

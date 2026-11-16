@@ -6451,6 +6451,12 @@
         width: 80px;
         transform: rotate(-90deg);
       }
+      .pr-viewer .proof-area.pr-area-tote img {
+        width: 76px;
+      }
+      .pr-viewer .proof-area.pr-area-tote.pr-big img {
+        width: 106px;
+      }
     </style>
   </head>
   <body>
@@ -7051,9 +7057,11 @@
                 dir: "horizontal",
               },
               {
-                label: "Text logo",
-                kind: "text",
-                text: "Bloom Agency",
+                label: "Logo large",
+                kind: "logo",
+                logo: "assets/offer-bloom/bloom-logo.png",
+                dir: "horizontal",
+                big: true,
               },
             ],
           },
@@ -7183,7 +7191,8 @@
             "proof-area pr-area-" +
             p.area +
             " pr-dir-" +
-            (d.dir || "horizontal");
+            (d.dir || "horizontal") +
+            (d.big ? " pr-big" : "");
           area.innerHTML =
             d.kind === "text"
               ? '<span class="pr-textlogo">' + d.text + "</span>"
