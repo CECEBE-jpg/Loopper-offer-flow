@@ -6355,9 +6355,6 @@
                     src="assets/offer-v3/thermos-silver.jpg"
                     alt="Thermos bottle, silver"
                   />
-                  <span class="p6-overlay p6-overlay-mockup is-requested"
-                    >Mockup requested</span
-                  >
                 </div>
                 <div class="p6-thumbs">
                   <span class="p6-thumb"
@@ -8907,24 +8904,13 @@
             .forEach(function (el) {
               el.remove();
             });
-          photo.classList.toggle("is-ready", state === "ready");
+          // only "in progress" shows on the photo; "requested" and "ready" show the plain product photo
+          photo.classList.remove("is-ready");
           photo.dataset.mockup = state;
-          if (state === "ready") {
+          if (state === "progress") {
             photo.insertAdjacentHTML(
               "beforeend",
-              '<span class="p6-mock-logo" aria-hidden="true"><img src="' +
-                LOGO +
-                '" alt="" /></span>' +
-                '<a class="p6-ready" href="online-offer-v6-approve.html" aria-label="Mockup ready: review your design">' +
-                '<span class="p6-ready-flag">✓ Mockup ready</span>' +
-                "</a>",
-            );
-          } else {
-            photo.insertAdjacentHTML(
-              "beforeend",
-              state === "requested"
-                ? '<span class="p6-overlay p6-overlay-mockup is-requested">Mockup requested</span>'
-                : '<span class="p6-overlay p6-overlay-mockup">Mockup in progress</span>',
+              '<span class="p6-overlay p6-overlay-mockup">Mockup in progress</span>',
             );
           }
         }
