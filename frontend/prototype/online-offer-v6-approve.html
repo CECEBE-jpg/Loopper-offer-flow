@@ -6457,6 +6457,14 @@
       .pr-viewer .proof-area.pr-area-tote.pr-big img {
         width: 106px;
       }
+      /* stepper bar: no shadow at the top of the page, only once content scrolls under it */
+      .top .stepper-bar {
+        box-shadow: none;
+        transition: box-shadow 0.2s ease;
+      }
+      .top.is-stuck .stepper-bar {
+        box-shadow: 0 7px 6px rgba(20, 30, 40, 0.06);
+      }
     </style>
   </head>
   <body>
@@ -7622,6 +7630,18 @@
         window.addEventListener("resize", function () {
           if (dlg.open) sync();
         });
+      })();
+    </script>
+    <script>
+      // stepper bar shadow only while content scrolls under the sticky top
+      (function () {
+        var top = document.querySelector(".top");
+        if (!top) return;
+        function check() {
+          top.classList.toggle("is-stuck", window.scrollY > 2);
+        }
+        window.addEventListener("scroll", check, { passive: true });
+        check();
       })();
     </script>
   </body>

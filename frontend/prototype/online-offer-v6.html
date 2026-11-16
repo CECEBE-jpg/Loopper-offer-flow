@@ -5991,6 +5991,35 @@
         border: 0;
         border-top: 1px solid var(--line);
       }
+      /* stepper bar: no shadow at the top of the page, only once content scrolls under it */
+      .top .stepper-bar {
+        box-shadow: none;
+        transition: box-shadow 0.2s ease;
+      }
+      .top.is-stuck .stepper-bar {
+        box-shadow: 0 7px 6px rgba(20, 30, 40, 0.06);
+      }
+      /* closed logo section: preview of each logo in the list */
+      .logos-dd .logo-mini.logo-mini-img {
+        background: #fff;
+      }
+      .logos-dd .logo-mini.logo-mini-img img {
+        position: static;
+        width: 84%;
+        height: 84%;
+        object-fit: contain;
+        opacity: 1;
+      }
+      .logos-dd .logo-mini.logo-mini-badge {
+        background: #f4f6f8;
+        font-size: 11px;
+        font-weight: 800;
+        color: #4a5866;
+      }
+      /* the opened beach bag card has no bottom line: the divider above "Request sample offer" is the only one */
+      .products-card #altProduct {
+        border-bottom: 0;
+      }
     </style>
   </head>
   <body>
@@ -9544,6 +9573,67 @@
         dlg.addEventListener("close", function () {
           if (opener) opener.focus();
         });
+      })();
+    </script>
+    <script>
+      // stepper bar shadow only while content scrolls under the sticky top
+      (function () {
+        var top = document.querySelector(".top");
+        if (!top) return;
+        function check() {
+          top.classList.toggle("is-stuck", window.scrollY > 2);
+        }
+        window.addEventListener("scroll", check, { passive: true });
+        check();
+      })();
+    </script>
+    <script>
+      // Closed "Your logo & design": a small preview for every logo in the list, kept in sync
+      (function () {
+        var list = document.querySelector(".logos-dd .logos");
+        var hint = document.querySelector(".logos-dd-hint");
+        var count = document.querySelector(".logos-dd-count");
+        if (!list || !hint || !count) return;
+        function mini(tile) {
+          var m = document.createElement("span");
+          m.className = "logo-mini";
+          var text = tile.querySelector(".logo-thumb-text");
+          var img = tile.querySelector(".logo-thumb img");
+          var badge = tile.querySelector(".logo-file-badge");
+          if (text) {
+            m.classList.add("logo-mini-text");
+            m.textContent = text.textContent.trim();
+            m.style.fontFamily = text.style.fontFamily;
+            m.style.color = text.style.color;
+          } else if (img && img.getAttribute("src")) {
+            m.classList.add("logo-mini-img");
+            var i = document.createElement("img");
+            i.src = img.src;
+            i.alt = "";
+            m.appendChild(i);
+          } else if (badge) {
+            m.classList.add("logo-mini-badge");
+            m.textContent = badge.textContent;
+          } else return null;
+          return m;
+        }
+        function sync() {
+          hint.querySelectorAll(".logo-mini").forEach(function (m) {
+            m.remove();
+          });
+          list.querySelectorAll("[data-logo]").forEach(function (tile) {
+            var m = mini(tile);
+            if (m) hint.insertBefore(m, count);
+          });
+        }
+        new MutationObserver(sync).observe(list, {
+          childList: true,
+          subtree: true,
+          characterData: true,
+          attributes: true,
+          attributeFilter: ["src", "style"],
+        });
+        sync();
       })();
     </script>
   </body>
