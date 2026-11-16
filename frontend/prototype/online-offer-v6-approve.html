@@ -5727,6 +5727,115 @@
         flex: none;
         margin-top: 0.7em;
       }
+      /* mockup gallery view */
+      .pr-viewer .proof-stage {
+        cursor: zoom-in;
+      }
+      .pr-viewer .proof-stage:focus-visible {
+        outline: 2px solid #006ed0;
+        outline-offset: 4px;
+      }
+      .pr-gallery {
+        width: 100vw;
+        max-width: 100vw;
+        height: 100dvh;
+        max-height: 100dvh;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        background: rgba(15, 22, 32, 0.92);
+        color: #fff;
+      }
+      .pr-gallery::backdrop {
+        background: transparent;
+      }
+      .pr-gallery[open] {
+        display: flex;
+        flex-direction: column;
+      }
+      .pr-gal-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 18px 24px;
+      }
+      .pr-gal-title {
+        margin: 0;
+        font-size: 17px;
+        font-weight: 800;
+      }
+      .pr-gal-close {
+        display: grid;
+        place-items: center;
+        width: 44px;
+        height: 44px;
+        border: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.12);
+        color: #fff;
+        cursor: pointer;
+      }
+      .pr-gal-close:hover {
+        background: rgba(255, 255, 255, 0.22);
+      }
+      .pr-gal-body {
+        display: flex;
+        flex: 1;
+        align-items: center;
+        justify-content: center;
+        gap: 28px;
+        min-height: 0;
+      }
+      .pr-gal-frame {
+        position: relative;
+        overflow: hidden;
+        border-radius: 16px;
+        background: #fff;
+      }
+      .pr-gal-scale {
+        width: 348px;
+        height: 348px;
+        transform-origin: 0 0;
+      }
+      .pr-gal-scale .proof-stage {
+        cursor: default;
+      }
+      .pr-viewer.pr-gal-clone {
+        display: block;
+        padding: 0;
+        background: none;
+      }
+      .pr-gal-clone .proof-stage {
+        border-radius: 0;
+      }
+      .pr-gal-arrow {
+        display: grid;
+        place-items: center;
+        flex: none;
+        width: 52px;
+        height: 52px;
+        border: 0;
+        border-radius: 50%;
+        background: #fff;
+        color: #324a67;
+        cursor: pointer;
+      }
+      .pr-gal-arrow:disabled {
+        opacity: 0.25;
+        cursor: default;
+      }
+      .pr-gal-close:focus-visible,
+      .pr-gal-arrow:focus-visible {
+        outline: 2px solid #00aed8;
+        outline-offset: 3px;
+      }
+      .pr-gal-foot {
+        margin: 0;
+        padding: 16px 24px 24px;
+        font-size: 14px;
+        text-align: center;
+        color: rgba(255, 255, 255, 0.8);
+      }
     </style>
   </head>
   <body>
@@ -6521,6 +6630,181 @@
           setApproved(pick.checked);
         });
         render();
+      })();
+    </script>
+    <!-- Gallery view of the mockup (opens on click) -->
+    <dialog class="pr-gallery" id="prGallery" aria-labelledby="prGalTitle">
+      <div class="pr-gal-head">
+        <p class="pr-gal-title" id="prGalTitle"></p>
+        <button type="button" class="pr-gal-close" aria-label="Close gallery">
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 20 20"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M5 5l10 10M15 5L5 15"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+          </svg>
+        </button>
+      </div>
+      <div class="pr-gal-body">
+        <button
+          type="button"
+          class="pr-gal-arrow pr-gal-prev"
+          aria-label="Previous design"
+        >
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 20 20"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M12 4l-6 6 6 6"
+              stroke="currentColor"
+              stroke-width="2.4"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+        <div class="pr-gal-frame"><div class="pr-gal-scale"></div></div>
+        <button
+          type="button"
+          class="pr-gal-arrow pr-gal-next"
+          aria-label="Next design"
+        >
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 20 20"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M8 4l6 6-6 6"
+              stroke="currentColor"
+              stroke-width="2.4"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+      </div>
+      <p class="pr-gal-foot" id="prGalFoot"></p>
+    </dialog>
+    <script>
+      // Gallery: a scaled-up copy of the mockup on screen; arrows flip through this bottle's designs
+      (function () {
+        var dlg = document.getElementById("prGallery");
+        var stage = document.getElementById("prStage");
+        var scaleBox = dlg.querySelector(".pr-gal-scale");
+        var frame = dlg.querySelector(".pr-gal-frame");
+        var tabs = document.getElementById("prDesigns");
+        function sync() {
+          var copy = stage.cloneNode(true);
+          copy.removeAttribute("id");
+          copy.querySelectorAll("[id]").forEach(function (n) {
+            n.removeAttribute("id");
+          });
+          // keep the mockup styles (they are scoped to .pr-viewer)
+          var wrap = document.createElement("div");
+          wrap.className = "pr-viewer pr-gal-clone";
+          wrap.appendChild(copy);
+          scaleBox.innerHTML = "";
+          scaleBox.appendChild(wrap);
+          var size = Math.min(
+            window.innerHeight - 190,
+            window.innerWidth - 220,
+            900,
+          );
+          var k = size / 348;
+          scaleBox.style.transform = "scale(" + k + ")";
+          frame.style.width = frame.style.height = size + "px";
+          var btns = tabs.querySelectorAll(".proof-tab");
+          var sel = Array.prototype.findIndex.call(btns, function (b) {
+            return b.getAttribute("aria-selected") === "true";
+          });
+          document.getElementById("prGalTitle").textContent = document
+            .getElementById("proofProduct")
+            .textContent.trim();
+          document.getElementById("prGalFoot").textContent =
+            "Design " +
+            (sel + 1) +
+            " of " +
+            btns.length +
+            " · " +
+            (btns[sel] ? btns[sel].title : "") +
+            " · " +
+            document.getElementById("prPrint").textContent;
+          dlg.querySelector(".pr-gal-prev").disabled = sel <= 0;
+          dlg.querySelector(".pr-gal-next").disabled = sel >= btns.length - 1;
+        }
+        function step(d) {
+          var btns = tabs.querySelectorAll(".proof-tab");
+          var sel = Array.prototype.findIndex.call(btns, function (b) {
+            return b.getAttribute("aria-selected") === "true";
+          });
+          var to = btns[sel + d];
+          if (to) {
+            to.click();
+            sync();
+          }
+        }
+        stage.setAttribute("role", "button");
+        stage.setAttribute("tabindex", "0");
+        stage.setAttribute("aria-label", "Open the mockup in gallery view");
+        function open() {
+          sync();
+          dlg.showModal();
+          dlg.querySelector(".pr-gal-close").focus();
+        }
+        stage.addEventListener("click", open);
+        stage.addEventListener("keydown", function (e) {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            open();
+          }
+        });
+        dlg
+          .querySelector(".pr-gal-close")
+          .addEventListener("click", function () {
+            dlg.close();
+          });
+        dlg.addEventListener("click", function (e) {
+          if (
+            e.target === dlg ||
+            e.target === dlg.querySelector(".pr-gal-body")
+          )
+            dlg.close();
+        });
+        dlg
+          .querySelector(".pr-gal-prev")
+          .addEventListener("click", function () {
+            step(-1);
+          });
+        dlg
+          .querySelector(".pr-gal-next")
+          .addEventListener("click", function () {
+            step(1);
+          });
+        dlg.addEventListener("keydown", function (e) {
+          if (e.key === "ArrowLeft") step(-1);
+          if (e.key === "ArrowRight") step(1);
+        });
+        dlg.addEventListener("close", function () {
+          stage.focus();
+        });
+        window.addEventListener("resize", function () {
+          if (dlg.open) sync();
+        });
       })();
     </script>
   </body>
