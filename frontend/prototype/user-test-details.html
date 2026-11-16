@@ -7592,5 +7592,63 @@
         if (box) box.setAttribute("aria-label", "Your uploaded logo");
       })();
     </script>
+    <script>
+      // User test: the recommended beach bag, when it was added to the offer in step 1
+      (function () {
+        var alt = null;
+        try {
+          alt = JSON.parse(
+            sessionStorage.getItem("loopperUserTestAlt") || "null",
+          );
+        } catch (e) {}
+        if (!alt) return;
+        function eur(n) {
+          return (
+            "€ " +
+            n.toLocaleString("nl-NL", {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })
+          );
+        }
+        var body = document.querySelector(".det-table tbody");
+        var first = body && body.querySelector("tr");
+        if (!first) return;
+        var row = first.cloneNode(true);
+        var img = row.querySelector(".det-prod-img");
+        img.src = "assets/offer-bloom/beach-13.jpg";
+        img.alt = "Beach bag with cord handle, beige";
+        var th = ["beach-12.jpg", "beach-04.jpg", "beach-05.jpg"];
+        row.querySelectorAll(".det-prod-thumbs img").forEach(function (t, i) {
+          t.src = "assets/offer-bloom/" + th[i];
+        });
+        var txt = row.querySelectorAll(".det-prod h3, .det-prod p");
+        txt[0].textContent =
+          "Beach bag | Cotton 220 g/m² | 55x39 cm | Cord handle | Beige";
+        txt[1].textContent = "Article number: 6377143";
+        txt[2].textContent = "Screen print · Personalisation: front (30×20 cm)";
+        if (txt[3]) txt[3].textContent = "Expected delivery: 1 December 2026";
+        var cells = row.querySelectorAll(":scope > td");
+        cells[1].innerHTML = "<b>" + alt.q + "</b>";
+        cells[2].textContent = eur(alt.p);
+        cells[3].innerHTML = "<b>" + eur(alt.p * alt.q) + "</b>";
+        body.appendChild(row);
+        // totals: the two products in the scenario + the beach bag
+        var sub = 1567.5 + alt.p * alt.q,
+          vat = Math.round(sub * 21) / 100,
+          tot = sub + vat;
+        ["sumSub", "sumExcl"].forEach(function (id) {
+          var el = document.getElementById(id);
+          if (el) el.textContent = eur(sub);
+        });
+        var v = document.getElementById("sumVat");
+        if (v) v.textContent = eur(vat);
+        var t = document.getElementById("sumTotal");
+        if (t) t.textContent = eur(tot);
+        document.querySelectorAll(".step-nav-hint b").forEach(function (b) {
+          if (/€/.test(b.textContent)) b.textContent = eur(tot);
+        });
+      })();
+    </script>
   </body>
 </html>

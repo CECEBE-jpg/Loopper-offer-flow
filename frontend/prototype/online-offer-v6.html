@@ -5955,6 +5955,42 @@
         opacity: 1;
         transform: none;
       }
+      /* custom quantity saved: confirmation + grey "Edit" link instead of the green button */
+      .q-save-btn.is-edit {
+        padding: 0 6px;
+        background: none;
+        color: #7b8794;
+        font-weight: 700;
+        text-decoration: underline;
+      }
+      .q-save-btn.is-edit:hover {
+        background: none;
+        color: #4a5866;
+      }
+      .q-saved {
+        font-size: 12px;
+        font-weight: 800;
+        color: var(--green-text);
+        white-space: nowrap;
+      }
+      .q-saved[hidden] {
+        display: none;
+      }
+      .q-custom .q-custom-price {
+        white-space: nowrap;
+      }
+      .q-custom.is-saved .q-custom-input {
+        border-color: transparent;
+        background: transparent;
+        font-weight: 800;
+      }
+      /* line between the products and "Request sample offer" */
+      .p6-sample-divider {
+        width: 100%;
+        margin: 8px 0 12px;
+        border: 0;
+        border-top: 1px solid var(--line);
+      }
     </style>
   </head>
   <body>
@@ -7006,6 +7042,7 @@
             </fieldset>
           </article>
 
+          <hr class="p6-sample-divider" />
           <button type="button" class="p6-sample">Request sample offer</button>
         </section>
       </main>
@@ -8686,13 +8723,41 @@
             list.dispatchEvent(new Event("change", { bubbles: true }));
           });
           var save = custom.querySelector(".q-save-btn");
+          var saved = document.createElement("span");
+          saved.className = "q-saved";
+          saved.setAttribute("role", "status");
+          saved.hidden = true;
+          if (save) save.after(saved);
+          function setSaved(on) {
+            custom.classList.toggle("is-saved", on);
+            save.classList.toggle("is-edit", on);
+            save.textContent = on ? "Edit" : "Save";
+            input.readOnly = on;
+            saved.hidden = !on;
+            saved.textContent = on ? "✓ Saved" : "";
+            // the confirmation shows briefly; the grey Edit link stays
+            clearTimeout(saved._t);
+            if (on)
+              saved._t = setTimeout(function () {
+                saved.hidden = true;
+              }, 3000);
+          }
           if (save)
             save.addEventListener("click", function (e) {
               e.preventDefault();
+              if (save.classList.contains("is-edit")) {
+                setSaved(false);
+                input.focus();
+                input.select();
+                return;
+              }
               radio.checked = true;
               updateCustom();
               updateNudge();
               list.dispatchEvent(new Event("change", { bubbles: true }));
+              // only a valid quantity (at or above the minimum) is saved
+              if (radio.getAttribute("data-price")) setSaved(true);
+              else input.focus();
             });
           list.addEventListener("change", updateNudge);
           updateCustom();

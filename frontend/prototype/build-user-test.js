@@ -181,6 +181,154 @@ s = beforeBodyEnd(
     </script>
 `,
 );
+// Jildou answers every comment (and warns about foul language), not only the first one
+{
+  const first = /if \(empty && !answered\) \{\s*answered = true;\s*setTimeout\(function \(\) \{\s*addAm\(\s*"Thanks for your question! I'll look into it and get back to you today\.",\s*now\(\),\s*\);\s*\}, 2500\);\s*\}/;
+  must(first.test(s), "step 1 comment reply");
+  s = s.replace(
+    first,
+    `// user test: Jildou answers every message (a warning for foul language)
+            setTimeout(function () {
+              addAm(window.utAmReply(text), now());
+            }, window.utAmDelay());`,
+  );
+  // the side panel shows Jildou's answers live, so no "you'll get an email" note
+  s = s.replace(
+    `"Jildou has been notified. You'll get an email when she replies."`,
+    `"Jildou usually replies within a few minutes."`,
+  );
+}
+// recommended product: mockup feedback, and it goes on to step 2 and 3
+s = beforeBodyEnd(
+  s,
+  `    <script src="user-test-am.js"></script>
+    <style>
+      .ut-alt-note {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        margin: 12px 0 0;
+        padding: 10px 12px;
+        border-radius: 10px;
+        background: #e7f4ff;
+        font-size: 13px;
+        line-height: 18px;
+        color: #006ed0;
+      }
+      .ut-alt-note.is-ready {
+        background: #eaf6e2;
+        color: #3d7f15;
+      }
+      .ut-alt-note.is-wait {
+        background: #f1eafd;
+        color: #6d28d9;
+      }
+      .ut-alt-note[hidden] {
+        display: none;
+      }
+    </style>
+    <script>
+      // User test: switching on the recommended beach bag starts a mockup for it.
+      // Feedback in the card (in progress → ready after 10 s); the bag is added to step 2 and 3.
+      (function () {
+        var card = document.getElementById("altProduct");
+        var inOffer = document.getElementById("altInOffer");
+        var qty = document.getElementById("altQty");
+        if (!card || !inOffer || !qty) return;
+        var KEY = "loopperUserTestAlt",
+          LOGO_KEY = "loopperUserTestLogo";
+        var photo = card.querySelector(".p6-photo");
+        var note = document.createElement("p");
+        note.className = "ut-alt-note";
+        note.setAttribute("role", "status");
+        note.hidden = true;
+        card.querySelector(".p6-info").appendChild(note);
+        var timer = null;
+        function hasLogo() {
+          return !!document.querySelector(".logos-dd .logos [data-logo]");
+        }
+        function store() {
+          try {
+            if (!inOffer.checked) return sessionStorage.removeItem(KEY);
+            var r = qty.querySelector('.q-row > input[type="radio"]:checked');
+            var q = r && r.getAttribute("data-price") ? +r.value : 250;
+            var p = r && r.getAttribute("data-price") ? +r.getAttribute("data-price") : 4.08;
+            sessionStorage.setItem(KEY, JSON.stringify({ q: q, p: p, ready: photo.dataset.mockup === "ready" }));
+          } catch (e) {}
+        }
+        function overlay(on) {
+          photo.querySelectorAll(".p6-overlay-mockup").forEach(function (el) {
+            el.remove();
+          });
+          if (on)
+            photo.insertAdjacentHTML("beforeend", '<span class="p6-overlay p6-overlay-mockup">Mockup in progress</span>');
+        }
+        function set(state) {
+          note.hidden = false;
+          note.className = "ut-alt-note" + (state === "ready" ? " is-ready" : state === "wait" ? " is-wait" : "");
+          photo.dataset.mockup = state === "ready" ? "ready" : state === "progress" ? "progress" : "none";
+          overlay(state === "progress");
+          note.textContent =
+            state === "ready"
+              ? "✓ The mockup of the beach bag is ready. You can review and approve it in step 2."
+              : state === "progress"
+                ? "Jildou is making a free mockup of the beach bag with your logo. You can review it in step 2."
+                : "Upload your logo and we\\u2019ll make a free mockup of the beach bag too.";
+          store();
+        }
+        function start() {
+          clearTimeout(timer);
+          if (!hasLogo()) return set("wait");
+          set("progress");
+          timer = setTimeout(function () {
+            set("ready");
+          }, 10000);
+        }
+        function sync() {
+          if (inOffer.checked) {
+            if (photo.dataset.mockup !== "ready" && photo.dataset.mockup !== "progress") start();
+          } else {
+            clearTimeout(timer);
+            overlay(false);
+            photo.dataset.mockup = "none";
+            note.hidden = true;
+          }
+          store();
+        }
+        inOffer.addEventListener("change", function () {
+          setTimeout(sync, 0);
+        });
+        var toggle = document.getElementById("altToggle");
+        if (toggle)
+          toggle.addEventListener("change", function () {
+            setTimeout(sync, 0);
+          });
+        qty.addEventListener("change", function () {
+          setTimeout(store, 0);
+        });
+        // a logo uploaded after the bag was added: start its mockup too
+        var list = document.querySelector(".logos-dd .logos");
+        if (list)
+          new MutationObserver(function () {
+            if (inOffer.checked && photo.dataset.mockup === "none" && hasLogo()) start();
+          }).observe(list, { childList: true, subtree: true });
+        // back from step 2: the bag is still in the offer with its finished mockup
+        var saved = null;
+        try {
+          saved = JSON.parse(sessionStorage.getItem(KEY) || "null");
+        } catch (e) {}
+        if (saved && toggle) {
+          toggle.checked = true;
+          toggle.dispatchEvent(new Event("change", { bubbles: true }));
+          setTimeout(function () {
+            if (saved.ready) set("ready");
+            else start();
+          }, 0);
+        }
+      })();
+    </script>
+`,
+);
 s = noindex(title(links(s)));
 fs.writeFileSync(path.join(dir, "user-test.html"), s);
 
@@ -216,12 +364,137 @@ s2 = s2.replace(
         } catch (e) {}
         var PRODUCTS = [`,
 );
+// beach bag added in step 1: one more product to review
+{
+  const end = "\n        ];\n        var state = PRODUCTS.map(";
+  must(s2.includes(end), "PRODUCTS end");
+  s2 = s2.replace(
+    end,
+    `
+        ];
+        // User test: the recommended beach bag, when it was added to the offer in step 1
+        try {
+          var utAlt = JSON.parse(sessionStorage.getItem("loopperUserTestAlt") || "null");
+          if (utAlt)
+            PRODUCTS.push({
+              name: "Beach bag | Cotton 220 g/m² | 55x39 cm | Cord handle | Beige",
+              short: "Beach bag",
+              meta: "Cotton · Beige",
+              card: "Beach bag, beige",
+              cardSub: "Screen print: front (30×20 cm)",
+              sub: "Article number 6377143 · " + utAlt.q + " pieces",
+              img: "assets/offer-bloom/beach-13.jpg",
+              print: "Screen print in 1 colour, front (30×20 cm)",
+              area: "beach",
+              designs: [
+                { label: "Logo centred", kind: "logo", logo: UT_LOGO, dir: "horizontal" },
+                { label: "Logo large", kind: "logo", logo: UT_LOGO, dir: "horizontal", big: true },
+              ],
+            });
+        } catch (e) {}
+        var state = PRODUCTS.map(`,
+  );
+  // Jildou answers every chat message (a warning for foul language)
+  const once = /if \(!log\.querySelector\("\.is-reply"\)\) \{\s*setTimeout\(function \(\) \{\s*var r = document\.createElement\("p"\);\s*r\.className = "change-msg is-reply";\s*r\.innerHTML =\s*"<small>Jildou · just now<\/small>Thanks! I will update your design and let you know when the new version is ready\.";\s*log\.appendChild\(r\);\s*log\.scrollTop = log\.scrollHeight;\s*\}, 900\);\s*\}/;
+  must(once.test(s2), "step 2 chat reply");
+  s2 = s2.replace(
+    once,
+    `// user test: Jildou answers every message
+          setTimeout(function () {
+            var r = document.createElement("p");
+            r.className = "change-msg is-reply";
+            r.innerHTML = "<small>Jildou · just now</small>";
+            r.appendChild(document.createTextNode(window.utAmReply(text)));
+            log.appendChild(r);
+            log.scrollTop = log.scrollHeight;
+          }, window.utAmDelay());`,
+  );
+  s2 = beforeBodyEnd(
+    s2,
+    `    <script src="user-test-am.js"></script>
+    <style>
+      /* print area on the beach bag photo (348 px stage) */
+      .pr-viewer .proof-area.pr-area-beach {
+        top: 150px;
+        left: 104px;
+        width: 140px;
+        height: 95px;
+        transform: none;
+      }
+      .pr-viewer .proof-area.pr-area-beach img {
+        width: 96px;
+        transform: none;
+        opacity: 0.95;
+        filter: none;
+        mix-blend-mode: multiply;
+      }
+      .pr-viewer .proof-area.pr-area-beach.pr-big img {
+        width: 132px;
+      }
+    </style>
+`,
+  );
+}
 s2 = beforeBodyEnd(s2, useLogo);
 s2 = noindex(title(links(s2)));
 fs.writeFileSync(path.join(dir, "user-test-approve.html"), s2);
 
 let s3 = read("online-offer-v6-details.html");
 s3 = beforeBodyEnd(s3, useLogo);
+// beach bag added in step 1: extra order row and totals
+s3 = beforeBodyEnd(
+  s3,
+  `    <script>
+      // User test: the recommended beach bag, when it was added to the offer in step 1
+      (function () {
+        var alt = null;
+        try {
+          alt = JSON.parse(sessionStorage.getItem("loopperUserTestAlt") || "null");
+        } catch (e) {}
+        if (!alt) return;
+        function eur(n) {
+          return "€ " + n.toLocaleString("nl-NL", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+        var body = document.querySelector(".det-table tbody");
+        var first = body && body.querySelector("tr");
+        if (!first) return;
+        var row = first.cloneNode(true);
+        var img = row.querySelector(".det-prod-img");
+        img.src = "assets/offer-bloom/beach-13.jpg";
+        img.alt = "Beach bag with cord handle, beige";
+        var th = ["beach-12.jpg", "beach-04.jpg", "beach-05.jpg"];
+        row.querySelectorAll(".det-prod-thumbs img").forEach(function (t, i) {
+          t.src = "assets/offer-bloom/" + th[i];
+        });
+        var txt = row.querySelectorAll(".det-prod h3, .det-prod p");
+        txt[0].textContent = "Beach bag | Cotton 220 g/m² | 55x39 cm | Cord handle | Beige";
+        txt[1].textContent = "Article number: 6377143";
+        txt[2].textContent = "Screen print · Personalisation: front (30×20 cm)";
+        if (txt[3]) txt[3].textContent = "Expected delivery: 1 December 2026";
+        var cells = row.querySelectorAll(":scope > td");
+        cells[1].innerHTML = "<b>" + alt.q + "</b>";
+        cells[2].textContent = eur(alt.p);
+        cells[3].innerHTML = "<b>" + eur(alt.p * alt.q) + "</b>";
+        body.appendChild(row);
+        // totals: the two products in the scenario + the beach bag
+        var sub = 1567.5 + alt.p * alt.q,
+          vat = Math.round(sub * 21) / 100,
+          tot = sub + vat;
+        ["sumSub", "sumExcl"].forEach(function (id) {
+          var el = document.getElementById(id);
+          if (el) el.textContent = eur(sub);
+        });
+        var v = document.getElementById("sumVat");
+        if (v) v.textContent = eur(vat);
+        var t = document.getElementById("sumTotal");
+        if (t) t.textContent = eur(tot);
+        document.querySelectorAll(".step-nav-hint b").forEach(function (b) {
+          if (/€/.test(b.textContent)) b.textContent = eur(tot);
+        });
+      })();
+    </script>
+`,
+);
 s3 = noindex(title(links(s3)));
 fs.writeFileSync(path.join(dir, "user-test-details.html"), s3);
 

@@ -6974,16 +6974,15 @@
           log.appendChild(p);
           input.value = "";
           log.scrollTop = log.scrollHeight;
-          if (!log.querySelector(".is-reply")) {
-            setTimeout(function () {
-              var r = document.createElement("p");
-              r.className = "change-msg is-reply";
-              r.innerHTML =
-                "<small>Jildou · just now</small>Thanks! I will update your design and let you know when the new version is ready.";
-              log.appendChild(r);
-              log.scrollTop = log.scrollHeight;
-            }, 900);
-          }
+          // user test: Jildou answers every message
+          setTimeout(function () {
+            var r = document.createElement("p");
+            r.className = "change-msg is-reply";
+            r.innerHTML = "<small>Jildou · just now</small>";
+            r.appendChild(document.createTextNode(window.utAmReply(text)));
+            log.appendChild(r);
+            log.scrollTop = log.scrollHeight;
+          }, window.utAmDelay());
         });
       })();
     </script>
@@ -7098,6 +7097,39 @@
             ],
           },
         ];
+        // User test: the recommended beach bag, when it was added to the offer in step 1
+        try {
+          var utAlt = JSON.parse(
+            sessionStorage.getItem("loopperUserTestAlt") || "null",
+          );
+          if (utAlt)
+            PRODUCTS.push({
+              name: "Beach bag | Cotton 220 g/m² | 55x39 cm | Cord handle | Beige",
+              short: "Beach bag",
+              meta: "Cotton · Beige",
+              card: "Beach bag, beige",
+              cardSub: "Screen print: front (30×20 cm)",
+              sub: "Article number 6377143 · " + utAlt.q + " pieces",
+              img: "assets/offer-bloom/beach-13.jpg",
+              print: "Screen print in 1 colour, front (30×20 cm)",
+              area: "beach",
+              designs: [
+                {
+                  label: "Logo centred",
+                  kind: "logo",
+                  logo: UT_LOGO,
+                  dir: "horizontal",
+                },
+                {
+                  label: "Logo large",
+                  kind: "logo",
+                  logo: UT_LOGO,
+                  dir: "horizontal",
+                  big: true,
+                },
+              ],
+            });
+        } catch (e) {}
         var state = PRODUCTS.map(function () {
           return { view: 0, chosen: null, approved: false };
         });
@@ -7631,6 +7663,27 @@
         });
       })();
     </script>
+    <script src="user-test-am.js"></script>
+    <style>
+      /* print area on the beach bag photo (348 px stage) */
+      .pr-viewer .proof-area.pr-area-beach {
+        top: 150px;
+        left: 104px;
+        width: 140px;
+        height: 95px;
+        transform: none;
+      }
+      .pr-viewer .proof-area.pr-area-beach img {
+        width: 96px;
+        transform: none;
+        opacity: 0.95;
+        filter: none;
+        mix-blend-mode: multiply;
+      }
+      .pr-viewer .proof-area.pr-area-beach.pr-big img {
+        width: 132px;
+      }
+    </style>
     <script>
       // User test: show the logo the test user uploaded in step 1
       (function () {
