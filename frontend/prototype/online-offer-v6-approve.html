@@ -5709,6 +5709,24 @@
       .is-nudge {
         animation: pr-nudge 0.9s ease-out 2;
       }
+      /* print legend: always two columns side by side; text wraps inside each column */
+      .proof-legend {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        align-items: start;
+        gap: 8px 32px;
+      }
+      .proof-legend > span {
+        min-width: 0;
+      }
+      .proof-legend .line {
+        display: flex;
+        align-items: flex-start;
+      }
+      .proof-legend .line::before {
+        flex: none;
+        margin-top: 0.7em;
+      }
     </style>
   </head>
   <body>
