@@ -6427,6 +6427,28 @@
           justify-self: start;
         }
       }
+      /* "Edit" buttons after saving: text in the button colour, no fill or border */
+      .det-card #invEdit,
+      .det-card #delEdit,
+      .det-card #remEdit {
+        border-color: transparent;
+        background: transparent;
+        box-shadow: none;
+      }
+      .det-card #invEdit {
+        color: #1e7e34;
+      }
+      .det-card #delEdit,
+      .det-card #remEdit {
+        color: #1a6fc0;
+      }
+      .det-card #invEdit:hover,
+      .det-card #delEdit:hover,
+      .det-card #remEdit:hover {
+        border-color: transparent;
+        background: transparent;
+        text-decoration: underline;
+      }
     </style>
   </head>
   <body>
