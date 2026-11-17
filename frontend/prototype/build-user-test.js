@@ -18,6 +18,7 @@ const must = (c, m) => {
 const read = (f) => fs.readFileSync(path.join(dir, f), "utf8");
 const links = (s) =>
   s
+    .split("online-offer-v6-payment.html").join("user-test-payment.html")
     .split("online-offer-v6-approve.html").join("user-test-approve.html")
     .split("online-offer-v6-details.html").join("user-test-details.html")
     .split('"online-offer-v6.html"').join('"user-test.html"');
@@ -574,8 +575,27 @@ s3 = beforeBodyEnd(
 s3 = noindex(title(links(s3)));
 fs.writeFileSync(path.join(dir, "user-test-details.html"), s3);
 
-for (const f of ["user-test.html", "user-test-approve.html", "user-test-details.html"]) {
+// ---------- step 4: payment ----------
+let s4 = read("online-offer-v6-payment.html");
+s4 = beforeBodyEnd(s4, useLogo);
+// beach bag added in step 1: the amount to pay includes it
+s4 = beforeBodyEnd(
+  s4,
+  `    <script>
+      (function () {
+        try {
+          var alt = JSON.parse(sessionStorage.getItem("loopperUserTestAlt") || "null");
+          if (alt && window.setPayBase) window.setPayBase(Math.round((1567.5 + alt.p * alt.q) * 121) / 100);
+        } catch (e) {}
+      })();
+    </script>
+`,
+);
+s4 = noindex(title(links(s4)));
+fs.writeFileSync(path.join(dir, "user-test-payment.html"), s4);
+
+for (const f of ["user-test.html", "user-test-approve.html", "user-test-details.html", "user-test-payment.html"]) {
   const t = read(f);
   must(!/online-offer-v6[a-z-]*\.html/.test(t), f + " still links to v6");
 }
-console.log("built user-test.html, user-test-approve.html, user-test-details.html");
+console.log("built user-test.html, -approve, -details, -payment");

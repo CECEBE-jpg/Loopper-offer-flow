@@ -7563,9 +7563,8 @@
           $("termsLabel").classList.toggle("is-invalid", !termsOk);
           if (bad) return goTo(bad);
           if (!termsOk) return goTo($("terms"));
-          msg.className = "det-msg is-ok";
-          msg.textContent =
-            "✓ All set. Prototype: the payment step (4) comes next.";
+          // all valid: on to step 4
+          location.href = "user-test-payment.html";
         }
         $("payBtn").addEventListener("click", pay);
         $("navNext").addEventListener("click", pay);
