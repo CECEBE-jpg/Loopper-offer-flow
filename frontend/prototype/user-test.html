@@ -7087,6 +7087,63 @@
                 >
               </label>
             </fieldset>
+            <!-- Comment box for the added alternative (same as the other products): the client starts the conversation.
+                 Account manager comment + your replies (Figma 17:8, 19:3, 20:3, 17:89, 17:230, 17:273) -->
+            <div
+              class="am-note am-chat p6-pin cmt"
+              data-state="idle"
+              data-empty="true"
+            >
+              <div class="cmt-box">
+                <div class="cmt-head">
+                  <button
+                    type="button"
+                    class="cmt-reply cmt-reply-head cmt-ask"
+                  >
+                    Question? Ask your account manager
+                  </button>
+                </div>
+                <div class="cmt-thread"></div>
+                <form class="cmt-form" hidden>
+                  <input
+                    type="text"
+                    class="cmt-input"
+                    placeholder="What would you like to ask or specify?"
+                    aria-label="Reply to Jildou"
+                  />
+                  <button
+                    type="submit"
+                    class="cmt-send"
+                    aria-label="Send reply"
+                  >
+                    <img
+                      src="assets/offer-v3/comments/send.png"
+                      width="18"
+                      height="18"
+                      alt=""
+                    />
+                  </button>
+                </form>
+                <button type="button" class="cmt-reply cmt-reply-foot" hidden>
+                  <img
+                    src="assets/offer-v3/comments/reply-arrow.svg"
+                    width="16"
+                    height="16"
+                    alt=""
+                  />Comment
+                </button>
+                <span class="cmt-more" hidden>
+                  <button type="button" class="cmt-more-btn">
+                    Read all comments
+                  </button>
+                  <span class="cmt-count"></span>
+                </span>
+              </div>
+              <p class="pin-notice cmt-notice" hidden>
+                This is not a chat. Your account manager will send you an email
+                when they reply.
+              </p>
+            </div>
           </article>
 
           <hr class="p6-sample-divider" />

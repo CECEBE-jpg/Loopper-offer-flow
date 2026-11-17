@@ -34,6 +34,10 @@
       a: "Good point! I'll pass this on to our designer and you'll get an updated mockup within 1 hour.",
     },
     {
+      re: /\b(navy|blue|red|black|white|green|beige|natural|turquoise|grey|gray|pink|yellow|other colou?rs?|kleur(en)?)\b/i,
+      a: "The tote bag comes in natural, white, black and bright green, the beach bag in beige, black, navy, red and turquoise, and the noma noma thermos in black. Shall I switch a colour for you?",
+    },
+    {
       re: /\b(engrav\w*|print\w*|colours?|colors?|pms|full.?colou?r)\b/i,
       a: "The thermos is engraved, so your logo shows in the colour of the steel. The tote bag is screen printed in one colour. If you have a specific PMS colour, you can add it under PMS / Colour.",
     },
@@ -55,7 +59,7 @@
     },
     {
       re: /\b(beach bag|alternative|recommend\w*|suggest\w*)\b/i,
-      a: "I added the beach bag as a suggestion because it matches your tote bags well. Switch on \"Add to offer\" and I'll make a mockup for it as well.",
+      a: "I suggested the beach bag because it matches your tote bags well. Once it's in your offer, I'll make a free mockup for it with your logo.",
     },
   ];
   window.utIsCurse = function (text) {
