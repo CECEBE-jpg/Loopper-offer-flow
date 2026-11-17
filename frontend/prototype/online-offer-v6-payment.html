@@ -6721,6 +6721,27 @@
           grid-template-columns: minmax(0, 1fr);
         }
       }
+      /* account manager under the billing address (left column) */
+      .pay-page {
+        grid-template-columns: 349px minmax(0, 1fr);
+      }
+      .pay-side {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        min-width: 0;
+      }
+      .pay-side .pay-am {
+        align-self: stretch;
+        width: 100%;
+        margin: 0;
+        padding-left: 0;
+      }
+      .pay-side .pay-am .am-feature-card {
+        width: 100%;
+        margin-left: 0;
+        box-sizing: border-box;
+      }
     </style>
   </head>
   <body>
@@ -6844,16 +6865,42 @@
 
     <div class="pay-page">
       <!-- Step 4: payment (based on the live Loopper payment page) -->
-      <aside class="pay-card pay-billing" aria-labelledby="billTitle">
-        <h2 id="billTitle">Billing address</h2>
-        <p>
-          Bloom Agency<br />Mrs. Cayna Parker<br />Baker Street 12<br />NW1 6XE
-          London<br />United Kingdom
-        </p>
-        <a class="pay-edit" href="online-offer-v6-details.html"
-          >Change details</a
-        >
-      </aside>
+      <div class="pay-side">
+        <aside class="pay-card pay-billing" aria-labelledby="billTitle">
+          <h2 id="billTitle">Billing address</h2>
+          <p>
+            Bloom Agency<br />Mrs. Cayna Parker<br />Baker Street 12<br />NW1
+            6XE London<br />United Kingdom
+          </p>
+          <a class="pay-edit" href="online-offer-v6-details.html"
+            >Change details</a
+          >
+        </aside>
+        <section class="am-feature pay-am" aria-label="Your account manager">
+          <img
+            class="am-feature-photo"
+            src="assets/offer-v3/account-manager-model.png"
+            width="293"
+            height="240"
+            alt="Jildou, your account manager"
+          />
+          <div class="am-feature-card">
+            <div class="am-feature-id">
+              <p class="am-feature-name">Jildou</p>
+              <p class="eyebrow">Your account manager</p>
+            </div>
+            <p class="am-feature-quote">
+              “Choose your preferred payment method to complete your order
+              securely. Once your payment is confirmed, we’ll immediately start
+              producing your order.”
+            </p>
+            <p class="am-feature-contact">
+              <a href="tel:+442045765960">+44 20 4576 5960</a>
+              <a href="mailto:Jildou@loopper.com">Jildou@loopper.com</a>
+            </p>
+          </div>
+        </section>
+      </div>
 
       <div class="pay-main">
         <h1 class="pay-title">
@@ -7034,31 +7081,6 @@
                 The invoice is sent by email after your payment is completed.
               </p>
             </div>
-          </div>
-        </section>
-
-        <section class="am-feature pay-am" aria-label="Your account manager">
-          <img
-            class="am-feature-photo"
-            src="assets/offer-v3/account-manager-model.png"
-            width="293"
-            height="240"
-            alt="Jildou, your account manager"
-          />
-          <div class="am-feature-card">
-            <div class="am-feature-id">
-              <p class="am-feature-name">Jildou</p>
-              <p class="eyebrow">Your account manager</p>
-            </div>
-            <p class="am-feature-quote">
-              “Choose your preferred payment method to complete your order
-              securely. Once your payment is confirmed, we’ll immediately start
-              producing your order.”
-            </p>
-            <p class="am-feature-contact">
-              <a href="tel:+442045765960">+44 20 4576 5960</a>
-              <a href="mailto:Jildou@loopper.com">Jildou@loopper.com</a>
-            </p>
           </div>
         </section>
       </div>
