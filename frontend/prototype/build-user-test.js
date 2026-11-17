@@ -18,6 +18,7 @@ const must = (c, m) => {
 const read = (f) => fs.readFileSync(path.join(dir, f), "utf8");
 const links = (s) =>
   s
+    .split("online-offer-v6-checklist.html").join("user-test-checklist.html")
     .split("online-offer-v6-payment.html").join("user-test-payment.html")
     .split("online-offer-v6-approve.html").join("user-test-approve.html")
     .split("online-offer-v6-details.html").join("user-test-details.html")
@@ -594,8 +595,39 @@ s4 = beforeBodyEnd(
 s4 = noindex(title(links(s4)));
 fs.writeFileSync(path.join(dir, "user-test-payment.html"), s4);
 
-for (const f of ["user-test.html", "user-test-approve.html", "user-test-details.html", "user-test-payment.html"]) {
+// ---------- checklist (after payment) ----------
+let s5 = read("online-offer-v6-checklist.html");
+s5 = beforeBodyEnd(s5, useLogo);
+s5 = beforeBodyEnd(
+  s5,
+  `    <script src="user-test-am.js"></script>
+    <script>
+      // beach bag added in step 1: in the order list and the amount to pay
+      (function () {
+        var alt = null;
+        try {
+          alt = JSON.parse(sessionStorage.getItem("loopperUserTestAlt") || "null");
+        } catch (e) {}
+        if (!alt || !window.renderChecklist) return;
+        var sum = alt.p * alt.q;
+        var li = document.createElement("li");
+        li.innerHTML =
+          '<img src="assets/offer-bloom/beach-13.jpg" alt="" /><span><b>Beach bag, beige</b><small>' +
+          alt.q +
+          " pieces · screen print</small></span><em></em>";
+        li.querySelector("em").textContent =
+          "€ " + sum.toLocaleString("nl-NL", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        document.getElementById("ckItems").appendChild(li);
+        window.renderChecklist(1567.5 + sum);
+      })();
+    </script>
+`,
+);
+s5 = noindex(title(links(s5)));
+fs.writeFileSync(path.join(dir, "user-test-checklist.html"), s5);
+
+for (const f of ["user-test.html", "user-test-approve.html", "user-test-details.html", "user-test-payment.html", "user-test-checklist.html"]) {
   const t = read(f);
   must(!/online-offer-v6[a-z-]*\.html/.test(t), f + " still links to v6");
 }
-console.log("built user-test.html, -approve, -details, -payment");
+console.log("built user-test.html, -approve, -details, -payment, -checklist");

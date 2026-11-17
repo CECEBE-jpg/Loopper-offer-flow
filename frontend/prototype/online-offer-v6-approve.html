@@ -6557,6 +6557,40 @@
         font-weight: 400;
         color: var(--muted);
       }
+      /* "Checklist" after step 4: not a step, smaller and blue (what happens after payment) */
+      .stepper .step-checklist {
+        display: flex;
+        flex: none;
+        align-items: center;
+        align-self: center;
+        gap: 7px;
+        height: 37px;
+        padding: 0 14px;
+        border: 1px solid #00aed8;
+        border-radius: 10px;
+        background: #e6f7fc;
+        font-size: 13px;
+        font-weight: 800;
+        white-space: nowrap;
+        color: #00799a;
+      }
+      .stepper .step-checklist a {
+        color: inherit;
+        text-decoration: none;
+      }
+      .stepper .step-checklist.is-current {
+        background: #00aed8;
+        color: #fff;
+      }
+      .stepper .step-checklist-icon {
+        flex: none;
+      }
+      @media (width < 768px) {
+        .top .stepper .step-checklist {
+          grid-column: 1 / -1;
+          justify-self: start;
+        }
+      }
     </style>
   </head>
   <body>

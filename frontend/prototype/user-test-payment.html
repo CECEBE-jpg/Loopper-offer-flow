@@ -6743,6 +6743,40 @@
         margin-left: 0;
         box-sizing: border-box;
       }
+      /* "Checklist" after step 4: not a step, smaller and blue (what happens after payment) */
+      .stepper .step-checklist {
+        display: flex;
+        flex: none;
+        align-items: center;
+        align-self: center;
+        gap: 7px;
+        height: 37px;
+        padding: 0 14px;
+        border: 1px solid #00aed8;
+        border-radius: 10px;
+        background: #e6f7fc;
+        font-size: 13px;
+        font-weight: 800;
+        white-space: nowrap;
+        color: #00799a;
+      }
+      .stepper .step-checklist a {
+        color: inherit;
+        text-decoration: none;
+      }
+      .stepper .step-checklist.is-current {
+        background: #00aed8;
+        color: #fff;
+      }
+      .stepper .step-checklist-icon {
+        flex: none;
+      }
+      @media (width < 768px) {
+        .top .stepper .step-checklist {
+          grid-column: 1 / -1;
+          justify-self: start;
+        }
+      }
     </style>
   </head>
   <body>
@@ -7284,19 +7318,18 @@
             return;
           }
           var name = m.closest(".pay-method").querySelector("b").textContent;
-          var done = $("payDone");
-          done.hidden = false;
-          done.innerHTML =
-            m.value === "sepa"
-              ? '<img src="assets/offer-v3/icon-check.svg" width="18" height="18" alt="" />Thank you! Please transfer <b>&nbsp;' +
-                $("payTotal").textContent +
-                "&nbsp;</b> to IBAN NL00 LOOP 0123 4567 89, reference #5436794. Production starts as soon as we receive it."
-              : '<img src="assets/offer-v3/icon-check.svg" width="18" height="18" alt="" />Prototype: you would now pay ' +
-                $("payTotal").textContent +
-                " with " +
-                name +
-                ". After payment, production of your order starts right away.";
-          done.scrollIntoView({ behavior: "smooth", block: "center" });
+          // remember the choice for the checklist page, then go there
+          try {
+            sessionStorage.setItem(
+              "loopperPayment",
+              JSON.stringify({
+                method: m.value,
+                name: name,
+                fee: +m.dataset.fee,
+              }),
+            );
+          } catch (e) {}
+          location.href = "user-test-checklist.html";
         }
         $("payBtn").addEventListener("click", pay);
         $("navNext").addEventListener("click", pay);
