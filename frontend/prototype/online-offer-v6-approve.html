@@ -6527,6 +6527,36 @@
       .pr-pick b {
         font-size: 15px;
       }
+      /* "Upload your vector logo": same look as the upload tile in step 1 (size unchanged) */
+      .vector #vectorUpload {
+        gap: 12px;
+        border: 0.8px dashed #b7c2cd;
+        border-radius: 10px;
+        background: transparent;
+        color: var(--text);
+      }
+      .vector #vectorUpload:hover,
+      .vector #vectorUpload:focus-visible {
+        border-color: var(--blue);
+        background: #eaf6fa;
+      }
+      .vector #vectorUpload .vector-plus {
+        font-size: 22px;
+        line-height: 22px;
+        font-weight: 500;
+        color: #00799a;
+      }
+      .vector #vectorUpload .vector-btn-text {
+        font-size: 13px;
+        line-height: 18px;
+        font-weight: 800;
+      }
+      .vector #vectorUpload .vector-btn-text small {
+        font-size: 11.5px;
+        line-height: 15px;
+        font-weight: 400;
+        color: var(--muted);
+      }
     </style>
   </head>
   <body>
@@ -6748,13 +6778,8 @@
             </p>
             <div class="vector-actions">
               <button type="button" class="vector-btn" id="vectorUpload">
-                <img
-                  src="assets/offer-v3/icon-download.svg"
-                  width="16"
-                  height="16"
-                  alt=""
-                  style="transform: rotate(180deg)"
-                /><span class="vector-btn-text"
+                <b class="vector-plus" aria-hidden="true">+</b
+                ><span class="vector-btn-text"
                   >Upload your vector logo
                   <small>SVG, AI, PDF or EPS</small></span
                 >
