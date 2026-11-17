@@ -6065,6 +6065,25 @@
         color: var(--green-text);
         font-weight: 800;
       }
+      /* "Upload logo" in the closed header: same look as the upload tile inside the card (size unchanged) */
+      .logos-dd:not([open]) .logos-dd-upload {
+        gap: 7px;
+        border: 0.8px dashed #b7c2cd;
+        border-radius: 10px;
+        background: transparent;
+        color: var(--text);
+      }
+      .logos-dd:not([open]) .logos-dd-upload b {
+        font-size: 18px;
+        line-height: 1;
+        font-weight: 500;
+        color: #00799a;
+      }
+      .logos-dd:not([open]) .logos-dd-upload:hover,
+      .logos-dd:not([open]) .logos-dd-upload:focus-visible {
+        border-color: var(--blue);
+        background: #eaf6fa;
+      }
     </style>
   </head>
   <body>
@@ -6199,21 +6218,7 @@
             </span>
             <span class="logos-dd-right">
               <button type="button" class="logos-dd-upload" id="logosDdUpload">
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 16 16"
-                  fill="none"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="M8 11V3m0 0L4.5 6.5M8 3l3.5 3.5M3 13h10"
-                    stroke="currentColor"
-                    stroke-width="1.8"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  /></svg
-                >Upload logo
+                <b aria-hidden="true">+</b>Upload logo
               </button>
               <span class="chip chip-status">Mockup design requested</span>
               <svg
