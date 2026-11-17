@@ -6776,6 +6776,10 @@
           justify-self: start;
         }
       }
+      /* one pay button: the bottom bar "Pay € …" */
+      .pay-sum .pay-btn {
+        display: none;
+      }
     </style>
   </head>
   <body>
@@ -7222,7 +7226,7 @@
             method.</span
           >
           <button type="button" class="cta step-nav-next" id="navNext">
-            <span>Pay now</span>
+            <span>Pay <span id="navPayAmount">€ 1.896,68</span></span>
             <img
               src="assets/offer-v3/icon-chevron.svg"
               width="18"
@@ -7303,6 +7307,7 @@
           $("payTotal").textContent = eur(BASE + fee);
           $("payBtnAmount").textContent = eur(BASE + fee);
           $("navTotal").textContent = eur(BASE + fee);
+          $("navPayAmount").textContent = eur(BASE + fee);
         }
         methods.addEventListener("change", function () {
           methods.classList.remove("is-invalid");
