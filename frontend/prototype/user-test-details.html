@@ -6449,6 +6449,13 @@
         background: transparent;
         text-decoration: underline;
       }
+      /* summary CTA: same lighter green and label as the bottom bar "Next: Payment" */
+      .det-bottom .summary .approve-btn.det-pay {
+        background: var(--green);
+      }
+      .det-bottom .summary .approve-btn.det-pay:hover {
+        background: var(--green-text);
+      }
     </style>
   </head>
   <body>
@@ -7111,7 +7118,7 @@
                 ><span>Please accept the terms and conditions</span>
               </p>
               <button type="button" class="approve-btn det-pay" id="payBtn">
-                Order and pay
+                Next: Payment
                 <img
                   src="assets/offer-v3/icon-chevron.svg"
                   width="18"
