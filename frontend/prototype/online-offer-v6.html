@@ -6352,6 +6352,28 @@
         opacity: 0.92;
         filter: none;
       }
+
+      /* Collapsed header: logo preview, count and the Upload / Add text buttons fade in */
+      @keyframes logosHeadIn {
+        from {
+          opacity: 0;
+          transform: translateY(3px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      .logos-dd:not([open]) .logos-dd-hint,
+      .logos-dd:not([open]) .logos-dd-upload {
+        animation: logosHeadIn 0.22s cubic-bezier(0.42, 0, 1, 1) both;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .logos-dd:not([open]) .logos-dd-hint,
+        .logos-dd:not([open]) .logos-dd-upload {
+          animation: none;
+        }
+      }
     </style>
   </head>
   <body>
