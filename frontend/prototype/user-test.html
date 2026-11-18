@@ -10229,7 +10229,8 @@
         }
         function collapse() {
           setTimeout(function () {
-            dd.open = false;
+            if (window.setLogosOpen) window.setLogosOpen(false);
+            else dd.open = false;
           }, 700);
         }
         dd.querySelectorAll('input[type="file"]').forEach(function (input) {
@@ -10250,6 +10251,58 @@
             if (count() > before) collapse();
           });
         }
+      })();
+    </script>
+    <script>
+      // Your logo & design: open and close with a short height animation instead of a jump
+      (function () {
+        var dd = document.querySelector(".logos-dd");
+        var summary = dd && dd.querySelector(":scope > summary");
+        if (!dd || !summary) return;
+        var reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+        var anim = null;
+        var target = dd.open;
+        function setOpen(open) {
+          target = open;
+          var from = dd.offsetHeight; // current (possibly mid-animation) height
+          if (anim) {
+            anim.cancel();
+            anim = null;
+          }
+          if (reduce.matches || !dd.animate) {
+            dd.open = open;
+            return;
+          }
+          dd.open = open;
+          var to = dd.offsetHeight;
+          if (!open) dd.open = true; // keep the content visible while it closes
+          if (from === to) {
+            dd.open = open;
+            return;
+          }
+          dd.style.overflow = "hidden";
+          anim = dd.animate([{ height: from + "px" }, { height: to + "px" }], {
+            duration: 240,
+            easing: "cubic-bezier(0.2, 0, 0, 1)",
+          });
+          anim.onfinish = function () {
+            dd.open = open;
+            dd.style.overflow = "";
+            anim = null;
+          };
+          anim.oncancel = function () {
+            dd.style.overflow = "";
+          };
+        }
+        dd.addEventListener("toggle", function () {
+          if (!anim) target = dd.open;
+        });
+        window.setLogosOpen = setOpen;
+        summary.addEventListener("click", function (e) {
+          if (e.defaultPrevented) return;
+          e.preventDefault();
+          setOpen(!target);
+        });
       })();
     </script>
     <style>
