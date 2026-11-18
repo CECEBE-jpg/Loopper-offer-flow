@@ -6591,9 +6591,34 @@
           justify-self: start;
         }
       }
-      /* no "Go to my details" under the chat: the bottom bar "Next: Your details" is the way on */
+      /* "Next: Your details" under the chat: green text button on the card's bottom edge */
       .check-card #approveBtn {
-        display: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+        height: auto;
+        margin: 0;
+        padding: 16px 18px 18px;
+        border: 0;
+        border-top: 1px solid #e1e7ed;
+        border-radius: 0 0 14px 14px;
+        background: none;
+        font: inherit;
+        font-size: 17px;
+        font-weight: 800;
+        color: var(--green);
+        cursor: pointer;
+      }
+      .check-card #approveBtn:hover {
+        color: var(--green-text);
+        text-decoration: underline;
+      }
+      .check-card #approveBtn:disabled {
+        color: #9aa6b2;
+        cursor: default;
+        text-decoration: none;
       }
       .check-card .change-form {
         border-bottom: 0;
@@ -7045,13 +7070,22 @@
 
           <p class="pr-progress" id="prProgress"></p>
           <button type="button" class="approve-btn" id="approveBtn" disabled>
-            Go to my details
-            <img
-              src="assets/offer-v3/icon-chevron.svg"
-              width="18"
-              height="18"
-              alt=""
-            />
+            Next: Your details
+            <svg
+              width="8"
+              height="14"
+              viewBox="0 0 8 14"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M1.5 1.5 6.5 7l-5 5.5"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
           </button>
         </aside>
       </div>
@@ -7539,30 +7573,35 @@
         var prevBtn = $("prPrev"),
           nextBtn = $("prNext");
         function renderArrows() {
-          var prev = PRODUCTS[cur - 1],
-            nxt = PRODUCTS[cur + 1];
+          // the arrows beside the mockup step through the designs of this product
+          var p = PRODUCTS[cur],
+            v = state[cur].view,
+            prev = p.designs[v - 1],
+            nxt = p.designs[v + 1];
           prevBtn.hidden = !prev;
           nextBtn.hidden = !nxt;
           if (prev) {
-            prevBtn.setAttribute(
-              "aria-label",
-              "Previous product: " + prev.short,
-            );
-            prevBtn.title = "Previous: " + prev.short;
+            prevBtn.setAttribute("aria-label", "Previous design: Design " + v);
+            prevBtn.title = "Design " + v;
           }
           if (nxt) {
-            nextBtn.setAttribute("aria-label", "Next product: " + nxt.short);
-            nextBtn.title = "Next: " + nxt.short;
+            nextBtn.setAttribute(
+              "aria-label",
+              "Next design: Design " + (v + 2),
+            );
+            nextBtn.title = "Design " + (v + 2);
           }
         }
         prevBtn.addEventListener("click", function () {
-          if (cur > 0) {
-            slideTo(cur - 1);
+          if (state[cur].view > 0) {
+            state[cur].view -= 1;
+            render();
           }
         });
         nextBtn.addEventListener("click", function () {
-          if (cur < PRODUCTS.length - 1) {
-            slideTo(cur + 1);
+          if (state[cur].view < PRODUCTS[cur].designs.length - 1) {
+            state[cur].view += 1;
+            render();
           }
         });
         function render() {
