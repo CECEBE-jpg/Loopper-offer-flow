@@ -6477,6 +6477,11 @@
         border-radius: 10px;
         background: #eaf7fc;
       }
+
+      /* no "Use my invoicing address instead" button in the delivery form */
+      #useInvoice[hidden] {
+        display: none !important;
+      }
     </style>
   </head>
   <body>
@@ -6933,7 +6938,7 @@
                 </select>
               </div>
               <div class="c-6 det-del-actions">
-                <button type="button" class="det-btn" id="useInvoice">
+                <button type="button" class="det-btn" id="useInvoice" hidden>
                   Use my invoicing address instead
                 </button>
                 <button type="button" class="det-btn det-btn-blue" id="delSave">
