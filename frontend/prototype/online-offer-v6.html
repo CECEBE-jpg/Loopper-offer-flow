@@ -6178,6 +6178,10 @@
           column-gap: 35px;
           padding: 21px 1px 31px;
         }
+        /* the quantity list spans both rows: extra height goes below the comment, not above it */
+        .products-card .product.p6:not(.is-off) {
+          grid-template-rows: auto 1fr;
+        }
         .products-card .p6-gallery {
           width: 175px;
         }
@@ -7328,23 +7332,25 @@
                   aria-label="In offer"
               /></span>
             </label>
-            <div class="p6-media">
-              <div class="p6-photo">
-                <img
-                  src="assets/offer-bloom/beach-13.jpg"
-                  alt="Beach bag with cord handle, beige"
-                />
-              </div>
-              <div class="p6-thumbs">
-                <span class="p6-thumb"
-                  ><img src="assets/offer-bloom/beach-12.jpg" alt=""
-                /></span>
-                <span class="p6-thumb"
-                  ><img src="assets/offer-bloom/beach-04.jpg" alt=""
-                /></span>
-                <span class="p6-thumb"
-                  ><img src="assets/offer-bloom/beach-05.jpg" alt=""
-                /></span>
+            <div class="p6-gallery">
+              <div class="p6-images">
+                <div class="p6-photo">
+                  <img
+                    src="assets/offer-bloom/beach-13.jpg"
+                    alt="Beach bag with cord handle, beige"
+                  />
+                </div>
+                <div class="p6-thumbs">
+                  <span class="p6-thumb"
+                    ><img src="assets/offer-bloom/beach-12.jpg" alt=""
+                  /></span>
+                  <span class="p6-thumb"
+                    ><img src="assets/offer-bloom/beach-04.jpg" alt=""
+                  /></span>
+                  <span class="p6-thumb"
+                    ><img src="assets/offer-bloom/beach-05.jpg" alt=""
+                  /></span>
+                </div>
               </div>
             </div>
             <div class="p6-info">
@@ -7495,6 +7501,24 @@
                   ><b class="q-custom-total">–</b><small>excl. VAT</small></span
                 >
               </label>
+              <div class="p6-labels">
+                <button type="button" class="p6-label">
+                  <img
+                    src="assets/offer-v3/icon-star-label.svg"
+                    width="11.5267"
+                    height="11.0503"
+                    alt=""
+                  />Larger print
+                </button>
+                <button type="button" class="p6-label">
+                  <img
+                    src="assets/offer-v3/icon-star-label.svg"
+                    width="11.5267"
+                    height="11.0503"
+                    alt=""
+                  />Great alternative
+                </button>
+              </div>
             </fieldset>
             <!-- Comment box for the added alternative (same as the other products): the client starts the conversation.
                  Account manager comment + your replies (Figma 17:8, 19:3, 20:3, 17:89, 17:230, 17:273) -->
