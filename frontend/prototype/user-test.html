@@ -6223,7 +6223,26 @@
       }
       .products-card .q-save-btn:not(.is-edit) {
         background: none;
-        color: #00809f;
+        color: #00aed8;
+      }
+      /* Figma 112:2 – header card 80px, alternative row and account manager card on the left edge */
+      .logos-dd {
+        padding-top: 12px;
+        padding-bottom: 12px;
+      }
+      .logos-dd[open] {
+        padding-top: 14px;
+        padding-bottom: 14px;
+      }
+      .alt > .alt-row {
+        gap: 20px;
+        padding-left: 0;
+      }
+      .am-feature-card {
+        margin-left: 0;
+      }
+      .am-feature-photo {
+        margin-left: 31px;
       }
       .products-card .q-save-btn:not(.is-edit):hover {
         background: #eaf6fa;
@@ -6366,6 +6385,13 @@
             <span class="logos-dd-right">
               <button type="button" class="logos-dd-upload" id="logosDdUpload">
                 <b aria-hidden="true">+</b>Upload logo
+              </button>
+              <button
+                type="button"
+                class="logos-dd-upload logos-dd-text"
+                id="logosDdText"
+              >
+                <b aria-hidden="true">+</b>Add text
               </button>
               <span class="chip chip-status">Mockup design requested</span>
               <svg
@@ -6824,6 +6850,27 @@
                 <span class="chip chip-grey">Item colour: Black</span>
                 <span class="chip chip-grey">Printing in: 1 colour</span>
                 <span class="chip chip-grey">Engraving: front (40×60 mm)</span>
+                <span class="chip chip-grey chip-delivery"
+                  ><img
+                    src="assets/offer-v3/icon-delivery.svg"
+                    width="23"
+                    height="14"
+                    alt=""
+                  />Estimated delivery: 14 Dec<span class="tip"
+                    ><button
+                      type="button"
+                      class="tip-btn"
+                      aria-label="More information"
+                      aria-describedby="tipDel3"
+                    >
+                      i</button
+                    ><span class="tip-bubble" role="tooltip" id="tipDel3"
+                      >Expected after the restock on 8 December. Approve your
+                      design and pay before <b>Fri 16 Oct, 12:00</b> to keep
+                      this date.</span
+                    ></span
+                  ></span
+                >
               </div>
               <dl class="p6-stock">
                 <div>
@@ -7419,7 +7466,7 @@
             </p>
             <!-- Same action as the bottom bar Next (Figma 137:2289); follows its state -->
             <button type="button" class="cta sum-next" id="sumNext" disabled>
-              <span>Next: approve design</span>
+              <span>Next: Approve design</span>
               <img
                 src="assets/offer-v3/icon-chevron.svg"
                 width="18"
@@ -9425,6 +9472,16 @@
           e.stopPropagation();
           up.click();
         });
+        // "Add text" in the collapsed header opens the text logo modal (Figma 137:2262)
+        var t = document.getElementById("logosDdText");
+        var addText = document.getElementById("logoAddText");
+        if (t && addText) {
+          t.addEventListener("click", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            addText.click();
+          });
+        }
       })();
     </script>
     <script>
