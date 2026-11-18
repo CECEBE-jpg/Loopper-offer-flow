@@ -7579,10 +7579,6 @@
                 <dt>Subtotal</dt>
                 <dd id="sumSub">€ 246,50</dd>
               </div>
-              <div class="sum-row sum-added" id="sumAlt" hidden>
-                <dt>+ Beach bag <span id="sumAltQty">250</span> pcs</dt>
-                <dd id="sumAltPrice">€ 757,50</dd>
-              </div>
               <div class="sum-row">
                 <dt>Shipping costs</dt>
                 <dd class="free">Free</dd>
@@ -7602,6 +7598,16 @@
               ><strong id="sumTotal">€ 295,80</strong>
             </p>
             <!-- Primary action directly under the total, so it sits above the fold -->
+            <!-- Same action as the bottom bar Next (Figma 137:2289); follows its state -->
+            <button type="button" class="cta sum-next" id="sumNext">
+              <span>Next: Approve design</span>
+              <img
+                src="assets/offer-v3/icon-chevron.svg"
+                width="18"
+                height="18"
+                alt=""
+              />
+            </button>
             <div class="sum-actions">
               <button type="button" class="btn">
                 <img
@@ -7632,16 +7638,6 @@
                 <b>Wed 28 Oct</b>. This offer is valid until 27 Oct.</span
               >
             </p>
-            <!-- Same action as the bottom bar Next (Figma 137:2289); follows its state -->
-            <button type="button" class="cta sum-next" id="sumNext">
-              <span>Next: Approve design</span>
-              <img
-                src="assets/offer-v3/icon-chevron.svg"
-                width="18"
-                height="18"
-                alt=""
-              />
-            </button>
           </div>
         </section>
       </aside>
@@ -7813,10 +7809,8 @@
           row.hidden = altOn;
           card.hidden = !altOn;
           $("altToggle").checked = altOn;
-          $("sumSub").textContent = eur(sub);
-          $("sumAlt").hidden = !altOn;
-          $("sumAltQty").textContent = alt.qty.toLocaleString("en-GB");
-          $("sumAltPrice").textContent = eur(alt.sum);
+          // an added suggestion counts like any other product: no extra row
+          $("sumSub").textContent = eur(excl);
           $("sumExcl").textContent = eur(excl);
           $("sumVat").textContent = eur(vat);
           $("sumTotal").textContent = eur(excl + vat);
