@@ -6126,6 +6126,111 @@
           justify-self: start;
         }
       }
+
+      /* Figma 112:158 – spec chips lighter; estimated delivery chip with truck icon and tip */
+      .p6-chips .chip-grey {
+        background: #fafafa;
+        font-weight: 500;
+      }
+      .p6-chips .chip-grey.chip-delivery {
+        gap: 6px;
+        font-weight: 800;
+        overflow: visible;
+      }
+      .chip-delivery > img {
+        flex: none;
+        width: 23px;
+        height: 14px;
+      }
+      .chip-delivery .tip {
+        margin-left: 0;
+      }
+      /* Figma 112:482 – Next button in the summary, mirrors the bottom bar Next */
+      .summary .cta.sum-next {
+        justify-content: center;
+        gap: 10px;
+        height: 52px;
+        margin-top: 14px;
+        font-size: 17px;
+        text-align: center;
+        color: #fff;
+      }
+      .summary .cta.sum-next:not(:disabled) {
+        background: var(--green);
+        cursor: pointer;
+      }
+      .summary .cta.sum-next:not(:disabled):hover {
+        background: var(--green-text);
+      }
+      .summary .cta.sum-next:disabled {
+        cursor: not-allowed;
+      }
+
+      /* Figma 112:158 – product row: spacing, image sizes, quantity rows, comment box */
+      @media (width >= 768px) {
+        .products-card .product.p6 {
+          grid-template-columns: 44px 175px 387px 426px;
+          column-gap: 35px;
+          padding: 21px 1px 31px;
+        }
+        .products-card .p6-gallery {
+          width: 175px;
+        }
+        .products-card .product.p6 > .p6-pin {
+          width: 586px;
+          max-width: 100%;
+        }
+      }
+      .products-card .p6-images {
+        gap: 7px;
+      }
+      .products-card .p6-images .p6-photo {
+        width: 128px;
+        height: 139px;
+        border-radius: 8px;
+      }
+      .products-card .p6-images .p6-thumb {
+        width: 40px;
+        height: 41px;
+        border-radius: 5px;
+      }
+      .products-card .product.p6 .p6-info {
+        gap: 7px;
+        min-height: 175px;
+        padding-left: 0;
+      }
+      .products-card .product.p6 .p6-meta {
+        margin-top: 0;
+      }
+      .products-card .p6-chips {
+        gap: 6px 10px;
+        margin-top: 2px;
+      }
+      .products-card .p6-chips .chip-delivery {
+        margin-top: 3px;
+      }
+      .products-card .q-row {
+        height: auto;
+        min-height: 36px;
+        padding: 7px 10px;
+        border-radius: 10px;
+      }
+      .products-card .q-row:has(> input:checked) {
+        padding: 7px 10.3px;
+      }
+      .products-card .q-row.q-custom {
+        padding: 7px 12px;
+      }
+      .products-card .q-save-btn:not(.is-edit) {
+        background: none;
+        color: #00809f;
+      }
+      .products-card .q-save-btn:not(.is-edit):hover {
+        background: #eaf6fa;
+      }
+      .products-card .p6-pin .cmt-box {
+        background: #fafafa;
+      }
     </style>
   </head>
   <body>
@@ -6411,7 +6516,27 @@
                 <span class="chip chip-grey"
                   >Screen print: front (25×30 cm)</span
                 >
-                <span class="chip chip-grey">Fast delivery: 27 Nov</span>
+                <span class="chip chip-grey chip-delivery"
+                  ><img
+                    src="assets/offer-v3/icon-delivery.svg"
+                    width="23"
+                    height="14"
+                    alt=""
+                  />Estimated delivery: 27 Nov<span class="tip"
+                    ><button
+                      type="button"
+                      class="tip-btn"
+                      aria-label="More information"
+                      aria-describedby="tipDel1"
+                    >
+                      i</button
+                    ><span class="tip-bubble" role="tooltip" id="tipDel1"
+                      >Based on the quantity you chose. Approve your design and
+                      pay before <b>Fri 16 Oct, 12:00</b> to keep this
+                      date.</span
+                    ></span
+                  ></span
+                >
               </div>
             </div>
             <fieldset
@@ -7003,7 +7128,27 @@
                 <span class="chip chip-grey"
                   >Screen print: front (30×20 cm)</span
                 >
-                <span class="chip chip-grey">Fast delivery: 1 Dec</span>
+                <span class="chip chip-grey chip-delivery"
+                  ><img
+                    src="assets/offer-v3/icon-delivery.svg"
+                    width="23"
+                    height="14"
+                    alt=""
+                  />Estimated delivery: 1 Dec<span class="tip"
+                    ><button
+                      type="button"
+                      class="tip-btn"
+                      aria-label="More information"
+                      aria-describedby="tipDel2"
+                    >
+                      i</button
+                    ><span class="tip-bubble" role="tooltip" id="tipDel2"
+                      >Based on the quantity you chose. Approve your design and
+                      pay before <b>Fri 16 Oct, 12:00</b> to keep this
+                      date.</span
+                    ></span
+                  ></span
+                >
               </div>
             </div>
             <fieldset
@@ -7260,9 +7405,6 @@
                 />Share by email
               </button>
             </div>
-            <p class="sum-hint">
-              Need approval? Send the offer to your manager.
-            </p>
             <p class="deadline">
               <img
                 src="assets/offer-v3/icon-clock.svg"
@@ -7275,6 +7417,16 @@
                 <b>Wed 28 Oct</b>. This offer is valid until 27 Oct.</span
               >
             </p>
+            <!-- Same action as the bottom bar Next (Figma 137:2289); follows its state -->
+            <button type="button" class="cta sum-next" id="sumNext" disabled>
+              <span>Next: approve design</span>
+              <img
+                src="assets/offer-v3/icon-chevron.svg"
+                width="18"
+                height="18"
+                alt=""
+              />
+            </button>
           </div>
         </section>
       </aside>
@@ -9770,6 +9922,25 @@
           attributeFilter: ["src", "style"],
         });
         sync();
+      })();
+    </script>
+    <script>
+      // Summary Next follows the bottom bar Next (enabled once all mockups are ready)
+      (function () {
+        var nav = document.getElementById("navNext"),
+          sum = document.getElementById("sumNext");
+        if (!nav || !sum) return;
+        function sync() {
+          sum.disabled = nav.disabled;
+        }
+        sync();
+        new MutationObserver(sync).observe(nav, {
+          attributes: true,
+          attributeFilter: ["disabled"],
+        });
+        sum.addEventListener("click", function () {
+          if (!nav.disabled) nav.click();
+        });
       })();
     </script>
     <style>
