@@ -6787,9 +6787,12 @@
           justify-self: start;
         }
       }
-      /* one pay button: the bottom bar "Pay € …" */
+      /* Pay button under the total (design 2026-11-18): amount left, chevron right */
       .pay-sum .pay-btn {
-        display: none;
+        justify-content: space-between;
+        height: 52px;
+        margin-top: 14px;
+        padding: 0 20px;
       }
     </style>
   </head>
@@ -7116,7 +7119,7 @@
                 </div>
               </dl>
               <button type="button" class="pay-btn" id="payBtn">
-                Pay <span id="payBtnAmount">€ 1.896,68</span>
+                <span>Pay <span id="payBtnAmount">€ 1.896,68</span></span>
                 <img
                   src="assets/offer-v3/icon-chevron.svg"
                   width="18"
