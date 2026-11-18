@@ -10218,6 +10218,40 @@
           });
       })();
     </script>
+    <script>
+      // A new logo (upload or text) collapses the logo section, so the products come into view
+      (function () {
+        var dd = document.querySelector(".logos-dd");
+        var list = dd && dd.querySelector(".logos");
+        if (!dd || !list) return;
+        function count() {
+          return list.querySelectorAll("[data-logo]").length;
+        }
+        function collapse() {
+          setTimeout(function () {
+            dd.open = false;
+          }, 700);
+        }
+        dd.querySelectorAll('input[type="file"]').forEach(function (input) {
+          // the upload handler empties the input straight away, so any change means a new file
+          input.addEventListener("change", collapse);
+        });
+        var save = document.querySelector(".tlm-save");
+        if (save) {
+          var before = 0;
+          save.addEventListener(
+            "click",
+            function () {
+              before = count();
+            },
+            true,
+          );
+          save.addEventListener("click", function () {
+            if (count() > before) collapse();
+          });
+        }
+      })();
+    </script>
     <style>
       /* User test: the prototype demo controls are hidden */
       #demoBar {
