@@ -720,7 +720,7 @@
         border-radius: 13px;
         background: #c7d0d9;
         cursor: pointer;
-        transition: background 0.15s;
+        transition: background-color 0.26s cubic-bezier(0.42, 0, 1, 1);
       }
       .switch input::after {
         content: "";
@@ -731,7 +731,13 @@
         height: 20px;
         border-radius: 10px;
         background: #fff;
-        transition: transform 0.15s;
+        transition: transform 0.26s cubic-bezier(0.42, 0, 1, 1);
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .switch input,
+        .switch input::after {
+          transition: none;
+        }
       }
       .switch input:checked {
         background: var(--green);
@@ -6236,7 +6242,7 @@
       }
       .alt > .alt-row {
         gap: 20px;
-        padding-left: 0;
+        padding-left: 1px;
       }
       .am-feature-card {
         margin-left: 0;
@@ -6249,6 +6255,43 @@
       }
       .products-card .p6-pin .cmt-box {
         background: #fafafa;
+      }
+
+      /* Alternative row toggle: same label style as the product In offer / Add to offer toggle */
+      .alt > .alt-row .alt-switch {
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: flex-start;
+        gap: 7px;
+        width: 64px;
+        font-size: 10px;
+        font-weight: 700;
+        color: #6e7e96;
+        white-space: nowrap;
+      }
+      .alt > .alt-row .alt-switch-label {
+        display: flex;
+        align-items: center;
+        min-height: 16px;
+      }
+      .alt > .alt-row .alt-switch-label .tip {
+        margin-left: 3px;
+      }
+
+      /* Toggle stays in the same place in every state: switch 74px below the top of its row */
+      .products-card .product.p6.is-off > .p6-offer {
+        align-self: start;
+        padding-top: 30px;
+      }
+      .alt > .alt-row .alt-switch {
+        align-self: flex-start;
+        margin-top: 33px;
+      }
+      /* the added alternative has no (i) next to In offer: keep the 16px label row */
+      #altProduct .p6-offer > span:first-child {
+        display: flex;
+        align-items: center;
+        min-height: 16px;
       }
     </style>
   </head>
@@ -7657,18 +7700,34 @@
         function later() {
           setTimeout(update, 0);
         }
+        // let the switch knob finish sliding before the row swaps (no wait with reduced motion)
+        var SWAP = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+          ? 0
+          : 280;
+        function afterSwitch(fn) {
+          setTimeout(fn, SWAP);
+        }
         $("altToggle").addEventListener("change", function () {
           $("altInOffer").checked = true;
-          update();
-          $("altInOffer").focus();
+          afterSwitch(function () {
+            update();
+            $("altInOffer").focus();
+          });
         });
         $("altInOffer").addEventListener("change", function () {
-          update();
-          if (!$("altInOffer").checked) $("altToggle").focus();
+          afterSwitch(function () {
+            update();
+            if (!$("altInOffer").checked) $("altToggle").focus();
+          });
         });
         $("altInOffer").checked = false; // the alternative starts outside the offer
         products.forEach(function (p) {
-          p.querySelector(".p6-offer input").addEventListener("change", update);
+          p.querySelector(".p6-offer input").addEventListener(
+            "change",
+            function () {
+              afterSwitch(update);
+            },
+          );
         });
         document
           .querySelectorAll(".products-card .q-list")
