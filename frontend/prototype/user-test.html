@@ -720,7 +720,7 @@
         border-radius: 13px;
         background: #c7d0d9;
         cursor: pointer;
-        transition: background-color 0.26s cubic-bezier(0.42, 0, 1, 1);
+        transition: background-color 0.16s cubic-bezier(0.42, 0, 1, 1);
       }
       .switch input::after {
         content: "";
@@ -731,7 +731,7 @@
         height: 20px;
         border-radius: 10px;
         background: #fff;
-        transition: transform 0.26s cubic-bezier(0.42, 0, 1, 1);
+        transition: transform 0.16s cubic-bezier(0.42, 0, 1, 1);
       }
       @media (prefers-reduced-motion: reduce) {
         .switch input,
@@ -6285,7 +6285,22 @@
       }
       .alt > .alt-row .alt-switch {
         align-self: flex-start;
-        margin-top: 33px;
+        margin-top: 30px;
+        margin-right: 9px;
+      }
+      /* beach bag suggestion row: same box as a switched-off product row */
+      .products-card .alt {
+        padding: 21px 0 31px;
+      }
+      .alt > .alt-row .alt-photo {
+        background: #fff;
+      }
+      .alt > .alt-row .alt-photo img {
+        width: 80px;
+        height: 80px;
+        max-width: none;
+        max-height: none;
+        object-fit: contain;
       }
       /* the added alternative has no (i) next to In offer: keep the 16px label row */
       #altProduct .p6-offer > span:first-child {
@@ -7703,31 +7718,87 @@
         // let the switch knob finish sliding before the row swaps (no wait with reduced motion)
         var SWAP = window.matchMedia("(prefers-reduced-motion: reduce)").matches
           ? 0
-          : 280;
+          : 160;
         function afterSwitch(fn) {
           setTimeout(fn, SWAP);
         }
+        // product image eases between its full size and the small "not in your offer" size
+        function shown(el) {
+          return el && el.getClientRects().length ? el : null;
+        }
+        function morphImage(fromEl, toFind) {
+          fromEl = shown(fromEl);
+          var from = fromEl && fromEl.getBoundingClientRect();
+          return function () {
+            var to = shown(toFind());
+            if (!SWAP || !from || !to || !to.animate) return;
+            var r = to.getBoundingClientRect();
+            if (!r.width || !r.height) return;
+            to.animate(
+              [
+                {
+                  transformOrigin: "0 0",
+                  transform:
+                    "translate(" +
+                    (from.left - r.left) +
+                    "px," +
+                    (from.top - r.top) +
+                    "px) scale(" +
+                    from.width / r.width +
+                    "," +
+                    from.height / r.height +
+                    ")",
+                },
+                { transformOrigin: "0 0", transform: "none" },
+              ],
+              { duration: 180, easing: "cubic-bezier(0.42, 0, 1, 1)" },
+            );
+          };
+        }
+        var altSmall = function () {
+          return row.querySelector(".alt-photo");
+        };
+        var altBig = function () {
+          return card.querySelector(".p6-photo");
+        };
         $("altToggle").addEventListener("change", function () {
           $("altInOffer").checked = true;
+          var grow = morphImage(altSmall(), altBig);
           afterSwitch(function () {
             update();
+            grow();
             $("altInOffer").focus();
           });
         });
         $("altInOffer").addEventListener("change", function () {
+          var on = $("altInOffer").checked;
+          var morph = on
+            ? morphImage(altSmall(), altBig)
+            : morphImage(altBig(), altSmall);
           afterSwitch(function () {
             update();
+            morph();
             if (!$("altInOffer").checked) $("altToggle").focus();
           });
         });
         $("altInOffer").checked = false; // the alternative starts outside the offer
         products.forEach(function (p) {
-          p.querySelector(".p6-offer input").addEventListener(
-            "change",
-            function () {
-              afterSwitch(update);
-            },
-          );
+          var input = p.querySelector(".p6-offer input");
+          var big = function () {
+            return p.querySelector(".p6-photo");
+          };
+          var small = function () {
+            return p.querySelector(".p6-offrow .alt-photo");
+          };
+          input.addEventListener("change", function () {
+            var morph = input.checked
+              ? morphImage(small(), big)
+              : morphImage(big(), small);
+            afterSwitch(function () {
+              update();
+              morph();
+            });
+          });
         });
         document
           .querySelectorAll(".products-card .q-list")
