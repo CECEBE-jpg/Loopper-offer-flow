@@ -6455,6 +6455,27 @@
       .det-bottom .summary .approve-btn.det-pay:hover {
         background: var(--green-text);
       }
+
+      /* Delivery address and Remarks: two cards stacked in the right column */
+      .det-side-col {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        min-width: 0;
+      }
+      .det-rem-card .det-remarks {
+        margin-top: 0;
+        padding-top: 0;
+        border-top: 0;
+      }
+      /* terms and conditions in a light blue box */
+      .det-terms {
+        align-items: center;
+        padding: 14px 16px;
+        border: 1px solid #9fdcec;
+        border-radius: 10px;
+        background: #eaf7fc;
+      }
     </style>
   </head>
   <body>
@@ -6817,160 +6838,161 @@
           </div>
         </section>
 
-        <section class="det-card" aria-labelledby="delTitle">
-          <h2 id="delTitle">Delivery address</h2>
-          <p class="det-delivery-note" id="delNote">
-            <img
-              src="assets/offer-v3/icon-check.svg"
-              width="18"
-              height="18"
-              alt=""
-            />We deliver to your invoicing address
-          </p>
-          <div class="det-del-saved" id="delSaved" hidden></div>
-          <button
-            type="button"
-            class="det-btn det-btn-blue det-btn-tall"
-            id="addDelivery"
-          >
-            + Add delivery address
-          </button>
-          <form
-            class="det-form det-delivery-form"
-            id="delForm"
-            hidden
-            novalidate
-          >
-            <div class="fld c-6">
-              <label class="fld-label" for="f-dCompany"
-                >Company / recipient*</label
-              ><input
-                class="f-input"
-                id="f-dCompany"
-                name="dCompany"
-                required
-                placeholder="e.g. Smith & Co Ltd"
-              />
-            </div>
-            <div class="fld c-4">
-              <label class="fld-label" for="f-dStreet">Street address*</label
-              ><input
-                class="f-input"
-                id="f-dStreet"
-                name="dStreet"
-                required
-                placeholder="e.g. Baker Street"
-              />
-            </div>
-            <div class="fld c-2">
-              <label class="fld-label" for="f-dHouse">House number*</label
-              ><input
-                class="f-input"
-                id="f-dHouse"
-                name="dHouse"
-                required
-                placeholder="e.g. 12"
-              />
-            </div>
-            <div class="fld c-3">
-              <label class="fld-label" for="f-dPostcode">Postal code*</label
-              ><input
-                class="f-input"
-                id="f-dPostcode"
-                name="dPostcode"
-                required
-                placeholder="e.g. NW1 6XE"
-              />
-            </div>
-            <div class="fld c-3">
-              <label class="fld-label" for="f-dCity">City*</label
-              ><input
-                class="f-input"
-                id="f-dCity"
-                name="dCity"
-                required
-                placeholder="e.g. London"
-              />
-            </div>
-            <div class="fld c-6">
-              <label class="fld-label" for="f-dCountry">Country*</label
-              ><select
-                data-fsel
-                data-all-countries
-                id="f-dCountry"
-                name="dCountry"
-                required
-              >
-                <option value="" selected disabled>Choose a country</option>
-                <option data-flag="gb">United Kingdom</option>
-                <option data-flag="ie">Ireland</option>
-                <option data-flag="nl">Netherlands</option>
-                <option data-flag="be">Belgium</option>
-                <option data-flag="de">Germany</option>
-                <option data-flag="fr">France</option>
-                <option data-flag="es">Spain</option>
-                <option data-flag="it">Italy</option>
-                <option data-flag="ch">Switzerland</option>
-                <option data-flag="at">Austria</option>
-              </select>
-            </div>
-            <div class="c-6 det-del-actions">
-              <button type="button" class="det-btn" id="useInvoice">
-                Use my invoicing address instead
-              </button>
-              <button type="button" class="det-btn det-btn-blue" id="delSave">
-                Save delivery address
-              </button>
-            </div>
-          </form>
-          <!-- 3.06: saved own delivery address (Figma 90:1254) -->
-          <div class="det-del-own" id="delOwn" hidden>
-            <div class="det-del-own-text" id="delOwnText"></div>
-            <div class="det-save">
-              <button type="button" class="det-btn det-btn-blue" id="delEdit">
-                Edit delivery address
-              </button>
-            </div>
-            <p class="det-confirm det-confirm-card" role="status">
-              <img
-                src="assets/offer-v3/icon-check.svg"
-                width="18"
-                height="18"
-                alt=""
-              /><span
-                >Your delivery address has been saved.<br />Review your order
-                and accept the terms to continue to payment.</span
-              >
+        <div class="det-side-col">
+          <section class="det-card" aria-labelledby="delTitle">
+            <h2 id="delTitle">Delivery address</h2>
+            <p class="det-delivery-note" id="delNote">
+              We deliver to your invoicing address
             </p>
-          </div>
+            <div class="det-del-saved" id="delSaved" hidden></div>
+            <button
+              type="button"
+              class="det-btn det-btn-blue det-btn-tall"
+              id="addDelivery"
+            >
+              + Add delivery address
+            </button>
+            <form
+              class="det-form det-delivery-form"
+              id="delForm"
+              hidden
+              novalidate
+            >
+              <div class="fld c-6">
+                <label class="fld-label" for="f-dCompany"
+                  >Company / recipient*</label
+                ><input
+                  class="f-input"
+                  id="f-dCompany"
+                  name="dCompany"
+                  required
+                  placeholder="e.g. Smith & Co Ltd"
+                />
+              </div>
+              <div class="fld c-4">
+                <label class="fld-label" for="f-dStreet">Street address*</label
+                ><input
+                  class="f-input"
+                  id="f-dStreet"
+                  name="dStreet"
+                  required
+                  placeholder="e.g. Baker Street"
+                />
+              </div>
+              <div class="fld c-2">
+                <label class="fld-label" for="f-dHouse">House number*</label
+                ><input
+                  class="f-input"
+                  id="f-dHouse"
+                  name="dHouse"
+                  required
+                  placeholder="e.g. 12"
+                />
+              </div>
+              <div class="fld c-3">
+                <label class="fld-label" for="f-dPostcode">Postal code*</label
+                ><input
+                  class="f-input"
+                  id="f-dPostcode"
+                  name="dPostcode"
+                  required
+                  placeholder="e.g. NW1 6XE"
+                />
+              </div>
+              <div class="fld c-3">
+                <label class="fld-label" for="f-dCity">City*</label
+                ><input
+                  class="f-input"
+                  id="f-dCity"
+                  name="dCity"
+                  required
+                  placeholder="e.g. London"
+                />
+              </div>
+              <div class="fld c-6">
+                <label class="fld-label" for="f-dCountry">Country*</label
+                ><select
+                  data-fsel
+                  data-all-countries
+                  id="f-dCountry"
+                  name="dCountry"
+                  required
+                >
+                  <option value="" selected disabled>Choose a country</option>
+                  <option data-flag="gb">United Kingdom</option>
+                  <option data-flag="ie">Ireland</option>
+                  <option data-flag="nl">Netherlands</option>
+                  <option data-flag="be">Belgium</option>
+                  <option data-flag="de">Germany</option>
+                  <option data-flag="fr">France</option>
+                  <option data-flag="es">Spain</option>
+                  <option data-flag="it">Italy</option>
+                  <option data-flag="ch">Switzerland</option>
+                  <option data-flag="at">Austria</option>
+                </select>
+              </div>
+              <div class="c-6 det-del-actions">
+                <button type="button" class="det-btn" id="useInvoice">
+                  Use my invoicing address instead
+                </button>
+                <button type="button" class="det-btn det-btn-blue" id="delSave">
+                  Save delivery address
+                </button>
+              </div>
+            </form>
+            <!-- 3.06: saved own delivery address (Figma 90:1254) -->
+            <div class="det-del-own" id="delOwn" hidden>
+              <div class="det-del-own-text" id="delOwnText"></div>
+              <div class="det-save">
+                <button type="button" class="det-btn det-btn-blue" id="delEdit">
+                  Edit delivery address
+                </button>
+              </div>
+              <p class="det-confirm det-confirm-card" role="status">
+                <img
+                  src="assets/offer-v3/icon-check.svg"
+                  width="18"
+                  height="18"
+                  alt=""
+                /><span
+                  >Your delivery address has been saved.<br />Review your order
+                  and accept the terms to continue to payment.</span
+                >
+              </p>
+            </div>
+          </section>
 
-          <div class="det-remarks">
-            <h3>Remarks</h3>
-            <p class="det-rem-text" id="remText" hidden></p>
-            <div class="fld" id="remField">
-              <label class="fld-label" for="remarks"
-                >Remarks for your order</label
-              ><textarea
-                id="remarks"
-                placeholder="e.g. delivery instructions or opening hours"
-              ></textarea>
+          <section class="det-card det-rem-card" aria-labelledby="remTitle">
+            <h2 id="remTitle">Remarks</h2>
+            <div class="det-remarks">
+              <p class="det-rem-text" id="remText" hidden></p>
+              <div class="fld" id="remField">
+                <label class="fld-label" for="remarks"
+                  >Remarks for your order</label
+                ><textarea
+                  id="remarks"
+                  placeholder="e.g. delivery instructions or opening hours"
+                ></textarea>
+              </div>
+              <div class="det-save">
+                <span class="det-saved" id="remSaved" hidden
+                  >✓ Remark saved</span
+                >
+                <button type="button" class="det-btn det-btn-blue" id="remSave">
+                  Save remark
+                </button>
+                <button
+                  type="button"
+                  class="det-btn det-btn-blue"
+                  id="remEdit"
+                  hidden
+                >
+                  Edit remark
+                </button>
+              </div>
             </div>
-            <div class="det-save">
-              <span class="det-saved" id="remSaved" hidden>✓ Remark saved</span>
-              <button type="button" class="det-btn det-btn-blue" id="remSave">
-                Save remark
-              </button>
-              <button
-                type="button"
-                class="det-btn det-btn-blue"
-                id="remEdit"
-                hidden
-              >
-                Edit remark
-              </button>
-            </div>
-          </div>
-        </section>
+          </section>
+        </div>
       </div>
 
       <section class="det-card det-order" aria-labelledby="orderTitle">
