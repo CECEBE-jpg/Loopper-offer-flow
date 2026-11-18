@@ -116,9 +116,8 @@ s = beforeBodyEnd(
             note.querySelector("span").innerHTML =
               "<b>Upload your logo</b> and we\\u2019ll make a <b>free digital mockup</b> of your products.<br />You can approve it or ask for changes before you order.";
           }
-          if (next) next.disabled = true;
           if (hint) hint.classList.remove("is-count");
-          if (hint) hint.innerHTML = "Available when your <b>Mockup design</b> is ready. Upload your logo to get started.";
+          if (hint) hint.innerHTML = "<b>Upload your logo</b> to get your free mockup design.";
         }
         function remember(src) {
           // keep the logo for steps 2 and 3 (as a small PNG, so it survives a page change)
@@ -406,45 +405,21 @@ s2 = s2.replace(
         } catch (e) {}
         var state = PRODUCTS.map(`,
   );
-  // a product whose mockup is not finished: grey "Mockup in progress" status, plain photo, no approval yet;
-  // in the prototype it finishes 15 s later
-  must(s2.includes("            var st = statusOf(state[i]);"), "statusOf call");
-  s2 = s2.replace(
-    "            var st = statusOf(state[i]);",
-    `            var st = p.pending
-              ? { cls: "is-pending", text: "Mockup in progress" }
-              : statusOf(state[i]);`,
-  );
-  const rend = "          renderArrows();\n        }\n";
-  must(s2.includes(rend), "render end");
-  s2 = s2.replace(
-    rend,
-    `          renderArrows();
-          utPending();
-        }
-        // user test: the stage of a product whose mockup is still in progress
-        function utPending() {
-          var p = PRODUCTS[cur],
-            stage = $("prStage");
-          stage.classList.toggle("is-pending", !!p.pending);
-          pick.disabled = !!p.pending;
-          $("prPickLabel").classList.toggle("is-pending", !!p.pending);
-          if (p.pending) $("prPickSub").textContent = "Your mockup is in progress. You can approve it once it's ready.";
-        }
-        PRODUCTS.forEach(function (p) {
-          if (!p.pending) return;
-          setTimeout(function () {
-            p.pending = false;
-            try {
-              var a = JSON.parse(sessionStorage.getItem("loopperUserTestAlt") || "null");
-              if (a) {
-                a.ready = true;
-                sessionStorage.setItem("loopperUserTestAlt", JSON.stringify(a));
-              }
-            } catch (e) {}
-            render();
-          }, 15000);
-        });
+  // the beach bag finishes like the other products (v6 timer); remember it for step 3 and back to step 1
+  s2 = beforeBodyEnd(
+    s2,
+    `    <script>
+      document.addEventListener("mockupready", function (e) {
+        if (e.detail.area !== "beach") return;
+        try {
+          var a = JSON.parse(sessionStorage.getItem("loopperUserTestAlt") || "null");
+          if (a) {
+            a.ready = true;
+            sessionStorage.setItem("loopperUserTestAlt", JSON.stringify(a));
+          }
+        } catch (err) {}
+      });
+    </script>
 `,
   );
   // Jildou answers every chat message (a warning for foul language)
@@ -483,31 +458,6 @@ s2 = s2.replace(
       }
       .pr-viewer .proof-area.pr-area-beach.pr-big img {
         width: 132px;
-      }
-      /* mockup still in progress: grey status, plain photo, approval not possible yet */
-      .pr-status.is-pending {
-        background: #eef1f4;
-        color: #5f6b78;
-      }
-      .pr-viewer .proof-stage.is-pending .proof-area {
-        display: none;
-      }
-      .pr-viewer .proof-stage.is-pending::after {
-        content: "Mockup in progress";
-        position: absolute;
-        inset: 0;
-        display: grid;
-        place-items: center;
-        background: rgba(238, 241, 244, 0.72);
-        font-size: 20px;
-        font-weight: 800;
-        color: #5f6b78;
-      }
-      .pr-pick.is-pending {
-        border-color: #dfe5ed;
-        background: #f6f7f9;
-        color: #7b8794;
-        cursor: not-allowed;
       }
     </style>
 `,

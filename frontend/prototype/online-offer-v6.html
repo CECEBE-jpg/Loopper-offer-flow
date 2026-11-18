@@ -7648,7 +7648,7 @@
               >
             </p>
             <!-- Same action as the bottom bar Next (Figma 137:2289); follows its state -->
-            <button type="button" class="cta sum-next" id="sumNext" disabled>
+            <button type="button" class="cta sum-next" id="sumNext">
               <span>Next: Approve design</span>
               <img
                 src="assets/offer-v3/icon-chevron.svg"
@@ -9379,10 +9379,10 @@
         </div>
         <div class="step-nav-next-wrap">
           <span class="step-nav-hint" id="navHint" aria-live="polite"
-            >Available when your <b>Mockup design</b> is ready. We will notify
-            you via email when it is ready.</span
+            >Review your <b>Mockup design</b> in the next step. We will email
+            you when it is ready.</span
           >
-          <button type="button" class="cta step-nav-next" id="navNext" disabled>
+          <button type="button" class="cta step-nav-next" id="navNext">
             <span>Next: Approve design</span>
             <img
               src="assets/offer-v3/icon-chevron.svg"
@@ -9800,8 +9800,20 @@
           HINT_WAIT = navHint ? navHint.innerHTML : "";
         if (navNext) {
           navNext.addEventListener("click", function () {
-            if (!navNext.disabled)
-              location.href = "online-offer-v6-approve.html";
+            if (navNext.disabled) return;
+            // step 2 shows a product whose mockup is not ready yet as "in progress"
+            var states = {};
+            document
+              .querySelectorAll(".products-card .product.p6[data-mock]")
+              .forEach(function (p) {
+                var ph = p.querySelector(".p6-photo");
+                if (p.id !== "altProduct" && ph)
+                  states[p.dataset.mock] = ph.dataset.mockup || "ready";
+              });
+            try {
+              sessionStorage.setItem("loopperMockups", JSON.stringify(states));
+            } catch (e) {}
+            location.href = "online-offer-v6-approve.html";
           });
         }
         // logo section note: text and colour follow the mockup status (purple requested, blue in progress, green ready)
@@ -9866,7 +9878,7 @@
             return x === "progress";
           }).length;
           var requested = n - ready - progress;
-          navNext.disabled = ready < n;
+          navNext.disabled = false; // step 2 shows mockups that are still in progress
           navHint.classList.add("is-count");
           var rest = [];
           if (progress) rest.push(progress + " in progress");
@@ -9879,7 +9891,8 @@
             " mockups ready</b><br />" +
             (ready === n
               ? "Review and approve your designs."
-              : rest.join(" · ") + ". Next unlocks when all are ready.");
+              : rest.join(" · ") +
+                ". We\u2019ll email you when they\u2019re ready.");
         }
         function setChip(states) {
           setNav(states);

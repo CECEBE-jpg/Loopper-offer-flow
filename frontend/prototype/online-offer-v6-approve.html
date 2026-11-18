@@ -6598,6 +6598,129 @@
       .check-card .change-form {
         border-bottom: 0;
       }
+
+      /* Mockup still in progress: grey status, plain photo, approval not possible yet */
+      .pr-status.is-pending {
+        background: #eef1f4;
+        color: #5f6b78;
+      }
+      .pr-viewer .proof-stage.is-pending .proof-area {
+        display: none;
+      }
+      .pr-viewer .proof-stage.is-pending::after {
+        content: "Mockup in progress";
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        background: rgba(238, 241, 244, 0.72);
+        font-size: 20px;
+        font-weight: 800;
+        color: #5f6b78;
+      }
+      .pr-pick.is-pending {
+        border-color: #dfe5ed;
+        background: #f6f7f9;
+        color: #7b8794;
+        cursor: not-allowed;
+      }
+      /* No mockup ready yet: waiting page */
+      .proof-grid[hidden],
+      .pr-wait[hidden] {
+        display: none;
+      }
+      .pr-wait {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 48px 40px 40px;
+        border: 1px solid #e1e7ed;
+        border-radius: 14px;
+        background: #fff;
+        text-align: center;
+      }
+      .pr-wait-icon {
+        display: grid;
+        place-items: center;
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        background: #e7f4ff;
+        color: #006ed0;
+      }
+      .pr-wait-title {
+        margin: 18px 0 0;
+        font-size: 22px;
+        line-height: 30px;
+        font-weight: 800;
+        color: #324a67;
+      }
+      .pr-wait-text {
+        max-width: 520px;
+        margin: 8px 0 0;
+        font-size: 15px;
+        line-height: 22px;
+        color: #4a5866;
+      }
+      .pr-wait-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+        max-width: 560px;
+        margin: 28px 0 0;
+        padding: 0;
+        list-style: none;
+        text-align: left;
+      }
+      .pr-wait-list li {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 10px 14px;
+        border: 1px solid #e1e7ed;
+        border-radius: 14px;
+      }
+      .pr-wait-list img {
+        flex: none;
+        width: 48px;
+        height: 48px;
+        border-radius: 8px;
+        object-fit: contain;
+        background: #fff;
+      }
+      .pr-wait-name {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        min-width: 0;
+        font-size: 14px;
+        color: #1c2530;
+      }
+      .pr-wait-name small {
+        font-size: 12px;
+        color: #7b8794;
+      }
+      .pr-wait-status {
+        flex: none;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 800;
+        white-space: nowrap;
+      }
+      .pr-wait-status.is-progress {
+        background: #e7f4ff;
+        color: #006ed0;
+      }
+      .pr-wait-status.is-requested {
+        background: #f1eafd;
+        color: #6d28d9;
+      }
+      .pr-wait-status.is-none {
+        background: #eef1f4;
+        color: #5f6b78;
+      }
     </style>
   </head>
   <body>
@@ -6711,6 +6834,31 @@
 
     <div class="proof-page">
       <!-- Products in this offer: each one gets its own design approval (Figma 53:106) -->
+      <!-- No mockup ready yet: the client can open step 2 anyway and sees that we are working on it -->
+      <section class="pr-wait" id="prWait" hidden aria-labelledby="prWaitTitle">
+        <span class="pr-wait-icon" aria-hidden="true"
+          ><svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M4 20h4L19 9l-4-4L4 16v4Z"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linejoin="round"
+            />
+            <path
+              d="m13.5 6.5 4 4"
+              stroke="currentColor"
+              stroke-width="2"
+            /></svg
+        ></span>
+        <h1 class="pr-wait-title" id="prWaitTitle">
+          Our designers are working on your mockups
+        </h1>
+        <p class="pr-wait-text" id="prWaitText">
+          We’ll email you as soon as they’re ready. Then you can approve them
+          here, or ask for changes.
+        </p>
+        <ul class="pr-wait-list" id="prWaitList"></ul>
+      </section>
       <div class="proof-grid">
         <section class="proof-card" aria-labelledby="proofProduct">
           <!-- Products in this offer: each one gets its own design approval (Figma 83:454) -->
@@ -7231,6 +7379,27 @@
           return { view: 0, chosen: null, approved: false };
         });
         var cur = 0;
+        // mockup status per product, handed over by step 1 ("ready", "progress", "requested" or "none")
+        var MOCKUPS = null;
+        try {
+          MOCKUPS = JSON.parse(
+            sessionStorage.getItem("loopperMockups") || "null",
+          );
+        } catch (e) {}
+        PRODUCTS.forEach(function (p) {
+          var m = MOCKUPS && MOCKUPS[p.area];
+          if (m && m !== "ready") {
+            p.pending = true;
+            p.wait = m;
+          }
+        });
+        // open on the first product that can be reviewed
+        (function () {
+          var first = PRODUCTS.findIndex(function (p) {
+            return !p.pending;
+          });
+          cur = first > -1 ? first : 0;
+        })();
         var $ = function (id) {
           return document.getElementById(id);
         };
@@ -7263,7 +7432,9 @@
         function renderProducts() {
           productsEl.innerHTML = "";
           PRODUCTS.forEach(function (p, i) {
-            var st = statusOf(state[i]);
+            var st = p.pending
+              ? { cls: "is-pending", text: "Mockup in progress" }
+              : statusOf(state[i]);
             var b = document.createElement("button");
             b.type = "button";
             b.className = "pr-product";
@@ -7426,7 +7597,90 @@
           renderStage();
           renderApproval();
           renderArrows();
+          renderPending();
         }
+        // a product whose mockup is still in progress: plain photo, grey label, no approval yet
+        function renderPending() {
+          var p = PRODUCTS[cur],
+            stage = $("prStage");
+          stage.classList.toggle("is-pending", !!p.pending);
+          $("prPickLabel").classList.toggle("is-pending", !!p.pending);
+          if (p.pending) {
+            pick.disabled = true;
+            pickSub.textContent =
+              "Your mockup is in progress. You can approve it once it's ready.";
+          }
+          renderWait();
+        }
+        // nothing to review yet: one page that says we are working on it
+        function renderWait() {
+          var wait = $("prWait"),
+            gridEl = document.querySelector(".proof-grid");
+          if (!wait || !gridEl) return;
+          var all = PRODUCTS.every(function (p) {
+            return p.pending;
+          });
+          wait.hidden = !all;
+          gridEl.hidden = all;
+          if (!all) return;
+          var noLogo = PRODUCTS.every(function (p) {
+            return p.wait === "none";
+          });
+          $("prWaitTitle").textContent = noLogo
+            ? "Upload your logo to get your free mockups"
+            : PRODUCTS.length > 1
+              ? "Our designers are working on your mockups"
+              : "Our designers are working on your mockup";
+          $("prWaitText").textContent = noLogo
+            ? "Go back to your offer and upload your logo. We’ll make a free digital mockup of every product and email you when it’s ready."
+            : "We’ll email you as soon as they’re ready. Then you can approve them here, or ask for changes.";
+          var list = $("prWaitList");
+          list.innerHTML = "";
+          PRODUCTS.forEach(function (p) {
+            var li = document.createElement("li");
+            var cls =
+              p.wait === "none"
+                ? "is-none"
+                : p.wait === "requested"
+                  ? "is-requested"
+                  : "is-progress";
+            var txt =
+              p.wait === "none"
+                ? "Waiting for your logo"
+                : p.wait === "requested"
+                  ? "Mockup requested"
+                  : "Mockup in progress";
+            li.innerHTML =
+              '<img alt="" /><span class="pr-wait-name"><b></b><small></small></span><span class="pr-wait-status ' +
+              cls +
+              '"></span>';
+            li.querySelector("img").src = p.img;
+            li.querySelector("b").textContent = p.card;
+            li.querySelector("small").textContent = p.cardSub;
+            li.querySelector(".pr-wait-status").textContent = txt;
+            list.appendChild(li);
+          });
+        }
+        PRODUCTS.forEach(function (p) {
+          if (!p.pending || p.wait === "none") return;
+          setTimeout(function () {
+            p.pending = false;
+            p.wait = "ready";
+            try {
+              var m = JSON.parse(
+                sessionStorage.getItem("loopperMockups") || "{}",
+              );
+              if (m[p.area]) {
+                m[p.area] = "ready";
+                sessionStorage.setItem("loopperMockups", JSON.stringify(m));
+              }
+            } catch (e) {}
+            document.dispatchEvent(
+              new CustomEvent("mockupready", { detail: { area: p.area } }),
+            );
+            render();
+          }, 15000);
+        });
         function setApproved(checked) {
           var st = state[cur];
           st.chosen = checked ? st.view : null;
