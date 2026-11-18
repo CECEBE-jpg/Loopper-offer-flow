@@ -6237,8 +6237,12 @@
         padding-bottom: 12px;
       }
       .logos-dd[open] {
-        padding-top: 14px;
+        padding-top: 12px;
         padding-bottom: 14px;
+      }
+      /* header row keeps the same height open or closed, so the title never moves */
+      .logos-dd > summary {
+        min-height: 54px;
       }
       .alt > .alt-row {
         gap: 20px;
