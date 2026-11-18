@@ -6795,11 +6795,44 @@
       .ck-hello p {
         margin: 4px 0 0;
         font-size: 15px;
-        color: #4a5866;
+        color: #324a67;
       }
       .ck-hello a {
         font-weight: 700;
-        color: #006ed0;
+        color: #00809f;
+      }
+      /* important note and proof-of-payment upload side by side (Figma 99:2) */
+      .ck-help {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: stretch;
+        gap: 30px;
+        margin-top: 16px;
+      }
+      .ck-help .ck-important {
+        flex: 1 1 300px;
+        margin-top: 0;
+      }
+      .ck-help .ck-upload {
+        flex: 0 0 246px;
+        margin-top: 0;
+      }
+      .ck-help [hidden] {
+        display: none;
+      }
+      .ck-chat-contact {
+        display: flex;
+        gap: 48px;
+        margin: 0 0 0 auto;
+        font-size: 14px;
+        font-weight: 700;
+      }
+      .ck-chat-contact a {
+        color: #1c2530;
+        text-decoration: none;
+      }
+      .ck-chat-contact a:hover {
+        text-decoration: underline;
       }
       .ck-grid {
         display: grid;
@@ -7387,7 +7420,7 @@
 
           <section class="ck-card" aria-labelledby="ckPayTitle">
             <div class="ck-card-head">
-              <h3 id="ckPayTitle"><span class="ck-num">1</span>Payment</h3>
+              <h3 id="ckPayTitle">Payment</h3>
               <span class="ck-status is-waiting" id="ckStatus"
                 >Waiting for payment</span
               >
@@ -7441,19 +7474,21 @@
                 >
               </div>
             </div>
-            <div class="ck-important" id="ckImportant">
-              <b>Important:</b> production can only start when we receive your
-              payment. Do you have a hard deadline? Send us a proof of payment
-              to speed up production.
+            <div class="ck-help">
+              <div class="ck-important" id="ckImportant">
+                <b>Important:</b> production can only start when we receive your
+                payment. Do you have a hard deadline? Send us a proof of payment
+                to speed up production.
+              </div>
+              <button type="button" class="ck-upload" id="ckUpload">
+                <b aria-hidden="true">+</b>
+                <span
+                  ><span class="ck-upload-title"
+                    >Upload your proof of payment</span
+                  ><small>PDF, PNG or JPG</small></span
+                >
+              </button>
             </div>
-            <button type="button" class="ck-upload" id="ckUpload">
-              <b aria-hidden="true">+</b>
-              <span
-                ><span class="ck-upload-title"
-                  >Upload your proof of payment</span
-                ><small>PDF, PNG or JPG</small></span
-              >
-            </button>
             <input
               type="file"
               id="ckProof"
@@ -7461,23 +7496,6 @@
               hidden
             />
             <p class="ck-upload-msg" id="ckUploadMsg" role="status" hidden></p>
-          </section>
-
-          <section class="ck-card" aria-labelledby="ckNextTitle">
-            <h3 id="ckNextTitle" class="ck-plain">What happens next</h3>
-            <ol class="ck-next">
-              <li id="ckNextProd">
-                <b>Production</b
-                ><span>Starts as soon as your payment is in.</span>
-              </li>
-              <li>
-                <b>Delivery</b
-                ><span
-                  >Tote bags expected 27 November, thermos bottles around 14
-                  December. You get a track &amp; trace by email.</span
-                >
-              </li>
-            </ol>
           </section>
 
           <section class="ck-card ck-chat" aria-labelledby="ckChatTitle">
@@ -7488,6 +7506,10 @@
                 aria-label="Jildou"
               ></span>
               <h3 id="ckChatTitle">Questions? Ask Jildou</h3>
+              <p class="ck-chat-contact">
+                <a href="tel:+442045765960">+44 20 4576 5960</a>
+                <a href="mailto:Jildou@loopper.com">Jildou@loopper.com</a>
+              </p>
             </div>
             <div class="ck-log" id="ckLog" aria-live="polite">
               <p class="ck-msg">
@@ -7552,6 +7574,23 @@
             </dl>
           </section>
 
+          <section class="ck-card" aria-labelledby="ckNextTitle">
+            <h3 id="ckNextTitle" class="ck-plain">What happens next</h3>
+            <ol class="ck-next">
+              <li id="ckNextProd">
+                <b>Production</b
+                ><span>Starts as soon as your payment is in.</span>
+              </li>
+              <li>
+                <b>Delivery</b
+                ><span
+                  >Tote bags expected 27 November, thermos bottles around 14
+                  December. You get a track &amp; trace by email.</span
+                >
+              </li>
+            </ol>
+          </section>
+
           <section class="am-feature ck-am" aria-label="Your account manager">
             <img
               class="am-feature-photo"
@@ -7568,10 +7607,6 @@
               <p class="am-feature-quote">
                 “Thank you for your order! As soon as your payment is in, we
                 start production. I'll keep you posted.”
-              </p>
-              <p class="am-feature-contact">
-                <a href="tel:+442045765960">+44 20 4576 5960</a>
-                <a href="mailto:Jildou@loopper.com">Jildou@loopper.com</a>
               </p>
             </div>
           </section>

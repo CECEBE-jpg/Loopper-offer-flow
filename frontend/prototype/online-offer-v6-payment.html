@@ -6428,7 +6428,11 @@
         margin-top: 12px;
         font-size: 14px;
         font-weight: 700;
-        color: #006ed0;
+        color: #1a6fc0;
+        text-decoration: none;
+      }
+      .pay-edit:hover {
+        text-decoration: underline;
       }
       .pay-main {
         display: flex;
@@ -6438,10 +6442,16 @@
       }
       .pay-title {
         margin: 0;
-        font-size: 22px;
-        line-height: 30px;
+        font-size: 20px;
+        line-height: 26px;
         font-weight: 800;
         color: #324a67;
+      }
+      .pay-title span {
+        display: block;
+        font-size: 18px;
+        line-height: 26px;
+        font-weight: 400;
       }
       .pay-done {
         display: flex;
@@ -6942,8 +6952,8 @@
 
       <div class="pay-main">
         <h1 class="pay-title">
-          Thank you for your order! Finish the payment steps below to start your
-          production.
+          Thank you for your order!
+          <span>Finish the payment steps below to start your production.</span>
         </h1>
         <p class="pay-done" id="payDone" role="status" hidden></p>
 
