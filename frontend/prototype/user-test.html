@@ -6302,6 +6302,53 @@
         max-height: none;
         object-fit: contain;
       }
+
+      /* Finished mockup also shows in the product row (same logo placement as the gallery) */
+      .p6-row-mock {
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+      }
+      .p6-row-mock img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+      [data-mock="tote"] .p6-row-mock {
+        top: 66%;
+        width: 30%;
+      }
+      [data-mock="tote"] .p6-row-mock img {
+        opacity: 0.92;
+      }
+      [data-mock="noma"] .p6-row-mock {
+        top: 44%;
+        width: 20%;
+      }
+      [data-mock="noma"] .p6-row-mock img {
+        opacity: 0.7;
+        filter: grayscale(1) brightness(0.45);
+      }
+      [data-mock="beach"] .p6-row-mock {
+        top: 64%;
+        width: 34%;
+      }
+      [data-mock="beach"] .p6-row-mock img {
+        opacity: 0.92;
+      }
+      .p1-gal-frame[data-mock="beach"] .p1-gal-logo {
+        top: 64%;
+        width: 34%;
+        height: auto;
+        transform: translate(-50%, -50%);
+      }
+      .p1-gal-frame[data-mock="beach"] .p1-gal-logo img {
+        width: 100%;
+        transform: none;
+        opacity: 0.92;
+        filter: none;
+      }
     </style>
   </head>
   <body>
@@ -7186,7 +7233,7 @@
           </div>
 
           <!-- Same layout as the other product cards -->
-          <article class="product p6" id="altProduct" hidden>
+          <article class="product p6" id="altProduct" data-mock="beach" hidden>
             <label class="p6-offer">
               <span class="p6-offer-on">In offer</span
               ><span class="tip"
@@ -10135,6 +10182,40 @@
         sum.addEventListener("click", function () {
           if (!nav.disabled) nav.click();
         });
+      })();
+    </script>
+    <script>
+      // A finished mockup shows on the product photo in the row, not only in the gallery
+      (function () {
+        var LOGO = "assets/offer-bloom/bloom-logo.png";
+        function paint(photo) {
+          var old = photo.querySelector(".p6-row-mock");
+          if (photo.dataset.mockup !== "ready") {
+            if (old) old.remove();
+            return;
+          }
+          var src = window.utLogo || LOGO;
+          if (old) {
+            old.querySelector("img").src = src;
+            return;
+          }
+          photo.insertAdjacentHTML(
+            "beforeend",
+            '<span class="p6-row-mock" aria-hidden="true"><img alt="" /></span>',
+          );
+          photo.querySelector(".p6-row-mock img").src = src;
+        }
+        document
+          .querySelectorAll(".products-card .p6-photo")
+          .forEach(function (photo) {
+            paint(photo);
+            new MutationObserver(function () {
+              paint(photo);
+            }).observe(photo, {
+              attributes: true,
+              attributeFilter: ["data-mockup"],
+            });
+          });
       })();
     </script>
     <style>
