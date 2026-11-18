@@ -6301,12 +6301,6 @@
         max-height: none;
         object-fit: contain;
       }
-      /* the added alternative has no (i) next to In offer: keep the 16px label row */
-      #altProduct .p6-offer > span:first-child {
-        display: flex;
-        align-items: center;
-        min-height: 16px;
-      }
     </style>
   </head>
   <body>
@@ -7233,7 +7227,20 @@
           <!-- Same layout as the other product cards -->
           <article class="product p6" id="altProduct" hidden>
             <label class="p6-offer">
-              <span>In offer</span>
+              <span class="p6-offer-on">In offer</span
+              ><span class="tip"
+                ><button
+                  type="button"
+                  class="tip-btn"
+                  aria-label="More information"
+                  aria-describedby="tip5"
+                >
+                  i</button
+                ><span class="tip-bubble" role="tooltip" id="tip5"
+                  >Use this switch to take the product out of your offer or put
+                  it back in. Your <b>summary</b> updates straight away.</span
+                ></span
+              >
               <span class="switch"
                 ><input
                   type="checkbox"
