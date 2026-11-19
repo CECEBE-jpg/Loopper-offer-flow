@@ -6384,6 +6384,109 @@
         filter: none;
         box-shadow: none;
       }
+
+      /* Cancel offer next to Request sample offer */
+      .p6-sample-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+      }
+      .p6-sample-row .p6-sample {
+        margin-top: 0;
+      }
+      .p6-sample.p6-cancel {
+        color: #b42318;
+      }
+      .p6-sample.p6-cancel:hover {
+        border-color: #b42318;
+        background: #fef3f2;
+      }
+      .p6-sample.p6-cancel:disabled {
+        border-color: var(--line);
+        background: #f6f7f9;
+        color: #7b8794;
+        cursor: default;
+      }
+      .p6-cancel-msg[hidden] {
+        display: none;
+      }
+      .p6-cancel-msg {
+        margin: 12px 0 0;
+        padding: 12px 14px;
+        border-radius: 14px;
+        background: #fef3f2;
+        font-size: 14px;
+        line-height: 20px;
+        color: #7a271a;
+      }
+      .cancel-dlg {
+        width: min(460px, calc(100vw - 32px));
+        padding: 24px;
+        border: 0;
+        border-radius: 14px;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+        font: inherit;
+        color: var(--ink);
+      }
+      .cancel-dlg::backdrop {
+        background: rgba(20, 34, 53, 0.45);
+      }
+      .cancel-dlg h2 {
+        margin: 0;
+        font-size: 20px;
+        font-weight: 800;
+      }
+      .cancel-dlg p {
+        margin: 8px 0 16px;
+        font-size: 14px;
+        line-height: 21px;
+        color: #4a5866;
+      }
+      .cancel-dlg-label {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 13px;
+        font-weight: 700;
+      }
+      .cancel-dlg textarea {
+        box-sizing: border-box;
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid #b6c2d2;
+        border-radius: 10px;
+        font: inherit;
+        font-size: 14px;
+        resize: vertical;
+      }
+      .cancel-dlg-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+        margin-top: 18px;
+      }
+      .cancel-dlg-actions button {
+        height: 44px;
+        padding: 0 18px;
+        border-radius: 14px;
+        font: inherit;
+        font-size: 14px;
+        font-weight: 800;
+        cursor: pointer;
+      }
+      .cancel-dlg-keep {
+        border: 1px solid var(--line);
+        background: #fff;
+        color: var(--ink);
+      }
+      .cancel-dlg-yes {
+        border: 0;
+        background: #b42318;
+        color: #fff;
+      }
+      .cancel-dlg-yes:hover {
+        background: #912018;
+      }
     </style>
   </head>
   <body>
@@ -7580,7 +7683,42 @@
           </article>
 
           <hr class="p6-sample-divider" />
-          <button type="button" class="p6-sample">Request sample offer</button>
+          <div class="p6-sample-row">
+            <button type="button" class="p6-sample">
+              Request sample offer
+            </button>
+            <button type="button" class="p6-sample p6-cancel" id="cancelOffer">
+              Cancel offer
+            </button>
+          </div>
+          <p class="p6-cancel-msg" id="cancelMsg" role="status" hidden></p>
+          <dialog
+            class="cancel-dlg"
+            id="cancelDlg"
+            aria-labelledby="cancelDlgTitle"
+          >
+            <h2 id="cancelDlgTitle">Cancel this offer?</h2>
+            <p>
+              We stop working on your offer and your free mockups. You can
+              always ask Jildou for a new offer.
+            </p>
+            <label class="cancel-dlg-label" for="cancelReason"
+              >Why are you cancelling? (optional)</label
+            >
+            <textarea
+              id="cancelReason"
+              rows="3"
+              placeholder="For example: we found another supplier, the budget changed…"
+            ></textarea>
+            <div class="cancel-dlg-actions">
+              <button type="button" class="cancel-dlg-keep" id="cancelKeep">
+                Keep my offer
+              </button>
+              <button type="button" class="cancel-dlg-yes" id="cancelYes">
+                Yes, cancel offer
+              </button>
+            </div>
+          </dialog>
         </section>
       </main>
 
@@ -10399,6 +10537,33 @@
           e.preventDefault();
           setOpen(!target);
         });
+      })();
+    </script>
+    <script>
+      // Cancel offer: ask for confirmation (optional reason), then show the offer as cancelled
+      (function () {
+        var open = document.getElementById("cancelOffer"),
+          dlg = document.getElementById("cancelDlg"),
+          msg = document.getElementById("cancelMsg");
+        if (!open || !dlg) return;
+        open.addEventListener("click", function () {
+          dlg.showModal();
+        });
+        document
+          .getElementById("cancelKeep")
+          .addEventListener("click", function () {
+            dlg.close();
+          });
+        document
+          .getElementById("cancelYes")
+          .addEventListener("click", function () {
+            dlg.close();
+            open.disabled = true;
+            open.textContent = "Offer cancelled";
+            msg.hidden = false;
+            msg.textContent =
+              "Your offer #5436794 has been cancelled. Jildou will send you a confirmation by email. Changed your mind? Just reply to that email.";
+          });
       })();
     </script>
   </body>
