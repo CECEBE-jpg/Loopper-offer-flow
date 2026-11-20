@@ -6496,6 +6496,33 @@
         margin-right: 24px;
         align-content: flex-start;
       }
+
+      /* 4+ logos: Upload logo / Add text logo move under the note, side by side */
+      .logos-aside > .logo-adds {
+        display: flex;
+        flex-direction: row;
+        gap: 12px;
+        width: 100%;
+        margin-top: 16px;
+      }
+      .logos-aside > .logo-adds {
+        box-sizing: border-box;
+        align-self: stretch;
+        align-items: stretch;
+        max-width: 100%;
+      }
+      .logos-aside > .logo-adds > .logo-add {
+        flex: 1 1 0;
+        box-sizing: border-box;
+        width: 0;
+        min-width: 0;
+        height: auto;
+        white-space: normal;
+      }
+      .logos-aside > .logo-adds > .logo-add * {
+        min-width: 0;
+        white-space: normal;
+      }
     </style>
   </head>
   <body>
@@ -10573,6 +10600,23 @@
             msg.textContent =
               "Your offer #5436794 has been cancelled. Jildou will send you a confirmation by email. Changed your mind? Just reply to that email.";
           });
+      })();
+    </script>
+    <script>
+      // 4 or more logos: the upload tiles sit under the note instead of starting a new row
+      (function () {
+        var dd = document.querySelector(".logos-dd");
+        var list = dd && dd.querySelector(".logos");
+        var aside = dd && dd.querySelector(".logos-aside");
+        var adds = dd && dd.querySelector(".logo-adds");
+        if (!list || !aside || !adds) return;
+        function place() {
+          var many = list.querySelectorAll(".logo[data-logo]").length >= 4;
+          if (many && adds.parentElement !== aside) aside.appendChild(adds);
+          else if (!many && adds.parentElement !== list) list.appendChild(adds);
+        }
+        place();
+        new MutationObserver(place).observe(list, { childList: true });
       })();
     </script>
   </body>
