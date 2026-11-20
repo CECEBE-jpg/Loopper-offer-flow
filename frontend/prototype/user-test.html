@@ -6693,6 +6693,30 @@
       .logos-dd .logo-thumb + .logo-white-switch {
         margin: 2px 0 4px;
       }
+
+      /* Closed logo header: at most 5 previews, only the ones that fit; the count is always visible */
+      .logos-dd .logos-dd-hint {
+        flex: 0 1 auto;
+        min-width: 0;
+        overflow: hidden;
+      }
+      .logos-dd .logos-dd-hint .logo-mini.logos-fit-hide {
+        display: none;
+      }
+      .logos-dd .logos-dd-count {
+        flex: none;
+      }
+      /* Upload logo: drop a file on the tile */
+      .logo-add.is-drag .logo-add-box {
+        border-color: #00799a;
+        border-style: solid;
+        background: #eaf6fa;
+      }
+      .logos-dd.is-drag-over:not([open]) .logos-dd-upload {
+        border-color: #00799a;
+        border-style: solid;
+        background: #eaf6fa;
+      }
     </style>
   </head>
   <body>
@@ -10209,7 +10233,7 @@
           navNext.disabled = false; // step 2 shows mockups that are still in progress
           // only a status while mockups are being made; no "x of y" counts
           navHint.classList.remove("is-count");
-          navHint.innerHTML = ready === n ? "" : "<b>Mockup in progress</b>";
+          navHint.innerHTML = ""; // status lives in the logo section chip only
           void requested;
         }
         function setChip(states) {
@@ -10913,6 +10937,137 @@
         var dd = document.querySelector(".logos-dd");
         if (dd) dd.addEventListener("toggle", arrows);
         update();
+      })();
+    </script>
+    <script>
+      // Closed logo header: show at most 5 logo previews, and only as many as fit next to the
+      // title without touching the Upload / Add text buttons. The count shows the real total.
+      (function () {
+        var dd = document.querySelector(".logos-dd");
+        var hint = dd && dd.querySelector(".logos-dd-hint");
+        var title = dd && dd.querySelector(".logos-dd-title");
+        var count = dd && dd.querySelector(".logos-dd-count");
+        var list = dd && dd.querySelector(".logos");
+        if (!hint || !title || !count || !list) return;
+        var MAX = 5,
+          busy = false;
+        function fit() {
+          if (busy) return;
+          busy = true;
+          var minis = hint.querySelectorAll(".logo-mini");
+          minis.forEach(function (m, i) {
+            m.classList.toggle("logos-fit-hide", i >= MAX);
+          });
+          if (!dd.open) {
+            var shown = Array.prototype.filter.call(minis, function (m) {
+              return !m.classList.contains("logos-fit-hide");
+            });
+            // hide from the end until the row no longer overflows
+            while (shown.length && hint.scrollWidth > hint.clientWidth + 1) {
+              shown.pop().classList.add("logos-fit-hide");
+            }
+          }
+          var n = list.querySelectorAll(".logo[data-logo]").length;
+          count.textContent =
+            n === 0 ? count.textContent : n + (n === 1 ? " logo" : " logos");
+          busy = false;
+        }
+        var raf = 0;
+        function later() {
+          cancelAnimationFrame(raf);
+          raf = requestAnimationFrame(fit);
+        }
+        new MutationObserver(later).observe(hint, { childList: true });
+        dd.addEventListener("toggle", later);
+        window.addEventListener("resize", later);
+        if (document.fonts && document.fonts.ready)
+          document.fonts.ready.then(later);
+        fit();
+      })();
+    </script>
+    <script>
+      // Upload logo: drag and drop a file on the upload tile (or on the closed section header)
+      (function () {
+        var dd = document.querySelector(".logos-dd");
+        var tile = document.getElementById("logoUpload");
+        var input = tile && tile.querySelector('input[type="file"]');
+        if (!dd || !tile || !input) return;
+        var title = tile.querySelector(".logo-add-title");
+        var TITLE = title ? title.textContent : "";
+        function hasFiles(e) {
+          return (
+            e.dataTransfer &&
+            Array.prototype.indexOf.call(e.dataTransfer.types || [], "Files") >
+              -1
+          );
+        }
+        function give(files) {
+          if (!files || !files.length) return;
+          try {
+            var dt = new DataTransfer();
+            Array.prototype.forEach.call(files, function (f) {
+              dt.items.add(f);
+            });
+            input.files = dt.files;
+          } catch (err) {
+            input.files = files;
+          }
+          input.dispatchEvent(new Event("change", { bubbles: true }));
+        }
+        function zone(el, on, off) {
+          var depth = 0;
+          el.addEventListener("dragenter", function (e) {
+            if (!hasFiles(e)) return;
+            e.preventDefault();
+            depth++;
+            on();
+          });
+          el.addEventListener("dragover", function (e) {
+            if (!hasFiles(e)) return;
+            e.preventDefault();
+            e.dataTransfer.dropEffect = "copy";
+          });
+          el.addEventListener("dragleave", function () {
+            depth = Math.max(0, depth - 1);
+            if (!depth) off();
+          });
+          el.addEventListener("drop", function (e) {
+            if (!hasFiles(e)) return;
+            e.preventDefault();
+            e.stopPropagation();
+            depth = 0;
+            off();
+            give(e.dataTransfer.files);
+          });
+        }
+        zone(
+          tile,
+          function () {
+            tile.classList.add("is-drag");
+            if (title) title.textContent = "Drop your logo here";
+          },
+          function () {
+            tile.classList.remove("is-drag");
+            if (title) title.textContent = TITLE;
+          },
+        );
+        // closed section: drop anywhere on the header
+        var head = dd.querySelector("summary");
+        zone(
+          head,
+          function () {
+            if (!dd.open) dd.classList.add("is-drag-over");
+          },
+          function () {
+            dd.classList.remove("is-drag-over");
+          },
+        );
+        // a file dropped next to the zone must not open in the browser tab
+        ["dragover", "drop"].forEach(function (t) {
+          window.addEventListener(t, function (e) {
+            if (hasFiles(e)) e.preventDefault();
+          });
+        });
       })();
     </script>
     <style>
