@@ -7244,6 +7244,146 @@
         width: 18px;
         height: 18px;
       }
+
+      /* Extra benefits via Sovendus: card in the step style, above "Brands that trust us" */
+      .sov-card {
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        width: 1348px;
+        max-width: calc(100% - 32px);
+        margin: 8px auto 20px;
+        padding: 18px 24px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: #fff;
+        box-shadow: 1px 6px 19px rgba(0, 0, 0, 0.04);
+      }
+      .sov-intro {
+        flex: 1 1 auto;
+        min-width: 0;
+      }
+      .sov-intro h2 {
+        margin: 0;
+        font-size: 17px;
+        line-height: 24px;
+        font-weight: 800;
+        color: var(--ink);
+      }
+      .sov-intro p {
+        margin: 6px 0 0;
+        font-size: 13px;
+        line-height: 18px;
+        color: var(--muted);
+      }
+      .sov-deals {
+        display: flex;
+        gap: 12px;
+      }
+      .sov-deal {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        box-sizing: border-box;
+        width: 134px;
+        height: 72px;
+        padding: 10px 10px 8px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: #fff;
+        text-decoration: none;
+        transition:
+          border-color 0.16s cubic-bezier(0.42, 0, 1, 1),
+          box-shadow 0.16s cubic-bezier(0.42, 0, 1, 1);
+      }
+      .sov-deal:hover {
+        border-color: #00aed8;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      }
+      .sov-deal:focus-visible,
+      .sov-all:focus-visible {
+        outline: 2px solid #0091b4;
+        outline-offset: 2px;
+      }
+      .sov-mark {
+        display: flex;
+        align-items: center;
+        height: 24px;
+        font-weight: 800;
+        white-space: nowrap;
+      }
+      .sov-bol {
+        font-size: 20px;
+        letter-spacing: -0.02em;
+        color: #0000a4;
+      }
+      .sov-booking {
+        font-size: 15px;
+        color: #003b95;
+      }
+      .sov-booking span {
+        color: #006ce4;
+      }
+      .sov-decathlon {
+        font-size: 13px;
+        font-style: italic;
+        letter-spacing: 0.02em;
+        color: #3643ba;
+      }
+      .sov-hello {
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        font-size: 11px;
+        line-height: 11px;
+        letter-spacing: 0.04em;
+        color: #067a46;
+      }
+      .sov-hello b {
+        font-weight: 800;
+      }
+      .sov-off {
+        padding: 2px 10px;
+        border-radius: 10px;
+        background: #e8f6dc;
+        font-size: 12px;
+        line-height: 16px;
+        font-weight: 800;
+        color: #2f7a12;
+        white-space: nowrap;
+      }
+      .sov-all {
+        display: inline-flex;
+        flex: none;
+        align-items: center;
+        gap: 6px;
+        align-self: stretch;
+        padding-left: 24px;
+        border-left: 1px solid var(--line);
+        font-size: 13px;
+        font-weight: 800;
+        color: #1a6fc0;
+        text-decoration: none;
+      }
+      .sov-all:hover {
+        color: #155a9c;
+        text-decoration: underline;
+      }
+      @media (max-width: 1100px) {
+        .sov-card {
+          flex-wrap: wrap;
+        }
+        .sov-deals {
+          flex-wrap: wrap;
+        }
+        .sov-all {
+          padding-left: 0;
+          border-left: 0;
+        }
+      }
     </style>
   </head>
   <body>
@@ -7612,6 +7752,48 @@
         </aside>
       </div>
     </div>
+
+    <!-- Extra benefits via Sovendus (partner deals after the order) -->
+    <section class="sov-card" aria-labelledby="sovTitle">
+      <div class="sov-intro">
+        <h2 id="sovTitle">Extra benefits via Sovendus</h2>
+        <p>Exclusive deals and discounts for Loopper customers.</p>
+      </div>
+      <div class="sov-deals">
+        <a class="sov-deal" href="#" aria-label="bol.: 10% off">
+          <span class="sov-mark sov-bol">bol.</span>
+          <span class="sov-off">10% off</span>
+        </a>
+        <a class="sov-deal" href="#" aria-label="Booking.com: Up to 15% off">
+          <span class="sov-mark sov-booking">Booking<span>.com</span></span>
+          <span class="sov-off">Up to 15% off</span>
+        </a>
+        <a class="sov-deal" href="#" aria-label="DECATHLON: 15% off">
+          <span class="sov-mark sov-decathlon">DECATHLON</span>
+          <span class="sov-off">15% off</span>
+        </a>
+        <a class="sov-deal" href="#" aria-label=": Up to 60% off">
+          <span class="sov-mark sov-hello">HELLO<b>FRESH</b></span>
+          <span class="sov-off">Up to 60% off</span>
+        </a>
+      </div>
+      <a class="sov-all" href="#"
+        >Discover all deals<svg
+          width="12"
+          height="12"
+          viewBox="0 0 12 12"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path
+            d="M3 9 9 3M4 3h5v5"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          /></svg
+      ></a>
+    </section>
 
     <section class="brands" aria-label="Brands that trust us">
       <h2 class="brands-title">Brands that trust us</h2>

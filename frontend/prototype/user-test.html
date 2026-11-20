@@ -6591,6 +6591,108 @@
       .logo-white-switch.switch input:checked::after {
         transform: translateX(14px);
       }
+
+      /* 5+ logos: the logo list becomes a slider (DESIGN.md "Sliders" + PDP circle arrows) */
+      .logos-dd .logos-row > .logos-slide {
+        position: relative;
+        flex: 1 1 auto;
+        min-width: 0;
+        margin-right: 24px;
+      }
+      .logos-dd .logos-slide > .logos {
+        flex: none;
+        width: 100%;
+        max-width: none;
+        margin-right: 0;
+      }
+      .logos-dd .logos-slide.is-slider > .logos {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overscroll-behavior-x: contain;
+        scroll-snap-type: x mandatory;
+        scroll-padding-inline: 3px;
+        scrollbar-width: none;
+        /* room so focus rings and borders are never clipped */
+        padding: 3px;
+        margin: -3px;
+        width: calc(100% + 6px);
+      }
+      .logos-dd .logos-slide.is-slider > .logos::-webkit-scrollbar {
+        display: none;
+      }
+      .logos-dd .logos-slide.is-slider > .logos > .logo {
+        scroll-snap-align: start;
+      }
+      .logos-nav {
+        position: absolute;
+        top: 76px;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        padding: 0;
+        border: 0;
+        border-radius: 50%;
+        background: #fff;
+        color: #1c2530;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.16);
+        transform: translateY(-50%);
+        cursor: pointer;
+        transition:
+          opacity 0.2s,
+          visibility 0.2s,
+          background-color 0.2s;
+      }
+      .logos-nav:hover {
+        background: #f4f8fb;
+      }
+      .logos-nav:focus-visible {
+        outline: 2px solid #0091b4;
+        outline-offset: 2px;
+      }
+      .logos-nav svg {
+        width: 9px;
+        height: 18px;
+      }
+      .logos-nav-prev {
+        left: 10px;
+      }
+      .logos-nav-prev svg {
+        margin-right: 2px;
+        transform: scaleX(-1);
+      }
+      .logos-nav-next {
+        right: 10px;
+      }
+      .logos-nav-next svg {
+        margin-left: 2px;
+      }
+      .logos-nav[hidden] {
+        display: flex;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+
+      /* Open logo section: the logo count stays next to the title (previews only when closed) */
+      .logos-dd[open] .logos-dd-title {
+        flex-direction: row;
+        align-items: center;
+        gap: 24px;
+      }
+      .logos-dd[open] .logos-dd-hint {
+        display: flex;
+        margin-top: 0;
+      }
+      .logos-dd[open] .logos-dd-hint .logo-mini {
+        display: none;
+      }
+      /* White logo switch sits right under the thumbnail */
+      .logos-dd .logo-thumb + .logo-white-switch {
+        margin: 2px 0 4px;
+      }
     </style>
   </head>
   <body>
@@ -10713,7 +10815,7 @@
           var lab = document.createElement("label");
           lab.className = "switch logo-white-switch";
           lab.innerHTML = '<input type="checkbox" /><span>White logo</span>';
-          top.appendChild(lab);
+          thumb.insertAdjacentElement("afterend", lab);
           var input = lab.querySelector("input");
           input.addEventListener("change", function () {
             input.dataset.touched = "1";
@@ -10745,6 +10847,72 @@
               if (first) apply(first);
             }, 0);
           });
+      })();
+    </script>
+    <script>
+      // More than 4 logos: the logo list becomes a slider (DESIGN.md "Sliders"):
+      // no scrollbar, previous / next circle arrows that fade out at each end,
+      // one click scrolls one screen of whole tiles.
+      (function () {
+        var list = document.querySelector(".logos-dd .logos");
+        if (!list) return;
+        var wrap = document.createElement("div");
+        wrap.className = "logos-slide";
+        list.parentNode.insertBefore(wrap, list);
+        wrap.appendChild(list);
+        var CHEV =
+          '<svg viewBox="0 0 12.6827 25.0001" fill="none" aria-hidden="true"><path d="M2.00006 2.00006L10.456 12.3137C10.769 12.6955 10.7565 13.2485 10.4267 13.6158L2.00006 23.0001" stroke="currentColor" stroke-width="4" stroke-linecap="round" /></svg>';
+        function mk(dir, label) {
+          var b = document.createElement("button");
+          b.type = "button";
+          b.className = "logos-nav logos-nav-" + dir;
+          b.setAttribute("aria-label", label);
+          b.innerHTML = CHEV;
+          b.hidden = true;
+          wrap.appendChild(b);
+          return b;
+        }
+        var prev = mk("prev", "Scroll left"),
+          next = mk("next", "Scroll right");
+        var reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+        function tiles() {
+          return list.querySelectorAll(":scope > .logo[data-logo]");
+        }
+        function arrows() {
+          var on = wrap.classList.contains("is-slider");
+          var max = list.scrollWidth - list.clientWidth;
+          prev.hidden = !on || list.scrollLeft <= 2;
+          next.hidden = !on || list.scrollLeft >= max - 2;
+        }
+        function update() {
+          wrap.classList.toggle("is-slider", tiles().length > 4);
+          arrows();
+        }
+        function step(dir) {
+          var t = tiles()[0];
+          var w = t ? t.getBoundingClientRect().width + 20 : 172;
+          var n = Math.max(1, Math.floor((list.clientWidth + 20) / w));
+          list.scrollBy({
+            left: dir * n * w,
+            behavior: reduce.matches ? "auto" : "smooth",
+          });
+        }
+        prev.addEventListener("click", function () {
+          step(-1);
+        });
+        next.addEventListener("click", function () {
+          step(1);
+        });
+        list.addEventListener("scroll", arrows, { passive: true });
+        window.addEventListener("resize", arrows);
+        new MutationObserver(function () {
+          update();
+          // a new logo: show it
+          if (wrap.classList.contains("is-slider")) arrows();
+        }).observe(list, { childList: true });
+        var dd = document.querySelector(".logos-dd");
+        if (dd) dd.addEventListener("toggle", arrows);
+        update();
       })();
     </script>
     <style>
@@ -10845,8 +11013,18 @@
           tile.innerHTML =
             '<div class="logo-top"><div class="logo-thumb logo-thumb-upload is-transparent"><img alt="" /></div>' +
             '<p class="logo-name"><img src="assets/offer-v3/icon-check.svg" width="14" height="14" alt="" /><span>Your logo</span></p>' +
-            '<p class="logo-sub">Received today</p></div>';
+            '<p class="logo-sub">Received today</p></div>' +
+            // a logo can always be removed, also once its mockup is ready
+            '<button type="button" class="logo-btn" data-logo-action="delete"><img src="assets/offer-v3/icon-remove.svg" width="12.2142" height="12.6353" alt="" />Remove</button>';
           tile.querySelector(".logo-thumb-upload img").src = saved;
+          tile
+            .querySelector('[data-logo-action="delete"]')
+            .addEventListener("click", function () {
+              // removed: do not bring it back on the next page load
+              try {
+                sessionStorage.removeItem(KEY);
+              } catch (e) {}
+            });
           list.insertBefore(tile, list.firstChild);
           var count = document.querySelector(".logos-dd-count");
           if (count) count.textContent = "1 logo";

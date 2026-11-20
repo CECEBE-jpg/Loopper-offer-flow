@@ -167,8 +167,16 @@ s = beforeBodyEnd(
           tile.innerHTML =
             '<div class="logo-top"><div class="logo-thumb logo-thumb-upload is-transparent"><img alt="" /></div>' +
             '<p class="logo-name"><img src="assets/offer-v3/icon-check.svg" width="14" height="14" alt="" /><span>Your logo</span></p>' +
-            '<p class="logo-sub">Received today</p></div>';
+            '<p class="logo-sub">Received today</p></div>' +
+            // a logo can always be removed, also once its mockup is ready
+            '<button type="button" class="logo-btn" data-logo-action="delete"><img src="assets/offer-v3/icon-remove.svg" width="12.2142" height="12.6353" alt="" />Remove</button>';
           tile.querySelector(".logo-thumb-upload img").src = saved;
+          tile.querySelector('[data-logo-action="delete"]').addEventListener("click", function () {
+            // removed: do not bring it back on the next page load
+            try {
+              sessionStorage.removeItem(KEY);
+            } catch (e) {}
+          });
           list.insertBefore(tile, list.firstChild);
           var count = document.querySelector(".logos-dd-count");
           if (count) count.textContent = "1 logo";
