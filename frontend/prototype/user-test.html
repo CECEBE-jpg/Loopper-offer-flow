@@ -6524,6 +6524,73 @@
         min-width: 0;
         white-space: normal;
       }
+
+      /* Cancel offer in the header, right of the project facts */
+      .site-header-inner .header-facts {
+        width: 392px;
+        margin-left: auto;
+      }
+      .site-header-inner .header-cancel {
+        flex: none;
+        align-self: center;
+        height: 36px;
+        margin: 0;
+        padding: 0 14px;
+        font-size: 13px;
+      }
+      .p6-cancel-msg.is-top {
+        margin: 0 0 16px;
+      }
+
+      /* stock info in the same regular style as the order specification (article number) */
+      .products-card .p6-stock {
+        font-size: 13px;
+        line-height: 18px;
+        font-weight: 400;
+        color: #53627a;
+      }
+      .products-card .p6-stock dd {
+        color: inherit;
+      }
+
+      /* Logo tiles: no checkered background for transparent logos; plain white instead.
+         "White logo" switch (failsafe): auto-on for light logos on a transparent background,
+         the customer can always switch it; on = dark thumb so a white logo stays visible. */
+      .logo-thumb-upload.is-transparent {
+        background: #fff;
+        background-image: none;
+      }
+      .logos-dd .logo-thumb {
+        transition: background-color 0.16s cubic-bezier(0.42, 0, 1, 1);
+      }
+      .logos-dd .logo-thumb[data-logo-bg="dark"] {
+        background: #111 !important;
+        background-image: none !important;
+      }
+      .logo-white-switch.switch {
+        gap: 6px;
+        margin-top: 2px;
+        font-size: 12px;
+        line-height: 16px;
+        font-weight: 600;
+        color: var(--text);
+      }
+      .logo-white-switch.switch input {
+        flex: none;
+        width: 32px;
+        height: 18px;
+        border-radius: 9px;
+      }
+      .logo-white-switch.switch input::after {
+        top: 2px;
+        left: 2px;
+        width: 14px;
+        height: 14px;
+        border-radius: 7px;
+      }
+      .logo-white-switch.switch input:checked::after {
+        transform: translateX(14px);
+      }
     </style>
   </head>
   <body>
@@ -6621,6 +6688,13 @@
               <dd>13/10/26</dd>
             </div>
           </dl>
+          <button
+            type="button"
+            class="p6-sample p6-cancel header-cancel"
+            id="cancelOffer"
+          >
+            Cancel offer
+          </button>
         </div>
       </header>
 
@@ -6646,6 +6720,7 @@
 
     <div class="page">
       <main class="main">
+        <p class="p6-cancel-msg is-top" id="cancelMsg" role="status" hidden></p>
         <!-- Your logo & design -->
         <!-- Dropdown: native <details>, closed by default (add the "open" attribute to start open) -->
         <details class="card logos-card logos-dd" open>
@@ -7684,11 +7759,7 @@
             <button type="button" class="p6-sample">
               Request sample offer
             </button>
-            <button type="button" class="p6-sample p6-cancel" id="cancelOffer">
-              Cancel offer
-            </button>
           </div>
-          <p class="p6-cancel-msg" id="cancelMsg" role="status" hidden></p>
           <dialog
             class="cancel-dlg"
             id="cancelDlg"
@@ -8370,10 +8441,11 @@
           .querySelector("input")
           .addEventListener("change", function (e) {
             Array.prototype.forEach.call(e.target.files, function (file) {
-              list.insertBefore(
-                fileTile(file),
-                document.querySelector(".logo-adds"),
-              );
+              // the upload tiles may sit under the note (4+ logos): then add at the end of the list
+              var adds = document.querySelector(".logo-adds");
+              if (adds && adds.parentNode === list)
+                list.insertBefore(fileTile(file), adds);
+              else list.appendChild(fileTile(file));
             });
             e.target.value = "";
             updateCount();
@@ -9220,7 +9292,9 @@
             '<p class="logo-name">Text logo</p><p class="logo-sub"></p></div><div class="logo-actions">' +
             '<button type="button" class="logo-btn" data-logo-action="edit"><img src="assets/offer-v3/icon-edit.svg" width="14.9621" height="14.3636" alt="" />Edit</button>' +
             '<button type="button" class="logo-btn" data-logo-action="delete"><img src="assets/offer-v3/icon-remove.svg" width="12.2142" height="12.6353" alt="" />Remove</button></div>';
-          list.insertBefore(el, document.querySelector(".logo-adds"));
+          var adds = document.querySelector(".logo-adds");
+          if (adds && adds.parentNode === list) list.insertBefore(el, adds);
+          else list.appendChild(el);
           return el;
         }
         modal.querySelector(".tlm-save").addEventListener("click", function () {
@@ -9974,7 +10048,12 @@
             return x === "progress";
           }).length;
           var n = states.length,
-            st = ready ? "ready" : progress ? "progress" : "requested",
+            st =
+              ready === n
+                ? "ready"
+                : ready || progress
+                  ? "progress"
+                  : "requested",
             html;
           if (st === "ready")
             html =
@@ -10026,20 +10105,10 @@
           }).length;
           var requested = n - ready - progress;
           navNext.disabled = false; // step 2 shows mockups that are still in progress
-          navHint.classList.add("is-count");
-          var rest = [];
-          if (progress) rest.push(progress + " in progress");
-          if (requested) rest.push(requested + " requested");
-          navHint.innerHTML =
-            "<b>" +
-            ready +
-            " of " +
-            n +
-            " mockups ready</b><br />" +
-            (ready === n
-              ? "Review and approve your designs."
-              : rest.join(" · ") +
-                ". We\u2019ll email you when they\u2019re ready.");
+          // only a status while mockups are being made; no "x of y" counts
+          navHint.classList.remove("is-count");
+          navHint.innerHTML = ready === n ? "" : "<b>Mockup in progress</b>";
+          void requested;
         }
         function setChip(states) {
           setNav(states);
@@ -10051,18 +10120,12 @@
             return x === "progress";
           }).length;
           chip.classList.remove("is-requested", "is-progress", "is-ready");
-          if (ready) {
+          if (ready === states.length) {
             chip.classList.add("is-ready");
-            chip.textContent =
-              ready === states.length
-                ? "Mockups ready to review"
-                : ready + " of " + states.length + " mockups ready to review";
-          } else if (progress) {
+            chip.textContent = "Mockups ready to review";
+          } else if (ready || progress) {
             chip.classList.add("is-progress");
-            chip.textContent =
-              states.length > 1
-                ? progress + " of " + states.length + " mockups in progress"
-                : "Mockup in progress";
+            chip.textContent = "Mockup in progress";
           } else {
             chip.classList.add("is-requested");
             chip.textContent = "Mockup design requested";
@@ -10585,6 +10648,103 @@
         }
         place();
         new MutationObserver(place).observe(list, { childList: true });
+      })();
+    </script>
+    <script>
+      // "White logo" switch on every image logo tile (failsafe for white / light logos):
+      // switched on automatically when the logo is light on a transparent background,
+      // the customer can switch it on or off. On = dark thumbnail (and dark header logo box
+      // when it is the first logo), so a white logo never disappears on white.
+      (function () {
+        var list = document.querySelector(".logos-dd .logos");
+        if (!list) return;
+        var box = document.querySelector(".client-logo");
+        function isLight(img) {
+          try {
+            var w = 96,
+              h = Math.max(
+                1,
+                Math.round((96 * img.naturalHeight) / img.naturalWidth),
+              );
+            var c = document.createElement("canvas");
+            c.width = w;
+            c.height = h;
+            var ctx = c.getContext("2d");
+            ctx.drawImage(img, 0, 0, w, h);
+            var d = ctx.getImageData(0, 0, w, h).data,
+              transparent = 0,
+              lum = 0,
+              solid = 0;
+            for (var i = 0; i < d.length; i += 4) {
+              if (d[i + 3] < 250) transparent++;
+              if (d[i + 3] > 128) {
+                lum +=
+                  (0.2126 * d[i] + 0.7152 * d[i + 1] + 0.0722 * d[i + 2]) / 255;
+                solid++;
+              }
+            }
+            return !!(transparent && solid && lum / solid > 0.6);
+          } catch (e) {
+            return false;
+          }
+        }
+        function firstImageTile() {
+          var tiles = list.querySelectorAll('[data-logo="file"]');
+          for (var i = 0; i < tiles.length; i++) {
+            if (tiles[i].querySelector(".logo-thumb img")) return tiles[i];
+          }
+          return null;
+        }
+        function apply(tile) {
+          var input = tile.querySelector(".logo-white-switch input");
+          var thumb = tile.querySelector(".logo-thumb");
+          if (!input || !thumb) return;
+          thumb.setAttribute("data-logo-bg", input.checked ? "dark" : "light");
+          if (box && firstImageTile() === tile && !box.hidden) {
+            box.setAttribute("data-logo-bg", input.checked ? "dark" : "light");
+          }
+        }
+        function enhance(tile) {
+          if (tile.querySelector(".logo-white-switch")) return;
+          var thumb = tile.querySelector(".logo-thumb");
+          var img = thumb && thumb.querySelector("img");
+          if (!img || thumb.classList.contains("is-file")) return;
+          var top = tile.querySelector(".logo-top");
+          var lab = document.createElement("label");
+          lab.className = "switch logo-white-switch";
+          lab.innerHTML = '<input type="checkbox" /><span>White logo</span>';
+          top.appendChild(lab);
+          var input = lab.querySelector("input");
+          input.addEventListener("change", function () {
+            input.dataset.touched = "1";
+            apply(tile);
+          });
+          function auto() {
+            if (input.dataset.touched) return;
+            input.checked = isLight(img);
+            apply(tile);
+          }
+          if (img.complete && img.naturalWidth) auto();
+          else img.addEventListener("load", auto);
+        }
+        function scan() {
+          list.querySelectorAll('[data-logo="file"]').forEach(enhance);
+          var first = firstImageTile();
+          if (first) apply(first);
+        }
+        scan();
+        new MutationObserver(function () {
+          setTimeout(scan, 0);
+        }).observe(list, { childList: true, subtree: true });
+        // the header logo recomputes its background on load: keep the customer's choice
+        var hImg = box && box.querySelector(".client-logo-img");
+        if (hImg)
+          hImg.addEventListener("load", function () {
+            setTimeout(function () {
+              var first = firstImageTile();
+              if (first) apply(first);
+            }, 0);
+          });
       })();
     </script>
     <style>
