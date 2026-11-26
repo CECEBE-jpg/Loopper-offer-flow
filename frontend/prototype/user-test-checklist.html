@@ -7445,6 +7445,263 @@
         background: none;
         color: #1c2530;
       }
+      /* Open steps the client skipped (vector / logo, mockup approval): numbered cards */
+      .ck-open[hidden],
+      .ck-num[hidden],
+      .ck-open-body[hidden],
+      .ck-open-done[hidden] {
+        display: none;
+      }
+      .ck-main.has-open .ck-card-head h3 {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 20px;
+        color: #324a67;
+      }
+      .ck-num {
+        display: grid;
+        flex: none;
+        place-items: center;
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        background: #324a67;
+        font-size: 14px;
+        font-weight: 800;
+        color: #fff;
+      }
+      .ck-action {
+        padding: 4px 12px;
+        border-radius: 20px;
+        background: #fdecea;
+        font-size: 12px;
+        font-weight: 800;
+        white-space: nowrap;
+        color: #b42318;
+      }
+      .ck-action.is-done {
+        background: #eaf6e2;
+        color: #3d7f15;
+      }
+      .ck-open-intro {
+        margin: 16px 0 0;
+        font-size: 15px;
+        line-height: 22px;
+        color: #4a5866;
+      }
+      .ck-logo-issue {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-top: 16px;
+        padding: 16px;
+        border: 1px solid #f4c7c3;
+        border-radius: 14px;
+        background: #fff6f5;
+      }
+      .ck-logo-thumb {
+        display: grid;
+        flex: none;
+        place-items: center;
+        width: 76px;
+        height: 76px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: #fff;
+      }
+      .ck-logo-thumb img {
+        max-width: 64px;
+        max-height: 56px;
+        object-fit: contain;
+      }
+      .ck-logo-info {
+        flex: 1 1 auto;
+        min-width: 0;
+      }
+      .ck-logo-name {
+        margin: 0;
+        font-size: 15px;
+        font-weight: 800;
+        color: #1c2530;
+        overflow-wrap: anywhere;
+      }
+      .ck-logo-meta {
+        margin: 2px 0 0;
+        font-size: 13px;
+        color: #7b8794;
+      }
+      .ck-logo-warn {
+        display: flex;
+        gap: 6px;
+        margin: 8px 0 0;
+        font-size: 14px;
+        line-height: 20px;
+        color: #b42318;
+      }
+      .ck-warn-icon {
+        display: grid;
+        flex: none;
+        place-items: center;
+        width: 16px;
+        height: 16px;
+        margin-top: 2px;
+        border: 1.5px solid #b42318;
+        border-radius: 50%;
+        font-size: 11px;
+        font-weight: 800;
+      }
+      .ck-better {
+        display: flex;
+        flex: 0 0 210px;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 14px;
+        border: 1px dashed #b7c2cd;
+        border-radius: 10px;
+        background: #f4f9fc;
+        font: inherit;
+        text-align: left;
+        color: #1c2530;
+        cursor: pointer;
+      }
+      .ck-better:hover,
+      .ck-better:focus-visible {
+        border-color: #00799a;
+        background: #eaf6fa;
+      }
+      .ck-better > b {
+        font-size: 22px;
+        font-weight: 500;
+        color: #00799a;
+      }
+      .ck-better > span {
+        display: flex;
+        flex-direction: column;
+      }
+      .ck-better-title {
+        font-size: 14px;
+        line-height: 18px;
+        font-weight: 800;
+      }
+      .ck-better small {
+        font-size: 12px;
+        color: #7b8794;
+      }
+      .ck-contact {
+        flex: 0 0 210px;
+        padding: 10px 14px;
+        border: 1px solid #b42318;
+        border-radius: 10px;
+        background: #fff;
+        font: inherit;
+        font-size: 14px;
+        line-height: 18px;
+        font-weight: 800;
+        color: #b42318;
+        cursor: pointer;
+      }
+      .ck-contact:hover,
+      .ck-contact:focus-visible {
+        background: #fef3f2;
+      }
+      .ck-vec-row {
+        display: grid;
+        grid-template-columns: 100px minmax(0, 1fr);
+        gap: 10px 16px;
+        margin-top: 20px;
+      }
+      .ck-vec-row h4 {
+        margin: 0;
+        font-size: 14px;
+        font-weight: 800;
+        color: #1c2530;
+      }
+      .ck-vec-row > p {
+        margin: 0;
+        font-size: 13px;
+        color: #4a5866;
+      }
+      .ck-vec-actions {
+        display: flex;
+        grid-column: 2;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+      .ck-vec-up,
+      .ck-vec-alt {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        height: 38px;
+        padding: 0 16px;
+        border-radius: 10px;
+        font: inherit;
+        font-size: 13px;
+        font-weight: 600;
+        color: #1c2530;
+        cursor: pointer;
+      }
+      .ck-vec-up {
+        border: 1px dashed #b7c2cd;
+        background: transparent;
+      }
+      .ck-vec-up b {
+        font-size: 20px;
+        font-weight: 500;
+        color: #00799a;
+      }
+      .ck-vec-up small {
+        font-size: 12px;
+        color: #7b8794;
+      }
+      .ck-vec-alt {
+        border: 1px solid #6c7783;
+        background: #fff;
+      }
+      .ck-vec-up:hover,
+      .ck-vec-alt:hover {
+        border-color: #00799a;
+        background: #eaf6fa;
+      }
+      .ck-open-done {
+        margin: 16px 0 0;
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--green-text);
+      }
+      .ck-hello .ck-mock-btn,
+      .ck-mock-btn {
+        display: inline-flex;
+        align-items: center;
+        height: 40px;
+        margin-top: 14px;
+        padding: 0 18px;
+        border-radius: 14px;
+        background: #00aed8;
+        font-size: 14px;
+        font-weight: 800;
+        color: #fff;
+        text-decoration: none;
+      }
+      .ck-mock-btn:hover {
+        background: #0098bd;
+      }
+      @media (width < 900px) {
+        .ck-logo-issue {
+          flex-wrap: wrap;
+        }
+        .ck-better,
+        .ck-contact {
+          flex: 1 1 100%;
+        }
+        .ck-vec-row {
+          grid-template-columns: minmax(0, 1fr);
+        }
+        .ck-vec-actions {
+          grid-column: 1;
+        }
+      }
       /* Checklist step when open: green (Figma 206:110) */
       .stepper .step-checklist.is-current {
         border-color: rgba(93, 177, 42, 0.29);
@@ -7768,7 +8025,7 @@
 
           <section class="ck-card" aria-labelledby="ckPayTitle">
             <div class="ck-card-head">
-              <h3 id="ckPayTitle">Payment</h3>
+              <h3 id="ckPayTitle"><span class="ck-num" hidden>1</span>Payment</h3>
               <span class="ck-status is-waiting" id="ckStatus"
                 >Waiting for payment</span
               >
@@ -7845,6 +8102,77 @@
                 >
               </div>
             </div>
+          </section>
+
+          <!-- Steps the client skipped in step 2: shown only while still open (sessionStorage) -->
+          <section class="ck-card ck-open" id="ckVector" aria-labelledby="ckVecTitle" hidden>
+            <div class="ck-card-head">
+              <h3 id="ckVecTitle"><span class="ck-num">2</span>Vector / logo</h3>
+              <span class="ck-action" id="ckVecChip">Action needed</span>
+            </div>
+            <div class="ck-open-body" id="ckVecBody">
+              <p class="ck-open-intro">
+                Upload a vector logo for the best print quality, or let us
+                vectorise it for you. Vectorising can delay production by 1
+                day.
+              </p>
+              <div class="ck-logo-issue">
+                <span class="ck-logo-thumb"
+                  ><img src="assets/offer-bloom/bloom-logo.png" alt=""
+                /></span>
+                <div class="ck-logo-info">
+                  <p class="ck-logo-name">bloom-agency-logo.png</p>
+                  <p class="ck-logo-meta">2 MB · Uploaded 13 Oct 2026</p>
+                  <p class="ck-logo-warn">
+                    <span class="ck-warn-icon" aria-hidden="true">!</span>This
+                    logo is not suitable for a vector file. Please contact us.
+                  </p>
+                </div>
+                <button type="button" class="ck-better" data-vec="upload">
+                  <b aria-hidden="true">+</b
+                  ><span
+                    ><span class="ck-better-title"
+                      >Upload a better-quality logo</span
+                    ><small>or a vector file: .svg, .ai, .pdf, .eps</small></span
+                  >
+                </button>
+                <button type="button" class="ck-contact" data-vec="contact">
+                  I don’t have a better-quality logo, please contact me
+                </button>
+              </div>
+              <div class="ck-vec-row">
+                <h4>Vector logo</h4>
+                <p>
+                  A vector file gives the sharpest print. Upload it here, or
+                  let our design team redraw your logo for you.
+                </p>
+                <div class="ck-vec-actions">
+                  <button type="button" class="ck-vec-up" data-vec="upload">
+                    <b aria-hidden="true">+</b>Upload your vector logo
+                    <small>SVG, AI, PDF, EPS</small>
+                  </button>
+                  <button type="button" class="ck-vec-alt" data-vec="vectorise">
+                    I don’t have a vector logo, vectorise it for me
+                  </button>
+                </div>
+              </div>
+              <input type="file" id="ckVecFile" accept=".svg,.ai,.pdf,.eps,.png,.jpg,.jpeg" hidden />
+            </div>
+            <p class="ck-open-done" id="ckVecDone" role="status" hidden></p>
+          </section>
+
+          <section class="ck-card ck-open" id="ckMockups" aria-labelledby="ckMockTitle" hidden>
+            <div class="ck-card-head">
+              <h3 id="ckMockTitle"><span class="ck-num">3</span>Mockup approval</h3>
+              <span class="ck-action">Action needed</span>
+            </div>
+            <p class="ck-open-intro" id="ckMockText">
+              Approve your mockups so we can start production. You can also ask
+              for changes.
+            </p>
+            <a class="ck-mock-btn" href="user-test-approve.html"
+              >Approve your mockups</a
+            >
           </section>
         </div>
 
@@ -8238,6 +8566,89 @@
             },
             window.utAmDelay ? window.utAmDelay() : 1500,
           );
+        });
+      })();
+    </script>
+    <script>
+      // Open steps from step 2 that the client skipped: vector / logo choice and mockup approval.
+      // Step 2 keeps "loopperVectorChoice" and "loopperApproved" in sessionStorage; step 3 sets
+      // "loopperVectorise" = "0" after a vector upload. Opening this page fresh shows both cards (demo).
+      (function () {
+        var $ = function (id) {
+          return document.getElementById(id);
+        };
+        function get(k) {
+          try {
+            return sessionStorage.getItem(k);
+          } catch (e) {
+            return null;
+          }
+        }
+        function set(k, v) {
+          try {
+            sessionStorage.setItem(k, v);
+          } catch (e) {}
+        }
+        var main = document.querySelector(".ck-main"),
+          lead = document.querySelector(".ck-lead"),
+          vecCard = $("ckVector"),
+          mockCard = $("ckMockups");
+        if (!main || !vecCard || !mockCard) return;
+        var vecOpen = !get("loopperVectorChoice") && get("loopperVectorise") !== "0";
+        var ap = null;
+        try {
+          ap = JSON.parse(get("loopperApproved") || "null");
+        } catch (e) {}
+        var mockOpen = !ap || ap.done < ap.total;
+        if (ap && mockOpen) {
+          $("ckMockText").textContent =
+            ap.done +
+            " of " +
+            ap.total +
+            " designs approved. Approve your mockups so we can start production. You can also ask for changes.";
+        }
+        vecCard.hidden = !vecOpen;
+        mockCard.hidden = !mockOpen;
+        function number() {
+          var cards = [document.querySelector('.ck-card[aria-labelledby="ckPayTitle"]'), vecCard, mockCard];
+          var n = 0;
+          cards.forEach(function (c) {
+            if (!c || c.hidden) return;
+            n++;
+            var num = c.querySelector(".ck-num");
+            if (num) num.textContent = n;
+          });
+          var many = n > 1;
+          main.classList.toggle("has-open", many);
+          var payNum = document.querySelector("#ckPayTitle .ck-num");
+          if (payNum) payNum.hidden = !many;
+          if (lead) lead.textContent = many ? "Complete the following steps" : "Complete the following step";
+        }
+        number();
+        function done(text, choice) {
+          if (choice) set("loopperVectorChoice", choice);
+          $("ckVecBody").hidden = true;
+          $("ckVecDone").textContent = text;
+          $("ckVecDone").hidden = false;
+          var chip = $("ckVecChip");
+          chip.textContent = choice === "contact" ? "We'll contact you" : "Done";
+          chip.classList.add("is-done");
+        }
+        var file = $("ckVecFile");
+        vecCard.addEventListener("click", function (e) {
+          var b = e.target.closest("[data-vec]");
+          if (!b) return;
+          var what = b.getAttribute("data-vec");
+          if (what === "upload") file.click();
+          else if (what === "vectorise")
+            done("✓ Our design team will vectorise your logo (€ 25, can delay production by 1 day).", "vectorise");
+          else done("✓ Thanks. Jildou will contact you about your logo.", "contact");
+        });
+        file.addEventListener("change", function () {
+          var f = file.files[0];
+          if (!f) return;
+          done("✓ " + f.name + " uploaded. We will check it and update your mockup if needed.", "upload");
+          file.value = "";
         });
       })();
     </script>

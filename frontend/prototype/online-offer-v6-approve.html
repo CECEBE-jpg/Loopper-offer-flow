@@ -7743,9 +7743,18 @@
         // "Action needed" stays until the client uploads a vector file or chooses vectorising
         var chip = document.getElementById("prActionChip");
         function syncChip() {
+          // remember the vector choice: the checklist asks for it while it is still open
+          var choice = !fileName.hidden
+            ? "upload"
+            : vec.getAttribute("aria-pressed") === "true"
+              ? "vectorise"
+              : "";
+          try {
+            if (choice) sessionStorage.setItem("loopperVectorChoice", choice);
+            else sessionStorage.removeItem("loopperVectorChoice");
+          } catch (e) {}
           if (!chip) return;
-          chip.hidden =
-            !fileName.hidden || vec.getAttribute("aria-pressed") === "true";
+          chip.hidden = !!choice;
         }
         var log = document.getElementById("changeLog"),
           form = document.getElementById("changeForm");
@@ -8051,6 +8060,13 @@
           // always active: the client can fill in step 3 before every design is approved
           ready = true;
           approveBtn.disabled = next.disabled = false;
+          // the checklist asks for the designs that are not approved yet
+          try {
+            sessionStorage.setItem(
+              "loopperApproved",
+              JSON.stringify({ done: done, total: PRODUCTS.length }),
+            );
+          } catch (e) {}
           hint.innerHTML =
             done === PRODUCTS.length
               ? "All designs approved. Next: fill in your details."
