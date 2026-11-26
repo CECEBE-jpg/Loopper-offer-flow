@@ -7080,6 +7080,128 @@
       .pr-options .vector-note b {
         font-weight: 800;
       }
+      /* green pen-tool icon on the left of the note (Figma 257:1480 parts, 68px box) */
+      .pr-options .vector > .vector-note {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+      .pr-options .vector > .vector-note[hidden] {
+        display: none;
+      }
+      .pr-options .vector-note > p {
+        margin: 0;
+      }
+      .vn-icon {
+        position: relative;
+        flex: none;
+        width: 68px;
+        height: 68px;
+        overflow: hidden;
+      }
+      .vn-icon .vi-box {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+      }
+      .vn-icon .vi {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .vn-icon img {
+        display: block;
+        max-width: none;
+      }
+      .vn-icon .vi-curve {
+        left: 5.38px;
+        top: 23.89px;
+        width: 36.286px;
+        height: 44.35px;
+      }
+      .vn-icon .vi-curve > span {
+        position: relative;
+        flex: none;
+        width: 29.812px;
+        height: 39.763px;
+        transform: rotate(-10.04deg);
+      }
+      .vn-icon .vi-curve img {
+        position: absolute;
+        top: -0.89%;
+        left: -5.03%;
+        width: 105.03%;
+        height: 104.66%;
+      }
+      .vn-icon .vi-node {
+        width: 13.358px;
+        height: 13.358px;
+      }
+      .vn-icon .vi-node img {
+        width: 11.525px;
+        height: 11.525px;
+        transform: rotate(-10.04deg);
+      }
+      .vn-icon .vi-node-a {
+        left: 1.15px;
+        top: 17.29px;
+      }
+      .vn-icon .vi-node-b {
+        left: 39.43px;
+        top: 54.99px;
+      }
+      .vn-icon .vi-dot {
+        left: 31.38px;
+        top: 32.47px;
+        width: 5.416px;
+        height: 5.416px;
+      }
+      .vn-icon .vi-nib {
+        left: 21.9px;
+        top: 19.83px;
+        width: 27.983px;
+        height: 26.629px;
+      }
+      .vn-icon .vi-nib img {
+        position: absolute;
+        top: -3.62%;
+        left: -2.83%;
+        width: 106.09%;
+        height: 107.73%;
+      }
+      .vn-icon .vi-ring {
+        left: 23.7px;
+        top: 36.98px;
+        width: 8.575px;
+        height: 8.575px;
+      }
+      .vn-icon .vi-ring img {
+        position: absolute;
+        inset: -12.37%;
+        width: 124.74%;
+        height: 124.74%;
+      }
+      .vn-icon .vi-cap {
+        left: 40.34px;
+        top: 9px;
+        width: 22.224px;
+        height: 21.106px;
+      }
+      .vn-icon .vi-cap > span {
+        position: relative;
+        flex: none;
+        width: 17.523px;
+        height: 15.332px;
+        transform: rotate(23.84deg);
+      }
+      .vn-icon .vi-cap img {
+        position: absolute;
+        top: -6.63%;
+        left: -8.56%;
+        width: 113.36%;
+        height: 114.89%;
+      }
     </style>
   </head>
   <body>
@@ -7366,13 +7488,27 @@
               </button>
             </div>
             <p class="vector-file" id="vectorFileName" hidden></p>
-            <p class="vector-note" id="vectorNote" hidden>
-              <b>We will vectorise your logo.</b> With this additional service
-              our design team will hand-draw your pixel logo as a vector. We aim
-              for perfection, but we want to be honest about the complexity of
-              this process: when redrawing thousands of pixels, tiny
-              imperfections can occur.
-            </p>
+            <div class="vector-note" id="vectorNote" hidden>
+              <!-- pen-tool vector icon (Figma 257:1480) in green, to match the note -->
+              <span class="vn-icon" aria-hidden="true">
+                <span class="vi-box">
+                  <span class="vi vi-curve"><span><img src="assets/offer-v3/vector-icon/green/5b11c.svg" alt="" /></span></span>
+                  <span class="vi vi-node vi-node-a"><img src="assets/offer-v3/vector-icon/green/1e309.svg" alt="" /></span>
+                  <span class="vi vi-node vi-node-b"><img src="assets/offer-v3/vector-icon/green/1e309.svg" alt="" /></span>
+                  <img class="vi vi-dot" src="assets/offer-v3/vector-icon/green/d0a69.svg" alt="" />
+                  <span class="vi vi-nib"><img src="assets/offer-v3/vector-icon/green/308ba.svg" alt="" /></span>
+                  <span class="vi vi-ring"><img src="assets/offer-v3/vector-icon/green/5a4d2.svg" alt="" /></span>
+                  <span class="vi vi-cap"><span><img src="assets/offer-v3/vector-icon/green/d5184.svg" alt="" /></span></span>
+                </span>
+              </span>
+              <p>
+                <b>We will vectorise your logo.</b> With this additional
+                service our design team will hand-draw your pixel logo as a
+                vector. We aim for perfection, but we want to be honest about
+                the complexity of this process: when redrawing thousands of
+                pixels, tiny imperfections can occur.
+              </p>
+            </div>
           </div>
         </section>
 
