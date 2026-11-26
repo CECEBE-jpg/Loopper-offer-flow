@@ -6794,6 +6794,69 @@
         margin-top: 14px;
         padding: 0 20px;
       }
+
+      /* ===== Payment restyle (Figma 204:2) ===== */
+      /* bottom bar: only "Back to your details"; paying happens in the summary card */
+      .step-nav .step-nav-next-wrap {
+        display: none;
+      }
+      /* account manager: compact card, same as the checklist */
+      .ck-am-card {
+        box-sizing: border-box;
+        padding: 20px 24px 22px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: #fff;
+        filter: drop-shadow(1px 6px 4.75px rgba(0, 0, 0, 0.06));
+      }
+      .ck-am-id {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        padding-top: 2px;
+      }
+      .ck-am-avatar {
+        flex: none;
+        width: 46px;
+        height: 46px;
+        box-sizing: border-box;
+        border: 1.77px solid #fff;
+        border-radius: 50%;
+        background: #d0ecff url("assets/offer-v3/account-manager-model.png")
+          no-repeat 46% 1% / 189%;
+      }
+      .ck-am-name {
+        margin: 0;
+        font-size: 20px;
+        line-height: 28px;
+        font-weight: 800;
+        color: #1c2530;
+      }
+      .ck-am-role {
+        margin: 0;
+        font-size: 12px;
+        line-height: 18px;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #6c7783;
+      }
+      .ck-am-contact {
+        display: flex;
+        justify-content: space-between;
+        margin: 22px 0 0;
+        font-size: 14px;
+        font-weight: 700;
+      }
+      .ck-am-contact a {
+        color: #1c2530;
+        text-decoration: none;
+      }
+      .ck-am-contact .ck-am-mail {
+        color: #004591;
+      }
+      .ck-am-contact a:hover {
+        text-decoration: underline;
+      }
     </style>
   </head>
   <body>
@@ -6928,36 +6991,27 @@
             >Change details</a
           >
         </aside>
-        <section class="am-feature pay-am" aria-label="Your account manager">
-          <img
-            class="am-feature-photo"
-            src="assets/offer-v3/account-manager-model.png"
-            width="293"
-            height="240"
-            alt="Jildou, your account manager"
-          />
-          <div class="am-feature-card">
-            <div class="am-feature-id">
-              <p class="am-feature-name">Jildou</p>
-              <p class="eyebrow">Your account manager</p>
+        <!-- Account manager: compact card (Figma 204:2, same as the checklist) -->
+        <section class="ck-am-card" aria-label="Your account manager">
+          <div class="ck-am-id">
+            <span class="ck-am-avatar" role="img" aria-label="Jildou"></span>
+            <div>
+              <p class="ck-am-name">Jildou</p>
+              <p class="ck-am-role">Your account manager</p>
             </div>
-            <p class="am-feature-quote">
-              “Choose your preferred payment method to complete your order
-              securely. Once your payment is confirmed, we’ll immediately start
-              producing your order.”
-            </p>
-            <p class="am-feature-contact">
-              <a href="tel:+442045765960">+44 20 4576 5960</a>
-              <a href="mailto:Jildou@loopper.com">Jildou@loopper.com</a>
-            </p>
           </div>
+          <p class="ck-am-contact">
+            <a href="tel:+442045765960">+44 20 4576 5960</a>
+            <a href="mailto:Jildou@loopper.com" class="ck-am-mail"
+              >Jildou@loopper.com</a
+            >
+          </p>
         </section>
       </div>
 
       <div class="pay-main">
         <h1 class="pay-title">
-          Thank you for your order!
-          <span>Finish the payment steps below to start your production.</span>
+          Finish the payment steps below to start your production
         </h1>
         <p class="pay-done" id="payDone" role="status" hidden></p>
 
@@ -7397,6 +7451,41 @@
           var alt = JSON.parse(sessionStorage.getItem("loopperUserTestAlt") || "null");
           if (alt && window.setPayBase) window.setPayBase(Math.round((1567.5 + (window.vecFee ? window.vecFee() : 0) + alt.p * alt.q) * 121) / 100);
         } catch (e) {}
+      })();
+    </script>
+    <script>
+      // User test: all steps done (checklist reached) -> finished progress bar on every step page
+      (function () {
+        var done = false;
+        try {
+          done = sessionStorage.getItem("loopperUserTestDone") === "1";
+        } catch (e) {}
+        var ol = document.querySelector(".stepper");
+        if (!done || !ol) return;
+        var PAGES = [
+          ["Your offer", "user-test.html"],
+          ["Approve design", "user-test-approve.html"],
+          ["Your details", "user-test-details.html"],
+          ["Payment", "user-test-payment.html"],
+        ];
+        var here = (location.pathname.split("/").pop() || "user-test.html").replace(/\.html$/, "");
+        var html = "";
+        PAGES.forEach(function (p, i) {
+          if (p[1].replace(".html", "") === here) {
+            html += '<li class="step step-current" aria-current="step"><span class="step-num">' + (i + 1) + "</span>" + p[0] + "</li>";
+          } else {
+            html +=
+              '<li class="step step-done"><img src="assets/offer-v3/icon-step-done.svg" width="26" height="26" alt="Done:" />' +
+              '<a class="step-link" href="' + p[1] + '">' + p[0] + "</a></li>";
+          }
+        });
+        html +=
+          '<li class="step-checklist"><svg class="step-checklist-icon" width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">' +
+          '<rect x="4" y="3.5" width="12" height="14" rx="2.5" stroke="currentColor" stroke-width="1.8" />' +
+          '<path d="M7.5 3.5V2.8c0-.4.3-.8.8-.8h3.4c.5 0 .8.4.8.8v.7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />' +
+          '<path d="M7.3 10.4l1.9 1.9 3.6-3.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>' +
+          '<a href="user-test-checklist.html">Checklist</a></li>';
+        ol.innerHTML = html;
       })();
     </script>
   </body>

@@ -7394,6 +7394,198 @@
           border-left: 0;
         }
       }
+
+      /* ===== Checklist restyle (Figma 206:2) ===== */
+      /* thank-you banner: light grey card, "Go to my account" on the right */
+      .ck-hello {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        padding: 11px 14px;
+        border-radius: 14px;
+        background: #f7f7f7;
+      }
+      .ck-hello-text {
+        flex: 1 1 auto;
+        min-width: 0;
+      }
+      .ck-hello .ck-account-btn {
+        display: inline-flex;
+        flex: none;
+        align-items: center;
+        justify-content: center;
+        width: 175px;
+        height: 40px;
+        border-radius: 14px;
+        background: #00aed8;
+        font-size: 16px;
+        font-weight: 700;
+        color: #fff;
+        text-decoration: none;
+      }
+      .ck-hello .ck-account-btn:hover {
+        background: #0098bd;
+      }
+      .ck-account-btn:focus-visible {
+        outline: 2px solid #006ed0;
+        outline-offset: 2px;
+      }
+      /* "Change payment method": grey underlined text link (Figma 257:1574) */
+      .ck-pay-side .ck-change {
+        height: auto;
+        padding: 0;
+        border-radius: 0;
+        background: none;
+        font-size: 14px;
+        font-weight: 700;
+        color: #707070;
+        text-decoration: underline;
+      }
+      .ck-pay-side .ck-change:hover {
+        background: none;
+        color: #1c2530;
+      }
+      /* Checklist step when open: green (Figma 206:110) */
+      .stepper .step-checklist.is-current {
+        border-color: rgba(93, 177, 42, 0.29);
+        background: #5db12a;
+        color: #fff;
+      }
+      @media (width < 768px) {
+        .ck-hello {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+      .ck-grid {
+        grid-template-columns: minmax(0, 839px) 349px;
+        justify-content: space-between;
+      }
+      .ck-lead {
+        font-size: 22px;
+        color: #324a67;
+      }
+      /* Important + proof-of-payment upload: one orange box above the details */
+      .ck-card .ck-help {
+        flex-wrap: nowrap;
+        align-items: flex-start;
+        gap: 20px;
+        margin-top: 16px;
+        padding: 12px 14px;
+        border-radius: 14px;
+        background: #fff3e3;
+      }
+      .ck-card .ck-help:not(:has(> :not([hidden]))) {
+        display: none;
+      }
+      .ck-help .ck-important {
+        flex: 0 0 383px;
+        padding: 0;
+        background: none;
+      }
+      .ck-help .ck-upload {
+        flex: 1 1 0;
+        min-width: 0;
+        border: 1px dashed #623600;
+        color: #7a4300;
+      }
+      .ck-help .ck-upload:hover,
+      .ck-help .ck-upload:focus-visible {
+        border-color: #623600;
+        background: #ffe9cc;
+      }
+      .ck-help .ck-upload > b,
+      .ck-help .ck-upload-title {
+        color: #7a4300;
+      }
+      .ck-help .ck-upload small {
+        color: #613602;
+      }
+      .ck-card .ck-pay {
+        margin-top: 16px;
+      }
+      /* sidebar chat (Figma 213:2) */
+      .ck-side .ck-chat {
+        box-shadow: 1px 6px 19px rgba(0, 0, 0, 0.04);
+      }
+      .ck-side .ck-chat-head {
+        align-items: flex-end;
+        height: 53px;
+        padding: 0 18px 10px;
+      }
+      .ck-side .ck-msg {
+        max-width: none;
+      }
+      .ck-side .ck-form {
+        padding-bottom: 26px;
+      }
+      /* account manager: compact card (Figma 214:242) */
+      .ck-am-card {
+        box-sizing: border-box;
+        margin-top: 8px;
+        padding: 20px 24px 22px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: #fff;
+        filter: drop-shadow(1px 6px 4.75px rgba(0, 0, 0, 0.06));
+      }
+      .ck-am-id {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        padding-top: 2px;
+      }
+      .ck-am-avatar {
+        flex: none;
+        width: 46px;
+        height: 46px;
+        box-sizing: border-box;
+        border: 1.77px solid #fff;
+        border-radius: 50%;
+        background: #d0ecff url("assets/offer-v3/account-manager-model.png")
+          no-repeat 46% 1% / 189%;
+      }
+      .ck-am-name {
+        margin: 0;
+        font-size: 20px;
+        line-height: 28px;
+        font-weight: 800;
+        color: #1c2530;
+      }
+      .ck-am-role {
+        margin: 0;
+        font-size: 12px;
+        line-height: 18px;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #6c7783;
+      }
+      .ck-am-contact {
+        display: flex;
+        justify-content: space-between;
+        margin: 22px 0 0;
+        font-size: 14px;
+        font-weight: 700;
+      }
+      .ck-am-contact a {
+        color: #1c2530;
+        text-decoration: none;
+      }
+      .ck-am-contact .ck-am-mail {
+        color: #004591;
+      }
+      .ck-am-contact a:hover {
+        text-decoration: underline;
+      }
+      @media (width < 900px) {
+        .ck-card .ck-help {
+          flex-direction: column;
+          align-items: stretch;
+        }
+        .ck-help .ck-important {
+          flex: none;
+        }
+      }
     </style>
   </head>
   <body>
@@ -7558,11 +7750,16 @@
     <div class="ck-page">
       <!-- After payment: what the client still has to do, and where the order stands -->
       <section class="ck-hello">
-        <h1>Thank you for your order, Cayna!</h1>
-        <p>
-          Order <b>#5436794</b> · Bloom Agency. Need your invoice?
-          <a href="#" id="invoiceLink">Download it here</a>.
-        </p>
+        <div class="ck-hello-text">
+          <h1>Thank you for your order, Cayna!</h1>
+          <p>
+            Order <b>#5436794</b> Bloom Agency. Go to your account to find
+            invoices, order tracker and more
+          </p>
+        </div>
+        <a class="ck-account-btn" href="account-v1.html?state=logo"
+          >Go to my account</a
+        >
       </section>
 
       <div class="ck-grid">
@@ -7576,6 +7773,29 @@
                 >Waiting for payment</span
               >
             </div>
+            <!-- Important note + proof-of-payment upload in one orange box, above the details (Figma 206:189) -->
+            <div class="ck-help">
+              <div class="ck-important" id="ckImportant">
+                <b>Important:</b> production can only start when we receive your
+                payment. Do you have a hard deadline? Send us a proof of payment
+                to speed up production.
+              </div>
+              <button type="button" class="ck-upload" id="ckUpload">
+                <b aria-hidden="true">+</b>
+                <span
+                  ><span class="ck-upload-title"
+                    >Upload your proof of payment</span
+                  ><small>PDF, PNG or JPG</small></span
+                >
+              </button>
+            </div>
+            <input
+              type="file"
+              id="ckProof"
+              accept=".pdf,.png,.jpg,.jpeg,image/*"
+              hidden
+            />
+            <p class="ck-upload-msg" id="ckUploadMsg" role="status" hidden></p>
             <div class="ck-pay">
               <dl class="ck-details" id="ckDetails">
                 <div>
@@ -7625,66 +7845,6 @@
                 >
               </div>
             </div>
-            <div class="ck-help">
-              <div class="ck-important" id="ckImportant">
-                <b>Important:</b> production can only start when we receive your
-                payment. Do you have a hard deadline? Send us a proof of payment
-                to speed up production.
-              </div>
-              <button type="button" class="ck-upload" id="ckUpload">
-                <b aria-hidden="true">+</b>
-                <span
-                  ><span class="ck-upload-title"
-                    >Upload your proof of payment</span
-                  ><small>PDF, PNG or JPG</small></span
-                >
-              </button>
-            </div>
-            <input
-              type="file"
-              id="ckProof"
-              accept=".pdf,.png,.jpg,.jpeg,image/*"
-              hidden
-            />
-            <p class="ck-upload-msg" id="ckUploadMsg" role="status" hidden></p>
-          </section>
-
-          <section class="ck-card ck-chat" aria-labelledby="ckChatTitle">
-            <div class="ck-chat-head">
-              <span
-                class="ck-chat-avatar"
-                role="img"
-                aria-label="Jildou"
-              ></span>
-              <h3 id="ckChatTitle">Questions? Ask Jildou</h3>
-              <p class="ck-chat-contact">
-                <a href="tel:+442045765960">+44 20 4576 5960</a>
-                <a href="mailto:Jildou@loopper.com">Jildou@loopper.com</a>
-              </p>
-            </div>
-            <div class="ck-log" id="ckLog" aria-live="polite">
-              <p class="ck-msg">
-                <small>Jildou · just now</small>Thank you for your order, Cayna!
-                Do you have a question about your payment or delivery? Ask me
-                here.
-              </p>
-            </div>
-            <form class="ck-form" id="ckForm">
-              <input
-                type="text"
-                placeholder="Ask your question here…"
-                aria-label="Message to Jildou"
-              />
-              <button type="submit" aria-label="Send">
-                <img
-                  src="assets/offer-v3/icon-send.svg"
-                  width="18"
-                  height="18"
-                  alt=""
-                  style="filter: brightness(0) invert(1)"
-                />
-              </button>
-            </form>
           </section>
         </div>
 
@@ -7755,24 +7915,60 @@
             </ol>
           </section>
 
-          <section class="am-feature ck-am" aria-label="Your account manager">
-            <img
-              class="am-feature-photo"
-              src="assets/offer-v3/account-manager-model.png"
-              width="293"
-              height="240"
-              alt="Jildou, your account manager"
-            />
-            <div class="am-feature-card">
-              <div class="am-feature-id">
-                <p class="am-feature-name">Jildou</p>
-                <p class="eyebrow">Your account manager</p>
-              </div>
-              <p class="am-feature-quote">
-                “Thank you for your order! As soon as your payment is in, we
-                start production. I'll keep you posted.”
+          <!-- Chat with the account manager, in the sidebar (Figma 213:2) -->
+          <section class="ck-card ck-chat" aria-labelledby="ckChatTitle">
+            <div class="ck-chat-head">
+              <span
+                class="ck-chat-avatar"
+                role="img"
+                aria-label="Jildou"
+              ></span>
+              <h3 id="ckChatTitle">Questions? Ask Jildou</h3>
+            </div>
+            <div class="ck-log" id="ckLog" aria-live="polite">
+              <p class="ck-msg">
+                <small>Jildou · just now</small>Thank you for your order, Cayna!
+                Do you have a question about your payment or delivery? Ask me
+                here.
               </p>
             </div>
+            <form class="ck-form" id="ckForm">
+              <input
+                type="text"
+                placeholder="Ask your question here…"
+                aria-label="Message to Jildou"
+              />
+              <button type="submit" aria-label="Send">
+                <img
+                  src="assets/offer-v3/icon-send.svg"
+                  width="18"
+                  height="18"
+                  alt=""
+                  style="filter: brightness(0) invert(1)"
+                />
+              </button>
+            </form>
+          </section>
+
+          <!-- Account manager: compact card (Figma 214:242) -->
+          <section class="ck-am-card" aria-label="Your account manager">
+            <div class="ck-am-id">
+              <span
+                class="ck-am-avatar"
+                role="img"
+                aria-label="Jildou"
+              ></span>
+              <div>
+                <p class="ck-am-name">Jildou</p>
+                <p class="ck-am-role">Your account manager</p>
+              </div>
+            </div>
+            <p class="ck-am-contact">
+              <a href="tel:+442045765960">+44 20 4576 5960</a>
+              <a href="mailto:Jildou@loopper.com" class="ck-am-mail"
+                >Jildou@loopper.com</a
+              >
+            </p>
           </section>
         </aside>
       </div>
@@ -8006,7 +8202,7 @@
           status.className = "ck-status is-proof";
           status.textContent = "Proof of payment received";
         });
-        $("invoiceLink").addEventListener("click", function (e) {
+        if ($("invoiceLink")) $("invoiceLink").addEventListener("click", function (e) {
           e.preventDefault();
           var log = $("ckLog");
           addMsg(false, "Prototype: your invoice (PDF) would download now.");
@@ -8083,6 +8279,11 @@
         else items.appendChild(li);
         window.renderChecklist(1567.5 + (window.vecFee ? window.vecFee() : 0) + sum);
       })();
+    </script>
+    <script>
+      try {
+        sessionStorage.setItem("loopperUserTestDone", "1");
+      } catch (e) {}
     </script>
   </body>
 </html>
