@@ -8826,7 +8826,8 @@
             function (el) {
               return (
                 !/^(file|hidden|submit|button|reset|image)$/.test(el.type) &&
-                !el.closest("dialog, #demoBar, .cmt, .ck-form")
+                !el.closest("dialog, #demoBar, .cmt, .ck-form") &&
+                el.id !== "prPick" // step 2 approvals have their own memory (loopperChosen)
               );
             },
           );

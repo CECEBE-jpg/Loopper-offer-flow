@@ -7156,6 +7156,9 @@
       .ck-items small {
         color: #6c7783;
       }
+      .ck-items li[hidden] {
+        display: none;
+      }
       .ck-items .ck-vec-img {
         display: grid;
         flex: none;
@@ -7701,6 +7704,357 @@
           grid-column: 1;
         }
       }
+      /* ===== Open steps, round 2: "Your logo" (can't be vectorised) in the step 2 card style,
+         and choosing mockups right here ===== */
+      .ck-open .ck-logo-issue {
+        gap: 14px;
+        margin-top: 16px;
+        padding: 12px 14px;
+        border: 1px solid #f4c7c3;
+        border-radius: 14px;
+        background: #fff6f5;
+      }
+      .ck-open .ck-logo-thumb {
+        width: 64px;
+        height: 64px;
+      }
+      .ck-open .ck-logo-thumb img {
+        max-width: 54px;
+        max-height: 46px;
+      }
+      .ck-open .ck-logo-name {
+        font-size: 14px;
+      }
+      .ck-open .ck-logo-warn {
+        margin-top: 4px;
+        font-size: 13px;
+        line-height: 19px;
+      }
+      .ck-open .ck-logo-warn b {
+        font-weight: 800;
+      }
+      /* same grid as step 2's "Vector logo" row: label | text, buttons under the text */
+      .ck-fix {
+        display: grid;
+        grid-template-columns: 132px minmax(0, 1fr);
+        gap: 10px 20px;
+        margin-top: 18px;
+      }
+      .ck-fix h4 {
+        margin: 0;
+        font-size: 13px;
+        font-weight: 800;
+        color: #1c2530;
+      }
+      .ck-fix > p {
+        margin: 0;
+        font-size: 12px;
+        line-height: 21px;
+        color: #4a5866;
+      }
+      .ck-fix-actions,
+      .ck-fix-note {
+        grid-column: 2;
+      }
+      .ck-fix-actions {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+        gap: 14px;
+      }
+      .ck-fix-actions > [hidden] {
+        display: none;
+      }
+      .ck-fix-price {
+        margin-left: auto;
+        font-size: 13px;
+        font-weight: 800;
+        white-space: nowrap;
+        color: #00799a;
+      }
+      .ck-fix-up,
+      .ck-fix-alt {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-height: 46px;
+        padding: 6px 14px;
+        border-radius: 10px;
+        font: inherit;
+        text-align: left;
+        color: #1c2530;
+        cursor: pointer;
+      }
+      .ck-fix-up {
+        border: 1px dashed #00799a;
+        background: transparent;
+      }
+      .ck-fix-up:hover,
+      .ck-fix-up:focus-visible {
+        background: #eaf6fa;
+      }
+      .ck-fix-up.is-done {
+        border-style: solid;
+        border-color: #5db12a;
+        background: #fff;
+      }
+      .ck-fix-plus {
+        font-size: 22px;
+        line-height: 22px;
+        font-weight: 500;
+        color: #00799a;
+      }
+      .ck-fix-text {
+        display: flex;
+        flex-direction: column;
+        gap: 1px;
+        font-size: 12px;
+        line-height: 16px;
+        font-weight: 600;
+      }
+      .ck-fix-text small {
+        font-size: 11px;
+        line-height: 15px;
+        font-weight: 500;
+        color: #7b8794;
+      }
+      /* "please contact me": radio option like step 2's vectorise choice */
+      .ck-fix-alt {
+        gap: 10px;
+        border: 1px solid #6c7783;
+        background: #fff;
+      }
+      .ck-fix-alt::before {
+        content: "";
+        flex: none;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: #fff;
+        box-shadow: inset 0 0 0 1px #8f8f8f;
+      }
+      .ck-fix-alt[aria-pressed="true"] {
+        padding: 5px 13px;
+        border: 2px solid #5db12a;
+      }
+      .ck-fix-alt[aria-pressed="true"]::before {
+        background: radial-gradient(circle, #8dc63f 0 5px, #fff 5.5px);
+        box-shadow: inset 0 0 0 1px #8dc63f;
+      }
+      .ck-fix-alt-text {
+        font-size: 12px;
+        line-height: 14px;
+        font-weight: 600;
+      }
+      .ck-fix-alt-text b {
+        font-weight: 800;
+      }
+      .ck-fix-note {
+        margin: 2px 0 0;
+        padding: 14px 18px;
+        border-radius: 12px;
+        background: #f1fae9;
+        font-size: 13px;
+        line-height: 20px;
+        color: #1c2530;
+      }
+      .ck-fix-note[hidden] {
+        display: none;
+      }
+      .ck-fix-note b {
+        font-weight: 800;
+      }
+      /* Mockup approval: a row per product with its two designs as choosable tiles */
+      .ck-mock-list {
+        display: flex;
+        flex-direction: column;
+        margin-top: 8px;
+      }
+      .ck-mock-row {
+        display: grid;
+        grid-template-columns: 220px minmax(0, 1fr);
+        gap: 20px;
+        align-items: center;
+        padding: 16px 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .ck-mock-prod {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .ck-mock-prod img {
+        flex: none;
+        width: 44px;
+        height: 44px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        object-fit: contain;
+        background: #fff;
+      }
+      .ck-mock-prod span {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+      }
+      .ck-mock-prod b {
+        font-size: 14px;
+        font-weight: 800;
+        color: #1c2530;
+      }
+      .ck-mock-prod small {
+        font-size: 12px;
+        color: #7b8794;
+      }
+      .ck-mock-designs {
+        display: flex;
+        gap: 14px;
+      }
+      .ck-design {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        width: 150px;
+        padding: 8px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: #fff;
+        font: inherit;
+        text-align: left;
+        color: #1c2530;
+        cursor: pointer;
+        transition: border-color 0.15s ease, box-shadow 0.15s ease;
+      }
+      .ck-design:hover {
+        border-color: #00aed8;
+      }
+      .ck-design:focus-visible {
+        outline: 2px solid #006ed0;
+        outline-offset: 2px;
+      }
+      .ck-design.is-chosen {
+        border-color: #5db12a;
+        box-shadow: inset 0 0 0 1px #5db12a;
+      }
+      .ck-design-label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .ck-design-label > span:last-child {
+        display: flex;
+        flex-direction: column;
+      }
+      .ck-design-label b {
+        font-size: 13px;
+        font-weight: 800;
+      }
+      .ck-design-label small {
+        font-size: 11px;
+        color: #7b8794;
+      }
+      .ck-radio {
+        flex: none;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        box-shadow: inset 0 0 0 1px #8f8f8f;
+      }
+      .ck-design.is-chosen .ck-radio {
+        background: radial-gradient(circle, #8dc63f 0 5px, #fff 5.5px);
+        box-shadow: inset 0 0 0 1px #8dc63f;
+      }
+      /* the step 2 mockup: 348 px stage scaled to the tile */
+      .ck-mini {
+        position: relative;
+        display: block;
+        width: 132px;
+        height: 132px;
+        overflow: hidden;
+        border-radius: 8px;
+        background: #fff;
+      }
+      .ck-mini-stage {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 348px;
+        height: 348px;
+        transform: scale(0.3793); /* 132 / 348 */
+        transform-origin: 0 0;
+      }
+      .ck-mini-stage > img {
+        display: block;
+        width: 348px;
+        height: 348px;
+        object-fit: contain;
+      }
+      .ck-mini .proof-area {
+        position: absolute;
+        display: grid;
+        place-items: center;
+        border: 0;
+        outline: 0;
+        background: none;
+        transform: none;
+      }
+      .ck-mini .proof-area img {
+        max-width: none;
+        transform: none;
+        filter: none;
+      }
+      .ck-mini .pr-area-tote {
+        top: 186px;
+        left: 119px;
+        width: 110px;
+        height: 130px;
+      }
+      .ck-mini .pr-area-tote img {
+        width: 76px;
+        opacity: 0.95;
+        mix-blend-mode: multiply;
+      }
+      .ck-mini .pr-area-tote.pr-big img {
+        width: 106px;
+      }
+      .ck-mini .pr-area-noma {
+        top: 150px;
+        left: 137px;
+        width: 56px;
+        height: 84px;
+      }
+      .ck-mini .pr-area-noma img {
+        width: 50px;
+        opacity: 0.75;
+        filter: grayscale(1) brightness(0.2);
+        mix-blend-mode: multiply;
+      }
+      .ck-mini .pr-area-noma.pr-dir-vertical img {
+        width: 80px;
+        max-width: none;
+        transform: rotate(-90deg);
+      }
+      .ck-mock-foot {
+        margin: 14px 0 0;
+        font-size: 13px;
+        color: #4a5866;
+      }
+      .ck-mock-foot a {
+        font-weight: 700;
+        color: #007b99;
+      }
+      @media (width < 900px) {
+        .ck-fix,
+        .ck-mock-row {
+          grid-template-columns: minmax(0, 1fr);
+        }
+        .ck-fix-actions,
+        .ck-fix-note {
+          grid-column: 1;
+        }
+        .ck-fix-actions {
+          grid-template-columns: minmax(0, 1fr);
+        }
+      }
       /* Checklist step when open: green (Figma 206:110) */
       .stepper .step-checklist.is-current {
         border-color: rgba(93, 177, 42, 0.29);
@@ -8118,75 +8472,87 @@
             </div>
           </section>
 
-          <!-- Steps the client skipped in step 2: shown only while still open (sessionStorage) -->
+          <!-- Steps still open from step 2: shown only while open (sessionStorage) -->
+          <!-- Logo: our designers could not vectorise the uploaded logo (prototype scenario).
+               Same layout and controls as step 2's "Colour and vector logo" card. -->
           <section class="ck-card ck-open" id="ckVector" aria-labelledby="ckVecTitle" hidden>
             <div class="ck-card-head">
-              <h3 id="ckVecTitle"><span class="ck-num">2</span>Vector / logo</h3>
+              <h3 id="ckVecTitle"><span class="ck-num">2</span>Your logo</h3>
               <span class="ck-action" id="ckVecChip">Action needed</span>
             </div>
             <div class="ck-open-body" id="ckVecBody">
-              <p class="ck-open-intro">
-                Upload a vector logo for the best print quality, or let us
-                vectorise it for you. Vectorising can delay production by 1
-                day.
-              </p>
-              <div class="ck-logo-issue">
+              <div class="ck-logo-issue" role="alert">
                 <span class="ck-logo-thumb"
-                  ><img src="assets/offer-bloom/bloom-logo.png" alt=""
+                  ><img id="ckLogoImg" src="assets/offer-bloom/bloom-logo.png" alt=""
                 /></span>
                 <div class="ck-logo-info">
-                  <p class="ck-logo-name">bloom-agency-logo.png</p>
-                  <p class="ck-logo-meta">2 MB · Uploaded 13 Oct 2026</p>
+                  <p class="ck-logo-name" id="ckLogoName">bloom-agency-logo.png</p>
                   <p class="ck-logo-warn">
-                    <span class="ck-warn-icon" aria-hidden="true">!</span>This
-                    logo is not suitable for a vector file. Please contact us.
+                    <span class="ck-warn-icon" aria-hidden="true">!</span
+                    ><span
+                      ><b>We can’t vectorise this logo.</b> Our designers checked
+                      it: it has too little detail to redraw sharply for print.</span
+                    >
                   </p>
                 </div>
-                <button type="button" class="ck-better" data-vec="upload">
-                  <b aria-hidden="true">+</b
-                  ><span
-                    ><span class="ck-better-title"
-                      >Upload a better-quality logo</span
-                    ><small>or a vector file: .svg, .ai, .pdf, .eps</small></span
-                  >
-                </button>
-                <button type="button" class="ck-contact" data-vec="contact">
-                  I don’t have a better-quality logo, please contact me
-                </button>
               </div>
-              <div class="ck-vec-row">
-                <h4>Vector logo</h4>
-                <p>
-                  A vector file gives the sharpest print. Upload it here, or
-                  let our design team redraw your logo for you.
+              <div class="ck-fix">
+                <h4>Better-quality logo</h4>
+                <p id="ckFixIntro">
+                  Upload a larger or vector version of your logo, or let us contact
+                  you to find a solution together.
                 </p>
-                <div class="ck-vec-actions">
-                  <button type="button" class="ck-vec-up" data-vec="upload">
-                    <b aria-hidden="true">+</b>Upload your vector logo
-                    <small>SVG, AI, PDF, EPS</small>
+                <div class="ck-fix-actions">
+                  <button type="button" class="ck-fix-up" data-vec="upload">
+                    <span class="ck-fix-plus" aria-hidden="true">+</span
+                    ><span class="ck-fix-text"
+                      >Upload a better logo
+                      <small>SVG, AI, PDF, EPS, large PNG</small></span
+                    >
                   </button>
-                  <button type="button" class="ck-vec-alt" data-vec="vectorise">
-                    I don’t have a vector logo, vectorise it for me
+                  <button
+                    type="button"
+                    class="ck-fix-alt"
+                    data-vec="contact"
+                    aria-pressed="false"
+                  >
+                    <span class="ck-fix-alt-text"
+                      >I don’t have a better-quality logo,<br /><b>please contact me</b></span
+                    >
+                  </button>
+                  <!-- only when vectorising is not in the order yet: adds the € 25 service -->
+                  <button
+                    type="button"
+                    class="ck-fix-alt ck-fix-vec"
+                    data-vec="vectorise"
+                    aria-pressed="false"
+                    hidden
+                  >
+                    <span class="ck-fix-alt-text"
+                      >Let our designers<br /><b>vectorise it for me</b></span
+                    ><span class="ck-fix-price">€ 25</span>
                   </button>
                 </div>
+                <p class="ck-fix-note" id="ckFixNote" hidden></p>
               </div>
               <input type="file" id="ckVecFile" accept=".svg,.ai,.pdf,.eps,.png,.jpg,.jpeg" hidden />
             </div>
-            <p class="ck-open-done" id="ckVecDone" role="status" hidden></p>
           </section>
 
+          <!-- Mockup approval: choose a design per product right here (same mockups as step 2) -->
           <section class="ck-card ck-open" id="ckMockups" aria-labelledby="ckMockTitle" hidden>
             <div class="ck-card-head">
               <h3 id="ckMockTitle"><span class="ck-num">3</span>Mockup approval</h3>
-              <span class="ck-action">Action needed</span>
+              <span class="ck-action" id="ckMockChip">Action needed</span>
             </div>
             <p class="ck-open-intro" id="ckMockText">
-              Approve your mockups so we can start production. You can also ask
-              for changes.
+              Choose a design for each product so we can start production.
             </p>
-            <a class="ck-mock-btn" href="online-offer-v6-approve.html"
-              >Approve your mockups</a
-            >
+            <div class="ck-mock-list" id="ckMockList"></div>
+            <p class="ck-mock-foot">
+              Want to see them larger or ask for changes?
+              <a href="online-offer-v6-approve.html">Open the mockups</a>
+            </p>
           </section>
         </div>
 
@@ -8526,7 +8892,8 @@
             return 0;
           }
         };
-        if (!window.vecFee()) $("ckVecItem").remove();
+        // hidden, not removed: choosing vectorising on this page shows it again
+        $("ckVecItem").hidden = !window.vecFee();
         // products from step 1 ("loopperOrder": tote bag, thermos); without it the Bloom scenario
         var order = null;
         try {
@@ -8562,7 +8929,11 @@
               });
           });
         }
-        window.renderChecklist(window.orderBase() + window.vecFee());
+        // order total excl. VAT; the user test adds its own products to this
+        window.ckBase = function () {
+          return window.orderBase() + window.vecFee();
+        };
+        window.renderChecklist(window.ckBase());
 
         $("ckUpload").addEventListener("click", function () {
           $("ckProof").click();
@@ -8619,8 +8990,12 @@
       })();
     </script>
     <script>
-      // Open steps from step 2 that the client skipped: vector / logo choice and mockup approval.
-      // Step 2 keeps "loopperVectorChoice" (upload / vectorise) and "loopperApproved" in sessionStorage.
+      // Steps still open after payment, as their own numbered cards next to Payment:
+      // - Your logo: prototype scenario where our designers could not vectorise the uploaded logo.
+      //   Open unless the client uploaded a vector file in step 2 (loopperVectorChoice = "upload")
+      //   or already solved it here (loopperLogoFix = "upload" / "contact").
+      // - Mockup approval: designs not chosen yet in step 2 (loopperChosen); the client chooses them
+      //   here, with the same mockups as step 2, and that is saved for step 2 too.
       // Opening this page fresh shows both cards (demo).
       // Checklist reached: from now on the step pages keep the finished progress bar + Checklist pill.
       try {
@@ -8642,24 +9017,71 @@
             sessionStorage.setItem(k, v);
           } catch (e) {}
         }
+        function json(k) {
+          try {
+            return JSON.parse(get(k) || "null");
+          } catch (e) {
+            return null;
+          }
+        }
         var main = document.querySelector(".ck-main"),
           lead = document.querySelector(".ck-lead"),
           vecCard = $("ckVector"),
           mockCard = $("ckMockups");
         if (!main || !vecCard || !mockCard) return;
-        var vecOpen = !get("loopperVectorChoice");
-        var ap = null;
-        try {
-          ap = JSON.parse(get("loopperApproved") || "null");
-        } catch (e) {}
-        var mockOpen = !ap || ap.done < ap.total;
-        if (ap && mockOpen) {
-          $("ckMockText").textContent =
-            ap.done +
-            " of " +
-            ap.total +
-            " designs approved. Approve your mockups so we can start production. You can also ask for changes.";
+        var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        // ---------- products and designs (same as step 2) ----------
+        var LOGO = "assets/offer-bloom/bloom-logo.png";
+        var userLogo = get("loopperUserTestLogo"); // user test: the tester's own logo
+        if (userLogo && userLogo !== "text") LOGO = userLogo;
+        var PRODUCTS = [
+          {
+            card: "Tote bag, natural cotton",
+            sub: "Screen print: front (25×30 cm)",
+            img: "assets/offer-bloom/tote-natural-2.jpg",
+            area: "tote",
+            designs: [
+              { label: "Logo centred", dir: "horizontal" },
+              { label: "Logo large", dir: "horizontal", big: true },
+            ],
+          },
+          {
+            card: "noma noma thermos 750 ml",
+            sub: "Engraving: front (40×60 mm)",
+            img: "assets/offer-bloom/thermos-1.png",
+            area: "noma",
+            designs: [
+              { label: "Logo across", dir: "horizontal" },
+              { label: "Logo lengthwise", dir: "vertical" },
+            ],
+          },
+        ];
+        // products switched out of the offer in step 1 need no design
+        var order = json("loopperOrder");
+        var chosen = json("loopperChosen");
+        if (!chosen || chosen.length !== PRODUCTS.length)
+          chosen = PRODUCTS.map(function () {
+            return null;
+          });
+        function inOffer(i) {
+          return !order || !order[i] || order[i].on;
         }
+        function counts() {
+          var total = 0,
+            done = 0;
+          PRODUCTS.forEach(function (p, i) {
+            if (!inOffer(i)) return;
+            total++;
+            if (chosen[i] !== null && chosen[i] !== undefined) done++;
+          });
+          return { done: done, total: total };
+        }
+
+        // ---------- which cards are open ----------
+        var vecOpen = get("loopperVectorChoice") !== "upload" && !get("loopperLogoFix");
+        var start = counts();
+        var mockOpen = start.done < start.total;
         vecCard.hidden = !vecOpen;
         mockCard.hidden = !mockOpen;
         function number() {
@@ -8678,31 +9100,158 @@
           if (lead) lead.textContent = many ? "Complete the following steps" : "Complete the following step";
         }
         number();
-        function done(text, choice) {
-          if (choice) set("loopperVectorChoice", choice);
-          $("ckVecBody").hidden = true;
-          $("ckVecDone").textContent = text;
-          $("ckVecDone").hidden = false;
+
+        // ---------- Your logo ----------
+        var logoImg = $("ckLogoImg");
+        if (logoImg) logoImg.src = LOGO;
+        if (userLogo && $("ckLogoName")) $("ckLogoName").textContent = "Your logo";
+        var file = $("ckVecFile"),
+          note = $("ckFixNote"),
+          alt = vecCard.querySelector('.ck-fix-alt[data-vec="contact"]'),
+          vecBtn = vecCard.querySelector(".ck-fix-vec"),
+          up = vecCard.querySelector(".ck-fix-up");
+        // vectorising by our designers is offered when it is not in the order yet
+        var vecInOrder = get("loopperVectorChoice") === "vectorise";
+        vecBtn.hidden = vecInOrder;
+        if (!vecInOrder)
+          $("ckFixIntro").textContent =
+            "Upload a larger or vector version of your logo, let our designers vectorise it for you, or let us contact you to find a solution together.";
+        var addedHere = false; // € 25 added on this page (removed again when the client changes their mind)
+        function setFee(on) {
+          if (on === addedHere) return;
+          addedHere = on;
+          if (on) set("loopperVectorChoice", "vectorise");
+          else
+            try {
+              sessionStorage.removeItem("loopperVectorChoice");
+            } catch (e) {}
+          var item = $("ckVecItem");
+          if (item) item.hidden = !on;
+          if (window.renderChecklist && window.ckBase)
+            window.renderChecklist(window.ckBase());
+        }
+        function solved(kind, text) {
+          set("loopperLogoFix", kind);
+          note.textContent = "";
+          var b = document.createElement("b");
+          b.textContent =
+            kind === "upload"
+              ? "Thanks, we received your logo. "
+              : kind === "vectorise"
+                ? "We’ll vectorise your logo. "
+                : "We’ll contact you. ";
+          note.appendChild(b);
+          note.appendChild(document.createTextNode(text));
+          note.hidden = false;
+          alt.setAttribute("aria-pressed", kind === "contact" ? "true" : "false");
+          vecBtn.setAttribute("aria-pressed", kind === "vectorise" ? "true" : "false");
+          up.classList.toggle("is-done", kind === "upload");
+          setFee(kind === "vectorise");
           var chip = $("ckVecChip");
-          chip.textContent = choice === "contact" ? "We'll contact you" : "Done";
+          chip.textContent = "Done";
           chip.classList.add("is-done");
         }
-        var file = $("ckVecFile");
-        vecCard.addEventListener("click", function (e) {
-          var b = e.target.closest("[data-vec]");
-          if (!b) return;
-          var what = b.getAttribute("data-vec");
-          if (what === "upload") file.click();
-          else if (what === "vectorise")
-            done("✓ Our design team will vectorise your logo (€ 25, can delay production by 1 day).", "vectorise");
-          else done("✓ Thanks. Jildou will contact you about your logo.", "contact");
+        alt.addEventListener("click", function () {
+          solved(
+            "contact",
+            "Jildou will call or email you within 1 working day to find the best solution for your logo.",
+          );
+        });
+        vecBtn.addEventListener("click", function () {
+          solved(
+            "vectorise",
+            "Our design team hand-draws it as a vector for a sharp print. € 25 is added to your order (see Your order). This can delay production by 1 day.",
+          );
+        });
+        up.addEventListener("click", function () {
+          file.click();
         });
         file.addEventListener("change", function () {
           var f = file.files[0];
           if (!f) return;
-          done("✓ " + f.name + " uploaded. We will check it and update your mockup if needed.", "upload");
+          solved(
+            "upload",
+            f.name + " is with our designers. We update your mockups and let you know when they are ready.",
+          );
+          up.querySelector(".ck-fix-text").firstChild.textContent = "✓ " + f.name + " ";
           file.value = "";
         });
+
+        // ---------- Mockup approval ----------
+        function mini(p, d) {
+          // the step 2 mockup (348 px stage) scaled down into a tile
+          return (
+            '<span class="ck-mini" aria-hidden="true"><span class="ck-mini-stage">' +
+            '<img src="' + p.img + '" alt="" />' +
+            '<span class="proof-area pr-area-' + p.area + " pr-dir-" + d.dir + (d.big ? " pr-big" : "") + '">' +
+            '<img src="' + LOGO + '" alt="" /></span></span></span>'
+          );
+        }
+        var list = $("ckMockList");
+        function save() {
+          set("loopperChosen", JSON.stringify(chosen));
+          var c = counts();
+          set("loopperApproved", JSON.stringify({ done: c.done, total: c.total }));
+          return c;
+        }
+        function status() {
+          var c = counts(),
+            all = c.done >= c.total;
+          $("ckMockText").textContent = all
+            ? "All designs approved. We turn them into final proofs and start production as soon as your payment is in."
+            : c.done +
+              " of " +
+              c.total +
+              " designs approved. Choose a design for each product so we can start production.";
+          var chip = $("ckMockChip");
+          chip.textContent = all ? "Done" : "Action needed";
+          chip.classList.toggle("is-done", all);
+        }
+        PRODUCTS.forEach(function (p, i) {
+          if (!inOffer(i)) return;
+          var row = document.createElement("div");
+          row.className = "ck-mock-row";
+          row.innerHTML =
+            '<div class="ck-mock-prod"><img src="' + p.img + '" alt="" /><span><b></b><small></small></span></div>' +
+            '<div class="ck-mock-designs" role="radiogroup"></div>';
+          row.querySelector("b").textContent = p.card;
+          row.querySelector("small").textContent = p.sub;
+          var group = row.querySelector(".ck-mock-designs");
+          group.setAttribute("aria-label", "Design for the " + p.card);
+          p.designs.forEach(function (d, j) {
+            var b = document.createElement("button");
+            b.type = "button";
+            b.className = "ck-design";
+            b.setAttribute("role", "radio");
+            b.innerHTML =
+              mini(p, d) +
+              '<span class="ck-design-label"><span class="ck-radio" aria-hidden="true"></span>' +
+              "<span><b>Design " + (j + 1) + "</b><small>" + d.label + "</small></span></span>";
+            function paint() {
+              var on = chosen[i] === j;
+              b.classList.toggle("is-chosen", on);
+              b.setAttribute("aria-checked", on ? "true" : "false");
+            }
+            b._paint = paint;
+            b.addEventListener("click", function () {
+              chosen[i] = j;
+              save();
+              group.querySelectorAll(".ck-design").forEach(function (x) {
+                x._paint();
+              });
+              status();
+              if (!reduce && b.animate)
+                b.animate([{ transform: "scale(0.97)" }, { transform: "none" }], {
+                  duration: 220,
+                  easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+                });
+            });
+            paint();
+            group.appendChild(b);
+          });
+          list.appendChild(row);
+        });
+        status();
       })();
     </script>
   </body>

@@ -573,7 +573,11 @@ s5 = beforeBodyEnd(
           vecItem = document.getElementById("ckVecItem");
         if (vecItem) items.insertBefore(li, vecItem);
         else items.appendChild(li);
-        window.renderChecklist((window.orderBase ? window.orderBase() : 1567.5) + (window.vecFee ? window.vecFee() : 0) + sum);
+        // the beach bag stays in the total when the checklist re-renders it (e.g. vectorising added)
+        window.ckBase = function () {
+          return (window.orderBase ? window.orderBase() : 1567.5) + (window.vecFee ? window.vecFee() : 0) + sum;
+        };
+        window.renderChecklist(window.ckBase());
       })();
     </script>
 `,
