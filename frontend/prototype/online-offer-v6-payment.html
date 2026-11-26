@@ -7369,7 +7369,18 @@
             return 0;
           }
         };
-        var BASE = Math.round((1567.5 + window.vecFee()) * 121) / 100; // order total incl. VAT from step 3
+        // products from step 1 ("loopperOrder"); without it the Bloom scenario (€ 1.567,50 excl. VAT)
+        window.orderBase = function () {
+          try {
+            var o = JSON.parse(sessionStorage.getItem("loopperOrder") || "null");
+            if (o && o.length === 2)
+              return o.reduce(function (s, l) {
+                return s + (l.on ? l.sum : 0);
+              }, 0);
+          } catch (e) {}
+          return 1567.5;
+        };
+        var BASE = Math.round((window.orderBase() + window.vecFee()) * 121) / 100; // order total incl. VAT from step 3
         function eur(n) {
           return (
             "€ " +
@@ -7490,6 +7501,127 @@
           CHECKLIST +
           '">Checklist</a></li>';
         ol.innerHTML = html;
+      })();
+    </script>
+    <script>
+      // Step memory: what the client filled in on this step comes back when they return to it
+      // (sessionStorage, per page). Step 3 also remembers its saved cards (details, delivery, remark).
+      (function () {
+        var page = (location.pathname.split("/").pop() || "index").replace(/\.html$/, "");
+        var KEY = "loopperMemory:" + page;
+        var restoring = false;
+        function controls() {
+          return Array.prototype.filter.call(
+            document.querySelectorAll("input, select, textarea"),
+            function (el) {
+              return (
+                !/^(file|hidden|submit|button|reset|image)$/.test(el.type) &&
+                !el.closest("dialog, #demoBar, .cmt, .ck-form")
+              );
+            },
+          );
+        }
+        // a stable key per field: id, else name (+ value for radios / checkboxes) and its position
+        function keys() {
+          var seen = {};
+          return controls().map(function (el) {
+            var base = el.id
+              ? "#" + el.id
+              : (el.name || el.tagName.toLowerCase()) +
+                (el.type === "radio" || el.type === "checkbox" ? "=" + el.value : "");
+            seen[base] = (seen[base] || 0) + 1;
+            return { el: el, key: base + "@" + seen[base] };
+          });
+        }
+        var $ = function (id) {
+          return document.getElementById(id);
+        };
+        var isDetails = !!$("invSummary");
+        function flags() {
+          if (!isDetails) return null;
+          return {
+            cc: !!$("ccField") && !$("ccField").hidden,
+            delOpen: !$("delForm").hidden || !$("delOwn").hidden,
+            delSaved: !$("delOwn").hidden,
+            invSaved: !$("invSummary").hidden,
+            remSaved: !$("remText").hidden,
+          };
+        }
+        function save() {
+          if (restoring) return;
+          var data = { fields: {}, flags: flags() };
+          keys().forEach(function (k) {
+            var el = k.el;
+            data.fields[k.key] =
+              el.type === "radio" || el.type === "checkbox"
+                ? { c: el.checked }
+                : { v: el.value };
+          });
+          try {
+            sessionStorage.setItem(KEY, JSON.stringify(data));
+          } catch (e) {}
+        }
+        function fire(el, types) {
+          types.forEach(function (t) {
+            el.dispatchEvent(new Event(t, { bubbles: true }));
+          });
+        }
+        function restore() {
+          var data = null;
+          try {
+            data = JSON.parse(sessionStorage.getItem(KEY) || "null");
+          } catch (e) {}
+          if (!data || !data.fields) return;
+          restoring = true;
+          var f = data.flags || {};
+          // step 3: open the CC field and the separate delivery form before their values come back
+          if (isDetails) {
+            if (f.cc && $("ccField") && $("ccField").hidden) $("addCc").click();
+            if (f.delOpen && $("delForm").hidden) $("addDelivery").click();
+          }
+          var list = keys();
+          // switches first, then radios, then text: later fields may depend on earlier ones
+          ["checkbox", "radio", "text"].forEach(function (kind) {
+            list.forEach(function (k) {
+              var el = k.el,
+                s = data.fields[k.key];
+              if (!s) return;
+              var type = el.type === "checkbox" || el.type === "radio" ? el.type : "text";
+              if (type !== kind) return;
+              if (kind === "text") {
+                if (s.v === undefined || el.value === s.v) return;
+                el.value = s.v;
+                fire(el, ["input", "change"]);
+              } else if (el.checked !== s.c) {
+                el.checked = s.c;
+                if (s.c || kind === "checkbox") fire(el, ["change"]);
+              }
+            });
+          });
+          // step 3: show the cards the client had saved
+          if (isDetails) {
+            if (f.invSaved && $("invSummary").hidden) $("invSave").click();
+            if (f.delSaved && $("delOwn").hidden) $("delSave").click();
+            if (f.remSaved && $("remText").hidden) $("remSave").click();
+          }
+          restoring = false;
+          if (document.activeElement && document.activeElement !== document.body)
+            document.activeElement.blur();
+          window.scrollTo(0, 0);
+          save();
+        }
+        restore();
+        document.addEventListener("input", save, true);
+        document.addEventListener("change", save, true);
+        // buttons that change the saved state (Save / Edit / delivery address): save after they ran
+        document.addEventListener(
+          "click",
+          function () {
+            setTimeout(save, 0);
+          },
+          true,
+        );
+        window.addEventListener("pagehide", save);
       })();
     </script>
   </body>

@@ -495,6 +495,7 @@ s3 = beforeBodyEnd(
         var first = body && body.querySelector("tr");
         if (!first) return;
         var row = first.cloneNode(true);
+        row.hidden = false; // the tote bag row may be hidden (out of the offer)
         var img = row.querySelector(".det-prod-img");
         img.src = "assets/offer-bloom/beach-13.jpg";
         img.alt = "Beach bag with cord handle, beige";
@@ -537,7 +538,7 @@ s4 = beforeBodyEnd(
       (function () {
         try {
           var alt = JSON.parse(sessionStorage.getItem("loopperUserTestAlt") || "null");
-          if (alt && window.setPayBase) window.setPayBase(Math.round((1567.5 + (window.vecFee ? window.vecFee() : 0) + alt.p * alt.q) * 121) / 100);
+          if (alt && window.setPayBase) window.setPayBase(Math.round(((window.orderBase ? window.orderBase() : 1567.5) + (window.vecFee ? window.vecFee() : 0) + alt.p * alt.q) * 121) / 100);
         } catch (e) {}
       })();
     </script>
@@ -572,7 +573,7 @@ s5 = beforeBodyEnd(
           vecItem = document.getElementById("ckVecItem");
         if (vecItem) items.insertBefore(li, vecItem);
         else items.appendChild(li);
-        window.renderChecklist(1567.5 + (window.vecFee ? window.vecFee() : 0) + sum);
+        window.renderChecklist((window.orderBase ? window.orderBase() : 1567.5) + (window.vecFee ? window.vecFee() : 0) + sum);
       })();
     </script>
 `,

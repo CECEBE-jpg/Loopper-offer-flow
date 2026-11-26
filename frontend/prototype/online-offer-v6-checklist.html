@@ -8527,7 +8527,42 @@
           }
         };
         if (!window.vecFee()) $("ckVecItem").remove();
-        window.renderChecklist(1567.5 + window.vecFee());
+        // products from step 1 ("loopperOrder": tote bag, thermos); without it the Bloom scenario
+        var order = null;
+        try {
+          order = JSON.parse(sessionStorage.getItem("loopperOrder") || "null");
+        } catch (e) {}
+        if (!order || order.length !== 2) order = null;
+        window.orderBase = function () {
+          return order
+            ? order.reduce(function (s, l) {
+                return s + (l.on ? l.sum : 0);
+              }, 0)
+            : 1567.5;
+        };
+        if (order) {
+          var items = $("ckItems").querySelectorAll("li:not(#ckVecItem)");
+          order.forEach(function (l, i) {
+            var li = items[i];
+            if (!li) return;
+            if (!l.on) {
+              li.remove();
+              return;
+            }
+            var small = li.querySelector("small");
+            small.textContent = small.textContent.replace(
+              /^[\d.,]+ pieces/,
+              l.qty.toLocaleString("en-GB") + " pieces",
+            );
+            li.querySelector("em").textContent =
+              "€ " +
+              l.sum.toLocaleString("nl-NL", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              });
+          });
+        }
+        window.renderChecklist(window.orderBase() + window.vecFee());
 
         $("ckUpload").addEventListener("click", function () {
           $("ckProof").click();
