@@ -7056,13 +7056,15 @@
       .proof-tab[aria-selected="true"] .dot {
         background-image: url("assets/offer-v3/design-tabs/picture-active.svg");
       }
+      /* approved designs keep the same icon colours (no green) */
       .proof-tab.is-ok .dot,
       .proof-tab:has(.pr-tag.is-approved) .dot {
-        background: var(--green);
-        -webkit-mask: url("assets/offer-v3/design-tabs/picture.svg") center / 18px
+        background: url("assets/offer-v3/design-tabs/picture.svg") center / 18px
           13.9091px no-repeat;
-        mask: url("assets/offer-v3/design-tabs/picture.svg") center / 18px
-          13.9091px no-repeat;
+      }
+      .proof-tab.is-ok[aria-selected="true"] .dot,
+      .proof-tab[aria-selected="true"]:has(.pr-tag.is-approved) .dot {
+        background-image: url("assets/offer-v3/design-tabs/picture-active.svg");
       }
       /* Vectorise note: light green, same family as the chosen vectorise button */
       .pr-options .vector > .vector-note {
