@@ -6738,6 +6738,27 @@
         display: none;
       }
 
+      /* Uploaded logo tile (new layout): thumbnail, "Background on/off" switch, file name,
+         received date, Remove. No "Transparent / Solid background" line any more. */
+      .logos-dd .logo .logo-bg-note {
+        display: none;
+      }
+      .logos-dd .logo-thumb {
+        border-radius: 12px;
+      }
+      .logos-dd .logo-thumb + .logo-white-switch {
+        margin: 4px 0 6px;
+      }
+      .logos-dd .logo .logo-sub {
+        margin-bottom: 8px;
+      }
+
+      /* Logo section: no mockup status box (requested / in progress / ready) any more.
+         Hidden, not deleted: the demo and user-test scripts still update it. */
+      .logos-dd #designNote {
+        display: none !important;
+      }
+
       /* Request sample offer sits under the products card */
       .main > .p6-sample-row {
         margin-top: -4px;
@@ -10871,7 +10892,8 @@
           var top = tile.querySelector(".logo-top");
           var lab = document.createElement("label");
           lab.className = "switch logo-white-switch";
-          lab.innerHTML = '<input type="checkbox" /><span>White logo</span>';
+          lab.innerHTML =
+            '<input type="checkbox" /><span>Background on/off</span>';
           thumb.insertAdjacentElement("afterend", lab);
           var input = lab.querySelector("input");
           input.addEventListener("change", function () {
