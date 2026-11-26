@@ -6924,7 +6924,9 @@
             Bloom Agency<br />Mrs. Cayna Parker<br />Baker Street 12<br />NW1
             6XE London<br />United Kingdom
           </p>
-          <a class="pay-edit" href="user-test-details.html">Change details</a>
+          <a class="pay-edit" href="user-test-details.html"
+            >Change details</a
+          >
         </aside>
         <section class="am-feature pay-am" aria-label="Your account manager">
           <img
@@ -7374,11 +7376,9 @@
           logo = sessionStorage.getItem("loopperUserTestLogo");
         } catch (e) {}
         if (!logo || logo === "text") return;
-        document
-          .querySelectorAll('img[src="assets/offer-bloom/bloom-logo.png"]')
-          .forEach(function (img) {
-            img.src = logo;
-          });
+        document.querySelectorAll('img[src="assets/offer-bloom/bloom-logo.png"]').forEach(function (img) {
+          img.src = logo;
+        });
         var box = document.querySelector(".client-logo");
         if (box) box.setAttribute("aria-label", "Your uploaded logo");
       })();
@@ -7386,11 +7386,8 @@
     <script>
       (function () {
         try {
-          var alt = JSON.parse(
-            sessionStorage.getItem("loopperUserTestAlt") || "null",
-          );
-          if (alt && window.setPayBase)
-            window.setPayBase(Math.round((1567.5 + alt.p * alt.q) * 121) / 100);
+          var alt = JSON.parse(sessionStorage.getItem("loopperUserTestAlt") || "null");
+          if (alt && window.setPayBase) window.setPayBase(Math.round((1567.5 + alt.p * alt.q) * 121) / 100);
         } catch (e) {}
       })();
     </script>

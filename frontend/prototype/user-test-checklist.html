@@ -7504,7 +7504,9 @@
               width="26"
               height="26"
               alt="Done:"
-            /><a class="step-link" href="user-test-payment.html">Payment</a>
+            /><a class="step-link" href="user-test-payment.html"
+              >Payment</a
+            >
           </li>
           <li class="step-checklist is-current" aria-current="step">
             <svg
@@ -8019,11 +8021,9 @@
           logo = sessionStorage.getItem("loopperUserTestLogo");
         } catch (e) {}
         if (!logo || logo === "text") return;
-        document
-          .querySelectorAll('img[src="assets/offer-bloom/bloom-logo.png"]')
-          .forEach(function (img) {
-            img.src = logo;
-          });
+        document.querySelectorAll('img[src="assets/offer-bloom/bloom-logo.png"]').forEach(function (img) {
+          img.src = logo;
+        });
         var box = document.querySelector(".client-logo");
         if (box) box.setAttribute("aria-label", "Your uploaded logo");
       })();
@@ -8034,9 +8034,7 @@
       (function () {
         var alt = null;
         try {
-          alt = JSON.parse(
-            sessionStorage.getItem("loopperUserTestAlt") || "null",
-          );
+          alt = JSON.parse(sessionStorage.getItem("loopperUserTestAlt") || "null");
         } catch (e) {}
         if (!alt || !window.renderChecklist) return;
         var sum = alt.p * alt.q;
@@ -8046,11 +8044,7 @@
           alt.q +
           " pieces · screen print</small></span><em></em>";
         li.querySelector("em").textContent =
-          "€ " +
-          sum.toLocaleString("nl-NL", {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          });
+          "€ " + sum.toLocaleString("nl-NL", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         document.getElementById("ckItems").appendChild(li);
         window.renderChecklist(1567.5 + sum);
       })();

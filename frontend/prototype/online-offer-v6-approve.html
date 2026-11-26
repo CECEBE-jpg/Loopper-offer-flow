@@ -6591,34 +6591,33 @@
           justify-self: start;
         }
       }
-      /* "Next: Your details" under the chat: green text button on the card's bottom edge */
+      /* "Next: Your details" under the chat: same filled green button as the bottom bar */
       .check-card #approveBtn {
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: space-between;
         gap: 10px;
-        width: 100%;
-        height: auto;
-        margin: 0;
-        padding: 16px 18px 18px;
+        width: calc(100% - 36px);
+        height: 53px;
+        margin: 16px 18px 18px;
+        padding: 0 18px;
         border: 0;
-        border-top: 1px solid #e1e7ed;
-        border-radius: 0 0 14px 14px;
-        background: none;
+        border-radius: 14px;
+        background: var(--green);
         font: inherit;
-        font-size: 17px;
+        font-size: 16px;
         font-weight: 800;
-        color: var(--green);
+        color: #fff;
         cursor: pointer;
       }
       .check-card #approveBtn:hover {
-        color: var(--green-text);
-        text-decoration: underline;
+        filter: brightness(0.95);
       }
       .check-card #approveBtn:disabled {
-        color: #9aa6b2;
+        background: #cfd5db;
+        color: #fff;
         cursor: default;
-        text-decoration: none;
+        filter: none;
       }
       .check-card .change-form {
         border-bottom: 0;
@@ -6942,6 +6941,125 @@
         filter: none;
         box-shadow: 1px 6px 19px rgba(0, 0, 0, 0.04);
       }
+
+      /* Colour and vector logo card, Figma 193:165: "Action needed" chip top right,
+         two-line upload tile with a plus, vectorise button with its price */
+      .pr-options {
+        display: flex;
+        flex-direction: column;
+      }
+      .pr-action-chip {
+        align-self: flex-end;
+        margin-bottom: 10px;
+        padding: 4px 12px;
+        border-radius: 20px;
+        background: #fdecea;
+        font-size: 12px;
+        font-weight: 800;
+        color: #b42318;
+      }
+      .pr-action-chip[hidden] {
+        display: none;
+      }
+      .pr-options .vector-actions .vector-btn {
+        height: 46px;
+        border-radius: 10px;
+        padding: 0 14px;
+      }
+      .pr-options .vector #vectorUpload {
+        justify-content: flex-start;
+        gap: 12px;
+        border: 1px dashed #00799a;
+        background: transparent;
+      }
+      .pr-options .vector #vectorUpload:hover,
+      .pr-options .vector #vectorUpload:focus-visible {
+        background: #eaf6fa;
+      }
+      .pr-options .vector #vectorUpload .vector-plus {
+        font-size: 22px;
+        line-height: 22px;
+        font-weight: 500;
+        color: #00799a;
+      }
+      .pr-options .vector #vectorUpload .vector-btn-text {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1px;
+        font-size: 12px;
+        line-height: 16px;
+        font-weight: 600;
+        color: #1c2530;
+        text-align: left;
+      }
+      .pr-options .vector #vectorUpload .vector-btn-text small {
+        font-size: 11px;
+        line-height: 15px;
+        font-weight: 500;
+        color: #7b8794;
+      }
+      .pr-options .vector-btn-alt {
+        justify-content: space-between;
+        border: 1px solid #6c7783;
+      }
+      .pr-options .vector-alt-text {
+        font-size: 12px;
+        line-height: 14px;
+        font-weight: 600;
+        color: #1c2530;
+        text-align: left;
+      }
+      .pr-options .vector-alt-text b {
+        font-weight: 800;
+      }
+      .pr-options .vector-price {
+        font-size: 13px;
+        font-weight: 800;
+        color: #00799a;
+      }
+      /* Vectorise option: radio circle like the PMS options; chosen = same green border as a checked PMS option */
+      .pr-options .vector-btn-alt {
+        justify-content: flex-start;
+        gap: 10px;
+      }
+      .pr-options .vector-btn-alt::before {
+        content: "";
+        display: block;
+        flex: none;
+        width: 18px;
+        height: 18px;
+        margin: 0;
+        border: 0;
+        border-radius: 50%;
+        background: #fff;
+        box-shadow: inset 0 0 0 1px #8f8f8f;
+      }
+      .pr-options .vector-btn-alt[aria-pressed="true"]::before {
+        background: radial-gradient(circle, #8dc63f 0 5px, #fff 5.5px);
+        box-shadow: inset 0 0 0 1px #8dc63f;
+      }
+      .pr-options .vector-btn-alt .vector-price {
+        margin-left: auto;
+      }
+      .pr-options .vector-btn-alt[aria-pressed="true"] {
+        border: 2px solid var(--green);
+        background: #fff;
+        padding: 0 13px;
+      }
+      /* Vectorise note: light green, same family as the chosen vectorise button */
+      .pr-options .vector > .vector-note {
+        margin-top: 12px;
+        padding: 16px 20px;
+        border: 0;
+        border-radius: 12px;
+        background: #f1fae9;
+        font-size: 13px;
+        line-height: 20px;
+        color: #1c2530;
+      }
+      .pr-options .vector-note b {
+        font-weight: 800;
+      }
     </style>
   </head>
   <body>
@@ -7173,6 +7291,7 @@
           class="proof-card pr-options"
           aria-label="Colour and vector logo"
         >
+          <span class="pr-action-chip" id="prActionChip">Action needed</span>
           <fieldset class="pms">
             <legend>PMS / Colour</legend>
             <label class="pms-opt"
@@ -7208,24 +7327,10 @@
             </p>
             <div class="vector-actions">
               <button type="button" class="vector-btn" id="vectorUpload">
-                <svg
-                  class="vector-up"
-                  width="14"
-                  height="14"
-                  viewBox="0 0 14 14"
-                  fill="none"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="M7 12.5V5M3.8 8 7 4.8 10.2 8M2 1.5h10"
-                    stroke="currentColor"
-                    stroke-width="1.8"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  /></svg
+                <span class="vector-plus" aria-hidden="true">+</span
                 ><span class="vector-btn-text"
                   >Upload your vector logo
-                  <small>.svg, .ai, .pdf, .eps</small></span
+                  <small>SVG, AI, PDF, EPS</small></span
                 >
               </button>
               <input
@@ -7240,16 +7345,19 @@
                 id="vectorise"
                 aria-pressed="false"
               >
-                I don’t have a vector logo, vectorise it for me
+                <span class="vector-alt-text"
+                  >I don’t have a vector logo,<br /><b>vectorise</b> it for
+                  me</span
+                ><span class="vector-price">€ 25</span>
               </button>
             </div>
             <p class="vector-file" id="vectorFileName" hidden></p>
             <p class="vector-note" id="vectorNote" hidden>
-              <b>We will vectorise your logo.</b> Our design team can hand-draw
-              your pixel logo as a vector. It is part of our service. We aim for
-              perfection, but we want to be honest about the complexity of this
-              process: when redrawing thousands of pixels, tiny imperfections
-              can occur.
+              <b>We will vectorise your logo.</b> With this additional service
+              our design team will hand-draw your pixel logo as a vector. We aim
+              for perfection, but we want to be honest about the complexity of
+              this process: when redrawing thousands of pixels, tiny
+              imperfections can occur.
             </p>
           </div>
         </section>
@@ -7475,12 +7583,21 @@
           vec.setAttribute("aria-pressed", "false");
 
           note.hidden = true;
+          syncChip();
         });
         vec.addEventListener("click", function () {
           var on = vec.getAttribute("aria-pressed") !== "true";
           vec.setAttribute("aria-pressed", on ? "true" : "false");
           note.hidden = !on;
+          syncChip();
         });
+        // "Action needed" stays until the client uploads a vector file or chooses vectorising
+        var chip = document.getElementById("prActionChip");
+        function syncChip() {
+          if (!chip) return;
+          chip.hidden =
+            !fileName.hidden || vec.getAttribute("aria-pressed") === "true";
+        }
         var log = document.getElementById("changeLog"),
           form = document.getElementById("changeForm");
         form.addEventListener("submit", function (e) {

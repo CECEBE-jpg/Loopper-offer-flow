@@ -7696,11 +7696,9 @@
           logo = sessionStorage.getItem("loopperUserTestLogo");
         } catch (e) {}
         if (!logo || logo === "text") return;
-        document
-          .querySelectorAll('img[src="assets/offer-bloom/bloom-logo.png"]')
-          .forEach(function (img) {
-            img.src = logo;
-          });
+        document.querySelectorAll('img[src="assets/offer-bloom/bloom-logo.png"]').forEach(function (img) {
+          img.src = logo;
+        });
         var box = document.querySelector(".client-logo");
         if (box) box.setAttribute("aria-label", "Your uploaded logo");
       })();
@@ -7710,19 +7708,11 @@
       (function () {
         var alt = null;
         try {
-          alt = JSON.parse(
-            sessionStorage.getItem("loopperUserTestAlt") || "null",
-          );
+          alt = JSON.parse(sessionStorage.getItem("loopperUserTestAlt") || "null");
         } catch (e) {}
         if (!alt) return;
         function eur(n) {
-          return (
-            "€ " +
-            n.toLocaleString("nl-NL", {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })
-          );
+          return "€ " + n.toLocaleString("nl-NL", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         }
         var body = document.querySelector(".det-table tbody");
         var first = body && body.querySelector("tr");
@@ -7736,8 +7726,7 @@
           t.src = "assets/offer-bloom/" + th[i];
         });
         var txt = row.querySelectorAll(".det-prod h3, .det-prod p");
-        txt[0].textContent =
-          "Beach bag | Cotton 220 g/m² | 55x39 cm | Cord handle | Beige";
+        txt[0].textContent = "Beach bag | Cotton 220 g/m² | 55x39 cm | Cord handle | Beige";
         txt[1].textContent = "Article number: 6377143";
         txt[2].textContent = "Screen print · Personalisation: front (30×20 cm)";
         if (txt[3]) txt[3].textContent = "Expected delivery: 1 December 2026";

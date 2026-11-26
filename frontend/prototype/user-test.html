@@ -6717,6 +6717,31 @@
         border-style: solid;
         background: #eaf6fa;
       }
+
+      /* Logo header: no mockup status chip; with no logo yet a question replaces the count */
+      .logos-dd .chip-status {
+        display: none;
+      }
+      .logos-dd-head {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+      .logos-dd-sub {
+        font-size: 13px;
+        line-height: 18px;
+        font-weight: 400;
+        color: var(--muted);
+      }
+      .logos-dd:not(.is-empty) .logos-dd-sub,
+      .logos-dd.is-empty .logos-dd-hint {
+        display: none;
+      }
+
+      /* Request sample offer sits under the products card */
+      .main > .p6-sample-row {
+        margin-top: -4px;
+      }
     </style>
   </head>
   <body>
@@ -6852,7 +6877,12 @@
         <details class="card logos-card logos-dd" open>
           <summary class="card-head">
             <span class="logos-dd-title">
-              <h2 id="logosTitle">Your logo &amp; design</h2>
+              <span class="logos-dd-head">
+                <h2 id="logosTitle">Your logo &amp; design</h2>
+                <span class="logos-dd-sub"
+                  >Would you like to receive a free mockup?</span
+                >
+              </span>
               <span class="logos-dd-hint">
                 <span class="logos-dd-count">No logo yet</span>
               </span>
@@ -7880,12 +7910,6 @@
             </div>
           </article>
 
-          <hr class="p6-sample-divider" />
-          <div class="p6-sample-row">
-            <button type="button" class="p6-sample">
-              Request sample offer
-            </button>
-          </div>
           <dialog
             class="cancel-dlg"
             id="cancelDlg"
@@ -7914,6 +7938,10 @@
             </div>
           </dialog>
         </section>
+        <!-- Request sample offer: under the products card, not inside it -->
+        <div class="p6-sample-row">
+          <button type="button" class="p6-sample">Request sample offer</button>
+        </div>
       </main>
 
       <!-- Account manager: cut-out photo on top of a card, in the space left of the summary -->
@@ -10022,7 +10050,8 @@
           });
           var note = document.createElement("p");
           note.className = "cm-system";
-          note.textContent = "Jildou usually replies within a few minutes.";
+          note.textContent =
+            "Jildou usually replies within a few minutes.";
           log.appendChild(note);
           dSend.disabled = true;
           dlg.showModal();
@@ -10573,7 +10602,11 @@
           } else return null;
           return m;
         }
+        var dd = list.closest(".logos-dd");
         function sync() {
+          // no logo yet: the header asks about the free mockup instead of showing a count
+          if (dd)
+            dd.classList.toggle("is-empty", !list.querySelector("[data-logo]"));
           hint.querySelectorAll(".logo-mini").forEach(function (m) {
             m.remove();
           });
@@ -11087,22 +11120,15 @@
         var KEY = "loopperUserTestLogo";
         var started = false;
         function waiting() {
-          document
-            .querySelectorAll(".products-card .p6-photo")
-            .forEach(function (p) {
-              p.querySelectorAll(
-                ".p6-overlay-mockup, .p6-mock-logo, .p6-ready",
-              ).forEach(function (el) {
-                el.remove();
-              });
-              p.classList.remove("is-ready");
-              p.dataset.mockup = "none";
+          document.querySelectorAll(".products-card .p6-photo").forEach(function (p) {
+            p.querySelectorAll(".p6-overlay-mockup, .p6-mock-logo, .p6-ready").forEach(function (el) {
+              el.remove();
             });
+            p.classList.remove("is-ready");
+            p.dataset.mockup = "none";
+          });
           if (chip) {
-            chip.className =
-              chip.className
-                .replace(/\bis-(requested|progress|ready)\b/g, "")
-                .trim() + " is-requested";
+            chip.className = chip.className.replace(/\bis-(requested|progress|ready)\b/g, "").trim() + " is-requested";
             chip.textContent = "Upload your logo";
           }
           if (note) {
@@ -11111,9 +11137,7 @@
               "<b>Upload your logo</b> and we\u2019ll make a <b>free digital mockup</b> of your products.<br />You can approve it or ask for changes before you order.";
           }
           if (hint) hint.classList.remove("is-count");
-          if (hint)
-            hint.innerHTML =
-              "<b>Upload your logo</b> to get your free mockup design.";
+          if (hint) hint.innerHTML = "<b>Upload your logo</b> to get your free mockup design.";
         }
         function remember(src) {
           // keep the logo for steps 2 and 3 (as a small PNG, so it survives a page change)
@@ -11134,9 +11158,7 @@
         }
         function onLogo() {
           if (started) return;
-          var file = list.querySelector(
-            '[data-logo="file"] .logo-thumb-upload img',
-          );
+          var file = list.querySelector('[data-logo="file"] .logo-thumb-upload img');
           var text = list.querySelector('[data-logo="text"]');
           if (!file && !text) return;
           started = true;
@@ -11150,10 +11172,7 @@
           }
           if (window.utDemo) window.utDemo.playOnce();
         }
-        new MutationObserver(onLogo).observe(list, {
-          childList: true,
-          subtree: true,
-        });
+        new MutationObserver(onLogo).observe(list, { childList: true, subtree: true });
         // back from step 2: show the uploaded logo and the finished mockups again (no replay)
         var saved = null;
         try {
@@ -11172,14 +11191,12 @@
             // a logo can always be removed, also once its mockup is ready
             '<button type="button" class="logo-btn" data-logo-action="delete"><img src="assets/offer-v3/icon-remove.svg" width="12.2142" height="12.6353" alt="" />Remove</button>';
           tile.querySelector(".logo-thumb-upload img").src = saved;
-          tile
-            .querySelector('[data-logo-action="delete"]')
-            .addEventListener("click", function () {
-              // removed: do not bring it back on the next page load
-              try {
-                sessionStorage.removeItem(KEY);
-              } catch (e) {}
-            });
+          tile.querySelector('[data-logo-action="delete"]').addEventListener("click", function () {
+            // removed: do not bring it back on the next page load
+            try {
+              sessionStorage.removeItem(KEY);
+            } catch (e) {}
+          });
           list.insertBefore(tile, list.firstChild);
           var count = document.querySelector(".logos-dd-count");
           if (count) count.textContent = "1 logo";
@@ -11239,13 +11256,7 @@
         window.extraMockups = function () {
           if (!inOffer.checked) return [];
           var m = photo.dataset.mockup;
-          return [
-            m === "ready"
-              ? "ready"
-              : m === "progress"
-                ? "progress"
-                : "requested",
-          ];
+          return [m === "ready" ? "ready" : m === "progress" ? "progress" : "requested"];
         };
         function hasLogo() {
           return !!document.querySelector(".logos-dd .logos [data-logo]");
@@ -11255,18 +11266,8 @@
             if (!inOffer.checked) return sessionStorage.removeItem(KEY);
             var r = qty.querySelector('.q-row > input[type="radio"]:checked');
             var q = r && r.getAttribute("data-price") ? +r.value : 250;
-            var p =
-              r && r.getAttribute("data-price")
-                ? +r.getAttribute("data-price")
-                : 4.08;
-            sessionStorage.setItem(
-              KEY,
-              JSON.stringify({
-                q: q,
-                p: p,
-                ready: photo.dataset.mockup === "ready",
-              }),
-            );
+            var p = r && r.getAttribute("data-price") ? +r.getAttribute("data-price") : 4.08;
+            sessionStorage.setItem(KEY, JSON.stringify({ q: q, p: p, ready: photo.dataset.mockup === "ready" }));
           } catch (e) {}
         }
         function overlay(on) {
@@ -11274,26 +11275,12 @@
             el.remove();
           });
           if (on)
-            photo.insertAdjacentHTML(
-              "beforeend",
-              '<span class="p6-overlay p6-overlay-mockup">Mockup in progress</span>',
-            );
+            photo.insertAdjacentHTML("beforeend", '<span class="p6-overlay p6-overlay-mockup">Mockup in progress</span>');
         }
         function set(state) {
           note.hidden = false;
-          note.className =
-            "ut-alt-note" +
-            (state === "ready"
-              ? " is-ready"
-              : state === "wait"
-                ? " is-wait"
-                : "");
-          photo.dataset.mockup =
-            state === "ready"
-              ? "ready"
-              : state === "progress"
-                ? "progress"
-                : "none";
+          note.className = "ut-alt-note" + (state === "ready" ? " is-ready" : state === "wait" ? " is-wait" : "");
+          photo.dataset.mockup = state === "ready" ? "ready" : state === "progress" ? "progress" : "none";
           overlay(state === "progress");
           note.textContent =
             state === "ready"
@@ -11314,11 +11301,7 @@
         }
         function sync() {
           if (inOffer.checked) {
-            if (
-              photo.dataset.mockup !== "ready" &&
-              photo.dataset.mockup !== "progress"
-            )
-              start();
+            if (photo.dataset.mockup !== "ready" && photo.dataset.mockup !== "progress") start();
           } else {
             clearTimeout(timer);
             overlay(false);
@@ -11343,8 +11326,7 @@
         var list = document.querySelector(".logos-dd .logos");
         if (list)
           new MutationObserver(function () {
-            if (inOffer.checked && photo.dataset.mockup === "none" && hasLogo())
-              start();
+            if (inOffer.checked && photo.dataset.mockup === "none" && hasLogo()) start();
           }).observe(list, { childList: true, subtree: true });
         // back from step 2: the bag is still in the offer with its finished mockup
         var saved = null;

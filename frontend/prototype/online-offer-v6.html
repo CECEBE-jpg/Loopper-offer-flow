@@ -6716,6 +6716,31 @@
         border-style: solid;
         background: #eaf6fa;
       }
+
+      /* Logo header: no mockup status chip; with no logo yet a question replaces the count */
+      .logos-dd .chip-status {
+        display: none;
+      }
+      .logos-dd-head {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+      .logos-dd-sub {
+        font-size: 13px;
+        line-height: 18px;
+        font-weight: 400;
+        color: var(--muted);
+      }
+      .logos-dd:not(.is-empty) .logos-dd-sub,
+      .logos-dd.is-empty .logos-dd-hint {
+        display: none;
+      }
+
+      /* Request sample offer sits under the products card */
+      .main > .p6-sample-row {
+        margin-top: -4px;
+      }
     </style>
   </head>
   <body>
@@ -6851,7 +6876,12 @@
         <details class="card logos-card logos-dd">
           <summary class="card-head">
             <span class="logos-dd-title">
-              <h2 id="logosTitle">Your logo &amp; design</h2>
+              <span class="logos-dd-head">
+                <h2 id="logosTitle">Your logo &amp; design</h2>
+                <span class="logos-dd-sub"
+                  >Would you like to receive a free mockup?</span
+                >
+              </span>
               <span class="logos-dd-hint">
                 <span class="logo-mini logo-mini-file">
                   <img
@@ -7919,12 +7949,6 @@
             </div>
           </article>
 
-          <hr class="p6-sample-divider" />
-          <div class="p6-sample-row">
-            <button type="button" class="p6-sample">
-              Request sample offer
-            </button>
-          </div>
           <dialog
             class="cancel-dlg"
             id="cancelDlg"
@@ -7953,6 +7977,10 @@
             </div>
           </dialog>
         </section>
+        <!-- Request sample offer: under the products card, not inside it -->
+        <div class="p6-sample-row">
+          <button type="button" class="p6-sample">Request sample offer</button>
+        </div>
       </main>
 
       <!-- Account manager: cut-out photo on top of a card, in the space left of the summary -->
@@ -10605,7 +10633,11 @@
           } else return null;
           return m;
         }
+        var dd = list.closest(".logos-dd");
         function sync() {
+          // no logo yet: the header asks about the free mockup instead of showing a count
+          if (dd)
+            dd.classList.toggle("is-empty", !list.querySelector("[data-logo]"));
           hint.querySelectorAll(".logo-mini").forEach(function (m) {
             m.remove();
           });
