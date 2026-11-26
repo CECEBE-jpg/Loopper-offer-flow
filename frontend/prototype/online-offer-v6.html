@@ -6758,6 +6758,12 @@
         display: none !important;
       }
 
+      /* Upload / text tiles: own column left of the logo list */
+      .logos-dd .logos-row > .logo-adds {
+        flex: none;
+        margin-right: 20px;
+      }
+
       /* Request sample offer sits under the products card */
       .main > .p6-sample-row {
         margin-top: -4px;
@@ -8655,11 +8661,8 @@
           .querySelector("input")
           .addEventListener("change", function (e) {
             Array.prototype.forEach.call(e.target.files, function (file) {
-              // the upload tiles may sit under the note (4+ logos): then add at the end of the list
-              var adds = document.querySelector(".logo-adds");
-              if (adds && adds.parentNode === list)
-                list.insertBefore(fileTile(file), adds);
-              else list.appendChild(fileTile(file));
+              // new uploads go at the end of the list, right of the upload tiles
+              list.appendChild(fileTile(file));
             });
             e.target.value = "";
             updateCount();
@@ -9506,9 +9509,8 @@
             '<p class="logo-name">Text logo</p><p class="logo-sub"></p></div><div class="logo-actions">' +
             '<button type="button" class="logo-btn" data-logo-action="edit"><img src="assets/offer-v3/icon-edit.svg" width="14.9621" height="14.3636" alt="" />Edit</button>' +
             '<button type="button" class="logo-btn" data-logo-action="delete"><img src="assets/offer-v3/icon-remove.svg" width="12.2142" height="12.6353" alt="" />Remove</button></div>';
-          var adds = document.querySelector(".logo-adds");
-          if (adds && adds.parentNode === list) list.insertBefore(el, adds);
-          else list.appendChild(el);
+          // new text logos go at the end of the list, right of the upload tiles
+          list.appendChild(el);
           return el;
         }
         modal.querySelector(".tlm-save").addEventListener("click", function () {
@@ -10845,20 +10847,14 @@
       })();
     </script>
     <script>
-      // 4 or more logos: the upload tiles sit under the note instead of starting a new row
+      // Upload / text tiles always sit on the left, outside the logo list, so any number of
+      // logos (and the 5+ slider) stays on the right of them
       (function () {
         var dd = document.querySelector(".logos-dd");
-        var list = dd && dd.querySelector(".logos");
-        var aside = dd && dd.querySelector(".logos-aside");
+        var row = dd && dd.querySelector(".logos-row");
         var adds = dd && dd.querySelector(".logo-adds");
-        if (!list || !aside || !adds) return;
-        function place() {
-          var many = list.querySelectorAll(".logo[data-logo]").length >= 4;
-          if (many && adds.parentElement !== aside) aside.appendChild(adds);
-          else if (!many && adds.parentElement !== list) list.appendChild(adds);
-        }
-        place();
-        new MutationObserver(place).observe(list, { childList: true });
+        if (!row || !adds) return;
+        row.insertBefore(adds, row.firstElementChild);
       })();
     </script>
     <script>

@@ -177,7 +177,7 @@ s = beforeBodyEnd(
               sessionStorage.removeItem(KEY);
             } catch (e) {}
           });
-          list.insertBefore(tile, list.firstChild);
+          list.appendChild(tile); // right of the upload tiles
           var count = document.querySelector(".logos-dd-count");
           if (count) count.textContent = "1 logo";
           if (window.utDemo) window.utDemo.finish();
