@@ -31,44 +31,6 @@ const beforeBodyEnd = (s, html) => {
   return s.slice(0, i) + html + s.slice(i);
 };
 const BLOOM = "assets/offer-bloom/bloom-logo.png";
-// Once the test user reached the checklist (all steps done), every step page shows the
-// finished progress bar: all steps green with a tick, the open page as current, plus Checklist.
-const ALL_DONE = `    <script>
-      // User test: all steps done (checklist reached) -> finished progress bar on every step page
-      (function () {
-        var done = false;
-        try {
-          done = sessionStorage.getItem("loopperUserTestDone") === "1";
-        } catch (e) {}
-        var ol = document.querySelector(".stepper");
-        if (!done || !ol) return;
-        var PAGES = [
-          ["Your offer", "user-test.html"],
-          ["Approve design", "user-test-approve.html"],
-          ["Your details", "user-test-details.html"],
-          ["Payment", "user-test-payment.html"],
-        ];
-        var here = (location.pathname.split("/").pop() || "user-test.html").replace(/\\.html$/, "");
-        var html = "";
-        PAGES.forEach(function (p, i) {
-          if (p[1].replace(".html", "") === here) {
-            html += '<li class="step step-current" aria-current="step"><span class="step-num">' + (i + 1) + "</span>" + p[0] + "</li>";
-          } else {
-            html +=
-              '<li class="step step-done"><img src="assets/offer-v3/icon-step-done.svg" width="26" height="26" alt="Done:" />' +
-              '<a class="step-link" href="' + p[1] + '">' + p[0] + "</a></li>";
-          }
-        });
-        html +=
-          '<li class="step-checklist"><svg class="step-checklist-icon" width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">' +
-          '<rect x="4" y="3.5" width="12" height="14" rx="2.5" stroke="currentColor" stroke-width="1.8" />' +
-          '<path d="M7.5 3.5V2.8c0-.4.3-.8.8-.8h3.4c.5 0 .8.4.8.8v.7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />' +
-          '<path d="M7.3 10.4l1.9 1.9 3.6-3.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>' +
-          '<a href="user-test-checklist.html">Checklist</a></li>';
-        ol.innerHTML = html;
-      })();
-    </script>
-`;
 
 // ---------- step 1 ----------
 let s = read("online-offer-v6.html");
@@ -385,7 +347,6 @@ s = beforeBodyEnd(
     </script>
 `,
 );
-s = beforeBodyEnd(s, ALL_DONE);
 s = noindex(title(links(s)));
 fs.writeFileSync(path.join(dir, "user-test.html"), s);
 
@@ -511,7 +472,6 @@ s2 = s2.replace(
   );
 }
 s2 = beforeBodyEnd(s2, useLogo);
-s2 = beforeBodyEnd(s2, ALL_DONE);
 s2 = noindex(title(links(s2)));
 fs.writeFileSync(path.join(dir, "user-test-approve.html"), s2);
 
@@ -564,7 +524,6 @@ s3 = beforeBodyEnd(
     </script>
 `,
 );
-s3 = beforeBodyEnd(s3, ALL_DONE);
 s3 = noindex(title(links(s3)));
 fs.writeFileSync(path.join(dir, "user-test-details.html"), s3);
 
@@ -584,7 +543,6 @@ s4 = beforeBodyEnd(
     </script>
 `,
 );
-s4 = beforeBodyEnd(s4, ALL_DONE);
 s4 = noindex(title(links(s4)));
 fs.writeFileSync(path.join(dir, "user-test-payment.html"), s4);
 
@@ -616,16 +574,6 @@ s5 = beforeBodyEnd(
         else items.appendChild(li);
         window.renderChecklist(1567.5 + (window.vecFee ? window.vecFee() : 0) + sum);
       })();
-    </script>
-`,
-);
-// the test user reached the checklist: from now on the step pages show all steps done
-s5 = beforeBodyEnd(
-  s5,
-  `    <script>
-      try {
-        sessionStorage.setItem("loopperUserTestDone", "1");
-      } catch (e) {}
     </script>
 `,
 );

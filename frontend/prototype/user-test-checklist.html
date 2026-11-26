@@ -8504,12 +8504,12 @@
               ? "Has started. Billie sends you the invoice; pay within 30 days."
               : "Has started now that your payment is in.";
         }
-        // vectorising (€ 25) is in the order unless the client uploaded a vector file in step 3
+        // vectorising (€ 25) is only in the order when the client chose it in step 2
         window.vecFee = function () {
           try {
-            return sessionStorage.getItem("loopperVectorise") === "0" ? 0 : 25;
+            return sessionStorage.getItem("loopperVectorChoice") === "vectorise" ? 25 : 0;
           } catch (e) {
-            return 25;
+            return 0;
           }
         };
         if (!window.vecFee()) $("ckVecItem").remove();
@@ -8571,8 +8571,12 @@
     </script>
     <script>
       // Open steps from step 2 that the client skipped: vector / logo choice and mockup approval.
-      // Step 2 keeps "loopperVectorChoice" and "loopperApproved" in sessionStorage; step 3 sets
-      // "loopperVectorise" = "0" after a vector upload. Opening this page fresh shows both cards (demo).
+      // Step 2 keeps "loopperVectorChoice" (upload / vectorise) and "loopperApproved" in sessionStorage.
+      // Opening this page fresh shows both cards (demo).
+      // Checklist reached: from now on the step pages keep the finished progress bar + Checklist pill.
+      try {
+        sessionStorage.setItem("loopperChecklistReached", "1");
+      } catch (e) {}
       (function () {
         var $ = function (id) {
           return document.getElementById(id);
@@ -8594,7 +8598,7 @@
           vecCard = $("ckVector"),
           mockCard = $("ckMockups");
         if (!main || !vecCard || !mockCard) return;
-        var vecOpen = !get("loopperVectorChoice") && get("loopperVectorise") !== "0";
+        var vecOpen = !get("loopperVectorChoice");
         var ap = null;
         try {
           ap = JSON.parse(get("loopperApproved") || "null");
@@ -8690,11 +8694,6 @@
         else items.appendChild(li);
         window.renderChecklist(1567.5 + (window.vecFee ? window.vecFee() : 0) + sum);
       })();
-    </script>
-    <script>
-      try {
-        sessionStorage.setItem("loopperUserTestDone", "1");
-      } catch (e) {}
     </script>
   </body>
 </html>

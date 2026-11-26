@@ -8590,6 +8590,54 @@
       })();
     </script>
     <script>
+      // Checklist reached (all steps done): going back to a step keeps the finished progress bar:
+      // all steps green with a tick, the open page as current, and the Checklist pill to return to.
+      (function () {
+        var done = false;
+        try {
+          done = sessionStorage.getItem("loopperChecklistReached") === "1";
+        } catch (e) {}
+        var ol = document.querySelector(".stepper");
+        if (!done || !ol) return;
+        var PAGES = [
+          ["Your offer", "user-test.html"],
+          ["Approve design", "user-test-approve.html"],
+          ["Your details", "user-test-details.html"],
+          ["Payment", "user-test-payment.html"],
+        ];
+        var CHECKLIST = "user-test-checklist.html";
+        var here = (location.pathname.split("/").pop() || "").replace(/\.html$/, "");
+        var html = "";
+        PAGES.forEach(function (p, i) {
+          if (p[1].replace(".html", "") === here) {
+            html +=
+              '<li class="step step-current" aria-current="step"><span class="step-num">' +
+              (i + 1) +
+              "</span>" +
+              p[0] +
+              "</li>";
+          } else {
+            html +=
+              '<li class="step step-done"><img src="assets/offer-v3/icon-step-done.svg" width="26" height="26" alt="Done:" />' +
+              '<a class="step-link" href="' +
+              p[1] +
+              '">' +
+              p[0] +
+              "</a></li>";
+          }
+        });
+        html +=
+          '<li class="step-checklist"><svg class="step-checklist-icon" width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">' +
+          '<rect x="4" y="3.5" width="12" height="14" rx="2.5" stroke="currentColor" stroke-width="1.8" />' +
+          '<path d="M7.5 3.5V2.8c0-.4.3-.8.8-.8h3.4c.5 0 .8.4.8.8v.7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />' +
+          '<path d="M7.3 10.4l1.9 1.9 3.6-3.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>' +
+          '<a href="' +
+          CHECKLIST +
+          '">Checklist</a></li>';
+        ol.innerHTML = html;
+      })();
+    </script>
+    <script>
       document.addEventListener("mockupready", function (e) {
         if (e.detail.area !== "beach") return;
         try {
@@ -8635,41 +8683,6 @@
         });
         var box = document.querySelector(".client-logo");
         if (box) box.setAttribute("aria-label", "Your uploaded logo");
-      })();
-    </script>
-    <script>
-      // User test: all steps done (checklist reached) -> finished progress bar on every step page
-      (function () {
-        var done = false;
-        try {
-          done = sessionStorage.getItem("loopperUserTestDone") === "1";
-        } catch (e) {}
-        var ol = document.querySelector(".stepper");
-        if (!done || !ol) return;
-        var PAGES = [
-          ["Your offer", "user-test.html"],
-          ["Approve design", "user-test-approve.html"],
-          ["Your details", "user-test-details.html"],
-          ["Payment", "user-test-payment.html"],
-        ];
-        var here = (location.pathname.split("/").pop() || "user-test.html").replace(/\.html$/, "");
-        var html = "";
-        PAGES.forEach(function (p, i) {
-          if (p[1].replace(".html", "") === here) {
-            html += '<li class="step step-current" aria-current="step"><span class="step-num">' + (i + 1) + "</span>" + p[0] + "</li>";
-          } else {
-            html +=
-              '<li class="step step-done"><img src="assets/offer-v3/icon-step-done.svg" width="26" height="26" alt="Done:" />' +
-              '<a class="step-link" href="' + p[1] + '">' + p[0] + "</a></li>";
-          }
-        });
-        html +=
-          '<li class="step-checklist"><svg class="step-checklist-icon" width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">' +
-          '<rect x="4" y="3.5" width="12" height="14" rx="2.5" stroke="currentColor" stroke-width="1.8" />' +
-          '<path d="M7.5 3.5V2.8c0-.4.3-.8.8-.8h3.4c.5 0 .8.4.8.8v.7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />' +
-          '<path d="M7.3 10.4l1.9 1.9 3.6-3.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>' +
-          '<a href="user-test-checklist.html">Checklist</a></li>';
-        ol.innerHTML = html;
       })();
     </script>
   </body>

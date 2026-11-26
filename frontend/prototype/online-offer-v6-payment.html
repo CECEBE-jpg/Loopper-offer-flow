@@ -7346,12 +7346,12 @@
         var $ = function (id) {
           return document.getElementById(id);
         };
-        // vectorising (€ 25) is in the order unless the client uploaded a vector file in step 3
+        // vectorising (€ 25) is only in the order when the client chose it in step 2
         window.vecFee = function () {
           try {
-            return sessionStorage.getItem("loopperVectorise") === "0" ? 0 : 25;
+            return sessionStorage.getItem("loopperVectorChoice") === "vectorise" ? 25 : 0;
           } catch (e) {
-            return 25;
+            return 0;
           }
         };
         var BASE = Math.round((1567.5 + window.vecFee()) * 121) / 100; // order total incl. VAT from step 3
@@ -7427,6 +7427,54 @@
             "Prototype: the proforma invoice (PDF, with payment link) would download now.";
         });
         update();
+      })();
+    </script>
+    <script>
+      // Checklist reached (all steps done): going back to a step keeps the finished progress bar:
+      // all steps green with a tick, the open page as current, and the Checklist pill to return to.
+      (function () {
+        var done = false;
+        try {
+          done = sessionStorage.getItem("loopperChecklistReached") === "1";
+        } catch (e) {}
+        var ol = document.querySelector(".stepper");
+        if (!done || !ol) return;
+        var PAGES = [
+          ["Your offer", "online-offer-v6.html"],
+          ["Approve design", "online-offer-v6-approve.html"],
+          ["Your details", "online-offer-v6-details.html"],
+          ["Payment", "online-offer-v6-payment.html"],
+        ];
+        var CHECKLIST = "online-offer-v6-checklist.html";
+        var here = (location.pathname.split("/").pop() || "").replace(/\.html$/, "");
+        var html = "";
+        PAGES.forEach(function (p, i) {
+          if (p[1].replace(".html", "") === here) {
+            html +=
+              '<li class="step step-current" aria-current="step"><span class="step-num">' +
+              (i + 1) +
+              "</span>" +
+              p[0] +
+              "</li>";
+          } else {
+            html +=
+              '<li class="step step-done"><img src="assets/offer-v3/icon-step-done.svg" width="26" height="26" alt="Done:" />' +
+              '<a class="step-link" href="' +
+              p[1] +
+              '">' +
+              p[0] +
+              "</a></li>";
+          }
+        });
+        html +=
+          '<li class="step-checklist"><svg class="step-checklist-icon" width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">' +
+          '<rect x="4" y="3.5" width="12" height="14" rx="2.5" stroke="currentColor" stroke-width="1.8" />' +
+          '<path d="M7.5 3.5V2.8c0-.4.3-.8.8-.8h3.4c.5 0 .8.4.8.8v.7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />' +
+          '<path d="M7.3 10.4l1.9 1.9 3.6-3.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>' +
+          '<a href="' +
+          CHECKLIST +
+          '">Checklist</a></li>';
+        ol.innerHTML = html;
       })();
     </script>
   </body>

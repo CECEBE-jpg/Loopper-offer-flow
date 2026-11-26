@@ -6655,6 +6655,7 @@
         font-size: 11px;
         color: #7b8794;
       }
+      .det-table tr.det-vec[hidden],
       .det-vec-upload[hidden],
       .det-vec-done[hidden] {
         display: none;
@@ -7281,8 +7282,8 @@
               <td>€ 21,95</td>
               <td><b>€ 1.097,50</b></td>
             </tr>
-            <!-- Service: vectorising the logo (€ 25), dropped when the client uploads a vector file -->
-            <tr class="det-vec" id="detVec">
+            <!-- Service: vectorising the logo (€ 25), only when the client chose it in step 2 -->
+            <tr class="det-vec" id="detVec" hidden>
               <td>
                 <div class="det-prod">
                   <!-- pen-tool vector icon (Figma 257:1480), built from its exported parts -->
@@ -7303,25 +7304,6 @@
                       Hand-drawn as a vector by our design team, for the
                       sharpest print
                     </p>
-                    <div class="det-vec-upload" id="detVecUpload">
-                      <p class="det-vec-label">Vector logo</p>
-                      <p class="det-vec-desc">
-                        A vector file gives the sharpest print. Upload it here,
-                        or let our design team redraw your logo for you.
-                      </p>
-                      <button type="button" class="det-vec-btn" id="detVecBtn">
-                        <span class="det-vec-plus" aria-hidden="true">+</span
-                        ><b>Upload your vector logo</b
-                        ><small>SVG, AI, PDF, EPS</small>
-                      </button>
-                      <input
-                        type="file"
-                        id="detVecFile"
-                        accept=".svg,.ai,.pdf,.eps"
-                        hidden
-                      />
-                    </div>
-                    <p class="det-vec-done" id="detVecDone" hidden></p>
                   </div>
                 </div>
               </td>
@@ -7366,7 +7348,7 @@
               <dl class="sum-rows">
                 <div class="sum-row">
                   <dt>Subtotal</dt>
-                  <dd id="sumSub">€ 1.592,50</dd>
+                  <dd id="sumSub">€ 1.567,50</dd>
                 </div>
                 <div class="sum-row">
                   <dt>Shipping costs</dt>
@@ -7374,17 +7356,17 @@
                 </div>
                 <div class="sum-row">
                   <dt>VAT 21%</dt>
-                  <dd id="sumVat">€ 334,43</dd>
+                  <dd id="sumVat">€ 329,18</dd>
                 </div>
                 <div class="sum-rule"></div>
                 <div class="sum-row">
                   <dt>Subtotal excl. VAT</dt>
-                  <dd id="sumExcl">€ 1.592,50</dd>
+                  <dd id="sumExcl">€ 1.567,50</dd>
                 </div>
               </dl>
               <p class="sum-total">
                 <span>Total incl. VAT</span
-                ><strong id="sumTotal">€ 1.926,93</strong>
+                ><strong id="sumTotal">€ 1.896,68</strong>
               </p>
               <label class="det-terms" id="termsLabel">
                 <input
@@ -7547,7 +7529,7 @@
         </a>
         <div class="step-nav-next-wrap">
           <span class="step-nav-hint" id="navHint"
-            >Total <b>€ 1.926,93</b> incl. VAT · fill in your details and accept
+            >Total <b>€ 1.896,68</b> incl. VAT · fill in your details and accept
             the terms.</span
           >
           <button type="button" class="cta step-nav-next" id="navNext">
@@ -7947,8 +7929,8 @@
       })();
     </script>
     <script>
-      // Vectorising service (€ 25): in the order by default; uploading a vector file drops it.
-      // The choice is kept in sessionStorage ("loopperVectorise" = "0" when uploaded) for steps 4 and 5.
+      // Vectorising service (€ 25): only in the order when the client chose "vectorise it for me"
+      // in step 2 (sessionStorage "loopperVectorChoice" = "vectorise"); steps 4 and 5 read the same key.
       // Totals: window.detTotals.extra lets other scripts (user test) add order lines.
       (function () {
         var $ = function (id) {
@@ -7967,9 +7949,9 @@
         }
         function vecOn() {
           try {
-            return sessionStorage.getItem("loopperVectorise") !== "0";
+            return sessionStorage.getItem("loopperVectorChoice") === "vectorise";
           } catch (e) {
-            return true;
+            return false;
           }
         }
         window.vecFee = function () {
@@ -7992,61 +7974,56 @@
           },
         };
         var row = $("detVec");
-        if (!row) return;
-        function show(fileName) {
-          var on = vecOn();
-          row.classList.toggle("is-uploaded", !on);
-          $("detVecTitle").textContent = on
-            ? "Our designers vectorise your logo for you"
-            : "Vector logo received";
-          $("detVecSub").hidden = !on;
-          $("detVecUpload").hidden = !on;
-          $("detVecDone").hidden = on;
-          if (!on) {
-            $("detVecDone").innerHTML = "";
-            $("detVecDone").appendChild(
-              document.createTextNode(
-                "✓ " + (fileName || "Your vector file") + " uploaded · no vectorising needed",
-              ),
-            );
-            var undo = document.createElement("button");
-            undo.type = "button";
-            undo.className = "det-vec-undo";
-            undo.textContent = "Let our designers vectorise it instead";
-            undo.addEventListener("click", function () {
-              try {
-                sessionStorage.removeItem("loopperVectorise");
-                sessionStorage.removeItem("loopperVectorFile");
-              } catch (e) {}
-              show();
-              window.detTotals.render();
-            });
-            $("detVecDone").appendChild(undo);
-          }
-          $("detVecQty").textContent = on ? "1" : "–";
-          $("detVecEach").textContent = on ? eur(FEE) : "–";
-          $("detVecSubtotal").textContent = on ? eur(FEE) : eur(0);
-        }
-        $("detVecBtn").addEventListener("click", function () {
-          $("detVecFile").click();
-        });
-        $("detVecFile").addEventListener("change", function () {
-          var f = this.files[0];
-          if (!f) return;
-          try {
-            sessionStorage.setItem("loopperVectorise", "0");
-            sessionStorage.setItem("loopperVectorFile", f.name);
-          } catch (e) {}
-          this.value = "";
-          show(f.name);
-          window.detTotals.render();
-        });
-        var saved = null;
-        try {
-          saved = sessionStorage.getItem("loopperVectorFile");
-        } catch (e) {}
-        show(saved);
+        if (row) row.hidden = !vecOn();
         window.detTotals.render();
+      })();
+    </script>
+    <script>
+      // Checklist reached (all steps done): going back to a step keeps the finished progress bar:
+      // all steps green with a tick, the open page as current, and the Checklist pill to return to.
+      (function () {
+        var done = false;
+        try {
+          done = sessionStorage.getItem("loopperChecklistReached") === "1";
+        } catch (e) {}
+        var ol = document.querySelector(".stepper");
+        if (!done || !ol) return;
+        var PAGES = [
+          ["Your offer", "online-offer-v6.html"],
+          ["Approve design", "online-offer-v6-approve.html"],
+          ["Your details", "online-offer-v6-details.html"],
+          ["Payment", "online-offer-v6-payment.html"],
+        ];
+        var CHECKLIST = "online-offer-v6-checklist.html";
+        var here = (location.pathname.split("/").pop() || "").replace(/\.html$/, "");
+        var html = "";
+        PAGES.forEach(function (p, i) {
+          if (p[1].replace(".html", "") === here) {
+            html +=
+              '<li class="step step-current" aria-current="step"><span class="step-num">' +
+              (i + 1) +
+              "</span>" +
+              p[0] +
+              "</li>";
+          } else {
+            html +=
+              '<li class="step step-done"><img src="assets/offer-v3/icon-step-done.svg" width="26" height="26" alt="Done:" />' +
+              '<a class="step-link" href="' +
+              p[1] +
+              '">' +
+              p[0] +
+              "</a></li>";
+          }
+        });
+        html +=
+          '<li class="step-checklist"><svg class="step-checklist-icon" width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">' +
+          '<rect x="4" y="3.5" width="12" height="14" rx="2.5" stroke="currentColor" stroke-width="1.8" />' +
+          '<path d="M7.5 3.5V2.8c0-.4.3-.8.8-.8h3.4c.5 0 .8.4.8.8v.7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />' +
+          '<path d="M7.3 10.4l1.9 1.9 3.6-3.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>' +
+          '<a href="' +
+          CHECKLIST +
+          '">Checklist</a></li>';
+        ol.innerHTML = html;
       })();
     </script>
   </body>
