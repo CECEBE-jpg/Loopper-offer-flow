@@ -9938,33 +9938,32 @@
             var n = msgs.length;
             if (n) form.hidden = true; // after your first comment, more goes through the side panel
             var writing = !form.hidden;
-            // the box shows your first comment and Jildou's first answer; the rest is in the panel
-            var seenYou = false,
-              seenAm = false,
-              shown = 0;
+            // the box shows only the first message (Jildou's comment, or your first question when
+            // she had not commented); all replies are in the panel behind "Read all comments"
+            var shownFirst = !empty;
             msgs.forEach(function (m) {
-              var am = m.classList.contains("cmt-msg-am");
-              var show = am ? !seenAm : !seenYou;
-              if (am) seenAm = true;
-              else seenYou = true;
+              var show = !shownFirst;
+              shownFirst = true;
               m.hidden = !show;
               m.previousElementSibling.hidden = !show;
-              if (show) shown++;
             });
             cmt.dataset.state = n ? "thread" : writing ? "card" : "idle";
             replyHead.hidden = n > 0 || writing;
             replyFoot.hidden = true;
             notice.hidden = true;
             more.hidden = !n;
-            var total = n + (empty ? 0 : 1);
-            var hidden = n - shown;
-            count.textContent = total;
-            count.hidden = hidden < 1;
+            // badge: number of Jildou's replies you have not read yet (cleared when the panel opens)
+            var unread = cmt._unread || 0;
+            count.textContent = unread;
+            count.hidden = unread < 1;
             moreBtn.setAttribute(
               "aria-label",
-              "Read all comments (" + total + ")",
+              unread
+                ? "Read all comments, " + unread + " unread"
+                : "Read all comments",
             );
           }
+          cmt._render = render;
           function add(el) {
             var end = thread.querySelector(".cmt-sep-end");
             if (!end) {
@@ -9998,6 +9997,8 @@
               PORTRAIT +
               '" width="33" height="33" alt="" /><div class="cmt-body"><p class="cmt-from"><b>Jildou</b> your account manager</p><p class="cmt-text"></p></div>';
             m.querySelector(".cmt-text").textContent = text;
+            // unread unless you are reading this thread in the panel right now
+            if (!(current === cmt && dlg.open)) cmt._unread = (cmt._unread || 0) + 1;
             add(m);
             if (current === cmt && dlg.open) {
               log.insertBefore(
@@ -10053,6 +10054,9 @@
         }
         function openPanel(cmt) {
           current = cmt;
+          // opening the panel reads everything: the unread badge goes away
+          cmt._unread = 0;
+          if (cmt._render) cmt._render();
           var product = cmt.closest(".product");
           dTitle.textContent = product
             .querySelector(".p6-title")
@@ -11160,7 +11164,7 @@
             // open step: highlighted as current, but with the done tick (all steps are done)
             html +=
               '<li class="step step-current step-current-done" aria-current="step">' +
-              '<img src="assets/offer-v3/icon-step-done.svg" width="26" height="26" alt="Done:" />' +
+              '<img src="assets/offer-v3/icon-step-done-current.svg" width="26" height="26" alt="Done:" />' +
               p[0] +
               "</li>";
           } else {
