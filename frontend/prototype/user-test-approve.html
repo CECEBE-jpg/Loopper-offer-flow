@@ -6669,6 +6669,14 @@
         width: 87.5654px;
         height: 87.5654px;
       }
+      /* loader: the brush tip travels along the stroke (bottom line, round the loop, onwards) and back,
+         tilting forward on the way out and back on the way in; the stroke only shows up to the tip,
+         so it is drawn going out and erased coming back */
+      /* driven by the script under the wait screen: the tip sits exactly on the line's end */
+      .pr-wait-icon .pr-brush {
+        transform-box: view-box;
+        transform-origin: 27.8px 74px; /* the bristle tip = start of the line */
+      }
       .pr-wait-title {
         margin: 18px 0 0;
         font-size: 22px;
@@ -7332,14 +7340,48 @@
       <!-- Products in this offer: each one gets its own design approval (Figma 53:106) -->
       <!-- No mockup ready yet: the client can open step 2 anyway and sees that we are working on it -->
       <section class="pr-wait" id="prWait" hidden aria-labelledby="prWaitTitle">
-        <!-- brush icon in its light-blue circle (Figma 257:1429) -->
-        <img
+        <!-- brush icon in its light-blue circle (Figma 257:1429, same as assets/offer-v3/mockup-brush.svg),
+             inline so it can animate as a loader: the brush rocks back and forth while the stroke draws -->
+        <svg
           class="pr-wait-icon"
-          src="assets/offer-v3/mockup-brush.svg"
           width="87.5654"
           height="87.5654"
-          alt=""
-        />
+          viewBox="0 0 87.5654 87.5654"
+          fill="none"
+          aria-hidden="true"
+        >
+          <defs>
+            <clipPath id="prWaitCircle">
+              <rect width="87.5654" height="87.5654" rx="43.7827" />
+            </clipPath>
+          </defs>
+          <g clip-path="url(#prWaitCircle)">
+            <rect width="87.5654" height="87.5654" rx="43.7827" fill="#E6F7FC" />
+            <!-- line + brush shifted 10px left so the brush stays inside the circle on the right -->
+            <g transform="translate(-10 0)">
+            <!-- the stroke as a line along its centre, drawn and erased with the brush (dash offset) -->
+            <path
+              class="pr-brush-line"
+              d="M27.8 74 C35 74.2 43 74.3 49.3 74 C52.3 73.9 54.6 72.8 54.6 71 C54.6 69 52.7 67.9 47.1 66.6 C44.5 66 43.9 65.1 44 64 C44.2 62.7 45.5 61.9 47 61.4 C61 57.5 76 58.3 95.3 58.4"
+              stroke="#00AED8"
+              stroke-width="2.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <g class="pr-brush" stroke="#00AED8" stroke-width="2.43254">
+              <path
+                d="M34.9098 60.2272C32.2661 58.2943 29.0188 58.7176 27.0859 61.3612C25.1531 64.0048 27.0567 66.3758 27.7821 68.4455C28.5074 70.5152 27.1687 72.4732 25.8347 73.5961C28.8809 73.958 33.6587 72.4614 35.7425 69.2289C37.8262 65.9963 37.5535 62.1602 34.9098 60.2272Z"
+              />
+              <path
+                d="M42.023 54.951L39.3661 57.2691C38.9517 57.6307 38.3463 57.6692 37.8894 57.363L33.9068 54.694C33.4936 54.4172 33.2907 53.9167 33.3943 53.4302L34.1242 50.0043C34.3011 49.1737 35.2532 48.7756 35.9687 49.2329L41.8784 53.0097C42.562 53.4466 42.6344 54.4177 42.023 54.951Z"
+              />
+              <path
+                d="M43.0752 34.3821C45.9669 30.1514 57.1266 17.3289 62.6705 13.6772C63.3994 13.1971 64.1736 13.7819 63.965 14.6295C62.3848 21.0511 55.7293 36.1476 52.6227 41.2225C49.4352 46.4296 45.0854 51.4457 42.5335 53.1837C42.1717 53.4301 41.7038 53.4035 41.3358 53.1663L36.2023 49.8574C35.7623 49.5738 35.5498 49.0419 35.7113 48.544C36.8675 44.979 40.1109 38.719 43.0752 34.3821Z"
+              />
+            </g>
+            </g>
+          </g>
+        </svg>
         <h1 class="pr-wait-title" id="prWaitTitle">
           Our designers are working on your mockups
         </h1>
@@ -7349,6 +7391,61 @@
         </p>
         <ul class="pr-wait-list" id="prWaitList"></ul>
       </section>
+      <script>
+        // Loader: the brush draws the line and erases it again. Each frame the line is shown up to
+        // a length l (dash offset) and the brush tip is placed on the line at exactly that point,
+        // tilting forward going out and back coming in. Stops where the brush would leave the circle.
+        (function () {
+          var wait = document.getElementById("prWait");
+          var line = wait && wait.querySelector(".pr-brush-line");
+          var brush = wait && wait.querySelector(".pr-brush");
+          if (!line || !brush || !line.getTotalLength) return;
+          var L = line.getTotalLength();
+          var start = line.getPointAtLength(0);
+          // furthest point: where the line reaches x 63 (beyond it the handle leaves the circle)
+          var lo = 0,
+            hi = L;
+          for (var k = 0; k < 30; k++) {
+            var mid = (lo + hi) / 2;
+            if (line.getPointAtLength(mid).x < 63) lo = mid;
+            else hi = mid;
+          }
+          var MAX = lo;
+          line.style.strokeDasharray = L + " " + L;
+          function place(l, p) {
+            line.style.strokeDashoffset = L - l;
+            var pt = line.getPointAtLength(l);
+            brush.style.transform =
+              "translate(" +
+              (pt.x - start.x) +
+              "px," +
+              (pt.y - start.y) +
+              "px) rotate(" +
+              (-10 + 18 * p) +
+              "deg)";
+          }
+          if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            line.style.strokeDashoffset = 0; // the whole line, brush at rest
+            return;
+          }
+          var PERIOD = 3200,
+            t0 = null;
+          function ease(x) {
+            return 0.5 - 0.5 * Math.cos(Math.PI * x);
+          }
+          function frame(now) {
+            if (!wait.hidden) {
+              if (t0 === null) t0 = now;
+              var u = ((now - t0) % PERIOD) / PERIOD;
+              var p = ease(u < 0.5 ? u * 2 : (1 - u) * 2);
+              place(p * MAX, p);
+            } else t0 = null;
+            requestAnimationFrame(frame);
+          }
+          place(0, 0);
+          requestAnimationFrame(frame);
+        })();
+      </script>
       <div class="proof-grid">
         <!-- Products in this offer: each one gets its own design approval (Figma 83:454) -->
         <div
@@ -8228,6 +8325,26 @@
           }
           renderWait();
         }
+        // ease elements in (fade + small rise), one after the other; skipped with reduced motion
+        function easeIn(els, stagger) {
+          if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+          var i = 0;
+          Array.prototype.forEach.call(els, function (el) {
+            if (!el.animate || el.hidden || !el.getClientRects().length) return;
+            el.animate(
+              [
+                { opacity: 0, transform: "translateY(16px)" },
+                { opacity: 1, transform: "none" },
+              ],
+              {
+                duration: 600,
+                delay: i++ * (stagger || 0),
+                easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+                fill: "backwards",
+              },
+            );
+          });
+        }
         // nothing to review yet: one page that says we are working on it
         function renderWait() {
           var wait = $("prWait"),
@@ -8236,8 +8353,11 @@
           var all = PRODUCTS.every(function (p) {
             return p.pending;
           });
+          var wasWaiting = !wait.hidden;
           wait.hidden = !all;
           gridEl.hidden = all;
+          // the first mockup is ready: the review page eases in instead of popping up
+          if (wasWaiting && !all) easeIn(gridEl.children, 90);
           if (!all) return;
           var noLogo = PRODUCTS.every(function (p) {
             return p.wait === "none";
@@ -8294,7 +8414,25 @@
             document.dispatchEvent(
               new CustomEvent("mockupready", { detail: { area: p.area } }),
             );
+            var wasGrid = !document.querySelector(".proof-grid").hidden;
             render();
+            // the mockup you are looking at becomes ready: it sharpens into view
+            if (
+              wasGrid &&
+              PRODUCTS[cur] === p &&
+              !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+            ) {
+              var stage = $("prStage");
+              if (stage && stage.animate)
+                stage.animate(
+                  [
+                    { opacity: 0.35, filter: "blur(8px)", transform: "scale(0.97)" },
+                    { opacity: 1, filter: "blur(0)", transform: "none" },
+                  ],
+                  { duration: 700, easing: "cubic-bezier(0.22, 1, 0.36, 1)" },
+                );
+              easeIn([$("prDesigns"), $("prPickLabel")], 80);
+            }
           }, 15000);
         });
         function setApproved(checked) {
