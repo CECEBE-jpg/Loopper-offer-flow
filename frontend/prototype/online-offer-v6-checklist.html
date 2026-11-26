@@ -7842,6 +7842,21 @@
           flex: none;
         }
       }
+      /* Checklist pill: green on the other pages, styled as the current step on the checklist itself */
+      .stepper .step-checklist {
+        border-color: rgba(93, 177, 42, 0.29);
+        background: #5db12a;
+        color: #fff;
+      }
+      .stepper .step-checklist:hover {
+        background: #4e9a22;
+      }
+      .stepper .step-checklist.is-current,
+      .stepper .step-checklist.is-current:hover {
+        border-color: #00aed8;
+        background: #e6f7fc;
+        color: #00799a;
+      }
     </style>
   </head>
   <body>

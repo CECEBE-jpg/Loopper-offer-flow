@@ -6693,6 +6693,21 @@
           zoom: 0.6957; /* 64 / 92 */
         }
       }
+      /* Checklist pill: green on the other pages, styled as the current step on the checklist itself */
+      .stepper .step-checklist {
+        border-color: rgba(93, 177, 42, 0.29);
+        background: #5db12a;
+        color: #fff;
+      }
+      .stepper .step-checklist:hover {
+        background: #4e9a22;
+      }
+      .stepper .step-checklist.is-current,
+      .stepper .step-checklist.is-current:hover {
+        border-color: #00aed8;
+        background: #e6f7fc;
+        color: #00799a;
+      }
     </style>
   </head>
   <body>
@@ -7999,10 +8014,10 @@
         var html = "";
         PAGES.forEach(function (p, i) {
           if (p[1].replace(".html", "") === here) {
+            // open step: highlighted as current, but with the done tick (all steps are done)
             html +=
-              '<li class="step step-current" aria-current="step"><span class="step-num">' +
-              (i + 1) +
-              "</span>" +
+              '<li class="step step-current step-current-done" aria-current="step">' +
+              '<img src="assets/offer-v3/icon-step-done.svg" width="26" height="26" alt="Done:" />' +
               p[0] +
               "</li>";
           } else {
