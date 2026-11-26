@@ -6664,13 +6664,9 @@
         text-align: center;
       }
       .pr-wait-icon {
-        display: grid;
-        place-items: center;
-        width: 64px;
-        height: 64px;
-        border-radius: 50%;
-        background: #e7f4ff;
-        color: #006ed0;
+        display: block;
+        width: 87.5654px;
+        height: 87.5654px;
       }
       .pr-wait-title {
         margin: 18px 0 0;
@@ -7046,6 +7042,27 @@
         background: #fff;
         padding: 0 13px;
       }
+      /* Design 1 / Design 2 pills (Figma 193:136): 26px pill, picture icon instead of the dot
+         (grey #4a5866, blue #00799a when open, green once approved) */
+      .proof-tab .dot {
+        flex: none;
+        width: 18px;
+        height: 13.9091px;
+        border-radius: 0;
+        background: url("assets/offer-v3/design-tabs/picture.svg") center / 18px
+          13.9091px no-repeat;
+      }
+      .proof-tab[aria-selected="true"] .dot {
+        background-image: url("assets/offer-v3/design-tabs/picture-active.svg");
+      }
+      .proof-tab.is-ok .dot,
+      .proof-tab:has(.pr-tag.is-approved) .dot {
+        background: var(--green);
+        -webkit-mask: url("assets/offer-v3/design-tabs/picture.svg") center / 18px
+          13.9091px no-repeat;
+        mask: url("assets/offer-v3/design-tabs/picture.svg") center / 18px
+          13.9091px no-repeat;
+      }
       /* Vectorise note: light green, same family as the chosen vectorise button */
       .pr-options .vector > .vector-note {
         margin-top: 12px;
@@ -7175,20 +7192,14 @@
       <!-- Products in this offer: each one gets its own design approval (Figma 53:106) -->
       <!-- No mockup ready yet: the client can open step 2 anyway and sees that we are working on it -->
       <section class="pr-wait" id="prWait" hidden aria-labelledby="prWaitTitle">
-        <span class="pr-wait-icon" aria-hidden="true"
-          ><svg width="30" height="30" viewBox="0 0 24 24" fill="none">
-            <path
-              d="M4 20h4L19 9l-4-4L4 16v4Z"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linejoin="round"
-            />
-            <path
-              d="m13.5 6.5 4 4"
-              stroke="currentColor"
-              stroke-width="2"
-            /></svg
-        ></span>
+        <!-- brush icon in its light-blue circle (Figma 257:1429) -->
+        <img
+          class="pr-wait-icon"
+          src="assets/offer-v3/mockup-brush.svg"
+          width="87.5654"
+          height="87.5654"
+          alt=""
+        />
         <h1 class="pr-wait-title" id="prWaitTitle">
           Our designers are working on your mockups
         </h1>

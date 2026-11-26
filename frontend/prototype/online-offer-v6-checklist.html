@@ -7156,6 +7156,16 @@
       .ck-items small {
         color: #6c7783;
       }
+      .ck-items .ck-vec-img {
+        display: grid;
+        flex: none;
+        place-items: center;
+        width: 44px;
+        height: 44px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #f4f9fc;
+      }
       .ck-items em {
         font-style: normal;
         font-weight: 800;
@@ -7693,6 +7703,19 @@
                   ><small>50 pieces · engraving</small></span
                 ><em>€ 1.097,50</em>
               </li>
+              <li id="ckVecItem">
+                <span class="ck-vec-img" aria-hidden="true">
+                  <svg width="26" height="26" viewBox="0 0 44 44" fill="none">
+                    <path d="M8 34C14 30 15 16 22 12c7 4 8 18 14 22" stroke="#00799a" stroke-width="2.4" stroke-linecap="round" />
+                    <rect x="4" y="30" width="8" height="8" rx="1.5" fill="#fff" stroke="#1c2530" stroke-width="2" />
+                    <rect x="32" y="30" width="8" height="8" rx="1.5" fill="#fff" stroke="#1c2530" stroke-width="2" />
+                    <rect x="18" y="8" width="8" height="8" rx="1.5" fill="#00799a" />
+                  </svg></span
+                ><span
+                  ><b>Vectorising your logo</b
+                  ><small>By our design team</small></span
+                ><em>€ 25,00</em>
+              </li>
             </ul>
             <dl class="ck-sum">
               <div>
@@ -7956,7 +7979,16 @@
               ? "Has started. Billie sends you the invoice; pay within 30 days."
               : "Has started now that your payment is in.";
         }
-        window.renderChecklist(1567.5);
+        // vectorising (€ 25) is in the order unless the client uploaded a vector file in step 3
+        window.vecFee = function () {
+          try {
+            return sessionStorage.getItem("loopperVectorise") === "0" ? 0 : 25;
+          } catch (e) {
+            return 25;
+          }
+        };
+        if (!window.vecFee()) $("ckVecItem").remove();
+        window.renderChecklist(1567.5 + window.vecFee());
 
         $("ckUpload").addEventListener("click", function () {
           $("ckProof").click();

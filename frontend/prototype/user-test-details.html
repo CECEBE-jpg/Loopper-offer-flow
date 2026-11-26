@@ -6482,6 +6482,113 @@
       #useInvoice[hidden] {
         display: none !important;
       }
+
+      /* Selected products: "Our designers vectorise your logo" service row (€ 25) */
+      .det-vec-img {
+        display: grid;
+        flex: none;
+        place-items: center;
+        width: 92px;
+        height: 92px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: #f4f9fc;
+      }
+      /* keeps the text in line with the product text (image 92 + thumbs 28 + gaps) */
+      .det-vec .det-prod {
+        gap: 56px;
+      }
+      .det-vec .det-vec-text {
+        min-width: 0;
+      }
+      .det-vec .det-vec-sub {
+        margin: 2px 0 0;
+      }
+      .det-vec-upload {
+        margin-top: 12px;
+      }
+      .det-vec .det-vec-label {
+        margin: 0;
+        font-size: 13px;
+        font-weight: 800;
+        color: var(--ink);
+      }
+      .det-vec .det-vec-desc {
+        margin: 2px 0 0;
+        font-size: 13px;
+        color: var(--text);
+      }
+      .det-vec-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        max-width: 474px;
+        height: 38px;
+        margin-top: 10px;
+        padding: 0 14px;
+        border: 1px dashed #00799a;
+        border-radius: 10px;
+        background: transparent;
+        font: inherit;
+        font-size: 12px;
+        color: var(--ink);
+        cursor: pointer;
+      }
+      .det-vec-btn:hover,
+      .det-vec-btn:focus-visible {
+        background: #eaf6fa;
+      }
+      .det-vec-plus {
+        font-size: 20px;
+        line-height: 20px;
+        font-weight: 500;
+        color: #00799a;
+      }
+      .det-vec-btn b {
+        font-weight: 700;
+      }
+      .det-vec-btn small {
+        font-size: 11px;
+        color: #7b8794;
+      }
+      .det-vec-upload[hidden],
+      .det-vec-done[hidden] {
+        display: none;
+      }
+      .det-vec .det-vec-done {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 4px 12px;
+        margin-top: 10px;
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--green-text);
+      }
+      .det-vec-undo {
+        padding: 0;
+        border: 0;
+        background: none;
+        font: inherit;
+        font-size: 13px;
+        font-weight: 700;
+        color: #00799a;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+      .det-vec.is-uploaded td:not(:first-child) {
+        color: var(--muted);
+      }
+      @media (width < 768px) {
+        .det-vec .det-prod {
+          gap: 14px;
+        }
+        .det-vec-img {
+          width: 64px;
+          height: 64px;
+        }
+      }
     </style>
   </head>
   <body>
@@ -7071,6 +7178,55 @@
               <td>€ 21,95</td>
               <td><b>€ 1.097,50</b></td>
             </tr>
+            <!-- Service: vectorising the logo (€ 25), dropped when the client uploads a vector file -->
+            <tr class="det-vec" id="detVec">
+              <td>
+                <div class="det-prod">
+                  <span class="det-vec-img" aria-hidden="true">
+                    <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+                      <path
+                        d="M8 34C14 30 15 16 22 12c7 4 8 18 14 22"
+                        stroke="#00799a"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                      />
+                      <rect x="4" y="30" width="8" height="8" rx="1.5" fill="#fff" stroke="#1c2530" stroke-width="1.6" />
+                      <rect x="32" y="30" width="8" height="8" rx="1.5" fill="#fff" stroke="#1c2530" stroke-width="1.6" />
+                      <rect x="18" y="8" width="8" height="8" rx="1.5" fill="#00799a" />
+                    </svg>
+                  </span>
+                  <div class="det-vec-text">
+                    <h3 id="detVecTitle">Our designers vectorise your logo for you</h3>
+                    <p class="det-vec-sub" id="detVecSub">
+                      Hand-drawn as a vector by our design team, for the
+                      sharpest print
+                    </p>
+                    <div class="det-vec-upload" id="detVecUpload">
+                      <p class="det-vec-label">Vector logo</p>
+                      <p class="det-vec-desc">
+                        A vector file gives the sharpest print. Upload it here,
+                        or let our design team redraw your logo for you.
+                      </p>
+                      <button type="button" class="det-vec-btn" id="detVecBtn">
+                        <span class="det-vec-plus" aria-hidden="true">+</span
+                        ><b>Upload your vector logo</b
+                        ><small>SVG, AI, PDF, EPS</small>
+                      </button>
+                      <input
+                        type="file"
+                        id="detVecFile"
+                        accept=".svg,.ai,.pdf,.eps"
+                        hidden
+                      />
+                    </div>
+                    <p class="det-vec-done" id="detVecDone" hidden></p>
+                  </div>
+                </div>
+              </td>
+              <td><b id="detVecQty">1</b></td>
+              <td id="detVecEach">€ 25,00</td>
+              <td><b id="detVecSubtotal">€ 25,00</b></td>
+            </tr>
           </tbody>
         </table>
       </section>
@@ -7108,7 +7264,7 @@
               <dl class="sum-rows">
                 <div class="sum-row">
                   <dt>Subtotal</dt>
-                  <dd id="sumSub">€ 1.567,50</dd>
+                  <dd id="sumSub">€ 1.592,50</dd>
                 </div>
                 <div class="sum-row">
                   <dt>Shipping costs</dt>
@@ -7116,17 +7272,17 @@
                 </div>
                 <div class="sum-row">
                   <dt>VAT 21%</dt>
-                  <dd id="sumVat">€ 329,18</dd>
+                  <dd id="sumVat">€ 334,43</dd>
                 </div>
                 <div class="sum-rule"></div>
                 <div class="sum-row">
                   <dt>Subtotal excl. VAT</dt>
-                  <dd id="sumExcl">€ 1.567,50</dd>
+                  <dd id="sumExcl">€ 1.592,50</dd>
                 </div>
               </dl>
               <p class="sum-total">
                 <span>Total incl. VAT</span
-                ><strong id="sumTotal">€ 1.896,68</strong>
+                ><strong id="sumTotal">€ 1.926,93</strong>
               </p>
               <label class="det-terms" id="termsLabel">
                 <input
@@ -7289,7 +7445,7 @@
         </a>
         <div class="step-nav-next-wrap">
           <span class="step-nav-hint" id="navHint"
-            >Total <b>€ 1.896,68</b> incl. VAT · fill in your details and accept
+            >Total <b>€ 1.926,93</b> incl. VAT · fill in your details and accept
             the terms.</span
           >
           <button type="button" class="cta step-nav-next" id="navNext">
@@ -7689,6 +7845,109 @@
       })();
     </script>
     <script>
+      // Vectorising service (€ 25): in the order by default; uploading a vector file drops it.
+      // The choice is kept in sessionStorage ("loopperVectorise" = "0" when uploaded) for steps 4 and 5.
+      // Totals: window.detTotals.extra lets other scripts (user test) add order lines.
+      (function () {
+        var $ = function (id) {
+          return document.getElementById(id);
+        };
+        var BASE = 1567.5,
+          FEE = 25;
+        function eur(n) {
+          return (
+            "€ " +
+            n.toLocaleString("nl-NL", {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })
+          );
+        }
+        function vecOn() {
+          try {
+            return sessionStorage.getItem("loopperVectorise") !== "0";
+          } catch (e) {
+            return true;
+          }
+        }
+        window.vecFee = function () {
+          return vecOn() ? FEE : 0;
+        };
+        window.detTotals = {
+          extra: 0,
+          render: function () {
+            var sub = BASE + window.vecFee() + this.extra,
+              vat = Math.round(sub * 21) / 100,
+              tot = sub + vat;
+            ["sumSub", "sumExcl"].forEach(function (id) {
+              if ($(id)) $(id).textContent = eur(sub);
+            });
+            if ($("sumVat")) $("sumVat").textContent = eur(vat);
+            if ($("sumTotal")) $("sumTotal").textContent = eur(tot);
+            document.querySelectorAll(".step-nav-hint b").forEach(function (b) {
+              if (/€/.test(b.textContent)) b.textContent = eur(tot);
+            });
+          },
+        };
+        var row = $("detVec");
+        if (!row) return;
+        function show(fileName) {
+          var on = vecOn();
+          row.classList.toggle("is-uploaded", !on);
+          $("detVecTitle").textContent = on
+            ? "Our designers vectorise your logo for you"
+            : "Vector logo received";
+          $("detVecSub").hidden = !on;
+          $("detVecUpload").hidden = !on;
+          $("detVecDone").hidden = on;
+          if (!on) {
+            $("detVecDone").innerHTML = "";
+            $("detVecDone").appendChild(
+              document.createTextNode(
+                "✓ " + (fileName || "Your vector file") + " uploaded · no vectorising needed",
+              ),
+            );
+            var undo = document.createElement("button");
+            undo.type = "button";
+            undo.className = "det-vec-undo";
+            undo.textContent = "Let our designers vectorise it instead";
+            undo.addEventListener("click", function () {
+              try {
+                sessionStorage.removeItem("loopperVectorise");
+                sessionStorage.removeItem("loopperVectorFile");
+              } catch (e) {}
+              show();
+              window.detTotals.render();
+            });
+            $("detVecDone").appendChild(undo);
+          }
+          $("detVecQty").textContent = on ? "1" : "–";
+          $("detVecEach").textContent = on ? eur(FEE) : "–";
+          $("detVecSubtotal").textContent = on ? eur(FEE) : eur(0);
+        }
+        $("detVecBtn").addEventListener("click", function () {
+          $("detVecFile").click();
+        });
+        $("detVecFile").addEventListener("change", function () {
+          var f = this.files[0];
+          if (!f) return;
+          try {
+            sessionStorage.setItem("loopperVectorise", "0");
+            sessionStorage.setItem("loopperVectorFile", f.name);
+          } catch (e) {}
+          this.value = "";
+          show(f.name);
+          window.detTotals.render();
+        });
+        var saved = null;
+        try {
+          saved = sessionStorage.getItem("loopperVectorFile");
+        } catch (e) {}
+        show(saved);
+        window.detTotals.render();
+      })();
+    </script>
+    <script>
       // User test: show the logo the test user uploaded in step 1
       (function () {
         var logo = null;
@@ -7734,22 +7993,15 @@
         cells[1].innerHTML = "<b>" + alt.q + "</b>";
         cells[2].textContent = eur(alt.p);
         cells[3].innerHTML = "<b>" + eur(alt.p * alt.q) + "</b>";
-        body.appendChild(row);
-        // totals: the two products in the scenario + the beach bag
-        var sub = 1567.5 + alt.p * alt.q,
-          vat = Math.round(sub * 21) / 100,
-          tot = sub + vat;
-        ["sumSub", "sumExcl"].forEach(function (id) {
-          var el = document.getElementById(id);
-          if (el) el.textContent = eur(sub);
-        });
-        var v = document.getElementById("sumVat");
-        if (v) v.textContent = eur(vat);
-        var t = document.getElementById("sumTotal");
-        if (t) t.textContent = eur(tot);
-        document.querySelectorAll(".step-nav-hint b").forEach(function (b) {
-          if (/€/.test(b.textContent)) b.textContent = eur(tot);
-        });
+        // products first, the vectorising service row stays last
+        var vec = document.getElementById("detVec");
+        if (vec) body.insertBefore(row, vec);
+        else body.appendChild(row);
+        // totals: the scenario products (+ vectorising) + the beach bag
+        if (window.detTotals) {
+          window.detTotals.extra = alt.p * alt.q;
+          window.detTotals.render();
+        }
       })();
     </script>
   </body>

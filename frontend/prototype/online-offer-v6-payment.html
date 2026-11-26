@@ -7292,7 +7292,15 @@
         var $ = function (id) {
           return document.getElementById(id);
         };
-        var BASE = 1896.68; // order total incl. VAT from step 3
+        // vectorising (€ 25) is in the order unless the client uploaded a vector file in step 3
+        window.vecFee = function () {
+          try {
+            return sessionStorage.getItem("loopperVectorise") === "0" ? 0 : 25;
+          } catch (e) {
+            return 25;
+          }
+        };
+        var BASE = Math.round((1567.5 + window.vecFee()) * 121) / 100; // order total incl. VAT from step 3
         function eur(n) {
           return (
             "€ " +

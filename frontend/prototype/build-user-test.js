@@ -511,22 +511,15 @@ s3 = beforeBodyEnd(
         cells[1].innerHTML = "<b>" + alt.q + "</b>";
         cells[2].textContent = eur(alt.p);
         cells[3].innerHTML = "<b>" + eur(alt.p * alt.q) + "</b>";
-        body.appendChild(row);
-        // totals: the two products in the scenario + the beach bag
-        var sub = 1567.5 + alt.p * alt.q,
-          vat = Math.round(sub * 21) / 100,
-          tot = sub + vat;
-        ["sumSub", "sumExcl"].forEach(function (id) {
-          var el = document.getElementById(id);
-          if (el) el.textContent = eur(sub);
-        });
-        var v = document.getElementById("sumVat");
-        if (v) v.textContent = eur(vat);
-        var t = document.getElementById("sumTotal");
-        if (t) t.textContent = eur(tot);
-        document.querySelectorAll(".step-nav-hint b").forEach(function (b) {
-          if (/€/.test(b.textContent)) b.textContent = eur(tot);
-        });
+        // products first, the vectorising service row stays last
+        var vec = document.getElementById("detVec");
+        if (vec) body.insertBefore(row, vec);
+        else body.appendChild(row);
+        // totals: the scenario products (+ vectorising) + the beach bag
+        if (window.detTotals) {
+          window.detTotals.extra = alt.p * alt.q;
+          window.detTotals.render();
+        }
       })();
     </script>
 `,
@@ -544,7 +537,7 @@ s4 = beforeBodyEnd(
       (function () {
         try {
           var alt = JSON.parse(sessionStorage.getItem("loopperUserTestAlt") || "null");
-          if (alt && window.setPayBase) window.setPayBase(Math.round((1567.5 + alt.p * alt.q) * 121) / 100);
+          if (alt && window.setPayBase) window.setPayBase(Math.round((1567.5 + (window.vecFee ? window.vecFee() : 0) + alt.p * alt.q) * 121) / 100);
         } catch (e) {}
       })();
     </script>
@@ -575,8 +568,11 @@ s5 = beforeBodyEnd(
           " pieces · screen print</small></span><em></em>";
         li.querySelector("em").textContent =
           "€ " + sum.toLocaleString("nl-NL", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        document.getElementById("ckItems").appendChild(li);
-        window.renderChecklist(1567.5 + sum);
+        var items = document.getElementById("ckItems"),
+          vecItem = document.getElementById("ckVecItem");
+        if (vecItem) items.insertBefore(li, vecItem);
+        else items.appendChild(li);
+        window.renderChecklist(1567.5 + (window.vecFee ? window.vecFee() : 0) + sum);
       })();
     </script>
 `,
