@@ -9076,6 +9076,7 @@
             return false;
           }
         };
+        // listed only when vectorising costs money (under € 250); set again below once the order is known
         $("ckVecItem").hidden = !vecChosen();
         // products from step 1 ("loopperOrder": tote bag, thermos); without it the Bloom scenario
         var order = null;
@@ -9114,6 +9115,7 @@
         }
         // from € 250 vectorising is free: the line shows "Free", the option too
         var vecFree = window.orderBase() >= 250;
+        if (vecFree) $("ckVecItem").hidden = true;
         $("ckVecItem").querySelector("em").textContent = vecFree
           ? "Free"
           : "€ 25,00";
@@ -9348,7 +9350,7 @@
               sessionStorage.removeItem("loopperVectorChoice");
             } catch (e) {}
           var item = $("ckVecItem");
-          if (item) item.hidden = !on;
+          if (item) item.hidden = !on || window.ckVecFree;
           if (window.renderChecklist && window.ckBase)
             window.renderChecklist(window.ckBase());
         }

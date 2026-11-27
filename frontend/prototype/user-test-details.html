@@ -8128,7 +8128,9 @@
         };
         // the row stays when the vector file was uploaded here (instead of vectorising)
         if (row)
-          row.hidden = !vecOn() && get("loopperVectorFrom") !== "details";
+          // only when vectorising costs money (order under € 250); from € 250 it is free and not listed
+          row.hidden =
+            BASE >= 250 || (!vecOn() && get("loopperVectorFrom") !== "details");
         function show() {
           if (!row) return;
           var on = vecOn(),
