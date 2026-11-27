@@ -8035,6 +8035,27 @@
         max-width: none;
         transform: rotate(-90deg);
       }
+      .ck-mock-list[hidden] {
+        display: none;
+      }
+      .ck-mock-go {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 40px;
+        margin-top: 4px;
+        padding: 0 20px;
+        border-radius: 14px;
+        background: #00aed8;
+        font-size: 16px;
+        font-weight: 700;
+        color: #fff;
+        text-decoration: none;
+      }
+      .ck-mock-go:hover,
+      .ck-mock-go:focus-visible {
+        background: #009ac0;
+      }
       .ck-mock-foot {
         margin: 14px 0 0;
         font-size: 13px;
@@ -8577,11 +8598,11 @@
             <p class="ck-open-intro" id="ckMockText">
               Choose a design for each product so we can start production.
             </p>
-            <div class="ck-mock-list" id="ckMockList"></div>
-            <p class="ck-mock-foot">
-              Want to see them larger or ask for changes?
-              <a href="online-offer-v6-approve.html">Open the mockups</a>
-            </p>
+            <!-- designs are chosen in step 2 only: the checklist links back to it -->
+            <div class="ck-mock-list" id="ckMockList" hidden></div>
+            <a class="ck-mock-go" href="online-offer-v6-approve.html"
+              >Go to Approve design</a
+            >
           </section>
         </div>
 
@@ -9270,7 +9291,7 @@
             : c.done +
               " of " +
               c.total +
-              " designs approved. Choose a design for each product so we can start production.";
+              " designs approved. Choose a design for each product in step 2 so we can start production.";
           var chip = $("ckMockChip");
           chip.textContent = all ? "Done" : "Action needed";
           chip.classList.toggle("is-done", all);
