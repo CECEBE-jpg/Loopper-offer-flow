@@ -7666,5 +7666,24 @@
         window.addEventListener("pagehide", save);
       })();
     </script>
+    <script>
+      // the beach bag, when it was added to the offer in step 1: in the amount to pay
+      (function () {
+        try {
+          var alt = JSON.parse(
+            sessionStorage.getItem("loopperUserTestAlt") || "null",
+          );
+          if (alt && window.setPayBase)
+            window.setPayBase(
+              Math.round(
+                ((window.orderBase ? window.orderBase() : 1567.5) +
+                  (window.vecFee ? window.vecFee() : 0) +
+                  alt.p * alt.q) *
+                  121,
+              ) / 100,
+            );
+        } catch (e) {}
+      })();
+    </script>
   </body>
 </html>

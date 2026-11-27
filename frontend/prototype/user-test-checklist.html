@@ -9253,7 +9253,7 @@
         // products switched out of the offer in step 1 need no design
         var order = json("loopperOrder");
         var chosen = json("loopperChosen");
-        if (!chosen || chosen.length !== PRODUCTS.length)
+        if (!chosen || chosen.length < PRODUCTS.length)
           chosen = PRODUCTS.map(function () {
             return null;
           });
@@ -9495,25 +9495,7 @@
       })();
     </script>
     <script>
-      // User test: show the logo the test user uploaded in step 1
-      (function () {
-        var logo = null;
-        try {
-          logo = sessionStorage.getItem("loopperUserTestLogo");
-        } catch (e) {}
-        if (!logo || logo === "text") return;
-        document
-          .querySelectorAll('img[src="assets/offer-bloom/bloom-logo.png"]')
-          .forEach(function (img) {
-            img.src = logo;
-          });
-        var box = document.querySelector(".client-logo");
-        if (box) box.setAttribute("aria-label", "Your uploaded logo");
-      })();
-    </script>
-    <script src="user-test-am.js"></script>
-    <script>
-      // beach bag added in step 1: in the order list and the amount to pay
+      // the beach bag, when it was added to the offer in step 1: in the order list and the amount to pay
       (function () {
         var alt = null;
         try {
@@ -9538,7 +9520,7 @@
           vecItem = document.getElementById("ckVecItem");
         if (vecItem) items.insertBefore(li, vecItem);
         else items.appendChild(li);
-        // the beach bag stays in the total when the checklist re-renders it (e.g. vectorising added)
+        // the beach bag stays in the total when the checklist re-renders it
         window.ckBase = function () {
           return (
             (window.orderBase ? window.orderBase() : 1567.5) +
@@ -9549,5 +9531,23 @@
         window.renderChecklist(window.ckBase());
       })();
     </script>
+    <script>
+      // User test: show the logo the test user uploaded in step 1
+      (function () {
+        var logo = null;
+        try {
+          logo = sessionStorage.getItem("loopperUserTestLogo");
+        } catch (e) {}
+        if (!logo || logo === "text") return;
+        document
+          .querySelectorAll('img[src="assets/offer-bloom/bloom-logo.png"]')
+          .forEach(function (img) {
+            img.src = logo;
+          });
+        var box = document.querySelector(".client-logo");
+        if (box) box.setAttribute("aria-label", "Your uploaded logo");
+      })();
+    </script>
+    <script src="user-test-am.js"></script>
   </body>
 </html>

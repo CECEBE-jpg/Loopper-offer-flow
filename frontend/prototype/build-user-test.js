@@ -247,6 +247,7 @@ s = beforeBodyEnd(
         if (!card || !inOffer || !qty) return;
         var KEY = "loopperUserTestAlt",
           LOGO_KEY = "loopperUserTestLogo";
+        window.utAltScript = true; // v6 step 1 leaves storing the beach bag to this script
         var photo = card.querySelector(".p6-photo");
         var note = document.createElement("p");
         note.className = "ut-alt-note";
@@ -382,54 +383,7 @@ s2 = s2.replace(
         } catch (e) {}
         var PRODUCTS = [`,
 );
-// beach bag added in step 1: one more product to review
 {
-  const end = "\n        ];\n        var state = PRODUCTS.map(";
-  must(s2.includes(end), "PRODUCTS end");
-  s2 = s2.replace(
-    end,
-    `
-        ];
-        // User test: the recommended beach bag, when it was added to the offer in step 1
-        try {
-          var utAlt = JSON.parse(sessionStorage.getItem("loopperUserTestAlt") || "null");
-          if (utAlt)
-            PRODUCTS.push({
-              name: "Beach bag | Cotton 220 g/m² | 55x39 cm | Cord handle | Beige",
-              short: "Beach bag",
-              meta: "Cotton · Beige",
-              card: "Beach bag, beige",
-              cardSub: "Screen print: front (30×20 cm)",
-              sub: "Article number 6377143 · " + utAlt.q + " pieces",
-              img: "assets/offer-bloom/beach-13.jpg",
-              print: "Screen print in 1 colour, front (30×20 cm)",
-              area: "beach",
-              designs: [
-                { label: "Logo centred", kind: "logo", logo: UT_LOGO, dir: "horizontal" },
-                { label: "Logo large", kind: "logo", logo: UT_LOGO, dir: "horizontal", big: true },
-              ],
-              pending: !utAlt.ready, // mockup not finished yet when the client left step 1
-            });
-        } catch (e) {}
-        var state = PRODUCTS.map(`,
-  );
-  // the beach bag finishes like the other products (v6 timer); remember it for step 3 and back to step 1
-  s2 = beforeBodyEnd(
-    s2,
-    `    <script>
-      document.addEventListener("mockupready", function (e) {
-        if (e.detail.area !== "beach") return;
-        try {
-          var a = JSON.parse(sessionStorage.getItem("loopperUserTestAlt") || "null");
-          if (a) {
-            a.ready = true;
-            sessionStorage.setItem("loopperUserTestAlt", JSON.stringify(a));
-          }
-        } catch (err) {}
-      });
-    </script>
-`,
-  );
   // Jildou answers every chat message (a warning for foul language)
   const once = /if \(!log\.querySelector\("\.is-reply"\)\) \{\s*setTimeout\(function \(\) \{\s*var r = document\.createElement\("p"\);\s*r\.className = "change-msg is-reply";\s*r\.innerHTML =\s*"<small>Jildou · just now<\/small>Thanks! I will update your design and let you know when the new version is ready\.";\s*log\.appendChild\(r\);\s*log\.scrollTop = log\.scrollHeight;\s*\}, 900\);\s*\}/;
   must(once.test(s2), "step 2 chat reply");
@@ -448,26 +402,6 @@ s2 = s2.replace(
   s2 = beforeBodyEnd(
     s2,
     `    <script src="user-test-am.js"></script>
-    <style>
-      /* print area on the beach bag photo (348 px stage) */
-      .pr-viewer .proof-area.pr-area-beach {
-        top: 150px;
-        left: 104px;
-        width: 140px;
-        height: 95px;
-        transform: none;
-      }
-      .pr-viewer .proof-area.pr-area-beach img {
-        width: 96px;
-        transform: none;
-        opacity: 0.95;
-        filter: none;
-        mix-blend-mode: multiply;
-      }
-      .pr-viewer .proof-area.pr-area-beach.pr-big img {
-        width: 132px;
-      }
-    </style>
 `,
   );
 }
@@ -477,73 +411,12 @@ fs.writeFileSync(path.join(dir, "user-test-approve.html"), s2);
 
 let s3 = read("online-offer-v6-details.html");
 s3 = beforeBodyEnd(s3, useLogo);
-// beach bag added in step 1: extra order row and totals
-s3 = beforeBodyEnd(
-  s3,
-  `    <script>
-      // User test: the recommended beach bag, when it was added to the offer in step 1
-      (function () {
-        var alt = null;
-        try {
-          alt = JSON.parse(sessionStorage.getItem("loopperUserTestAlt") || "null");
-        } catch (e) {}
-        if (!alt) return;
-        function eur(n) {
-          return "€ " + n.toLocaleString("nl-NL", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        }
-        var body = document.querySelector(".det-table tbody");
-        var first = body && body.querySelector("tr");
-        if (!first) return;
-        var row = first.cloneNode(true);
-        row.hidden = false; // the tote bag row may be hidden (out of the offer)
-        var img = row.querySelector(".det-prod-img");
-        img.src = "assets/offer-bloom/beach-13.jpg";
-        img.alt = "Beach bag with cord handle, beige";
-        var th = ["beach-12.jpg", "beach-04.jpg", "beach-05.jpg"];
-        row.querySelectorAll(".det-prod-thumbs img").forEach(function (t, i) {
-          t.src = "assets/offer-bloom/" + th[i];
-        });
-        var txt = row.querySelectorAll(".det-prod h3, .det-prod p");
-        txt[0].textContent = "Beach bag | Cotton 220 g/m² | 55x39 cm | Cord handle | Beige";
-        txt[1].textContent = "Article number: 6377143";
-        txt[2].textContent = "Screen print · Personalisation: front (30×20 cm)";
-        if (txt[3]) txt[3].textContent = "Expected delivery: 1 December 2026";
-        var cells = row.querySelectorAll(":scope > td");
-        cells[1].innerHTML = "<b>" + alt.q + "</b>";
-        cells[2].textContent = eur(alt.p);
-        cells[3].innerHTML = "<b>" + eur(alt.p * alt.q) + "</b>";
-        // products first, the vectorising service row stays last
-        var vec = document.getElementById("detVec");
-        if (vec) body.insertBefore(row, vec);
-        else body.appendChild(row);
-        // totals: the scenario products (+ vectorising) + the beach bag
-        if (window.detTotals) {
-          window.detTotals.extra = alt.p * alt.q;
-          window.detTotals.render();
-        }
-      })();
-    </script>
-`,
-);
 s3 = noindex(title(links(s3)));
 fs.writeFileSync(path.join(dir, "user-test-details.html"), s3);
 
 // ---------- step 4: payment ----------
 let s4 = read("online-offer-v6-payment.html");
 s4 = beforeBodyEnd(s4, useLogo);
-// beach bag added in step 1: the amount to pay includes it
-s4 = beforeBodyEnd(
-  s4,
-  `    <script>
-      (function () {
-        try {
-          var alt = JSON.parse(sessionStorage.getItem("loopperUserTestAlt") || "null");
-          if (alt && window.setPayBase) window.setPayBase(Math.round(((window.orderBase ? window.orderBase() : 1567.5) + (window.vecFee ? window.vecFee() : 0) + alt.p * alt.q) * 121) / 100);
-        } catch (e) {}
-      })();
-    </script>
-`,
-);
 s4 = noindex(title(links(s4)));
 fs.writeFileSync(path.join(dir, "user-test-payment.html"), s4);
 
@@ -553,33 +426,6 @@ s5 = beforeBodyEnd(s5, useLogo);
 s5 = beforeBodyEnd(
   s5,
   `    <script src="user-test-am.js"></script>
-    <script>
-      // beach bag added in step 1: in the order list and the amount to pay
-      (function () {
-        var alt = null;
-        try {
-          alt = JSON.parse(sessionStorage.getItem("loopperUserTestAlt") || "null");
-        } catch (e) {}
-        if (!alt || !window.renderChecklist) return;
-        var sum = alt.p * alt.q;
-        var li = document.createElement("li");
-        li.innerHTML =
-          '<img src="assets/offer-bloom/beach-13.jpg" alt="" /><span><b>Beach bag, beige</b><small>' +
-          alt.q +
-          " pieces · screen print</small></span><em></em>";
-        li.querySelector("em").textContent =
-          "€ " + sum.toLocaleString("nl-NL", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        var items = document.getElementById("ckItems"),
-          vecItem = document.getElementById("ckVecItem");
-        if (vecItem) items.insertBefore(li, vecItem);
-        else items.appendChild(li);
-        // the beach bag stays in the total when the checklist re-renders it (e.g. vectorising added)
-        window.ckBase = function () {
-          return (window.orderBase ? window.orderBase() : 1567.5) + (window.vecFee ? window.vecFee() : 0) + sum;
-        };
-        window.renderChecklist(window.ckBase());
-      })();
-    </script>
 `,
 );
 s5 = noindex(title(links(s5)));

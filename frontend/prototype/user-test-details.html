@@ -8425,24 +8425,7 @@
       });
     </script>
     <script>
-      // User test: show the logo the test user uploaded in step 1
-      (function () {
-        var logo = null;
-        try {
-          logo = sessionStorage.getItem("loopperUserTestLogo");
-        } catch (e) {}
-        if (!logo || logo === "text") return;
-        document
-          .querySelectorAll('img[src="assets/offer-bloom/bloom-logo.png"]')
-          .forEach(function (img) {
-            img.src = logo;
-          });
-        var box = document.querySelector(".client-logo");
-        if (box) box.setAttribute("aria-label", "Your uploaded logo");
-      })();
-    </script>
-    <script>
-      // User test: the recommended beach bag, when it was added to the offer in step 1
+      // the beach bag, when it was added to the offer in step 1: extra order row and totals
       (function () {
         var alt = null;
         try {
@@ -8486,11 +8469,27 @@
         var vec = document.getElementById("detVec");
         if (vec) body.insertBefore(row, vec);
         else body.appendChild(row);
-        // totals: the scenario products (+ vectorising) + the beach bag
         if (window.detTotals) {
           window.detTotals.extra = alt.p * alt.q;
           window.detTotals.render();
         }
+      })();
+    </script>
+    <script>
+      // User test: show the logo the test user uploaded in step 1
+      (function () {
+        var logo = null;
+        try {
+          logo = sessionStorage.getItem("loopperUserTestLogo");
+        } catch (e) {}
+        if (!logo || logo === "text") return;
+        document
+          .querySelectorAll('img[src="assets/offer-bloom/bloom-logo.png"]')
+          .forEach(function (img) {
+            img.src = logo;
+          });
+        var box = document.querySelector(".client-logo");
+        if (box) box.setAttribute("aria-label", "Your uploaded logo");
       })();
     </script>
   </body>

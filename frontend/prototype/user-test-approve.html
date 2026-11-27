@@ -8152,19 +8152,19 @@
             ],
           },
         ];
-        // User test: the recommended beach bag, when it was added to the offer in step 1
+        // the beach bag, when it was added to the offer in step 1
         try {
-          var utAlt = JSON.parse(
+          var altBag = JSON.parse(
             sessionStorage.getItem("loopperUserTestAlt") || "null",
           );
-          if (utAlt)
+          if (altBag)
             PRODUCTS.push({
               name: "Beach bag | Cotton 220 g/m² | 55x39 cm | Cord handle | Beige",
               short: "Beach bag",
               meta: "Cotton · Beige",
               card: "Beach bag, beige",
               cardSub: "Screen print: front (30×20 cm)",
-              sub: "Article number 6377143 · " + utAlt.q + " pieces",
+              sub: "Article number 6377143 · " + altBag.q + " pieces",
               img: "assets/offer-bloom/beach-13.jpg",
               print: "Screen print in 1 colour, front (30×20 cm)",
               area: "beach",
@@ -8183,8 +8183,28 @@
                   big: true,
                 },
               ],
-              pending: !utAlt.ready, // mockup not finished yet when the client left step 1
+              pending: !altBag.ready, // mockup not finished yet when the client left step 1
             });
+        } catch (e) {}
+        // step 1 choices: products switched out are not reviewed; the chosen quantity shows
+        var ALL_PRODUCTS = PRODUCTS.slice();
+        try {
+          var stepOrder = JSON.parse(
+            sessionStorage.getItem("loopperOrder") || "null",
+          );
+          if (stepOrder && stepOrder.length === 2) {
+            stepOrder.forEach(function (l, i) {
+              var p = ALL_PRODUCTS[i];
+              if (p && l.on)
+                p.sub = p.sub.replace(
+                  /[\d.,]+ pieces/,
+                  l.qty.toLocaleString("en-GB") + " pieces",
+                );
+            });
+            PRODUCTS = ALL_PRODUCTS.filter(function (p, i) {
+              return !(stepOrder[i] && !stepOrder[i].on);
+            });
+          }
         } catch (e) {}
         var state = PRODUCTS.map(function () {
           return { view: 0, chosen: null, approved: false };
@@ -8194,8 +8214,9 @@
           var savedChosen = JSON.parse(
             sessionStorage.getItem("loopperChosen") || "null",
           );
-          if (savedChosen && savedChosen.length === state.length)
-            savedChosen.forEach(function (c, i) {
+          if (savedChosen && savedChosen.length === ALL_PRODUCTS.length)
+            PRODUCTS.forEach(function (p, i) {
+              var c = savedChosen[ALL_PRODUCTS.indexOf(p)];
               if (c === null || c === undefined) return;
               state[i].chosen = c;
               state[i].view = c;
@@ -8207,8 +8228,9 @@
             sessionStorage.setItem(
               "loopperChosen",
               JSON.stringify(
-                state.map(function (s) {
-                  return s.chosen;
+                ALL_PRODUCTS.map(function (p) {
+                  var i = PRODUCTS.indexOf(p);
+                  return i < 0 ? null : state[i].chosen;
                 }),
               ),
             );
@@ -9157,6 +9179,7 @@
       })();
     </script>
     <script>
+      // the beach bag's mockup finishes like the other products: remember it for step 3 and back to step 1
       document.addEventListener("mockupready", function (e) {
         if (e.detail.area !== "beach") return;
         try {
@@ -9170,7 +9193,6 @@
         } catch (err) {}
       });
     </script>
-    <script src="user-test-am.js"></script>
     <style>
       /* print area on the beach bag photo (348 px stage) */
       .pr-viewer .proof-area.pr-area-beach {
@@ -9191,6 +9213,7 @@
         width: 132px;
       }
     </style>
+    <script src="user-test-am.js"></script>
     <script>
       // User test: show the logo the test user uploaded in step 1
       (function () {

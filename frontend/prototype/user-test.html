@@ -11387,6 +11387,44 @@
         window.addEventListener("pagehide", save);
       })();
     </script>
+    <script>
+      // Beach bag (recommended alternative) in the offer: remember it for steps 2 to 5.
+      // Key shared with the user test, which stores its own mockup state (window.utAltScript).
+      (function () {
+        var KEY = "loopperUserTestAlt";
+        var inOffer = document.getElementById("altInOffer"),
+          toggle = document.getElementById("altToggle"),
+          qty = document.getElementById("altQty");
+        if (!inOffer || !qty) return;
+        function store() {
+          if (window.utAltScript) return;
+          try {
+            var on = toggle && toggle.checked && inOffer.checked;
+            if (!on) return sessionStorage.removeItem(KEY);
+            var r = qty.querySelector('.q-row > input[type="radio"]:checked');
+            var ok = r && r.getAttribute("data-price");
+            sessionStorage.setItem(
+              KEY,
+              JSON.stringify({
+                q: ok ? +r.value : 250,
+                p: ok ? +r.getAttribute("data-price") : 4.08,
+                ready: true,
+              }),
+            );
+          } catch (e) {}
+        }
+        [inOffer, toggle, qty].forEach(function (el) {
+          if (el)
+            el.addEventListener("change", function () {
+              setTimeout(store, 0);
+            });
+        });
+        // after the step memory has restored the page
+        window.addEventListener("load", function () {
+          setTimeout(store, 0);
+        });
+      })();
+    </script>
     <style>
       /* User test: the prototype demo controls are hidden */
       #demoBar {
@@ -11545,6 +11583,7 @@
         if (!card || !inOffer || !qty) return;
         var KEY = "loopperUserTestAlt",
           LOGO_KEY = "loopperUserTestLogo";
+        window.utAltScript = true; // v6 step 1 leaves storing the beach bag to this script
         var photo = card.querySelector(".p6-photo");
         var note = document.createElement("p");
         note.className = "ut-alt-note";

@@ -9254,7 +9254,7 @@
         // products switched out of the offer in step 1 need no design
         var order = json("loopperOrder");
         var chosen = json("loopperChosen");
-        if (!chosen || chosen.length !== PRODUCTS.length)
+        if (!chosen || chosen.length < PRODUCTS.length)
           chosen = PRODUCTS.map(function () {
             return null;
           });
@@ -9493,6 +9493,43 @@
           list.appendChild(row);
         });
         status();
+      })();
+    </script>
+    <script>
+      // the beach bag, when it was added to the offer in step 1: in the order list and the amount to pay
+      (function () {
+        var alt = null;
+        try {
+          alt = JSON.parse(
+            sessionStorage.getItem("loopperUserTestAlt") || "null",
+          );
+        } catch (e) {}
+        if (!alt || !window.renderChecklist) return;
+        var sum = alt.p * alt.q;
+        var li = document.createElement("li");
+        li.innerHTML =
+          '<img src="assets/offer-bloom/beach-13.jpg" alt="" /><span><b>Beach bag, beige</b><small>' +
+          alt.q +
+          " pieces · screen print</small></span><em></em>";
+        li.querySelector("em").textContent =
+          "€ " +
+          sum.toLocaleString("nl-NL", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          });
+        var items = document.getElementById("ckItems"),
+          vecItem = document.getElementById("ckVecItem");
+        if (vecItem) items.insertBefore(li, vecItem);
+        else items.appendChild(li);
+        // the beach bag stays in the total when the checklist re-renders it
+        window.ckBase = function () {
+          return (
+            (window.orderBase ? window.orderBase() : 1567.5) +
+            (window.vecFee ? window.vecFee() : 0) +
+            sum
+          );
+        };
+        window.renderChecklist(window.ckBase());
       })();
     </script>
   </body>

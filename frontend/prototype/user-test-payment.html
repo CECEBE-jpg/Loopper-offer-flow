@@ -7666,23 +7666,7 @@
       })();
     </script>
     <script>
-      // User test: show the logo the test user uploaded in step 1
-      (function () {
-        var logo = null;
-        try {
-          logo = sessionStorage.getItem("loopperUserTestLogo");
-        } catch (e) {}
-        if (!logo || logo === "text") return;
-        document
-          .querySelectorAll('img[src="assets/offer-bloom/bloom-logo.png"]')
-          .forEach(function (img) {
-            img.src = logo;
-          });
-        var box = document.querySelector(".client-logo");
-        if (box) box.setAttribute("aria-label", "Your uploaded logo");
-      })();
-    </script>
-    <script>
+      // the beach bag, when it was added to the offer in step 1: in the amount to pay
       (function () {
         try {
           var alt = JSON.parse(
@@ -7698,6 +7682,23 @@
               ) / 100,
             );
         } catch (e) {}
+      })();
+    </script>
+    <script>
+      // User test: show the logo the test user uploaded in step 1
+      (function () {
+        var logo = null;
+        try {
+          logo = sessionStorage.getItem("loopperUserTestLogo");
+        } catch (e) {}
+        if (!logo || logo === "text") return;
+        document
+          .querySelectorAll('img[src="assets/offer-bloom/bloom-logo.png"]')
+          .forEach(function (img) {
+            img.src = logo;
+          });
+        var box = document.querySelector(".client-logo");
+        if (box) box.setAttribute("aria-label", "Your uploaded logo");
       })();
     </script>
   </body>
