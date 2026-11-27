@@ -3409,6 +3409,10 @@
         padding: 10px 16px;
         align-items: center;
       }
+      /* upload tile: same height as the uploaded logo's preview box (152px) */
+      .logo-adds #logoUpload .logo-add-box {
+        min-height: 152px;
+      }
       .logo-add-text {
         display: flex;
         flex-direction: column;
@@ -6296,6 +6300,22 @@
         margin-top: 30px;
         margin-right: 9px;
       }
+      /* "You asked for an alternative" heading above the beach bag row */
+      .products-card .alt {
+        flex-wrap: wrap;
+        row-gap: 0;
+      }
+      .alt-ask {
+        flex: 0 0 100%;
+        margin: 0 0 14px;
+        font-size: 14px;
+        line-height: 20px;
+        font-weight: 400;
+        color: var(--text);
+      }
+      .alt-ask b {
+        font-weight: 800;
+      }
       /* beach bag suggestion row: same box as a switched-off product row */
       .products-card .alt {
         padding: 21px 0 31px;
@@ -7006,7 +7026,9 @@
                       ><span class="logo-add-text"
                         ><span class="logo-add-title">Upload logo</span
                         ><span class="logo-add-hint"
-                          >PNG, SVG, AI, EPS or PDF</span
+                          >Click or drag a file here</span
+                        ><span class="logo-add-hint"
+                          >PNG, SVG, AI, EPS, PDF</span
                         ></span
                       >
                     </button>
@@ -7667,6 +7689,9 @@
           <!-- Requested alternative, not in the offer yet: small row with the toggle on the left (same column as "In offer").
                Switching it on swaps the row for a full product card (#altProduct), see script at end of body. -->
           <div class="alt" id="alt">
+            <p class="alt-ask">
+              You asked for an alternative: <b>Sustainable product</b>
+            </p>
             <div class="alt-row">
               <label class="switch alt-switch">
                 <input
@@ -7698,8 +7723,7 @@
               </div>
               <div class="alt-body">
                 <div class="alt-tags">
-                  <span class="chip chip-green">Sustainable alternative</span
-                  ><span>You asked for this</span>
+                  <span class="chip chip-green">Sustainable alternative</span>
                 </div>
                 <h3 class="alt-title" id="altTitle">
                   Beach bag · Cotton 220 g/m² · Cord handle
@@ -8239,9 +8263,11 @@
               .textContent.trim();
             // keep the product's labels (Larger print / Great alternative) next to "Not in your offer"
             var tags = row.querySelector(".alt-tags");
-            p.querySelectorAll(".p6-info .p6-labels .p6-label").forEach(function (lb) {
-              tags.appendChild(lb.cloneNode(true));
-            });
+            p.querySelectorAll(".p6-info .p6-labels .p6-label").forEach(
+              function (lb) {
+                tags.appendChild(lb.cloneNode(true));
+              },
+            );
             p.appendChild(row);
           }
           // the print technique (engraving / full-colour print), not "Printing in: 1 colour"
@@ -8299,7 +8325,9 @@
                 products.map(function (p) {
                   var on = p.querySelector(".p6-offer input").checked,
                     l = line(p.querySelector(".q-list")),
-                    pick = p.querySelector('.q-row > input[type="radio"]:checked');
+                    pick = p.querySelector(
+                      '.q-row > input[type="radio"]:checked',
+                    );
                   return {
                     on: on,
                     qty: l.qty,
@@ -10053,7 +10081,8 @@
               '" width="33" height="33" alt="" /><div class="cmt-body"><p class="cmt-from"><b>Jildou</b> your account manager</p><p class="cmt-text"></p></div>';
             m.querySelector(".cmt-text").textContent = text;
             // unread unless you are reading this thread in the panel right now
-            if (!(current === cmt && dlg.open)) cmt._unread = (cmt._unread || 0) + 1;
+            if (!(current === cmt && dlg.open))
+              cmt._unread = (cmt._unread || 0) + 1;
             add(m);
             if (current === cmt && dlg.open) {
               log.insertBefore(
@@ -10147,8 +10176,7 @@
           });
           var note = document.createElement("p");
           note.className = "cm-system";
-          note.textContent =
-            "Jildou usually replies within a few minutes.";
+          note.textContent = "Jildou usually replies within a few minutes.";
           log.appendChild(note);
           dSend.disabled = true;
           dlg.showModal();
@@ -11212,7 +11240,10 @@
           ["Payment", "user-test-payment.html"],
         ];
         var CHECKLIST = "user-test-checklist.html";
-        var here = (location.pathname.split("/").pop() || "").replace(/\.html$/, "");
+        var here = (location.pathname.split("/").pop() || "").replace(
+          /\.html$/,
+          "",
+        );
         var html = "";
         PAGES.forEach(function (p, i) {
           if (p[1].replace(".html", "") === here) {
@@ -11247,7 +11278,10 @@
       // Step memory: what the client filled in on this step comes back when they return to it
       // (sessionStorage, per page). Step 3 also remembers its saved cards (details, delivery, remark).
       (function () {
-        var page = (location.pathname.split("/").pop() || "index").replace(/\.html$/, "");
+        var page = (location.pathname.split("/").pop() || "index").replace(
+          /\.html$/,
+          "",
+        );
         var KEY = "loopperMemory:" + page;
         var restoring = false;
         function controls() {
@@ -11269,7 +11303,9 @@
             var base = el.id
               ? "#" + el.id
               : (el.name || el.tagName.toLowerCase()) +
-                (el.type === "radio" || el.type === "checkbox" ? "=" + el.value : "");
+                (el.type === "radio" || el.type === "checkbox"
+                  ? "=" + el.value
+                  : "");
             seen[base] = (seen[base] || 0) + 1;
             return { el: el, key: base + "@" + seen[base] };
           });
@@ -11327,7 +11363,10 @@
               var el = k.el,
                 s = data.fields[k.key];
               if (!s) return;
-              var type = el.type === "checkbox" || el.type === "radio" ? el.type : "text";
+              var type =
+                el.type === "checkbox" || el.type === "radio"
+                  ? el.type
+                  : "text";
               if (type !== kind) return;
               if (kind === "text") {
                 if (s.v === undefined || el.value === s.v) return;
@@ -11346,7 +11385,10 @@
             if (f.remSaved && $("remText").hidden) $("remSave").click();
           }
           restoring = false;
-          if (document.activeElement && document.activeElement !== document.body)
+          if (
+            document.activeElement &&
+            document.activeElement !== document.body
+          )
             document.activeElement.blur();
           window.scrollTo(0, 0);
           save();
@@ -11382,15 +11424,22 @@
         var KEY = "loopperUserTestLogo";
         var started = false;
         function waiting() {
-          document.querySelectorAll(".products-card .p6-photo").forEach(function (p) {
-            p.querySelectorAll(".p6-overlay-mockup, .p6-mock-logo, .p6-ready").forEach(function (el) {
-              el.remove();
+          document
+            .querySelectorAll(".products-card .p6-photo")
+            .forEach(function (p) {
+              p.querySelectorAll(
+                ".p6-overlay-mockup, .p6-mock-logo, .p6-ready",
+              ).forEach(function (el) {
+                el.remove();
+              });
+              p.classList.remove("is-ready");
+              p.dataset.mockup = "none";
             });
-            p.classList.remove("is-ready");
-            p.dataset.mockup = "none";
-          });
           if (chip) {
-            chip.className = chip.className.replace(/\bis-(requested|progress|ready)\b/g, "").trim() + " is-requested";
+            chip.className =
+              chip.className
+                .replace(/\bis-(requested|progress|ready)\b/g, "")
+                .trim() + " is-requested";
             chip.textContent = "Upload your logo";
           }
           if (note) {
@@ -11399,7 +11448,9 @@
               "<b>Upload your logo</b> and we\u2019ll make a <b>free digital mockup</b> of your products.<br />You can approve it or ask for changes before you order.";
           }
           if (hint) hint.classList.remove("is-count");
-          if (hint) hint.innerHTML = "<b>Upload your logo</b> to get your free mockup design.";
+          if (hint)
+            hint.innerHTML =
+              "<b>Upload your logo</b> to get your free mockup design.";
         }
         function remember(src) {
           // keep the logo for steps 2 and 3 (as a small PNG, so it survives a page change)
@@ -11420,7 +11471,9 @@
         }
         function onLogo() {
           if (started) return;
-          var file = list.querySelector('[data-logo="file"] .logo-thumb-upload img');
+          var file = list.querySelector(
+            '[data-logo="file"] .logo-thumb-upload img',
+          );
           var text = list.querySelector('[data-logo="text"]');
           if (!file && !text) return;
           started = true;
@@ -11434,7 +11487,10 @@
           }
           if (window.utDemo) window.utDemo.playOnce();
         }
-        new MutationObserver(onLogo).observe(list, { childList: true, subtree: true });
+        new MutationObserver(onLogo).observe(list, {
+          childList: true,
+          subtree: true,
+        });
         // back from step 2: show the uploaded logo and the finished mockups again (no replay)
         var saved = null;
         try {
@@ -11453,12 +11509,14 @@
             // a logo can always be removed, also once its mockup is ready
             '<button type="button" class="logo-btn" data-logo-action="delete"><img src="assets/offer-v3/icon-remove.svg" width="12.2142" height="12.6353" alt="" />Remove</button>';
           tile.querySelector(".logo-thumb-upload img").src = saved;
-          tile.querySelector('[data-logo-action="delete"]').addEventListener("click", function () {
-            // removed: do not bring it back on the next page load
-            try {
-              sessionStorage.removeItem(KEY);
-            } catch (e) {}
-          });
+          tile
+            .querySelector('[data-logo-action="delete"]')
+            .addEventListener("click", function () {
+              // removed: do not bring it back on the next page load
+              try {
+                sessionStorage.removeItem(KEY);
+              } catch (e) {}
+            });
           list.appendChild(tile); // right of the upload tiles
           var count = document.querySelector(".logos-dd-count");
           if (count) count.textContent = "1 logo";
@@ -11518,7 +11576,13 @@
         window.extraMockups = function () {
           if (!inOffer.checked) return [];
           var m = photo.dataset.mockup;
-          return [m === "ready" ? "ready" : m === "progress" ? "progress" : "requested"];
+          return [
+            m === "ready"
+              ? "ready"
+              : m === "progress"
+                ? "progress"
+                : "requested",
+          ];
         };
         function hasLogo() {
           return !!document.querySelector(".logos-dd .logos [data-logo]");
@@ -11528,8 +11592,18 @@
             if (!inOffer.checked) return sessionStorage.removeItem(KEY);
             var r = qty.querySelector('.q-row > input[type="radio"]:checked');
             var q = r && r.getAttribute("data-price") ? +r.value : 250;
-            var p = r && r.getAttribute("data-price") ? +r.getAttribute("data-price") : 4.08;
-            sessionStorage.setItem(KEY, JSON.stringify({ q: q, p: p, ready: photo.dataset.mockup === "ready" }));
+            var p =
+              r && r.getAttribute("data-price")
+                ? +r.getAttribute("data-price")
+                : 4.08;
+            sessionStorage.setItem(
+              KEY,
+              JSON.stringify({
+                q: q,
+                p: p,
+                ready: photo.dataset.mockup === "ready",
+              }),
+            );
           } catch (e) {}
         }
         function overlay(on) {
@@ -11537,12 +11611,26 @@
             el.remove();
           });
           if (on)
-            photo.insertAdjacentHTML("beforeend", '<span class="p6-overlay p6-overlay-mockup">Mockup in progress</span>');
+            photo.insertAdjacentHTML(
+              "beforeend",
+              '<span class="p6-overlay p6-overlay-mockup">Mockup in progress</span>',
+            );
         }
         function set(state) {
           note.hidden = false;
-          note.className = "ut-alt-note" + (state === "ready" ? " is-ready" : state === "wait" ? " is-wait" : "");
-          photo.dataset.mockup = state === "ready" ? "ready" : state === "progress" ? "progress" : "none";
+          note.className =
+            "ut-alt-note" +
+            (state === "ready"
+              ? " is-ready"
+              : state === "wait"
+                ? " is-wait"
+                : "");
+          photo.dataset.mockup =
+            state === "ready"
+              ? "ready"
+              : state === "progress"
+                ? "progress"
+                : "none";
           overlay(state === "progress");
           note.textContent =
             state === "ready"
@@ -11563,7 +11651,11 @@
         }
         function sync() {
           if (inOffer.checked) {
-            if (photo.dataset.mockup !== "ready" && photo.dataset.mockup !== "progress") start();
+            if (
+              photo.dataset.mockup !== "ready" &&
+              photo.dataset.mockup !== "progress"
+            )
+              start();
           } else {
             clearTimeout(timer);
             overlay(false);
@@ -11588,7 +11680,8 @@
         var list = document.querySelector(".logos-dd .logos");
         if (list)
           new MutationObserver(function () {
-            if (inOffer.checked && photo.dataset.mockup === "none" && hasLogo()) start();
+            if (inOffer.checked && photo.dataset.mockup === "none" && hasLogo())
+              start();
           }).observe(list, { childList: true, subtree: true });
         // back from step 2: the bag is still in the offer with its finished mockup
         var saved = null;

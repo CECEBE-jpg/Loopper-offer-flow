@@ -7002,9 +7002,7 @@
             Bloom Agency<br />Mrs. Cayna Parker<br />Baker Street 12<br />NW1
             6XE London<br />United Kingdom
           </p>
-          <a class="pay-edit" href="user-test-details.html"
-            >Change details</a
-          >
+          <a class="pay-edit" href="user-test-details.html">Change details</a>
         </aside>
         <!-- Account manager: compact card (Figma 204:2, same as the checklist) -->
         <section class="ck-am-card" aria-label="Your account manager">
@@ -7362,18 +7360,24 @@
         var $ = function (id) {
           return document.getElementById(id);
         };
-        // vectorising (€ 25) is only in the order when the client chose it in step 2
+        // vectorising: € 25 only for orders under € 250 excl. VAT (from € 250 it is free);
+        // only in the order when the client chose it in step 2
         window.vecFee = function () {
           try {
-            return sessionStorage.getItem("loopperVectorChoice") === "vectorise" ? 25 : 0;
+            if (sessionStorage.getItem("loopperVectorChoice") !== "vectorise")
+              return 0;
           } catch (e) {
             return 0;
           }
+          var base = window.orderBase ? window.orderBase() : 1567.5;
+          return base < 250 ? 25 : 0;
         };
         // products from step 1 ("loopperOrder"); without it the Bloom scenario (€ 1.567,50 excl. VAT)
         window.orderBase = function () {
           try {
-            var o = JSON.parse(sessionStorage.getItem("loopperOrder") || "null");
+            var o = JSON.parse(
+              sessionStorage.getItem("loopperOrder") || "null",
+            );
             if (o && o.length === 2)
               return o.reduce(function (s, l) {
                 return s + (l.on ? l.sum : 0);
@@ -7381,7 +7385,8 @@
           } catch (e) {}
           return 1567.5;
         };
-        var BASE = Math.round((window.orderBase() + window.vecFee()) * 121) / 100; // order total incl. VAT from step 3
+        var BASE =
+          Math.round((window.orderBase() + window.vecFee()) * 121) / 100; // order total incl. VAT from step 3
         function eur(n) {
           return (
             "€ " +
@@ -7473,7 +7478,10 @@
           ["Payment", "user-test-payment.html"],
         ];
         var CHECKLIST = "user-test-checklist.html";
-        var here = (location.pathname.split("/").pop() || "").replace(/\.html$/, "");
+        var here = (location.pathname.split("/").pop() || "").replace(
+          /\.html$/,
+          "",
+        );
         var html = "";
         PAGES.forEach(function (p, i) {
           if (p[1].replace(".html", "") === here) {
@@ -7508,7 +7516,10 @@
       // Step memory: what the client filled in on this step comes back when they return to it
       // (sessionStorage, per page). Step 3 also remembers its saved cards (details, delivery, remark).
       (function () {
-        var page = (location.pathname.split("/").pop() || "index").replace(/\.html$/, "");
+        var page = (location.pathname.split("/").pop() || "index").replace(
+          /\.html$/,
+          "",
+        );
         var KEY = "loopperMemory:" + page;
         var restoring = false;
         function controls() {
@@ -7530,7 +7541,9 @@
             var base = el.id
               ? "#" + el.id
               : (el.name || el.tagName.toLowerCase()) +
-                (el.type === "radio" || el.type === "checkbox" ? "=" + el.value : "");
+                (el.type === "radio" || el.type === "checkbox"
+                  ? "=" + el.value
+                  : "");
             seen[base] = (seen[base] || 0) + 1;
             return { el: el, key: base + "@" + seen[base] };
           });
@@ -7588,7 +7601,10 @@
               var el = k.el,
                 s = data.fields[k.key];
               if (!s) return;
-              var type = el.type === "checkbox" || el.type === "radio" ? el.type : "text";
+              var type =
+                el.type === "checkbox" || el.type === "radio"
+                  ? el.type
+                  : "text";
               if (type !== kind) return;
               if (kind === "text") {
                 if (s.v === undefined || el.value === s.v) return;
@@ -7607,7 +7623,10 @@
             if (f.remSaved && $("remText").hidden) $("remSave").click();
           }
           restoring = false;
-          if (document.activeElement && document.activeElement !== document.body)
+          if (
+            document.activeElement &&
+            document.activeElement !== document.body
+          )
             document.activeElement.blur();
           window.scrollTo(0, 0);
           save();
@@ -7634,9 +7653,11 @@
           logo = sessionStorage.getItem("loopperUserTestLogo");
         } catch (e) {}
         if (!logo || logo === "text") return;
-        document.querySelectorAll('img[src="assets/offer-bloom/bloom-logo.png"]').forEach(function (img) {
-          img.src = logo;
-        });
+        document
+          .querySelectorAll('img[src="assets/offer-bloom/bloom-logo.png"]')
+          .forEach(function (img) {
+            img.src = logo;
+          });
         var box = document.querySelector(".client-logo");
         if (box) box.setAttribute("aria-label", "Your uploaded logo");
       })();
@@ -7644,8 +7665,18 @@
     <script>
       (function () {
         try {
-          var alt = JSON.parse(sessionStorage.getItem("loopperUserTestAlt") || "null");
-          if (alt && window.setPayBase) window.setPayBase(Math.round(((window.orderBase ? window.orderBase() : 1567.5) + (window.vecFee ? window.vecFee() : 0) + alt.p * alt.q) * 121) / 100);
+          var alt = JSON.parse(
+            sessionStorage.getItem("loopperUserTestAlt") || "null",
+          );
+          if (alt && window.setPayBase)
+            window.setPayBase(
+              Math.round(
+                ((window.orderBase ? window.orderBase() : 1567.5) +
+                  (window.vecFee ? window.vecFee() : 0) +
+                  alt.p * alt.q) *
+                  121,
+              ) / 100,
+            );
         } catch (e) {}
       })();
     </script>

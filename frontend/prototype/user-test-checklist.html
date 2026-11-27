@@ -7923,7 +7923,9 @@
         text-align: left;
         color: #1c2530;
         cursor: pointer;
-        transition: border-color 0.15s ease, box-shadow 0.15s ease;
+        transition:
+          border-color 0.15s ease,
+          box-shadow 0.15s ease;
       }
       .ck-design:hover {
         border-color: #00aed8;
@@ -8332,9 +8334,7 @@
               width="26"
               height="26"
               alt="Done:"
-            /><a class="step-link" href="user-test-payment.html"
-              >Payment</a
-            >
+            /><a class="step-link" href="user-test-payment.html">Payment</a>
           </li>
           <li class="step-checklist is-current" aria-current="step">
             <svg
@@ -8394,7 +8394,9 @@
 
           <section class="ck-card" aria-labelledby="ckPayTitle">
             <div class="ck-card-head">
-              <h3 id="ckPayTitle"><span class="ck-num" hidden>1</span>Payment</h3>
+              <h3 id="ckPayTitle">
+                <span class="ck-num" hidden>1</span>Payment
+              </h3>
               <span class="ck-status is-waiting" id="ckStatus"
                 >Waiting for payment</span
               >
@@ -8476,7 +8478,12 @@
           <!-- Steps still open from step 2: shown only while open (sessionStorage) -->
           <!-- Logo: our designers could not vectorise the uploaded logo (prototype scenario).
                Same layout and controls as step 2's "Colour and vector logo" card. -->
-          <section class="ck-card ck-open" id="ckVector" aria-labelledby="ckVecTitle" hidden>
+          <section
+            class="ck-card ck-open"
+            id="ckVector"
+            aria-labelledby="ckVecTitle"
+            hidden
+          >
             <div class="ck-card-head">
               <h3 id="ckVecTitle"><span class="ck-num">2</span>Your logo</h3>
               <span class="ck-action" id="ckVecChip">Action needed</span>
@@ -8484,15 +8491,21 @@
             <div class="ck-open-body" id="ckVecBody">
               <div class="ck-logo-issue" role="alert">
                 <span class="ck-logo-thumb"
-                  ><img id="ckLogoImg" src="assets/offer-bloom/bloom-logo.png" alt=""
+                  ><img
+                    id="ckLogoImg"
+                    src="assets/offer-bloom/bloom-logo.png"
+                    alt=""
                 /></span>
                 <div class="ck-logo-info">
-                  <p class="ck-logo-name" id="ckLogoName">bloom-agency-logo.png</p>
+                  <p class="ck-logo-name" id="ckLogoName">
+                    bloom-agency-logo.png
+                  </p>
                   <p class="ck-logo-warn">
                     <span class="ck-warn-icon" aria-hidden="true">!</span
                     ><span
-                      ><b>We can’t vectorise this logo.</b> Our designers checked
-                      it: it has too little detail to redraw sharply for print.</span
+                      ><b>We can’t vectorise this logo.</b> Our designers
+                      checked it: it has too little detail to redraw sharply for
+                      print.</span
                     >
                   </p>
                 </div>
@@ -8500,8 +8513,8 @@
               <div class="ck-fix">
                 <h4>Better-quality logo</h4>
                 <p id="ckFixIntro">
-                  Upload a larger or vector version of your logo, or let us contact
-                  you to find a solution together.
+                  Upload a larger or vector version of your logo, or let us
+                  contact you to find a solution together.
                 </p>
                 <div class="ck-fix-actions">
                   <button type="button" class="ck-fix-up" data-vec="upload">
@@ -8518,7 +8531,9 @@
                     aria-pressed="false"
                   >
                     <span class="ck-fix-alt-text"
-                      >I don’t have a better-quality logo,<br /><b>please contact me</b></span
+                      >I don’t have a better-quality logo,<br /><b
+                        >please contact me</b
+                      ></span
                     >
                   </button>
                   <!-- only when vectorising is not in the order yet: adds the € 25 service -->
@@ -8536,14 +8551,26 @@
                 </div>
                 <p class="ck-fix-note" id="ckFixNote" hidden></p>
               </div>
-              <input type="file" id="ckVecFile" accept=".svg,.ai,.pdf,.eps,.png,.jpg,.jpeg" hidden />
+              <input
+                type="file"
+                id="ckVecFile"
+                accept=".svg,.ai,.pdf,.eps,.png,.jpg,.jpeg"
+                hidden
+              />
             </div>
           </section>
 
           <!-- Mockup approval: choose a design per product right here (same mockups as step 2) -->
-          <section class="ck-card ck-open" id="ckMockups" aria-labelledby="ckMockTitle" hidden>
+          <section
+            class="ck-card ck-open"
+            id="ckMockups"
+            aria-labelledby="ckMockTitle"
+            hidden
+          >
             <div class="ck-card-head">
-              <h3 id="ckMockTitle"><span class="ck-num">3</span>Mockup approval</h3>
+              <h3 id="ckMockTitle">
+                <span class="ck-num">3</span>Mockup approval
+              </h3>
               <span class="ck-action" id="ckMockChip">Action needed</span>
             </div>
             <p class="ck-open-intro" id="ckMockText">
@@ -8576,11 +8603,40 @@
               <li id="ckVecItem">
                 <span class="ck-vec-img" aria-hidden="true">
                   <svg width="26" height="26" viewBox="0 0 44 44" fill="none">
-                    <path d="M8 34C14 30 15 16 22 12c7 4 8 18 14 22" stroke="#00799a" stroke-width="2.4" stroke-linecap="round" />
-                    <rect x="4" y="30" width="8" height="8" rx="1.5" fill="#fff" stroke="#1c2530" stroke-width="2" />
-                    <rect x="32" y="30" width="8" height="8" rx="1.5" fill="#fff" stroke="#1c2530" stroke-width="2" />
-                    <rect x="18" y="8" width="8" height="8" rx="1.5" fill="#00799a" />
-                  </svg></span
+                    <path
+                      d="M8 34C14 30 15 16 22 12c7 4 8 18 14 22"
+                      stroke="#00799a"
+                      stroke-width="2.4"
+                      stroke-linecap="round"
+                    />
+                    <rect
+                      x="4"
+                      y="30"
+                      width="8"
+                      height="8"
+                      rx="1.5"
+                      fill="#fff"
+                      stroke="#1c2530"
+                      stroke-width="2"
+                    />
+                    <rect
+                      x="32"
+                      y="30"
+                      width="8"
+                      height="8"
+                      rx="1.5"
+                      fill="#fff"
+                      stroke="#1c2530"
+                      stroke-width="2"
+                    />
+                    <rect
+                      x="18"
+                      y="8"
+                      width="8"
+                      height="8"
+                      rx="1.5"
+                      fill="#00799a"
+                    /></svg></span
                 ><span
                   ><b>Vectorising your logo</b
                   ><small>By our design team</small></span
@@ -8662,11 +8718,7 @@
           <!-- Account manager: compact card (Figma 214:242) -->
           <section class="ck-am-card" aria-label="Your account manager">
             <div class="ck-am-id">
-              <span
-                class="ck-am-avatar"
-                role="img"
-                aria-label="Jildou"
-              ></span>
+              <span class="ck-am-avatar" role="img" aria-label="Jildou"></span>
               <div>
                 <p class="ck-am-name">Jildou</p>
                 <p class="ck-am-role">Your account manager</p>
@@ -8682,48 +8734,6 @@
         </aside>
       </div>
     </div>
-
-    <!-- Extra benefits via Sovendus (partner deals after the order) -->
-    <section class="sov-card" aria-labelledby="sovTitle">
-      <div class="sov-intro">
-        <h2 id="sovTitle">Extra benefits via Sovendus</h2>
-        <p>Exclusive deals and discounts for Loopper customers.</p>
-      </div>
-      <div class="sov-deals">
-        <a class="sov-deal" href="#" aria-label="bol.: 10% off">
-          <span class="sov-mark sov-bol">bol.</span>
-          <span class="sov-off">10% off</span>
-        </a>
-        <a class="sov-deal" href="#" aria-label="Booking.com: Up to 15% off">
-          <span class="sov-mark sov-booking">Booking<span>.com</span></span>
-          <span class="sov-off">Up to 15% off</span>
-        </a>
-        <a class="sov-deal" href="#" aria-label="DECATHLON: 15% off">
-          <span class="sov-mark sov-decathlon">DECATHLON</span>
-          <span class="sov-off">15% off</span>
-        </a>
-        <a class="sov-deal" href="#" aria-label=": Up to 60% off">
-          <span class="sov-mark sov-hello">HELLO<b>FRESH</b></span>
-          <span class="sov-off">Up to 60% off</span>
-        </a>
-      </div>
-      <a class="sov-all" href="#"
-        >Discover all deals<svg
-          width="12"
-          height="12"
-          viewBox="0 0 12 12"
-          fill="none"
-          aria-hidden="true"
-        >
-          <path
-            d="M3 9 9 3M4 3h5v5"
-            stroke="currentColor"
-            stroke-width="1.8"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          /></svg
-      ></a>
-    </section>
 
     <section class="brands" aria-label="Brands that trust us">
       <h2 class="brands-title">Brands that trust us</h2>
@@ -8885,16 +8895,29 @@
               ? "Has started. Billie sends you the invoice; pay within 30 days."
               : "Has started now that your payment is in.";
         }
-        // vectorising (€ 25) is only in the order when the client chose it in step 2
+        // vectorising: € 25 only for orders under € 250 excl. VAT (from € 250 it is free);
+        // only in the order when the client chose it in step 2
         window.vecFee = function () {
           try {
-            return sessionStorage.getItem("loopperVectorChoice") === "vectorise" ? 25 : 0;
+            if (sessionStorage.getItem("loopperVectorChoice") !== "vectorise")
+              return 0;
           } catch (e) {
             return 0;
           }
+          var base = window.orderBase ? window.orderBase() : 1567.5;
+          return base < 250 ? 25 : 0;
         };
         // hidden, not removed: choosing vectorising on this page shows it again
-        $("ckVecItem").hidden = !window.vecFee();
+        var vecChosen = function () {
+          try {
+            return (
+              sessionStorage.getItem("loopperVectorChoice") === "vectorise"
+            );
+          } catch (e) {
+            return false;
+          }
+        };
+        $("ckVecItem").hidden = !vecChosen();
         // products from step 1 ("loopperOrder": tote bag, thermos); without it the Bloom scenario
         var order = null;
         try {
@@ -8930,6 +8953,15 @@
               });
           });
         }
+        // from € 250 vectorising is free: the line shows "Free", the option too
+        var vecFree = window.orderBase() >= 250;
+        $("ckVecItem").querySelector("em").textContent = vecFree
+          ? "Free"
+          : "€ 25,00";
+        document.querySelectorAll(".ck-fix-price").forEach(function (p) {
+          p.textContent = vecFree ? "Free" : "€ 25";
+        });
+        window.ckVecFree = vecFree;
         // order total excl. VAT; the user test adds its own products to this
         window.ckBase = function () {
           return window.orderBase() + window.vecFee();
@@ -8951,12 +8983,13 @@
           status.className = "ck-status is-proof";
           status.textContent = "Proof of payment received";
         });
-        if ($("invoiceLink")) $("invoiceLink").addEventListener("click", function (e) {
-          e.preventDefault();
-          var log = $("ckLog");
-          addMsg(false, "Prototype: your invoice (PDF) would download now.");
-          log.scrollTop = log.scrollHeight;
-        });
+        if ($("invoiceLink"))
+          $("invoiceLink").addEventListener("click", function (e) {
+            e.preventDefault();
+            var log = $("ckLog");
+            addMsg(false, "Prototype: your invoice (PDF) would download now.");
+            log.scrollTop = log.scrollHeight;
+          });
 
         var log = $("ckLog"),
           form = $("ckForm");
@@ -9030,7 +9063,9 @@
           vecCard = $("ckVector"),
           mockCard = $("ckMockups");
         if (!main || !vecCard || !mockCard) return;
-        var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        var reduce = window.matchMedia(
+          "(prefers-reduced-motion: reduce)",
+        ).matches;
 
         // ---------- products and designs (same as step 2) ----------
         var LOGO = "assets/offer-bloom/bloom-logo.png";
@@ -9080,13 +9115,18 @@
         }
 
         // ---------- which cards are open ----------
-        var vecOpen = get("loopperVectorChoice") !== "upload" && !get("loopperLogoFix");
+        var vecOpen =
+          get("loopperVectorChoice") !== "upload" && !get("loopperLogoFix");
         var start = counts();
         var mockOpen = start.done < start.total;
         vecCard.hidden = !vecOpen;
         mockCard.hidden = !mockOpen;
         function number() {
-          var cards = [document.querySelector('.ck-card[aria-labelledby="ckPayTitle"]'), vecCard, mockCard];
+          var cards = [
+            document.querySelector('.ck-card[aria-labelledby="ckPayTitle"]'),
+            vecCard,
+            mockCard,
+          ];
           var n = 0;
           cards.forEach(function (c) {
             if (!c || c.hidden) return;
@@ -9098,14 +9138,18 @@
           main.classList.toggle("has-open", many);
           var payNum = document.querySelector("#ckPayTitle .ck-num");
           if (payNum) payNum.hidden = !many;
-          if (lead) lead.textContent = many ? "Complete the following steps" : "Complete the following step";
+          if (lead)
+            lead.textContent = many
+              ? "Complete the following steps"
+              : "Complete the following step";
         }
         number();
 
         // ---------- Your logo ----------
         var logoImg = $("ckLogoImg");
         if (logoImg) logoImg.src = LOGO;
-        if (userLogo && $("ckLogoName")) $("ckLogoName").textContent = "Your logo";
+        if (userLogo && $("ckLogoName"))
+          $("ckLogoName").textContent = "Your logo";
         var file = $("ckVecFile"),
           note = $("ckFixNote"),
           alt = vecCard.querySelector('.ck-fix-alt[data-vec="contact"]'),
@@ -9144,8 +9188,14 @@
           note.appendChild(b);
           note.appendChild(document.createTextNode(text));
           note.hidden = false;
-          alt.setAttribute("aria-pressed", kind === "contact" ? "true" : "false");
-          vecBtn.setAttribute("aria-pressed", kind === "vectorise" ? "true" : "false");
+          alt.setAttribute(
+            "aria-pressed",
+            kind === "contact" ? "true" : "false",
+          );
+          vecBtn.setAttribute(
+            "aria-pressed",
+            kind === "vectorise" ? "true" : "false",
+          );
           up.classList.toggle("is-done", kind === "upload");
           setFee(kind === "vectorise");
           var chip = $("ckVecChip");
@@ -9161,7 +9211,9 @@
         vecBtn.addEventListener("click", function () {
           solved(
             "vectorise",
-            "Our design team hand-draws it as a vector for a sharp print. € 25 is added to your order (see Your order). This can delay production by 1 day.",
+            window.ckVecFree
+              ? "Our design team hand-draws it as a vector for a sharp print. It is free because your order is above € 250. This can delay production by 1 day."
+              : "Our design team hand-draws it as a vector for a sharp print. € 25 is added to your order (see Your order) because it is below € 250. This can delay production by 1 day.",
           );
         });
         up.addEventListener("click", function () {
@@ -9172,9 +9224,11 @@
           if (!f) return;
           solved(
             "upload",
-            f.name + " is with our designers. We update your mockups and let you know when they are ready.",
+            f.name +
+              " is with our designers. We update your mockups and let you know when they are ready.",
           );
-          up.querySelector(".ck-fix-text").firstChild.textContent = "✓ " + f.name + " ";
+          up.querySelector(".ck-fix-text").firstChild.textContent =
+            "✓ " + f.name + " ";
           file.value = "";
         });
 
@@ -9183,16 +9237,28 @@
           // the step 2 mockup (348 px stage) scaled down into a tile
           return (
             '<span class="ck-mini" aria-hidden="true"><span class="ck-mini-stage">' +
-            '<img src="' + p.img + '" alt="" />' +
-            '<span class="proof-area pr-area-' + p.area + " pr-dir-" + d.dir + (d.big ? " pr-big" : "") + '">' +
-            '<img src="' + LOGO + '" alt="" /></span></span></span>'
+            '<img src="' +
+            p.img +
+            '" alt="" />' +
+            '<span class="proof-area pr-area-' +
+            p.area +
+            " pr-dir-" +
+            d.dir +
+            (d.big ? " pr-big" : "") +
+            '">' +
+            '<img src="' +
+            LOGO +
+            '" alt="" /></span></span></span>'
           );
         }
         var list = $("ckMockList");
         function save() {
           set("loopperChosen", JSON.stringify(chosen));
           var c = counts();
-          set("loopperApproved", JSON.stringify({ done: c.done, total: c.total }));
+          set(
+            "loopperApproved",
+            JSON.stringify({ done: c.done, total: c.total }),
+          );
           return c;
         }
         function status() {
@@ -9213,7 +9279,9 @@
           var row = document.createElement("div");
           row.className = "ck-mock-row";
           row.innerHTML =
-            '<div class="ck-mock-prod"><img src="' + p.img + '" alt="" /><span><b></b><small></small></span></div>' +
+            '<div class="ck-mock-prod"><img src="' +
+            p.img +
+            '" alt="" /><span><b></b><small></small></span></div>' +
             '<div class="ck-mock-designs" role="radiogroup"></div>';
           row.querySelector("b").textContent = p.card;
           row.querySelector("small").textContent = p.sub;
@@ -9227,7 +9295,11 @@
             b.innerHTML =
               mini(p, d) +
               '<span class="ck-design-label"><span class="ck-radio" aria-hidden="true"></span>' +
-              "<span><b>Design " + (j + 1) + "</b><small>" + d.label + "</small></span></span>";
+              "<span><b>Design " +
+              (j + 1) +
+              "</b><small>" +
+              d.label +
+              "</small></span></span>";
             function paint() {
               var on = chosen[i] === j;
               b.classList.toggle("is-chosen", on);
@@ -9242,10 +9314,13 @@
               });
               status();
               if (!reduce && b.animate)
-                b.animate([{ transform: "scale(0.97)" }, { transform: "none" }], {
-                  duration: 220,
-                  easing: "cubic-bezier(0.22, 1, 0.36, 1)",
-                });
+                b.animate(
+                  [{ transform: "scale(0.97)" }, { transform: "none" }],
+                  {
+                    duration: 220,
+                    easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+                  },
+                );
             });
             paint();
             group.appendChild(b);
@@ -9263,9 +9338,11 @@
           logo = sessionStorage.getItem("loopperUserTestLogo");
         } catch (e) {}
         if (!logo || logo === "text") return;
-        document.querySelectorAll('img[src="assets/offer-bloom/bloom-logo.png"]').forEach(function (img) {
-          img.src = logo;
-        });
+        document
+          .querySelectorAll('img[src="assets/offer-bloom/bloom-logo.png"]')
+          .forEach(function (img) {
+            img.src = logo;
+          });
         var box = document.querySelector(".client-logo");
         if (box) box.setAttribute("aria-label", "Your uploaded logo");
       })();
@@ -9276,7 +9353,9 @@
       (function () {
         var alt = null;
         try {
-          alt = JSON.parse(sessionStorage.getItem("loopperUserTestAlt") || "null");
+          alt = JSON.parse(
+            sessionStorage.getItem("loopperUserTestAlt") || "null",
+          );
         } catch (e) {}
         if (!alt || !window.renderChecklist) return;
         var sum = alt.p * alt.q;
@@ -9286,14 +9365,22 @@
           alt.q +
           " pieces · screen print</small></span><em></em>";
         li.querySelector("em").textContent =
-          "€ " + sum.toLocaleString("nl-NL", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+          "€ " +
+          sum.toLocaleString("nl-NL", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          });
         var items = document.getElementById("ckItems"),
           vecItem = document.getElementById("ckVecItem");
         if (vecItem) items.insertBefore(li, vecItem);
         else items.appendChild(li);
         // the beach bag stays in the total when the checklist re-renders it (e.g. vectorising added)
         window.ckBase = function () {
-          return (window.orderBase ? window.orderBase() : 1567.5) + (window.vecFee ? window.vecFee() : 0) + sum;
+          return (
+            (window.orderBase ? window.orderBase() : 1567.5) +
+            (window.vecFee ? window.vecFee() : 0) +
+            sum
+          );
         };
         window.renderChecklist(window.ckBase());
       })();

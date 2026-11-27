@@ -7305,17 +7305,49 @@
                   <!-- pen-tool vector icon (Figma 257:1480), built from its exported parts -->
                   <span class="det-vec-img" aria-hidden="true">
                     <span class="vi-box">
-                      <span class="vi vi-curve"><span><img src="assets/offer-v3/vector-icon/5b11c.svg" alt="" /></span></span>
-                      <span class="vi vi-node vi-node-a"><img src="assets/offer-v3/vector-icon/1e309.svg" alt="" /></span>
-                      <span class="vi vi-node vi-node-b"><img src="assets/offer-v3/vector-icon/1e309.svg" alt="" /></span>
-                      <img class="vi vi-dot" src="assets/offer-v3/vector-icon/d0a69.svg" alt="" />
-                      <span class="vi vi-nib"><img src="assets/offer-v3/vector-icon/308ba.svg" alt="" /></span>
-                      <span class="vi vi-ring"><img src="assets/offer-v3/vector-icon/5a4d2.svg" alt="" /></span>
-                      <span class="vi vi-cap"><span><img src="assets/offer-v3/vector-icon/d5184.svg" alt="" /></span></span>
+                      <span class="vi vi-curve"
+                        ><span
+                          ><img
+                            src="assets/offer-v3/vector-icon/5b11c.svg"
+                            alt="" /></span
+                      ></span>
+                      <span class="vi vi-node vi-node-a"
+                        ><img
+                          src="assets/offer-v3/vector-icon/1e309.svg"
+                          alt=""
+                      /></span>
+                      <span class="vi vi-node vi-node-b"
+                        ><img
+                          src="assets/offer-v3/vector-icon/1e309.svg"
+                          alt=""
+                      /></span>
+                      <img
+                        class="vi vi-dot"
+                        src="assets/offer-v3/vector-icon/d0a69.svg"
+                        alt=""
+                      />
+                      <span class="vi vi-nib"
+                        ><img
+                          src="assets/offer-v3/vector-icon/308ba.svg"
+                          alt=""
+                      /></span>
+                      <span class="vi vi-ring"
+                        ><img
+                          src="assets/offer-v3/vector-icon/5a4d2.svg"
+                          alt=""
+                      /></span>
+                      <span class="vi vi-cap"
+                        ><span
+                          ><img
+                            src="assets/offer-v3/vector-icon/d5184.svg"
+                            alt="" /></span
+                      ></span>
                     </span>
                   </span>
                   <div class="det-vec-text">
-                    <h3 id="detVecTitle">Our designers vectorise your logo for you</h3>
+                    <h3 id="detVecTitle">
+                      Our designers vectorise your logo for you
+                    </h3>
                     <p class="det-vec-sub" id="detVecSub">
                       Hand-drawn as a vector by our design team, for the
                       sharpest print
@@ -7990,13 +8022,16 @@
         }
         function vecOn() {
           try {
-            return sessionStorage.getItem("loopperVectorChoice") === "vectorise";
+            return (
+              sessionStorage.getItem("loopperVectorChoice") === "vectorise"
+            );
           } catch (e) {
             return false;
           }
         }
+        // € 25 only for orders under € 250 excl. VAT; from € 250 vectorising is free
         window.vecFee = function () {
-          return vecOn() ? FEE : 0;
+          return vecOn() && BASE < 250 ? FEE : 0;
         };
         window.detTotals = {
           extra: 0,
@@ -8016,6 +8051,10 @@
         };
         var row = $("detVec");
         if (row) row.hidden = !vecOn();
+        if (vecOn() && !window.vecFee()) {
+          $("detVecEach").textContent = "Free";
+          $("detVecSubtotal").textContent = "Free";
+        }
         window.detTotals.render();
       })();
     </script>
@@ -8036,7 +8075,10 @@
           ["Payment", "user-test-payment.html"],
         ];
         var CHECKLIST = "user-test-checklist.html";
-        var here = (location.pathname.split("/").pop() || "").replace(/\.html$/, "");
+        var here = (location.pathname.split("/").pop() || "").replace(
+          /\.html$/,
+          "",
+        );
         var html = "";
         PAGES.forEach(function (p, i) {
           if (p[1].replace(".html", "") === here) {
@@ -8071,7 +8113,10 @@
       // Step memory: what the client filled in on this step comes back when they return to it
       // (sessionStorage, per page). Step 3 also remembers its saved cards (details, delivery, remark).
       (function () {
-        var page = (location.pathname.split("/").pop() || "index").replace(/\.html$/, "");
+        var page = (location.pathname.split("/").pop() || "index").replace(
+          /\.html$/,
+          "",
+        );
         var KEY = "loopperMemory:" + page;
         var restoring = false;
         function controls() {
@@ -8093,7 +8138,9 @@
             var base = el.id
               ? "#" + el.id
               : (el.name || el.tagName.toLowerCase()) +
-                (el.type === "radio" || el.type === "checkbox" ? "=" + el.value : "");
+                (el.type === "radio" || el.type === "checkbox"
+                  ? "=" + el.value
+                  : "");
             seen[base] = (seen[base] || 0) + 1;
             return { el: el, key: base + "@" + seen[base] };
           });
@@ -8151,7 +8198,10 @@
               var el = k.el,
                 s = data.fields[k.key];
               if (!s) return;
-              var type = el.type === "checkbox" || el.type === "radio" ? el.type : "text";
+              var type =
+                el.type === "checkbox" || el.type === "radio"
+                  ? el.type
+                  : "text";
               if (type !== kind) return;
               if (kind === "text") {
                 if (s.v === undefined || el.value === s.v) return;
@@ -8170,7 +8220,10 @@
             if (f.remSaved && $("remText").hidden) $("remSave").click();
           }
           restoring = false;
-          if (document.activeElement && document.activeElement !== document.body)
+          if (
+            document.activeElement &&
+            document.activeElement !== document.body
+          )
             document.activeElement.blur();
           window.scrollTo(0, 0);
           save();
@@ -8197,9 +8250,11 @@
           logo = sessionStorage.getItem("loopperUserTestLogo");
         } catch (e) {}
         if (!logo || logo === "text") return;
-        document.querySelectorAll('img[src="assets/offer-bloom/bloom-logo.png"]').forEach(function (img) {
-          img.src = logo;
-        });
+        document
+          .querySelectorAll('img[src="assets/offer-bloom/bloom-logo.png"]')
+          .forEach(function (img) {
+            img.src = logo;
+          });
         var box = document.querySelector(".client-logo");
         if (box) box.setAttribute("aria-label", "Your uploaded logo");
       })();
@@ -8209,11 +8264,19 @@
       (function () {
         var alt = null;
         try {
-          alt = JSON.parse(sessionStorage.getItem("loopperUserTestAlt") || "null");
+          alt = JSON.parse(
+            sessionStorage.getItem("loopperUserTestAlt") || "null",
+          );
         } catch (e) {}
         if (!alt) return;
         function eur(n) {
-          return "€ " + n.toLocaleString("nl-NL", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+          return (
+            "€ " +
+            n.toLocaleString("nl-NL", {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })
+          );
         }
         var body = document.querySelector(".det-table tbody");
         var first = body && body.querySelector("tr");
@@ -8228,7 +8291,8 @@
           t.src = "assets/offer-bloom/" + th[i];
         });
         var txt = row.querySelectorAll(".det-prod h3, .det-prod p");
-        txt[0].textContent = "Beach bag | Cotton 220 g/m² | 55x39 cm | Cord handle | Beige";
+        txt[0].textContent =
+          "Beach bag | Cotton 220 g/m² | 55x39 cm | Cord handle | Beige";
         txt[1].textContent = "Article number: 6377143";
         txt[2].textContent = "Screen print · Personalisation: front (30×20 cm)";
         if (txt[3]) txt[3].textContent = "Expected delivery: 1 December 2026";

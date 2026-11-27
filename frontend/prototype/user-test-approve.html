@@ -6954,7 +6954,7 @@
         flex-direction: column;
       }
       .pr-action-chip {
-        align-self: flex-end;
+        align-self: flex-start;
         margin-bottom: 10px;
         padding: 4px 12px;
         border-radius: 20px;
@@ -7099,6 +7099,25 @@
       }
       .pr-options .vector-note > p {
         margin: 0;
+      }
+      /* neutral note (less colour): grey box, grey pen icon */
+      .pr-options .vector > .vector-note {
+        background: #f4f5f6;
+        color: #3b4654;
+      }
+      .pr-options .vector > .vector-note .vn-icon img {
+        filter: grayscale(1) brightness(0.75);
+      }
+      /* approved design: the whole design tab turns green */
+      .proof-tabs .proof-tab:has(.pr-tag.is-approved),
+      .proof-tabs .proof-tab[aria-selected="true"]:has(.pr-tag.is-approved) {
+        border-color: var(--green);
+        background: #eaf6e2;
+        color: #3d7f15;
+      }
+      .proof-tab .pr-tag.is-approved {
+        padding: 0;
+        background: transparent;
       }
       .vn-icon {
         position: relative;
@@ -7356,29 +7375,34 @@
             </clipPath>
           </defs>
           <g clip-path="url(#prWaitCircle)">
-            <rect width="87.5654" height="87.5654" rx="43.7827" fill="#E6F7FC" />
+            <rect
+              width="87.5654"
+              height="87.5654"
+              rx="43.7827"
+              fill="#E6F7FC"
+            />
             <!-- line + brush shifted 10px left so the brush stays inside the circle on the right -->
             <g transform="translate(-10 0)">
-            <!-- the stroke as a line along its centre, drawn and erased with the brush (dash offset) -->
-            <path
-              class="pr-brush-line"
-              d="M27.8 74 C35 74.2 43 74.3 49.3 74 C52.3 73.9 54.6 72.8 54.6 71 C54.6 69 52.7 67.9 47.1 66.6 C44.5 66 43.9 65.1 44 64 C44.2 62.7 45.5 61.9 47 61.4 C61 57.5 76 58.3 95.3 58.4"
-              stroke="#00AED8"
-              stroke-width="2.8"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <g class="pr-brush" stroke="#00AED8" stroke-width="2.43254">
+              <!-- the stroke as a line along its centre, drawn and erased with the brush (dash offset) -->
               <path
-                d="M34.9098 60.2272C32.2661 58.2943 29.0188 58.7176 27.0859 61.3612C25.1531 64.0048 27.0567 66.3758 27.7821 68.4455C28.5074 70.5152 27.1687 72.4732 25.8347 73.5961C28.8809 73.958 33.6587 72.4614 35.7425 69.2289C37.8262 65.9963 37.5535 62.1602 34.9098 60.2272Z"
+                class="pr-brush-line"
+                d="M27.8 74 C35 74.2 43 74.3 49.3 74 C52.3 73.9 54.6 72.8 54.6 71 C54.6 69 52.7 67.9 47.1 66.6 C44.5 66 43.9 65.1 44 64 C44.2 62.7 45.5 61.9 47 61.4 C61 57.5 76 58.3 95.3 58.4"
+                stroke="#00AED8"
+                stroke-width="2.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
               />
-              <path
-                d="M42.023 54.951L39.3661 57.2691C38.9517 57.6307 38.3463 57.6692 37.8894 57.363L33.9068 54.694C33.4936 54.4172 33.2907 53.9167 33.3943 53.4302L34.1242 50.0043C34.3011 49.1737 35.2532 48.7756 35.9687 49.2329L41.8784 53.0097C42.562 53.4466 42.6344 54.4177 42.023 54.951Z"
-              />
-              <path
-                d="M43.0752 34.3821C45.9669 30.1514 57.1266 17.3289 62.6705 13.6772C63.3994 13.1971 64.1736 13.7819 63.965 14.6295C62.3848 21.0511 55.7293 36.1476 52.6227 41.2225C49.4352 46.4296 45.0854 51.4457 42.5335 53.1837C42.1717 53.4301 41.7038 53.4035 41.3358 53.1663L36.2023 49.8574C35.7623 49.5738 35.5498 49.0419 35.7113 48.544C36.8675 44.979 40.1109 38.719 43.0752 34.3821Z"
-              />
-            </g>
+              <g class="pr-brush" stroke="#00AED8" stroke-width="2.43254">
+                <path
+                  d="M34.9098 60.2272C32.2661 58.2943 29.0188 58.7176 27.0859 61.3612C25.1531 64.0048 27.0567 66.3758 27.7821 68.4455C28.5074 70.5152 27.1687 72.4732 25.8347 73.5961C28.8809 73.958 33.6587 72.4614 35.7425 69.2289C37.8262 65.9963 37.5535 62.1602 34.9098 60.2272Z"
+                />
+                <path
+                  d="M42.023 54.951L39.3661 57.2691C38.9517 57.6307 38.3463 57.6692 37.8894 57.363L33.9068 54.694C33.4936 54.4172 33.2907 53.9167 33.3943 53.4302L34.1242 50.0043C34.3011 49.1737 35.2532 48.7756 35.9687 49.2329L41.8784 53.0097C42.562 53.4466 42.6344 54.4177 42.023 54.951Z"
+                />
+                <path
+                  d="M43.0752 34.3821C45.9669 30.1514 57.1266 17.3289 62.6705 13.6772C63.3994 13.1971 64.1736 13.7819 63.965 14.6295C62.3848 21.0511 55.7293 36.1476 52.6227 41.2225C49.4352 46.4296 45.0854 51.4457 42.5335 53.1837C42.1717 53.4301 41.7038 53.4035 41.3358 53.1663L36.2023 49.8574C35.7623 49.5738 35.5498 49.0419 35.7113 48.544C36.8675 44.979 40.1109 38.719 43.0752 34.3821Z"
+                />
+              </g>
             </g>
           </g>
         </svg>
@@ -7600,25 +7624,55 @@
               </button>
             </div>
             <p class="vector-file" id="vectorFileName" hidden></p>
-            <div class="vector-note" id="vectorNote" hidden>
+            <div class="vector-note" id="vectorNote">
               <!-- pen-tool vector icon (Figma 257:1480) in green, to match the note -->
               <span class="vn-icon" aria-hidden="true">
                 <span class="vi-box">
-                  <span class="vi vi-curve"><span><img src="assets/offer-v3/vector-icon/green/5b11c.svg" alt="" /></span></span>
-                  <span class="vi vi-node vi-node-a"><img src="assets/offer-v3/vector-icon/green/1e309.svg" alt="" /></span>
-                  <span class="vi vi-node vi-node-b"><img src="assets/offer-v3/vector-icon/green/1e309.svg" alt="" /></span>
-                  <img class="vi vi-dot" src="assets/offer-v3/vector-icon/green/d0a69.svg" alt="" />
-                  <span class="vi vi-nib"><img src="assets/offer-v3/vector-icon/green/308ba.svg" alt="" /></span>
-                  <span class="vi vi-ring"><img src="assets/offer-v3/vector-icon/green/5a4d2.svg" alt="" /></span>
-                  <span class="vi vi-cap"><span><img src="assets/offer-v3/vector-icon/green/d5184.svg" alt="" /></span></span>
+                  <span class="vi vi-curve"
+                    ><span
+                      ><img
+                        src="assets/offer-v3/vector-icon/green/5b11c.svg"
+                        alt="" /></span
+                  ></span>
+                  <span class="vi vi-node vi-node-a"
+                    ><img
+                      src="assets/offer-v3/vector-icon/green/1e309.svg"
+                      alt=""
+                  /></span>
+                  <span class="vi vi-node vi-node-b"
+                    ><img
+                      src="assets/offer-v3/vector-icon/green/1e309.svg"
+                      alt=""
+                  /></span>
+                  <img
+                    class="vi vi-dot"
+                    src="assets/offer-v3/vector-icon/green/d0a69.svg"
+                    alt=""
+                  />
+                  <span class="vi vi-nib"
+                    ><img
+                      src="assets/offer-v3/vector-icon/green/308ba.svg"
+                      alt=""
+                  /></span>
+                  <span class="vi vi-ring"
+                    ><img
+                      src="assets/offer-v3/vector-icon/green/5a4d2.svg"
+                      alt=""
+                  /></span>
+                  <span class="vi vi-cap"
+                    ><span
+                      ><img
+                        src="assets/offer-v3/vector-icon/green/d5184.svg"
+                        alt="" /></span
+                  ></span>
                 </span>
               </span>
-              <p>
-                <b>We will vectorise your logo.</b> With this additional
-                service our design team will hand-draw your pixel logo as a
-                vector. We aim for perfection, but we want to be honest about
-                the complexity of this process: when redrawing thousands of
-                pixels, tiny imperfections can occur.
+              <p id="vectorNoteText">
+                <b>Vectorising costs € 25 because your order is below € 250.</b>
+                From € 250 we vectorise your logo for free. Our design team
+                hand-draws your pixel logo as a vector. We aim for perfection,
+                but when redrawing thousands of pixels, tiny imperfections can
+                occur.
               </p>
             </div>
           </div>
@@ -7844,13 +7898,11 @@
           fileName.hidden = false;
           vec.setAttribute("aria-pressed", "false");
 
-          note.hidden = true;
           syncChip();
         });
         vec.addEventListener("click", function () {
           var on = vec.getAttribute("aria-pressed") !== "true";
           vec.setAttribute("aria-pressed", on ? "true" : "false");
-          note.hidden = !on;
           syncChip();
         });
         // "Action needed" stays until the client uploads a vector file or chooses vectorising
@@ -7879,7 +7931,6 @@
           } catch (e) {}
           if (saved === "vectorise") {
             vec.setAttribute("aria-pressed", "true");
-            note.hidden = false;
           } else if (saved === "upload") {
             fileName.textContent =
               "✓ " + (savedName || "Your vector file") + " uploaded";
@@ -8032,7 +8083,9 @@
         ];
         // User test: the recommended beach bag, when it was added to the offer in step 1
         try {
-          var utAlt = JSON.parse(sessionStorage.getItem("loopperUserTestAlt") || "null");
+          var utAlt = JSON.parse(
+            sessionStorage.getItem("loopperUserTestAlt") || "null",
+          );
           if (utAlt)
             PRODUCTS.push({
               name: "Beach bag | Cotton 220 g/m² | 55x39 cm | Cord handle | Beige",
@@ -8045,8 +8098,19 @@
               print: "Screen print in 1 colour, front (30×20 cm)",
               area: "beach",
               designs: [
-                { label: "Logo centred", kind: "logo", logo: UT_LOGO, dir: "horizontal" },
-                { label: "Logo large", kind: "logo", logo: UT_LOGO, dir: "horizontal", big: true },
+                {
+                  label: "Logo centred",
+                  kind: "logo",
+                  logo: UT_LOGO,
+                  dir: "horizontal",
+                },
+                {
+                  label: "Logo large",
+                  kind: "logo",
+                  logo: UT_LOGO,
+                  dir: "horizontal",
+                  big: true,
+                },
               ],
               pending: !utAlt.ready, // mockup not finished yet when the client left step 1
             });
@@ -8327,7 +8391,8 @@
         }
         // ease elements in (fade + small rise), one after the other; skipped with reduced motion
         function easeIn(els, stagger) {
-          if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+          if (window.matchMedia("(prefers-reduced-motion: reduce)").matches)
+            return;
           var i = 0;
           Array.prototype.forEach.call(els, function (el) {
             if (!el.animate || el.hidden || !el.getClientRects().length) return;
@@ -8426,7 +8491,11 @@
               if (stage && stage.animate)
                 stage.animate(
                   [
-                    { opacity: 0.35, filter: "blur(8px)", transform: "scale(0.97)" },
+                    {
+                      opacity: 0.35,
+                      filter: "blur(8px)",
+                      transform: "scale(0.97)",
+                    },
                     { opacity: 1, filter: "blur(0)", transform: "none" },
                   ],
                   { duration: 700, easing: "cubic-bezier(0.22, 1, 0.36, 1)" },
@@ -8809,7 +8878,10 @@
           ["Payment", "user-test-payment.html"],
         ];
         var CHECKLIST = "user-test-checklist.html";
-        var here = (location.pathname.split("/").pop() || "").replace(/\.html$/, "");
+        var here = (location.pathname.split("/").pop() || "").replace(
+          /\.html$/,
+          "",
+        );
         var html = "";
         PAGES.forEach(function (p, i) {
           if (p[1].replace(".html", "") === here) {
@@ -8844,7 +8916,10 @@
       // Step memory: what the client filled in on this step comes back when they return to it
       // (sessionStorage, per page). Step 3 also remembers its saved cards (details, delivery, remark).
       (function () {
-        var page = (location.pathname.split("/").pop() || "index").replace(/\.html$/, "");
+        var page = (location.pathname.split("/").pop() || "index").replace(
+          /\.html$/,
+          "",
+        );
         var KEY = "loopperMemory:" + page;
         var restoring = false;
         function controls() {
@@ -8866,7 +8941,9 @@
             var base = el.id
               ? "#" + el.id
               : (el.name || el.tagName.toLowerCase()) +
-                (el.type === "radio" || el.type === "checkbox" ? "=" + el.value : "");
+                (el.type === "radio" || el.type === "checkbox"
+                  ? "=" + el.value
+                  : "");
             seen[base] = (seen[base] || 0) + 1;
             return { el: el, key: base + "@" + seen[base] };
           });
@@ -8924,7 +9001,10 @@
               var el = k.el,
                 s = data.fields[k.key];
               if (!s) return;
-              var type = el.type === "checkbox" || el.type === "radio" ? el.type : "text";
+              var type =
+                el.type === "checkbox" || el.type === "radio"
+                  ? el.type
+                  : "text";
               if (type !== kind) return;
               if (kind === "text") {
                 if (s.v === undefined || el.value === s.v) return;
@@ -8943,7 +9023,10 @@
             if (f.remSaved && $("remText").hidden) $("remSave").click();
           }
           restoring = false;
-          if (document.activeElement && document.activeElement !== document.body)
+          if (
+            document.activeElement &&
+            document.activeElement !== document.body
+          )
             document.activeElement.blur();
           window.scrollTo(0, 0);
           save();
@@ -8963,10 +9046,33 @@
       })();
     </script>
     <script>
+      // Vectorising fee: € 25 for orders under € 250 excl. VAT, free from € 250 (order from step 1)
+      (function () {
+        var base = 1567.5;
+        try {
+          var o = JSON.parse(sessionStorage.getItem("loopperOrder") || "null");
+          if (o && o.length === 2)
+            base = o.reduce(function (s, l) {
+              return s + (l.on ? l.sum : 0);
+            }, 0);
+        } catch (e) {}
+        var free = base >= 250,
+          price = document.querySelector("#vectorise .vector-price"),
+          text = document.getElementById("vectorNoteText");
+        if (price) price.textContent = free ? "Free" : "€ 25";
+        if (text)
+          text.innerHTML = free
+            ? "<b>Vectorising is free because your order is above € 250.</b> Below € 250 we charge € 25 for it. Our design team hand-draws your pixel logo as a vector. We aim for perfection, but when redrawing thousands of pixels, tiny imperfections can occur."
+            : "<b>Vectorising costs € 25 because your order is below € 250.</b> From € 250 we vectorise your logo for free. Our design team hand-draws your pixel logo as a vector. We aim for perfection, but when redrawing thousands of pixels, tiny imperfections can occur.";
+      })();
+    </script>
+    <script>
       document.addEventListener("mockupready", function (e) {
         if (e.detail.area !== "beach") return;
         try {
-          var a = JSON.parse(sessionStorage.getItem("loopperUserTestAlt") || "null");
+          var a = JSON.parse(
+            sessionStorage.getItem("loopperUserTestAlt") || "null",
+          );
           if (a) {
             a.ready = true;
             sessionStorage.setItem("loopperUserTestAlt", JSON.stringify(a));
@@ -9003,9 +9109,11 @@
           logo = sessionStorage.getItem("loopperUserTestLogo");
         } catch (e) {}
         if (!logo || logo === "text") return;
-        document.querySelectorAll('img[src="assets/offer-bloom/bloom-logo.png"]').forEach(function (img) {
-          img.src = logo;
-        });
+        document
+          .querySelectorAll('img[src="assets/offer-bloom/bloom-logo.png"]')
+          .forEach(function (img) {
+            img.src = logo;
+          });
         var box = document.querySelector(".client-logo");
         if (box) box.setAttribute("aria-label", "Your uploaded logo");
       })();
