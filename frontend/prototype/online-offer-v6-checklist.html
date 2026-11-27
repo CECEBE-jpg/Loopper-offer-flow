@@ -7738,6 +7738,10 @@
       .ck-open .ck-logo-issue {
         flex-wrap: wrap;
       }
+      /* file name + warning stay next to the thumbnail (no wrap under it) */
+      .ck-open .ck-logo-issue .ck-logo-info {
+        flex: 1 1 0;
+      }
       .ck-logo-fix {
         flex: 1 1 100%;
         padding-left: 78px; /* in line with the text next to the 64px logo */
@@ -7748,8 +7752,27 @@
         line-height: 18px;
         color: #4a5866;
       }
+      /* upload tile in the red box: red tones, like the proof-of-payment tile in the yellow box */
       .ck-logo-fix .ck-fix-up {
-        background: #fff;
+        border: 1px dashed #912018;
+        background: transparent;
+        color: #b42318;
+      }
+      .ck-logo-fix .ck-fix-up:hover,
+      .ck-logo-fix .ck-fix-up:focus-visible {
+        border-color: #912018;
+        background: #fde4e1;
+      }
+      .ck-logo-fix .ck-fix-up .ck-fix-plus,
+      .ck-logo-fix .ck-fix-up .ck-fix-text {
+        color: #b42318;
+      }
+      .ck-logo-fix .ck-fix-up .ck-fix-text {
+        font-weight: 800;
+      }
+      .ck-logo-fix .ck-fix-up .ck-fix-text small {
+        font-weight: 500;
+        color: #912018;
       }
       .ck-open-body > .ck-fix-note {
         margin-top: 12px;
