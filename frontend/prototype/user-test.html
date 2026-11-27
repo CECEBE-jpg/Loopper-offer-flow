@@ -3409,12 +3409,8 @@
         padding: 10px 16px;
         align-items: center;
       }
-      /* upload tile: same height as the uploaded logo's preview box (152px), only next to a logo;
-         without logos it hugs its content */
-      .logos-row:has(.logo:not(.logo-add))
-        .logo-adds
-        #logoUpload
-        .logo-add-box {
+      /* upload tile: same height as the uploaded logo's preview box (152px), with or without logos */
+      .logo-adds #logoUpload .logo-add-box {
         min-height: 152px;
       }
       .logo-add-text {
@@ -3650,11 +3646,12 @@
       /* open logo section: add buttons fill the tile height, wider note */
       .logo-adds {
         width: 210px;
-        height: 152px;
+        height: auto; /* hug: 152px upload tile + text tile */
+        align-self: flex-start;
         gap: 14px;
       }
       .logo-adds .logo-add {
-        flex: 1;
+        flex: none;
       }
       .logo-adds .logo-add-box {
         height: 100%;
@@ -7133,21 +7130,9 @@
             </div>
             <div class="p6-info">
               <div class="p6-labels">
+                <button type="button" class="p6-label">Larger print</button>
                 <button type="button" class="p6-label">
-                  <img
-                    src="assets/offer-v3/icon-star-label.svg"
-                    width="11.5267"
-                    height="11.0503"
-                    alt=""
-                  />Larger print
-                </button>
-                <button type="button" class="p6-label">
-                  <img
-                    src="assets/offer-v3/icon-star-label.svg"
-                    width="11.5267"
-                    height="11.0503"
-                    alt=""
-                  />Great alternative
+                  Great alternative
                 </button>
               </div>
               <h3 class="p6-title">
@@ -7442,21 +7427,9 @@
             </div>
             <div class="p6-info">
               <div class="p6-labels">
+                <button type="button" class="p6-label">Larger print</button>
                 <button type="button" class="p6-label">
-                  <img
-                    src="assets/offer-v3/icon-star-label.svg"
-                    width="11.5267"
-                    height="11.0503"
-                    alt=""
-                  />Larger print
-                </button>
-                <button type="button" class="p6-label">
-                  <img
-                    src="assets/offer-v3/icon-star-label.svg"
-                    width="11.5267"
-                    height="11.0503"
-                    alt=""
-                  />Great alternative
+                  Great alternative
                 </button>
               </div>
               <h3 class="p6-title">
@@ -7787,22 +7760,7 @@
             </div>
             <div class="p6-info">
               <div class="p6-labels">
-                <button type="button" class="p6-label">
-                  <img
-                    src="assets/offer-v3/icon-star-label.svg"
-                    width="11.5267"
-                    height="11.0503"
-                    alt=""
-                  />Larger print
-                </button>
-                <button type="button" class="p6-label">
-                  <img
-                    src="assets/offer-v3/icon-star-label.svg"
-                    width="11.5267"
-                    height="11.0503"
-                    alt=""
-                  />Great alternative
-                </button>
+                <span class="chip chip-green">Sustainable alternative</span>
               </div>
               <h3 class="p6-title">
                 Beach bag | Cotton 220 g/m² | 55x39 cm | Cord handle | Beige

@@ -7114,6 +7114,12 @@
         background: #eaf6e2;
         color: #3d7f15;
       }
+      .proof-tabs .proof-tab:has(.pr-tag.is-approved) .dot,
+      .proof-tabs
+        .proof-tab[aria-selected="true"]:has(.pr-tag.is-approved)
+        .dot {
+        background-image: url("assets/offer-v3/design-tabs/picture-approved.svg");
+      }
       .proof-tab .pr-tag.is-approved {
         padding: 0;
         background: transparent;
