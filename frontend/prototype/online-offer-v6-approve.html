@@ -7281,6 +7281,17 @@
       #prProducts .pr-product-text > span {
         white-space: normal;
       }
+      /* product name: fixed 2-line box, ends with … when longer, so the print line always lines up */
+      #prProducts .pr-product-text b {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        overflow: hidden;
+        width: 100%;
+        height: 40px;
+        line-height: 20px;
+      }
       #prProducts .pr-product-text > span {
         margin-top: 2px;
         font-weight: 400;
