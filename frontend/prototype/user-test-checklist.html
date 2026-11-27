@@ -8235,6 +8235,9 @@
         background: #e6f7fc;
         color: #00799a;
       }
+      .ck-fix-price[hidden] {
+        display: none;
+      }
     </style>
   </head>
   <body>
@@ -8980,7 +8983,8 @@
           ? "Free"
           : "€ 25,00";
         document.querySelectorAll(".ck-fix-price").forEach(function (p) {
-          p.textContent = vecFree ? "Free" : "€ 25";
+          p.textContent = "€ 25";
+          p.hidden = vecFree; // from € 250 no price on the option
         });
         window.ckVecFree = vecFree;
         // order total excl. VAT; the user test adds its own products to this

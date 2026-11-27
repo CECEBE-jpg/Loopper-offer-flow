@@ -7258,16 +7258,15 @@
       #prProducts .pr-product {
         flex-direction: column;
         align-items: center;
-        gap: 8px;
-        width: 200px;
+        gap: 10px;
+        width: 188px;
         min-height: 0;
-        padding: 8px 8px 12px;
+        padding: 8px 1px; /* Figma 266:95 */
         text-align: center;
       }
       #prProducts .pr-product img {
-        width: 100%;
-        height: auto;
-        aspect-ratio: 1;
+        width: 108px; /* Figma 266:96 */
+        height: 108px;
         border-radius: 8px;
         background: #fff;
         object-fit: contain;
@@ -7289,12 +7288,15 @@
         line-clamp: 2;
         overflow: hidden;
         width: 100%;
-        height: 40px;
-        line-height: 20px;
+        height: 34px;
+        line-height: 17px;
       }
       #prProducts .pr-product-text > span {
-        margin-top: 2px;
-        font-weight: 400;
+        margin-top: 4px;
+        font-size: 12px;
+        line-height: 17.4px;
+        font-weight: 700;
+        color: #53627a;
       }
       #prProducts.pr-products {
         align-items: stretch;
@@ -7308,6 +7310,9 @@
         #prProducts .pr-product {
           width: calc(50% - 6px);
         }
+      }
+      .pr-options .vector-price[hidden] {
+        display: none;
       }
     </style>
   </head>
@@ -9085,7 +9090,11 @@
         var free = base >= 250,
           price = document.querySelector("#vectorise .vector-price"),
           text = document.getElementById("vectorNoteText");
-        if (price) price.textContent = free ? "Free" : "€ 25";
+        // from € 250 no price on the option (nothing extra to pay)
+        if (price) {
+          price.textContent = "€ 25";
+          price.hidden = free;
+        }
         if (text)
           text.innerHTML = free
             ? "<b>Vectorising is free because your order is above € 250.</b> Below € 250 we charge € 25 for it. Our design team hand-draws your pixel logo as a vector. We aim for perfection, but when redrawing thousands of pixels, tiny imperfections can occur."
