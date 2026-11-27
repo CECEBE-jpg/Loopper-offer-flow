@@ -7249,6 +7249,50 @@
         background: #e6f7fc;
         color: #00799a;
       }
+      /* Product switcher as vertical tiles: large photo on top, name, print, status pill below */
+      #prProducts.pr-products {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+      #prProducts .pr-product {
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        width: 200px;
+        min-height: 0;
+        padding: 8px 8px 12px;
+        text-align: center;
+      }
+      #prProducts .pr-product img {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1;
+        border-radius: 8px;
+        background: #fff;
+        object-fit: contain;
+      }
+      #prProducts .pr-product-text {
+        align-items: center;
+        flex: none;
+        width: 100%;
+      }
+      #prProducts .pr-product-text b,
+      #prProducts .pr-product-text > span {
+        white-space: normal;
+      }
+      #prProducts .pr-product-text > span {
+        margin-top: 2px;
+        font-weight: 400;
+      }
+      #prProducts .pr-status {
+        align-self: center;
+      }
+      @media (width < 768px) {
+        #prProducts .pr-product {
+          width: calc(50% - 6px);
+        }
+      }
     </style>
   </head>
   <body>

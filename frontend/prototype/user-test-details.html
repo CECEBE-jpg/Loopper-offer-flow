@@ -5717,6 +5717,48 @@
         border-radius: 10px;
         object-fit: cover;
       }
+      /* finished mockup on the product photo (same logo placement as step 1) */
+      .det-prod-photo {
+        position: relative;
+        flex: none;
+        display: block;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      .det-prod-photo .det-prod-img {
+        display: block;
+      }
+      .det-mock {
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+      }
+      .det-mock img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+      [data-mock="tote"] .det-mock {
+        top: 66%;
+        width: 30%;
+      }
+      [data-mock="tote"] .det-mock img,
+      [data-mock="beach"] .det-mock img {
+        opacity: 0.92;
+      }
+      [data-mock="noma"] .det-mock {
+        top: 44%;
+        width: 20%;
+      }
+      [data-mock="noma"] .det-mock img {
+        opacity: 0.7;
+        filter: grayscale(1) brightness(0.45);
+      }
+      [data-mock="beach"] .det-mock {
+        top: 64%;
+        width: 34%;
+      }
       .det-prod-thumbs {
         display: flex;
         flex-direction: column;
@@ -7352,6 +7394,27 @@
                       Hand-drawn as a vector by our design team, for the
                       sharpest print
                     </p>
+                    <!-- the client has a vector file after all: upload it, no vectorising needed -->
+                    <div class="det-vec-upload" id="detVecUpload">
+                      <p class="det-vec-label">
+                        Do you have a vector logo after all?
+                      </p>
+                      <p class="det-vec-desc">
+                        Upload it here and we don’t need to redraw your logo.
+                      </p>
+                      <button type="button" class="det-vec-btn" id="detVecBtn">
+                        <span class="det-vec-plus" aria-hidden="true">+</span
+                        ><b>Upload your vector logo</b
+                        ><small>SVG, AI, PDF, EPS</small>
+                      </button>
+                      <input
+                        type="file"
+                        id="detVecFile"
+                        accept=".svg,.ai,.pdf,.eps"
+                        hidden
+                      />
+                    </div>
+                    <p class="det-vec-done" id="detVecDone" hidden></p>
                   </div>
                 </div>
               </td>
@@ -8050,10 +8113,78 @@
           },
         };
         var row = $("detVec");
-        if (row) row.hidden = !vecOn();
-        if (vecOn() && !window.vecFee()) {
-          $("detVecEach").textContent = "Free";
-          $("detVecSubtotal").textContent = "Free";
+        var get = function (k) {
+          try {
+            return sessionStorage.getItem(k);
+          } catch (e) {
+            return null;
+          }
+        };
+        var put = function (k, v) {
+          try {
+            if (v === null) sessionStorage.removeItem(k);
+            else sessionStorage.setItem(k, v);
+          } catch (e) {}
+        };
+        // the row stays when the vector file was uploaded here (instead of vectorising)
+        if (row)
+          row.hidden = !vecOn() && get("loopperVectorFrom") !== "details";
+        function show() {
+          if (!row) return;
+          var on = vecOn(),
+            done = $("detVecDone");
+          row.classList.toggle("is-uploaded", !on);
+          $("detVecTitle").textContent = on
+            ? "Our designers vectorise your logo for you"
+            : "Vector logo received";
+          $("detVecSub").hidden = !on;
+          $("detVecUpload").hidden = !on;
+          done.hidden = on;
+          if (!on) {
+            done.innerHTML = "";
+            done.appendChild(
+              document.createTextNode(
+                "✓ " +
+                  (get("loopperVectorFileName") || "Your vector file") +
+                  " uploaded · no vectorising needed",
+              ),
+            );
+            var undo = document.createElement("button");
+            undo.type = "button";
+            undo.className = "det-vec-undo";
+            undo.textContent = "Let our designers vectorise it instead";
+            undo.addEventListener("click", function () {
+              put("loopperVectorChoice", "vectorise");
+              put("loopperVectorFileName", null);
+              show();
+              window.detTotals.render();
+            });
+            done.appendChild(undo);
+          }
+          var fee = window.vecFee();
+          $("detVecQty").textContent = on ? "1" : "–";
+          $("detVecEach").textContent = on ? (fee ? eur(fee) : "Free") : "–";
+          $("detVecSubtotal").textContent = on
+            ? fee
+              ? eur(fee)
+              : "Free"
+            : eur(0);
+        }
+        if (row) {
+          $("detVecBtn").addEventListener("click", function () {
+            $("detVecFile").click();
+          });
+          $("detVecFile").addEventListener("change", function () {
+            var f = this.files[0];
+            if (!f) return;
+            put("loopperVectorChoice", "upload");
+            put("loopperVectorFileName", f.name);
+            put("loopperVectorFrom", "details");
+            this.value = "";
+            show();
+            window.detTotals.render();
+          });
+          show();
         }
         window.detTotals.render();
       })();
@@ -8241,6 +8372,57 @@
         );
         window.addEventListener("pagehide", save);
       })();
+    </script>
+    <script>
+      // Finished mockups also show on the product photos in this summary (same as step 1).
+      // Runs after all page scripts, so rows added later (user test beach bag) get one too.
+      document.addEventListener("DOMContentLoaded", function () {
+        var get = function (k) {
+          try {
+            return sessionStorage.getItem(k);
+          } catch (e) {
+            return null;
+          }
+        };
+        var logo =
+          get("loopperUserTestLogo") || "assets/offer-bloom/bloom-logo.png";
+        if (logo === "text") return;
+        var states = null,
+          alt = null;
+        try {
+          states = JSON.parse(get("loopperMockups") || "null");
+          alt = JSON.parse(get("loopperUserTestAlt") || "null");
+        } catch (e) {}
+        document
+          .querySelectorAll(".det-table .det-prod-img")
+          .forEach(function (img) {
+            var src = img.getAttribute("src") || "",
+              area = /tote/.test(src)
+                ? "tote"
+                : /thermos/.test(src)
+                  ? "noma"
+                  : /beach/.test(src)
+                    ? "beach"
+                    : "";
+            if (!area) return;
+            var state = states && states[area];
+            var ready =
+              area === "beach"
+                ? (alt && alt.ready) || state === "ready"
+                : !state || state === "ready";
+            if (!ready) return;
+            var box = document.createElement("span");
+            box.className = "det-prod-photo";
+            box.dataset.mock = area;
+            img.parentNode.insertBefore(box, img);
+            box.appendChild(img);
+            box.insertAdjacentHTML(
+              "beforeend",
+              '<span class="det-mock" aria-hidden="true"><img alt="" /></span>',
+            );
+            box.querySelector(".det-mock img").src = logo;
+          });
+      });
     </script>
     <script>
       // User test: show the logo the test user uploaded in step 1
