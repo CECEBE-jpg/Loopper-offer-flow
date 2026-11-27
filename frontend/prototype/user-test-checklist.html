@@ -7735,6 +7735,72 @@
         font-weight: 800;
       }
       /* same grid as step 2's "Vector logo" row: label | text, buttons under the text */
+      /* logo card: the options sit inside the red box, under the warning */
+      .ck-open .ck-logo-issue {
+        flex-wrap: wrap;
+      }
+      .ck-logo-fix {
+        flex: 1 1 100%;
+        padding-left: 78px; /* in line with the text next to the 64px logo */
+      }
+      .ck-logo-fix > p {
+        margin: 0 0 10px;
+        font-size: 12px;
+        line-height: 18px;
+        color: #4a5866;
+      }
+      .ck-logo-fix .ck-fix-up {
+        background: #fff;
+      }
+      .ck-open-body > .ck-fix-note {
+        margin-top: 12px;
+      }
+      @media (width < 768px) {
+        .ck-logo-fix {
+          padding-left: 0;
+        }
+      }
+      /* Delivery date card */
+      .ck-del-dates {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 40px;
+        margin: 16px 0 14px;
+      }
+      .ck-del-dates div {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+      .ck-del-dates dt {
+        font-size: 12px;
+        line-height: 16px;
+        color: #5f6368;
+      }
+      .ck-del-dates dd {
+        margin: 0;
+        font-size: 15px;
+        line-height: 20px;
+        font-weight: 800;
+        color: #1c2530;
+      }
+      .ck-del-actions .ck-fix-alt[aria-checked="true"] {
+        padding: 5px 13px;
+        border: 2px solid #5db12a;
+      }
+      .ck-del-actions .ck-fix-alt[aria-checked="true"]::before {
+        background: radial-gradient(circle, #8dc63f 0 5px, #fff 5.5px);
+        box-shadow: inset 0 0 0 1px #8dc63f;
+      }
+      #ckDelivery > .ck-fix-note {
+        margin-top: 12px;
+      }
+      .ck-del-remark {
+        margin: 12px 0 0;
+        font-size: 12px;
+        line-height: 18px;
+        color: #4a5866;
+      }
       .ck-fix {
         display: grid;
         grid-template-columns: 132px minmax(0, 1fr);
@@ -8139,18 +8205,18 @@
         margin-top: 16px;
       }
       /* sidebar chat (Figma 213:2) */
-      .ck-side .ck-chat {
+      .ck-chat {
         box-shadow: 1px 6px 19px rgba(0, 0, 0, 0.04);
       }
-      .ck-side .ck-chat-head {
+      .ck-chat .ck-chat-head {
         align-items: flex-end;
         height: 53px;
         padding: 0 18px 10px;
       }
-      .ck-side .ck-msg {
+      .ck-chat .ck-msg {
         max-width: none;
       }
-      .ck-side .ck-form {
+      .ck-chat .ck-form {
         padding-bottom: 26px;
       }
       /* account manager: compact card (Figma 214:242) */
@@ -8502,6 +8568,64 @@
           <!-- Steps still open from step 2: shown only while open (sessionStorage) -->
           <!-- Logo: our designers could not vectorise the uploaded logo (prototype scenario).
                Same layout and controls as step 2's "Colour and vector logo" card. -->
+          <!-- Delivery date: the client confirms the expected date or asks to be contacted -->
+          <section
+            class="ck-card ck-open"
+            id="ckDelivery"
+            aria-labelledby="ckDelTitle"
+            hidden
+          >
+            <div class="ck-card-head">
+              <h3 id="ckDelTitle">
+                <span class="ck-num">2</span>Delivery date
+              </h3>
+              <span class="ck-action" id="ckDelChip">Action needed</span>
+            </div>
+            <dl class="ck-del-dates">
+              <div>
+                <dt>Expected delivery date</dt>
+                <dd>2 December 2026</dd>
+              </div>
+              <div>
+                <dt>Your deadline</dt>
+                <dd>27 November 2026</dd>
+              </div>
+            </dl>
+            <div
+              class="ck-fix-actions ck-del-actions"
+              role="radiogroup"
+              aria-labelledby="ckDelTitle"
+            >
+              <button
+                type="button"
+                class="ck-fix-alt"
+                role="radio"
+                aria-checked="false"
+                data-del="yes"
+              >
+                <span class="ck-fix-alt-text"
+                  ><b>Yes</b>, I confirm the expected delivery date</span
+                >
+              </button>
+              <button
+                type="button"
+                class="ck-fix-alt"
+                role="radio"
+                aria-checked="false"
+                data-del="contact"
+              >
+                <span class="ck-fix-alt-text"
+                  ><b>No</b>, please contact me</span
+                >
+              </button>
+            </div>
+            <p class="ck-fix-note" id="ckDelNote" hidden></p>
+            <p class="ck-del-remark">
+              We also offer express delivery at an extra cost. Contact us below
+              to discuss the options.
+            </p>
+          </section>
+
           <section
             class="ck-card ck-open"
             id="ckVector"
@@ -8533,48 +8657,36 @@
                     >
                   </p>
                 </div>
-              </div>
-              <div class="ck-fix">
-                <h4>Better-quality logo</h4>
-                <p id="ckFixIntro">
-                  Upload a larger or vector version of your logo, or let us
-                  contact you to find a solution together.
-                </p>
-                <div class="ck-fix-actions">
-                  <button type="button" class="ck-fix-up" data-vec="upload">
-                    <span class="ck-fix-plus" aria-hidden="true">+</span
-                    ><span class="ck-fix-text"
-                      >Upload a better logo
-                      <small>SVG, AI, PDF, EPS, large PNG</small></span
+                <!-- what the client can do about it, inside the red box -->
+                <div class="ck-logo-fix">
+                  <p id="ckFixIntro">
+                    Upload a larger or vector version of your logo, or let us
+                    contact you to find a solution together.
+                  </p>
+                  <div class="ck-fix-actions">
+                    <button type="button" class="ck-fix-up" data-vec="upload">
+                      <span class="ck-fix-plus" aria-hidden="true">+</span
+                      ><span class="ck-fix-text"
+                        >Upload a better logo
+                        <small>SVG, AI, PDF, EPS, large PNG</small></span
+                      >
+                    </button>
+                    <button
+                      type="button"
+                      class="ck-fix-alt"
+                      data-vec="contact"
+                      aria-pressed="false"
                     >
-                  </button>
-                  <button
-                    type="button"
-                    class="ck-fix-alt"
-                    data-vec="contact"
-                    aria-pressed="false"
-                  >
-                    <span class="ck-fix-alt-text"
-                      >I don’t have a better-quality logo,<br /><b
-                        >please contact me</b
-                      ></span
-                    >
-                  </button>
-                  <!-- only when vectorising is not in the order yet: adds the € 25 service -->
-                  <button
-                    type="button"
-                    class="ck-fix-alt ck-fix-vec"
-                    data-vec="vectorise"
-                    aria-pressed="false"
-                    hidden
-                  >
-                    <span class="ck-fix-alt-text"
-                      >Let our designers<br /><b>vectorise it for me</b></span
-                    ><span class="ck-fix-price">€ 25</span>
-                  </button>
+                      <span class="ck-fix-alt-text"
+                        >I don’t have a better-quality logo,<br /><b
+                          >please contact me</b
+                        ></span
+                      >
+                    </button>
+                  </div>
                 </div>
-                <p class="ck-fix-note" id="ckFixNote" hidden></p>
               </div>
+              <p class="ck-fix-note" id="ckFixNote" hidden></p>
               <input
                 type="file"
                 id="ckVecFile"
@@ -8605,6 +8717,40 @@
             <a class="ck-mock-go" href="user-test-approve.html"
               >Go to Approve design</a
             >
+          </section>
+          <!-- Chat with the account manager: left column, under all steps -->
+          <section class="ck-card ck-chat" aria-labelledby="ckChatTitle">
+            <div class="ck-chat-head">
+              <span
+                class="ck-chat-avatar"
+                role="img"
+                aria-label="Jildou"
+              ></span>
+              <h3 id="ckChatTitle">Questions? Ask Jildou</h3>
+            </div>
+            <div class="ck-log" id="ckLog" aria-live="polite">
+              <p class="ck-msg">
+                <small>Jildou · just now</small>Thank you for your order, Cayna!
+                Do you have a question about your payment or delivery? Ask me
+                here.
+              </p>
+            </div>
+            <form class="ck-form" id="ckForm">
+              <input
+                type="text"
+                placeholder="Ask your question here…"
+                aria-label="Message to Jildou"
+              />
+              <button type="submit" aria-label="Send">
+                <img
+                  src="assets/offer-v3/icon-send.svg"
+                  width="18"
+                  height="18"
+                  alt=""
+                  style="filter: brightness(0) invert(1)"
+                />
+              </button>
+            </form>
           </section>
         </div>
 
@@ -8702,41 +8848,6 @@
                 >
               </li>
             </ol>
-          </section>
-
-          <!-- Chat with the account manager, in the sidebar (Figma 213:2) -->
-          <section class="ck-card ck-chat" aria-labelledby="ckChatTitle">
-            <div class="ck-chat-head">
-              <span
-                class="ck-chat-avatar"
-                role="img"
-                aria-label="Jildou"
-              ></span>
-              <h3 id="ckChatTitle">Questions? Ask Jildou</h3>
-            </div>
-            <div class="ck-log" id="ckLog" aria-live="polite">
-              <p class="ck-msg">
-                <small>Jildou · just now</small>Thank you for your order, Cayna!
-                Do you have a question about your payment or delivery? Ask me
-                here.
-              </p>
-            </div>
-            <form class="ck-form" id="ckForm">
-              <input
-                type="text"
-                placeholder="Ask your question here…"
-                aria-label="Message to Jildou"
-              />
-              <button type="submit" aria-label="Send">
-                <img
-                  src="assets/offer-v3/icon-send.svg"
-                  width="18"
-                  height="18"
-                  alt=""
-                  style="filter: brightness(0) invert(1)"
-                />
-              </button>
-            </form>
           </section>
 
           <!-- Account manager: compact card (Figma 214:242) -->
@@ -9002,9 +9113,7 @@
           var msg = $("ckUploadMsg");
           msg.hidden = false;
           msg.textContent =
-            "✓ " +
-            f.name +
-            " received. We'll start production as soon as we've checked it.";
+            "✓ Proof of payment has been successfully uploaded; your account manager will check your file and send your order to production.";
           status.className = "ck-status is-proof";
           status.textContent = "Proof of payment received";
         });
@@ -9144,11 +9253,14 @@
           get("loopperVectorChoice") !== "upload" && !get("loopperLogoFix");
         var start = counts();
         var mockOpen = start.done < start.total;
+        var delCard = $("ckDelivery");
+        if (delCard) delCard.hidden = !!get("loopperDelivery");
         vecCard.hidden = !vecOpen;
         mockCard.hidden = !mockOpen;
         function number() {
           var cards = [
             document.querySelector('.ck-card[aria-labelledby="ckPayTitle"]'),
+            $("ckDelivery"),
             vecCard,
             mockCard,
           ];
@@ -9170,6 +9282,29 @@
         }
         number();
 
+        // ---------- Delivery date ----------
+        if (delCard) {
+          var delBtns = delCard.querySelectorAll("[data-del]");
+          delBtns.forEach(function (btn) {
+            btn.addEventListener("click", function () {
+              var kind = btn.dataset.del;
+              set("loopperDelivery", kind);
+              delBtns.forEach(function (b) {
+                b.setAttribute("aria-checked", b === btn ? "true" : "false");
+              });
+              var n = $("ckDelNote");
+              n.innerHTML =
+                kind === "yes"
+                  ? "<b>Thanks, delivery date confirmed.</b> We deliver on 2 December 2026."
+                  : "<b>We’ll contact you.</b> Jildou will call or email you within 1 working day about your deadline and express delivery.";
+              n.hidden = false;
+              var chip = $("ckDelChip");
+              chip.textContent = "Done";
+              chip.classList.add("is-done");
+            });
+          });
+        }
+
         // ---------- Your logo ----------
         var logoImg = $("ckLogoImg");
         if (logoImg) logoImg.src = LOGO;
@@ -9178,14 +9313,7 @@
         var file = $("ckVecFile"),
           note = $("ckFixNote"),
           alt = vecCard.querySelector('.ck-fix-alt[data-vec="contact"]'),
-          vecBtn = vecCard.querySelector(".ck-fix-vec"),
           up = vecCard.querySelector(".ck-fix-up");
-        // vectorising by our designers is offered when it is not in the order yet
-        var vecInOrder = get("loopperVectorChoice") === "vectorise";
-        vecBtn.hidden = vecInOrder;
-        if (!vecInOrder)
-          $("ckFixIntro").textContent =
-            "Upload a larger or vector version of your logo, let our designers vectorise it for you, or let us contact you to find a solution together.";
         var addedHere = false; // € 25 added on this page (removed again when the client changes their mind)
         function setFee(on) {
           if (on === addedHere) return;
@@ -9217,10 +9345,6 @@
             "aria-pressed",
             kind === "contact" ? "true" : "false",
           );
-          vecBtn.setAttribute(
-            "aria-pressed",
-            kind === "vectorise" ? "true" : "false",
-          );
           up.classList.toggle("is-done", kind === "upload");
           setFee(kind === "vectorise");
           var chip = $("ckVecChip");
@@ -9231,14 +9355,6 @@
           solved(
             "contact",
             "Jildou will call or email you within 1 working day to find the best solution for your logo.",
-          );
-        });
-        vecBtn.addEventListener("click", function () {
-          solved(
-            "vectorise",
-            window.ckVecFree
-              ? "Our design team hand-draws it as a vector for a sharp print. It is free because your order is above € 250. This can delay production by 1 day."
-              : "Our design team hand-draws it as a vector for a sharp print. € 25 is added to your order (see Your order) because it is below € 250. This can delay production by 1 day.",
           );
         });
         up.addEventListener("click", function () {

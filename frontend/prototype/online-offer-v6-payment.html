@@ -6795,8 +6795,8 @@
       }
 
       /* ===== Payment restyle (Figma 204:2) ===== */
-      /* bottom bar: only "Back to your details"; paying happens in the summary card */
-      .step-nav .step-nav-next-wrap {
+      /* bottom bar: the green Pay button only shows while the one in the summary card is out of view */
+      .step-nav:not(.show-pay) .step-nav-next-wrap {
         display: none;
       }
       /* account manager: compact card, same as the checklist */
@@ -7447,6 +7447,22 @@
         }
         $("payBtn").addEventListener("click", pay);
         $("navNext").addEventListener("click", pay);
+        // Pay in the bottom bar only while the Pay button on the page is below (or above) the fold
+        (function () {
+          var nav = document.querySelector(".step-nav"),
+            btn = $("payBtn");
+          if (!nav || !btn) return;
+          function check() {
+            var r = btn.getBoundingClientRect(),
+              top = (document.getElementById("top") || {}).offsetHeight || 0,
+              bottom = window.innerHeight - nav.offsetHeight;
+            var inView = r.bottom > top && r.top < bottom;
+            nav.classList.toggle("show-pay", !inView);
+          }
+          window.addEventListener("scroll", check, { passive: true });
+          window.addEventListener("resize", check);
+          check();
+        })();
         $("copyLink").addEventListener("click", function () {
           var url = location.href;
           try {
