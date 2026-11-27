@@ -7738,11 +7738,11 @@
                 </span>
               </span>
               <p id="vectorNoteText">
-                <b>Vectorising costs € 25 because your order is below € 250.</b>
-                From € 250 we vectorise your logo for free. Our design team
-                hand-draws your pixel logo as a vector. We aim for perfection,
-                but when redrawing thousands of pixels, tiny imperfections can
-                occur.
+                <b>€25 vectorisation fee for orders under €250.</b> With this
+                additional service our design team will hand-draw your pixel
+                logo as a vector. We aim for perfection, but we want to be
+                honest about the complexity of this process: when redrawing
+                thousands of pixels, tiny imperfections can occur.
               </p>
             </div>
           </div>
@@ -9095,10 +9095,25 @@
           price.textContent = "€ 25";
           price.hidden = free;
         }
+        // under € 250 the note always explains the fee; from € 250 it only appears once
+        // "vectorise it for me" is chosen (no fee line, just what the service is)
+        var noteBox = document.getElementById("vectorNote"),
+          vecBtn = document.getElementById("vectorise");
+        function syncNote() {
+          if (!noteBox) return;
+          noteBox.hidden =
+            free && !(vecBtn && vecBtn.getAttribute("aria-pressed") === "true");
+        }
+        syncNote();
+        if (vecBtn)
+          new MutationObserver(syncNote).observe(vecBtn, {
+            attributes: true,
+            attributeFilter: ["aria-pressed"],
+          });
         if (text)
           text.innerHTML = free
-            ? "<b>Vectorising is free because your order is above € 250.</b> Below € 250 we charge € 25 for it. Our design team hand-draws your pixel logo as a vector. We aim for perfection, but when redrawing thousands of pixels, tiny imperfections can occur."
-            : "<b>Vectorising costs € 25 because your order is below € 250.</b> From € 250 we vectorise your logo for free. Our design team hand-draws your pixel logo as a vector. We aim for perfection, but when redrawing thousands of pixels, tiny imperfections can occur.";
+            ? "With this additional service our design team will hand-draw your pixel logo as a vector. We aim for perfection, but we want to be honest about the complexity of this process: when redrawing thousands of pixels, tiny imperfections can occur."
+            : "<b>€25 vectorisation fee for orders under €250.</b> With this additional service our design team will hand-draw your pixel logo as a vector. We aim for perfection, but we want to be honest about the complexity of this process: when redrawing thousands of pixels, tiny imperfections can occur.";
       })();
     </script>
   </body>
