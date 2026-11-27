@@ -3409,8 +3409,12 @@
         padding: 10px 16px;
         align-items: center;
       }
-      /* upload tile: same height as the uploaded logo's preview box (152px) */
-      .logo-adds #logoUpload .logo-add-box {
+      /* upload tile: same height as the uploaded logo's preview box (152px), only next to a logo;
+         without logos it hugs its content */
+      .logos-row:has(.logo:not(.logo-add))
+        .logo-adds
+        #logoUpload
+        .logo-add-box {
         min-height: 152px;
       }
       .logo-add-text {
