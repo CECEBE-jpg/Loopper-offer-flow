@@ -7174,13 +7174,28 @@
             </div>
             <fieldset
               class="p6-tiers q-list"
-              data-tiers='[{"q":250,"p":1.88},{"q":500,"p":1.64},{"q":1000,"p":1.49},{"q":2500,"p":1.36}]'
+              data-tiers='[{"q":100,"p":2.2},{"q":250,"p":1.88},{"q":500,"p":1.64},{"q":1000,"p":1.49},{"q":2500,"p":1.36}]'
             >
               <legend class="sr-only">Choose quantity</legend>
               <div class="q-head" aria-hidden="true">
                 <span>Pieces</span><span>Price per piece</span
                 ><span>Subtotal</span>
               </div>
+              <!-- small order (under € 250 total when the thermos is switched off): shows the € 25 vectorise fee in step 2 -->
+              <label class="q-row">
+                <input type="radio" name="qty1" value="100" data-price="2.2" />
+                <span class="q-main">
+                  <span class="q-top"
+                    ><b class="q-qty">100</b
+                    ><span class="q-unit">pieces</span></span
+                  >
+                  <span class="q-tag q-tag-none"></span>
+                  <span class="q-pp"><b>€ 2,20</b></span>
+                </span>
+                <span class="q-total"
+                  ><b>€ 220,00</b><small>excl. VAT</small></span
+                >
+              </label>
               <label class="q-row">
                 <input
                   type="radio"
